@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone="yes"?>
+<?xml-model href="https://igkdev.com/schemas/balafon.db.schemas.xsd"?>
+<data-schemas author="C.A.D. BONDJE DOUE" createAt="2024-09-04CEST08:59:56" version="1.0">
+	<!-- data schema -->
+<!-- @entries -->
+<!--
+<Entries>
+   <Rows For="%prefix%user_info_types">
+       <Row clName="PhoneNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0" clType="1" />
+       <Row clName="GSMNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0" clType="1" />
+       <Row clName="Email" clDataType="email" clRegex="" clCardinality="0" clType="1" />
+   </Rows>
+...
+</Entries> -->
+<!-- @definitions -->
+<!--
+<DataDefinition TableName="%prefix%tablename">
+   <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
+   <Column clName="clName" clType="VARCHAR" clTypeLength="140" clNotNull="True" clIsUnique="True" />
+</DataDefinition> -->
+<!-- @migrations-->
+<!--
+<Migrations>
+<Migration>
+<changeColumn table="%prefix%users" column="clLogin">
+    <Column clName="clLogin" clType="VARCHAR" clTypeLength="60" clIsUnique="True" clRequire="true" clNotNull="true" clNotAllowEmptyString="true" />
+</changeColumn>
+</Migration> 
+...
+</Migrations> -->
+</data-schemas>

@@ -1,0 +1,12 @@
+{
+    "$schema":"https://igkdev.com/schemas/balafon.config.json",
+    "name": "ForemJobDashboard",
+    "author": "C.A.D. BONDJE DOUE",
+    "version": "1.0",
+    "required": [
+
+    ],
+    "workbench":{
+        "cwd":"/Volumes/Data/Dev/PHP/balafon_site_dev"
+    } 
+}
