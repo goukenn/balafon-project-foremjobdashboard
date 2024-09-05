@@ -1,10 +1,11 @@
 <?xml version="1.0" standalone="yes"?>
 <?xml-model href="https://igkdev.com/schemas/balafon.db.schemas.xsd"?>
-<data-schemas author="C.A.D. BONDJE DOUE" createAt="2024-09-04CEST08:59:56" version="1.0">
+ <data-schemas author="C.A.D. BONDJE DOUE" createAt="2024-09-04CEST08:59:56" version="1.0"> 
 	<!-- data schema -->
+ 
 <!-- @entries -->
-<!--
-<Entries>
+ 
+<!-- <Entries>
    <Rows For="%prefix%user_info_types">
        <Row clName="PhoneNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0" clType="1" />
        <Row clName="GSMNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0" clType="1" />
@@ -12,20 +13,144 @@
    </Rows>
 ...
 </Entries> -->
+ 
 <!-- @definitions -->
-<!--
-<DataDefinition TableName="%prefix%tablename">
+ 
+<!-- <DataDefinition TableName="%prefix%tablename">
    <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
    <Column clName="clName" clType="VARCHAR" clTypeLength="140" clNotNull="True" clIsUnique="True" />
 </DataDefinition> -->
-<!-- @migrations-->
-<!--
-<Migrations>
+ 
+<!-- @migrations -->
+ 
+<!-- <Migrations>
 <Migration>
 <changeColumn table="%prefix%users" column="clLogin">
-    <Column clName="clLogin" clType="VARCHAR" clTypeLength="60" clIsUnique="True" clRequire="true" clNotNull="true" clNotAllowEmptyString="true" />
+    <Column clName="clLogin" clType="VARCHAR" clTypeLength="60" clIsUnique="True" clRequire="true"
+    clNotNull="true" clNotAllowEmptyString="true" />
 </changeColumn>
 </Migration> 
 ...
 </Migrations> -->
+<DataDefinition Prefix="jbs_" TableName="%prefix%jobs"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<Column clName="guid" clNotNull="true" clType="Guid"></Column>
+ 
+<Column clName="title" clNotNull="true" clType="VarChar" clTypeLength="150"></Column>
+ 
+<Column clName="from" clNotNull="true"></Column>
+ 
+<Column clDefault="name.FAKE" clLinkColumn="id" clLinkType="%prefix%job_register_types" clName="type_id" clNotNull="true"></Column>
+ 
+<Column clName="_id" clNotNull="true" clDefault="name.OPENED" clLinkColumn="id" clLinkType="%prefix%job_status_types"></Column>
+ 
+<Column clDefault="1" clName="printable" clType="Int"></Column>
+ 
+<Column clLinkColumn="id" clLinkType="%prefix%job_users" clName="user_id" clNotNull="true" clType="Int"></Column>
+ 
+<Column clName="description" clType="text"></Column>
+ 
+<Column clName="summary" clType="varchar" clTypeLength="255"></Column>
+ 
+<Column clDefaultNull="true" clName="salary" clType="float"></Column>
+ 
+<Column clDefault="0" clName="contract_type_id" clNotNull="true" clType="Int"></Column>
+ 
+<Column clName="path" clType="varchar" clTypeLength="255"></Column>
+ 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition TableName="%prefix%contacts"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition TableName="%prefix%job_contacts"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition TableName="%prefix%job_responses"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+ 
+ 
+<DataDefinition TableName="%prefix%job_skills"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition Prefix="jbu_" TableName="%prefix%job_users"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<Column clLinkColumn="clGuid" clLinkType="%sysprefix%users" clName="guid" clNotNull="true" clType="GUID"></Column>
+ 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition Prefix="jbs_" TableName="%prefix%job_status_types"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<Column clName="name" clNotNull="true" clType="VarChar" clTypeLength="30"></Column>
+ 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition TableName="%prefix%job_register_types"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<Column clIsUnique="true" clName="name" clNotNull="true" clType="varchar" clTypeLength="32"></Column>
+<Column clName="description" clType="text"></Column>
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+<DataDefinition TableName="%prefix%job_enterprises"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition TableName="%prefix%job_sectors"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition TableName="%prefix%job_user_skills"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition TableName="%prefix%job_contract_types"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+<DataDefinition TableName="%prefix%job_follows"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+<DataDefinition TableName="%prefix%job_forem_jobs"> 
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	 
+<Column clLinkColumn="id" clLinkType="%prefix%jobs" clName="job_id" clNotNull="true" clType="Int"></Column>
+<Column clName="reference" clType="VarChar" clTypeLength="30"></Column>
+<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
+ 
+ 
+<DataDefinition TableName="%prefix%job_source_types">
+	<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+	<GenColumn name="updatetime"></GenColumn>
+</DataDefinition>
 </data-schemas>
