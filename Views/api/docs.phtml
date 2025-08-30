@@ -1,0 +1,131 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: api/docs.phtml
+// @desc: 
+// @view: api/docs.phtml
+// @date: 20250127 08:36:54
+use igk\docs\swagger\Http\SwaggerOAuthResponse;
+use igk\docs\swagger\SwaggerAccess;
+use igk\docs\swagger\System\Http\Request\SwaggerOAuth;
+use igk\docs\swagger\Views\ISwaggerViewAuthConfig;
+use igk\docs\swagger\Views\SwaggerView;
+use IGK\Helper\Activator;
+use IGK\Helper\JSon;
+use IGK\Helper\ViewHelper;
+use IGK\Models\Users;
+use IGK\System\Http\JsonResponse;
+use IGK\System\Http\Request;
+use IGK\System\Http\StatusCode;
+use IGK\System\Modules;
+igk_require_module(Modules::igk_docs_swagger());
+igk_view_handle_actions($fname, [
+    'swagger.refresh-token' => function () {
+        igk_wln_e("just refresh token");
+    },
+    'access-token' => function () {
+        SwaggerView::RenderAccessTokenPage([]);
+        igk_exit();
+    },
+    'swagger.oauth' => function (Request $request) {
+        // + | handle passing auth 
+        $v_r_type = $request->get("response_type");
+        if ( $v_r_type == 'code') {
+            list($code_challenge, $code_challenge_method, $client_id, $redirect_uri, $state) = igk_extract(
+                (object)$_REQUEST,
+                'code_challenge|code_challenge_method|client_id|redirect_uri|state'
+            );
+            $is_pkce = $code_challenge && $code_challenge_method;
+            if ($is_pkce) {
+                $v_rep = SwaggerAccess::AuthorizeWithPKCE($client_id, $code_challenge, $code_challenge_method, $redirect_uri, $state);
+                if ($v_rep) {
+                    igk_navto(sprintf('%s?%s', $redirect_uri, http_build_query(array_merge(
+                        $v_rep->data ?? [],
+                        [
+                            'state' => $state
+                        ]
+                    ))));
+                    igk_exit();
+                }
+                igk_do_response(new JsonResponse([], StatusCode::UNAUTHORIZED));
+            } 
+        } 
+        // token - client_id - token
+        $ob = (object)$_REQUEST;
+        SwaggerOAuth::HandleData($ob); 
+    },
+    'swagger.token' => function (Request $request) {
+        // + | 
+        // + | retreive token - token 
+        // + |
+        $data = null;
+        $ctrl = ViewHelper::CurrentCtrl();
+        $user = Users::currentUser();
+        if (igk_server()->isURLEncoded()) {
+            $data = $request->getFormData();
+        } else {
+            $data = $request->getJsonData();
+        }
+        list($grant_type, $scope, $username, $password) = igk_extract($data, 'grant_type|scope|username|password');
+        $response = null;
+        switch ($grant_type) {
+            case 'password':
+                $response = SwaggerAccess::Login($username, $password, $ctrl, $user, $scope); 
+                break;
+            case 'authorization_code':
+                // handle authorization code
+                list($scope, $code, $username, $password, $code_verifier) = igk_extract($data, 'scope|code|client_id|client_secret|code_verifier');
+                $response = SwaggerAccess::PKCELoginAndTokenResponse($username,  $password, $code, $code_verifier, $scope,
+                $ctrl, $user);
+                break;
+            case 'client_credentials':
+                // bearer auth container login:password in base64 encoding format
+                $access = igk_server()->getAccessObject();
+                $token = $access->getBasicToken();
+                list($login, $pwd) = explode(':', base64_decode($token));
+                $login = trim($login);
+                $pwd = trim($pwd);
+                $response = SwaggerAccess::Login($login, $pwd, $ctrl, $user, $scope);
+                break;
+        }
+        igk_do_response($response ?? new JsonResponse(["error" => 401], 401));
+    }
+], $params);
+$doc->title = "Forem Job Dashbaord - api documentation";
+if (($auth = Activator::CreateFromInterface(ISwaggerViewAuthConfig::class)) instanceof ISwaggerViewAuthConfig) {
+    $user = Users::currentUser();
+    if ($user) {
+        $auth->clientId = $user->clLogin;
+    }
+    $auth->appName = 'ForemJobDashboard';
+    $auth->clientSecret = '';
+    $auth->clientId = $user ? $user->clLogin: null; // will auto fill request  
+    // for authorizationCode - load data sample:
+    $auth->usePkceWithAuthorizationCodeGrant = true;
+} 
+$token = $user ? SwaggerAccess::GetAuthToken($user->clGuid) : null;
+$rtoken = $token ? [
+    "token"=>[
+        "access_token"=> $token,
+        "token_type"=>"token"
+    ]
+]: null;
+SwaggerView::View($ctrl, null, [
+    // 'title' => ':::::::Api Reference for Forem Dashboard',
+    // 'description' => 'Refence swagger docs:::::',
+    'oauth2RedirectUrl' => $ctrl::uri('@/api/docs/access-token'),
+    'persistAuthorization' => $user ? true : false,
+    'usePkceWithAuthorizationCodeGrant' => false,
+    'oauth' => $auth,
+    // 'preauthorizeApi' => [
+        // inject pre-auth api key definition Only 
+        // "name" => "OAuth2Auth",
+        // "key" => "Sample-finifition",
+    // ],
+    'authAction' => [ 
+        "OAuth2Auth"=>$rtoken
+    ]
+]);
+// * loading definition script component
+$t->swagger_script()->content = <<<JS
+// swagger script content - 
+JS;

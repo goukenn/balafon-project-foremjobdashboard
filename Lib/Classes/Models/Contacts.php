@@ -1,12 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Contacts.php
-// @date: 20240905 04:02:30
+// @date: 20240914 08:32:52
 namespace com\igkdev\projects\ForemJobDashboard\Models;
-
-
+use IGK\System\Database\JoinTableOp;
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
-
 ///<summary></summary>
 /**
 * 
@@ -15,6 +13,8 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property int $id
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
+* @method static joinOnId($call=null, ?string $type=null, string $op=JoinTableOp::EQUAL):array - macros function 
+* @method static targetOnId() - macros function
 * @method static ?self Add(string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
 * @method static ?self AddIfNotExists(string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */

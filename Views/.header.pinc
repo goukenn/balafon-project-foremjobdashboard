@@ -3,6 +3,40 @@
 // @file: .header.pinc
 // @date: 20240904 08:59:55
 
-igk_google_addfont($doc, "Roboto"); 
-$t->setClass("+google-Roboto"); 
+use IGK\Helper\ViewHelper;
+use IGK\System\Html\SVG\SvgRenderer;
 
+use function igk_html_host as _h;
+SvgRenderer::RegisterFolder($ctrl->getDataDir().'/assets/svg');
+igk_google_addfont($doc, "Roboto");
+$t->setClass("+google-Roboto fit");
+$img = _h('img', [$ctrl->getDataDir() . '/assets/img/logo.jpg'])->setSize(40, 45);
+if ($fname == 'default') {
+    $h = $img;
+} else {
+    $h = _h('a.dispflex', [$ctrl::uri('@/')], $img);
+}
+function viewAuth()
+{
+    $ctrl = ViewHelper::CurrentCtrl();
+    if ($user = $ctrl->getUser()) {
+        return _h(
+            'div.pad4',
+            $user->model()->clLogin,
+            _h(
+                'div.box',
+                _h('div > a', [$ctrl::uri('@/logout')], __('logout'))
+            )
+        );
+    }
+}
+
+$nav = _h('nav', viewAuth());
+$menu = _h('nav.menu-host', $menu_l = _h('ul.menu.dispflex.flex-row.alignm'));
+$t->add(_h(
+    'header.dispflex.flex-row.flex-justify-sb',
+    $h,
+    $menu,
+    $nav
+));
+$ctrl->setEnvParam('header', (object)['top' => $menu_l]);

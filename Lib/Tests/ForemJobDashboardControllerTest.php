@@ -4,9 +4,7 @@
 // @desc: ForemJobDashboard controller test 
 // @date: 20240904 08:59:56
 namespace com\igkdev\projects\ForemJobDashboard\Tests;
-
 use IGK\Tests\Controllers\ControllerBaseTestCase;
-
 ///<summary></summary>
 /**
 * 

@@ -2,6 +2,5 @@
 // @author: C.A.D. BONDJE DOUE
 // @desc: application current lang
 // @date: 20240904 08:59:55
-
 $l["title.default"] = "Home";
-
+$l["title.offer"] = "Offer";

@@ -4,4 +4,10 @@
 // @date: 20240904 08:59:55
 
 $l["title.default"] = "Home";
+$l["title.offer"] = "Offre"; 
+$l['fsprint.website.title_1'] = '%s - [%s]'; 
+$l['title.build/cv'] = 'CV'; 
+$l['title.jobs/add'] = 'Ajouter - Emploi'; 
+$l['searching data'] = 'Emploi'; 
 
+ 

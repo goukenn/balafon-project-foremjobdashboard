@@ -2,10 +2,119 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: default.phtml
 // @desc: default balafon view
-// @date: 20240904 08:59:56
+// @date: 20240904 08:59:56 
+/**
+ * @var mixed $t
+ */
+
+use Faker\Provider\Lorem;
+use IGK\Helper\ViewHelper;
+use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\IO\Path;
+
+use function igk_html_host as _h;
+
+class PageContainer extends HtmlNode
+{
+    private $container;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->container = igk_create_node('container');
+        parent::_add($this->container);
+    }
+    public function _add($n, bool $force = false): bool
+    {
+        return $this->container->_add(...func_get_args());
+    }
+    public function __invoke($p)
+    {
+        $p->add($this);
+    }
+}
+// invoke the check user first 
+$this->checkUser(false);
+
+$pagecontainer = new PageContainer;
+$pagecontainer->panel()->setContent('Dashboard list');
+function get_pageview($ctrl)
+{
+    $tab = [];
+    // foreach(range(2,rand(2, 40)) as $k){
+    //   $o = new PageContainer;
+    //     $o->section()->row()->col('fitw')
+    //     ->div()->Content = 'Page List :'.$k;
+    // $tab[] = $o;
+    // }
+    return $tab;
+}
+_h(
+    $t->div(),
+    function ($n) {
+        $n->container()->row()->col()->h2()->content = 'Forem Search Job Dashboard';
+    },
+    $pagecontainer,
+    ...get_pageview($ctrl)
+);
+$def = $doc->getTheme();
+$menus = include(ViewHelper::Dir() . '/.menu.pinc');
+if (!($profile = $ctrl->getUserProfile())) {
+}
+$list = igk_create_node_arg("ul.dispflex.flex-row.gap-4.alignr");
+foreach ($menus as $k => $v) {
+    $a = $list->li()->a($ctrl::uri($v));
+    $a->setContent($k);
+}
+$t['class'] = '+dispflex +flex-column -fit';
+$t['style'] = 'min-height:100%;';
 
 
-use IGK\Resources\R;
-$t->clearChilds();
-$t->div()->addSectionTitle(4)->Content = R::ngets("Title.App_1", $this->AppTitle);
-$t->inflate(igk_dir($dir."/".$fname));
+_h(
+    $t->section()->container()->nav()
+        ->setStyle('height: 2em')
+        ->setClass('menu dispflex flex-row no-wrap gap-10 flex-end flex-cross-start'),
+    $list,
+    $profile ? null :
+
+        _h(
+            'div.sign-or-register.dispflex.flex-row.flex-item-start',
+            _h('abtn.sign', ['/signin/identifier'], 'SignIn'),
+            _h('abtn.register', ['/sign/register'], 'Register')
+        )
+);
+
+$section = $t->add(_h('section[style:"min-height:520px;"]',));
+if ($r = $data->job_search_engines ?? []) {
+    $engines = []; 
+    foreach ($r as $e) {
+        $engines[] = _h('div > a.pad-4', [$e->url, '__blank'], $e->name);
+    }
+    $section->add(_h(
+        'container[style:"margin-bottom:2em"]',
+        _h('h2', __('Jobs search Engines')),
+        _h('div.dispflex.flex-row',
+        ...$engines
+        )
+    ));
+}
+ 
+
+$interims = [];
+$r = $data->interims ?? [];
+foreach ($r as $e) {
+    $img = new HtmlNode('img');
+    $img['src'] = $e->picture ?? Path::Combine($e->url,"favicon.ico");
+    $img['alt'] = '';
+    $img['height']=
+    $img['width']= '32';
+    $interims[] = _h('div > a.pad-4', [$e->url, '__blank'],_h('span',  $e->name, $img));
+}
+$section->add(_h(
+    'container[style:"margin-bottom:2em"]',
+    _h('h2', 'interims'),
+    _h('p', 'retrieve all available interims at ', _h('a', ['https://federgon.be'], 'federgon')),
+    _h('div.dispflex.flex-row',
+        ...$interims
+    )
+));

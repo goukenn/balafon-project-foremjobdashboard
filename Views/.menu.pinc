@@ -3,4 +3,13 @@
 // @file: .menu.pinc
 // @date: 20240904 08:59:55
 
-return [];
+return [
+        'jobs' => '@/jobs',
+        'update' => '@/update',
+        'exports' => '@/jobs/exports',
+        'zip' => '/jobs/archive',
+        'motivation' => '@/build/motivation',
+        'cv' => '@/build/cv',
+        'enterprises' => '@/enterprise-jobs',
+        'about' => '@/about' 
+    ];

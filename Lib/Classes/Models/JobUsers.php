@@ -1,13 +1,12 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: JobUsers.php
-// @date: 20240905 04:02:30
+// @date: 20250829 15:43:00
 namespace com\igkdev\projects\ForemJobDashboard\Models;
 
 
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 
-///<summary></summary>
 /**
 * 
 * @package com\igkdev\projects\ForemJobDashboard\Models
@@ -16,24 +15,34 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property string|\IGK\Models\Users $guid
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
+* @method static string FD_ID() - `id` full column name 
+* @method static string FD_GUID() - `guid` full column name 
+* @method static string FD_CREATE_AT() - `Create_At` full column name 
+* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static ?array joinOnJbuId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static ?string targetOnJbuId() - macros function
 * @method static ?self Add(string|\IGK\Models\Users $guid, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
 * @method static ?self AddIfNotExists(string|\IGK\Models\Users $guid, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobUsers extends ModelBase{
-	const FD_ID="id";
-	const FD_GUID="guid";
-	const FD_CREATE_AT="Create_At";
-	const FD_UPDATE_AT="Update_At";
+	const FD_ID="jbu_id";
+	const FD_GUID="jbu_guid";
+	const FD_CREATE_AT="jbu_Create_At";
+	const FD_UPDATE_AT="jbu_Update_At";
 	/**
 	* table's name
 	*/
-	protected $table = "%prefix%job_users"; 
+	protected $table = "%prefix%job_users";
 	/**
 	* override primary key 
 	*/
-	protected $primaryKey = "id";
+	protected $primaryKey = "jbu_id";
 	/**
 	* override refid key 
 	*/
-	protected $refId = "id";
+	protected $refId = "jbu_id";
+	/**
+	*override display key
+	*/
+	protected $display = "jbu_guid";
 }

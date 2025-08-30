@@ -1,0 +1,11 @@
+<?php
+igk_view_handle_actions($fname, [
+    "authorize"=>function(){
+        $q = $_REQUEST['redirect_uri'];
+unset($_REQUEST['redirect_uri']);
+        $_REQUEST['access_token'] = "token_acccccc";
+        $query = http_build_query($_REQUEST);
+        igk_navto($q."?".$query);
+    }
+], $params);
+igk_exit();

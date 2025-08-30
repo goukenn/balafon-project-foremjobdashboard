@@ -3,9 +3,7 @@
 // @file: InitMacros.php
 // @date: 20240904 08:59:56
 namespace com\igkdev\projects\ForemJobDashboard\Database;
-
 use IGK\System\AppBuilder;
-
 ///<summary></summary>
 /**
 * 

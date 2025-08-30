@@ -1,0 +1,292 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: default.phtml
+// @date: 20250121 20:46:04
+// @desc: use to update job search title and summary / or descriptive reference info 
+// + | --------------------------------------------------------------------
+// + | update value ... 
+// + |
+/**
+ * @var mixed $t
+ * @var IGKHtmlDoc $doc
+ */
+use function igk_resources_gets as __;
+use function igk_html_host as _h;
+use com\igkdev\projects\ForemJobDashboard\JobDocTypes;
+use com\igkdev\projects\ForemJobDashboard\Models\JobCategories;
+use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
+use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use com\igkdev\projects\ForemJobDashboard\Models\JobForemJobs;
+use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
+use com\igkdev\projects\ForemJobDashboard\Models\JobUsers;
+use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
+use com\igkdev\projects\ForemJobDashboard\SourceTypes as ForemJobDashboardSourceTypes;
+use IGK\Helper\IO;
+use IGK\Models\Users;
+use IGK\System\IO\Path;
+include_once $ctrl->getViewDir().'/.auth.php';
+$main = $ctrl::modelUtility("MainTask");
+$doc->title = 'update - jobs';
+$offer_dir = $ctrl->getOfferDir();
+$t['class'] = '+fit overflow-y-a';
+// $t['style'] = 'overflow-y: auto;';
+/**
+ * 
+ * @param string $tfile 
+ * @param mixed $offer_file 
+ * @param mixed $job 
+ * @param mixed $type 
+ * @param bool $append 
+ * @return void 
+ * @throws Exception 
+ * @throws IGKException 
+ */
+function _store_job_file(string $tfile, $offer_file, $job, $type, $append = false)
+{
+    $doctype_id = JobDocTypes::GetCacheData($type)->id;
+    $v_suffix = '';
+    if ($append) {
+        //$n = igk_io_basenamewithoutext($tfile);  
+        $c = JobDocs::count([
+            JobDocs::FD_JOB_ID => $job->id,
+            JobDocs::FD_JOB_DOC_TYPE_ID =>  $doctype_id,
+        ]);
+        if ($c > 0) {
+            $c++;
+            $v_suffix = '_' . $c;
+        }
+    }
+    $offer_file = (object)$offer_file;
+    $r = [
+        JobDocs::FD_JOB_ID => $job->id,
+        JobDocs::FD_JOB_DOC_TYPE_ID =>  $doctype_id,
+        JobDocs::FD_VALUE => json_encode((object)[
+            'path' => '/' . $job->id . $v_suffix,
+            'type' => $offer_file->type,
+            'size' => $offer_file->size
+        ])
+    ];
+    $s = null;
+    if ($append) {
+        $s = JobDocs::insert($r);
+    } else
+        $s = JobDocs::createIfNotExists($r);
+    // store in file storage 
+    IO::CreateDir(
+        dirname($tfile)
+    );
+    igk_io_move_uploaded_file($offer_file->tmp_name, $tfile . $v_suffix);
+}
+function next_btn($buri, $title = null)
+{
+    $a = igk_create_node('a');
+    $a['href'] = $buri;
+    $a['class'] = 'igk-btn';
+    $a->content = __($title ?? 'next');
+    return $a;
+}
+$container = $t->div()->container();
+$job = null;
+$id = igk_getv($params, 0);
+$tcount = Jobs::count();
+$user_tcount = Jobs::count([Jobs::FD_USER_ID=>$user->id]);
+if ($id == 'new') {
+    $user = $ctrl::SignInUser();
+    if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
+        $cuser = $main->registerUser($user) ?? igk_die('missing register user');
+        $l = $main->addJob("new jobs", $cuser, intval(strtotime(date('Y-m-d'))));
+        $id = '/' . $l->id;
+    }
+    igk_navto($furi . $id);
+}
+$v_forem_type  =  ForemJobDashboardSourceTypes::GetCacheData(ForemJobDashboardSourceTypes::FOREM)->id;
+if ($request->method('POST')) {
+    /**
+     * @var MainTaskModelUtility
+     */
+    $offer_file = $request->file('ofile');
+    $response_file = $request->file('rfile'); // add response file 
+    $drop_file = igk_getr('btn-drop');
+    $drop_response_file = igk_getr('btn-drop-response');
+    $is_r = true;
+    if ($request->isset('is_r')) {
+    }
+    if ($id) {
+        $job = Jobs::select_row($id);
+        if ($job) {
+            $enterprise_name = strtoupper(trim(igk_getr('enterprise')) ?? '');
+            $reference = igk_getr('reference');
+            $createat = igk_getr('createat');
+            $job->summary = igk_getr('summary');
+            $job->description = igk_getr('description');
+            $job->title = igk_getr('title');
+            $category = igk_getr('category');
+            if ($createat) {
+                $createat = str_replace('/', '-', $createat);
+                $job->Create_At = date_format(date_create($createat), 'Y-m-d H:i:s');
+            }
+            $job->from_id = igk_getr('from') ?? JobSourceTypes::GetCache(
+                JobSourceTypes::FD_NAME,
+                ForemJobDashboardSourceTypes::ICTJOB
+            )->id;
+            $job->enterprise_id = JobEnterprises::GetCache(JobEnterprises::FD_NAME, $enterprise_name, true)->id;
+            if ($category){
+                if ($crow = JobCategories::GetCache(JobCategories::FD_NAME, $category, true)){
+                    $job->category_id = $crow->id;
+                }
+            }
+            $job->save();
+            // set form job
+            if ($reference && ($v_forem_type == $job->from_id)) {
+                JobForemJobs::delete([
+                    JobForemJobs::FD_JOB_ID => $job->id,
+                ]);
+                JobForemJobs::createIfNotExists(
+                    [
+                        JobForemJobs::FD_JOB_ID => $job->id,
+                        JobForemJobs::FD_REFERENCE => $reference
+                    ]
+                );
+            } else {
+                JobForemJobs::delete([
+                    [
+                        JobForemJobs::FD_JOB_ID => $job->id,
+                    ]
+                ]);
+            }
+            if ($offer_file && ($offer_file['error'] == 0)) {
+                $tfile = $offer_dir . $job->id;
+                _store_job_file($tfile, $offer_file, $job, JobDocTypes::INFO);
+            } else {
+                if ($drop_file) {
+                    @unlink($tfile);
+                    $condition = [
+                        JobDocs::FD_JOB_ID => $job->id,
+                        JobDocs::FD_JOB_DOC_TYPE_ID => JobDocTypes::GetCacheData(JobDocTypes::INFO)->id,
+                    ];
+                    JobDocs::delete($condition);
+                }
+            }
+            $tfile = Path::Combine($ctrl->getResponseDir(), $job->id);
+            if ($response_file && ($response_file['error'] == 0)) {
+                _store_job_file($tfile, $response_file, $job, JobDocTypes::RESPONSE, true);
+            } else {
+                if ($drop_response_file) {
+                    @unlink($tfile);
+                    $condition = [
+                        JobDocs::FD_JOB_ID => $job->id,
+                        JobDocs::FD_JOB_DOC_TYPE_ID => JobDocTypes::GetCacheData(JobDocTypes::RESPONSE)->id,
+                    ];
+                    JobDocs::delete($condition);
+                }
+            }
+        } else {
+            igk_die("missingjobs " . $id);
+        }
+    } else {
+        $cuser = JobUsers::select_row(1);
+        if ($cuser && ($job = $main->addJob(igk_getr('title'), $cuser))) {
+            $job->summary = igk_getr('summary');
+            $job->update();
+        }
+    }
+}
+// if (!is_numeric($id))
+//     $id = 0;
+if ($id) {
+    $job = Jobs::select_row($id);
+    if (is_null($job)) {
+        $v_goto = igk_getv($params, 1);
+        $op = $v_goto ? '>' : '<';
+        $tjob = Jobs::select_all([$op . Jobs::FD_ID => $id], [
+            'OrderBy' => [Jobs::FD_ID . '|Desc'],
+            'Limit' => 1
+        ]);
+        if ($tjob) {
+            $job = igk_getv($tjob, 0);
+            $id = $job->id;
+            igk_navto($furi . '/' . $id);
+        }
+    }
+}
+$form = $container->form();
+$form->multipart();
+if ($job instanceof Jobs) {
+    $enterprise_name = null;
+    $v_eid = isset($job->enterprise_id) ? JobEnterprises::GetCache(JobEnterprises::FD_ID, $job->enterprise_id) : null;
+    $v_source_type = JobSourceTypes::GetCache(JobSourceTypes::FD_ID, $job->from_id);
+    $v_forem_type  =  ForemJobDashboardSourceTypes::GetCacheData(ForemJobDashboardSourceTypes::FOREM)->id;
+    $reference = null;
+    $category = null;
+    if ($v_source_type->id === $v_forem_type) { 
+        if ($foremjobs = JobForemJobs::select_row([
+            JobForemJobs::FD_JOB_ID => $job->id,
+        ])) {
+            $reference = $foremjobs->reference;
+        }
+    }
+    if ($cat_id = $job->category_id){
+       $category = ($c = JobCategories::GetCache(JobCategories::FD_ID, $cat_id)) ? $c->{JobCategories::FD_NAME} : null;
+    }
+    if ($v_eid instanceof JobEnterprises) {
+        $enterprise_name = $v_eid->name;
+    }
+    $update_uri = $ctrl::uri("/update/" . $job->id);
+    $fields = array_filter([
+        "title" => ["value" => $job->title],
+        "from" => [
+            "type" => 'select',
+            'selected' => $job->from_id,
+            'data' => JobSourceTypes::form_select_all()
+        ],
+        "enterprise" => ["value" => $enterprise_name],
+        "reference" => ["value" => $reference, 'tip' => 'reference for forem jobs'],
+        "category" => ["value" => $category, 'tip' => 'category'],
+        "createat" => ["value" => null],
+        "summary" => ["value" => $job->summary, "type" => "textarea"],
+        "description" => ["value" => $job->description, "type" => "textarea"],
+        null,
+        // "description" => ["value" => $job->description, "type" => "textarea"],
+        'ofile' => ['type' => 'file', 'placeholder' => 'offer file', 'label_text' => __('offer')],
+        'rfile' => ['type' => 'file', 'placeholder' => 'response file', 'label_text' => __('response')]
+    ]);
+    if (igk_environment()->isDev()) {
+        $fields['is_rd'] = ['type' => 'checkbox', 'value' => '1', 'checked' => false];
+    }
+    $form->div()->content = igk_date_display_date($job->Create_At);
+    $form->fields($fields);
+    $dv = $form->div();
+    if (igk_io_cache_file_exists($offer_file = $ctrl->getOfferDir() . "/" . $job->id)) {
+        $dv->span()->Content = __("Offer description");
+        $dv->input()->setAttributes(["name" => "btn-drop", "type" => "checkbox"]);
+    }
+    if (igk_io_cache_file_exists($offer_file = $ctrl->getResponseDir() . "/" . $job->id)) {
+        $dv->span()->Content = __("Response description");
+        $dv->input()->setAttributes(["name" => "btn-drop-response", "type" => "checkbox"]);
+    }
+} else {
+    $update_uri = $ctrl::uri("/update"); 
+    $form->fields([
+        "title" => ['value'=>"title-most-die", "placeholder"=>__("job's title")],
+        "summary" => ["value" => "jobs description", "type" => "textarea", 'placeholder'=>__('job\'s description')],
+    ]);
+}
+$form["action"] = $update_uri;
+$form->actionbar(function ($a) {
+    $a->submit('btn.update', __('save'))->setClass('dispib');
+});
+$ac_bar = igk_create_node('actionbar');
+$ac_bar->bind(
+    _h('p.pad-10', sprintf('id : ' . $id . ' / %s: ' . $tcount, __('total count') )),
+    _h('p.pad-10', sprintf('user_count: %s', $user_tcount)),
+    ($id > 0) ? next_btn($furi . '/' . ($id - 1), 'prev') : null,
+    $id ? next_btn($furi . '/' . ($id + 1) . '/1') : null,
+);
+// $ac_bar->vsep();
+$ac_bar->a($furi . '/new')->setClass('igk-btn')->Content = __('new');
+$t->div()->container()->row()->bind(
+    $ac_bar
+);
+
+

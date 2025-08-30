@@ -3,10 +3,7 @@
 // @file: Skills.php
 // @date: 20240905 04:02:30
 namespace com\igkdev\projects\ForemJobDashboard\Models;
-
-
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
-
 ///<summary></summary>
 /**
 * 

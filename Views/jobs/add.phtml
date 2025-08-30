@@ -1,0 +1,70 @@
+<?php
+
+use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
+use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
+use function igk_html_host as _h;
+
+ include_once $ctrl::getViewDir().'/.auth.php';
+igk_view_handle_actions($fname, [
+    'store'=>function()use($user, $ctrl){
+        igk_server()->method('POST') || igk_die('post is required');
+        $title = igk_getr('title');
+        $enterprise = igk_getr('enterprise');
+        $desc = igk_getr('description');
+        $summary = igk_getr('summary');
+        if (($main = $ctrl->modelUtility("MainTask")) instanceof MainTaskModelUtility){
+            $eid = null;
+            if ($enterprise){
+                if ($c = JobEnterprises::GetCache(JobEnterprises::FD_NAME, $enterprise, true)){
+                    $eid = $c->id;
+                }
+            } 
+            if (($c = $main->addJob($title, $user)) instanceof Jobs){ 
+                $c->enterprise_id = $eid;
+                $c->description = json_encode($desc);
+                $c->summary = $summary;
+                $c->from_id = igk_getr('from');
+                $c->category_id = igk_getr('category') ?? $c->category_id;
+                $c->update();
+
+                $ctrl->setEnvParam('job', $c);
+            } 
+        }
+        
+       
+    },
+], $params);
+
+
+if ($header = $ctrl->getEnvParam('header')) {    
+    $r = _h(
+        $header->top,
+        _h('li > a', [$ctrl::uri('@/jobs')], igk_svg_use('forem.jobs')),  
+    );
+} 
+
+
+$row = $t->main()->container()->row();
+if ($j = $ctrl->getEnvParam('job')){
+    $row->col('fitw')->div()->a($ctrl::uri('@/jobs/edit/'.$j->id))->content = 'edit : '.$j->id;
+}
+$frm = $row->col()->div()->form();
+$frm['action'] = $ctrl::uri($fname.'/store');
+$frm->fields([
+    'title',
+    'enterprise',
+    'description'=>['type'=>'textarea'],
+    'summary'=>['type'=>'textarea','className'=>'small', 'attribs'=>['class'=>'small height-3em', 'maxlength'=>300]],
+    'from'=>[
+        'type' => 'select',
+        'selected' => JobSourceTypes::GetCache(JobSourceTypes::FD_NAME, 'WEB')->id,
+        'data' => array_merge(JobSourceTypes::formSelectData(), [])
+    ],
+    'date'
+]);
+
+$frm->actionbar()->host(function($a){
+    $a->submit()->setClass('dispib');
+});

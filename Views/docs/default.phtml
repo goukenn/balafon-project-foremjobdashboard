@@ -1,0 +1,32 @@
+<?php
+// views: document store  
+/**
+ *  @var mixed $t
+ * */
+use IGK\Helper\IO;
+$error = [];
+if ($request->method('POST')){
+    $file = (object)igk_getv($_FILES, 'doc');
+    $uid = '';
+    // $request->file('doc');
+    $outdir = $ctrl->getDeclaredDir().'/Data/docs';
+    IO::CreateDir($outdir);
+    if (!($c = igk_io_move_uploaded_file($file->tmp_name, $outdir.'/'.$file->name))){
+        $error[] = 'stored errors';
+    } else{
+        igk_navto($ruri);
+    }
+}
+$doc->title = 'manage documents';
+$form = igk_create_node('form');
+$form->multipart();
+$form->fields([
+    'doc'=>['type'=>'file']
+]);
+$form->actionbar(function($a){
+    $a->submit()->setClass('dispib');
+});
+$t['class'] = 'fith';
+$t->main()->container()->div()->bind(
+    $form
+);
