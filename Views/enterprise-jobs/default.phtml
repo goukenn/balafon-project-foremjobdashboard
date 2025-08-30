@@ -1,0 +1,68 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: enterprise/default.phtml
+// @desc: 
+// @view: enterprise/default.phtml
+// @date: 20250123 13:19:53
+use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use function igk_html_node_breadcrumbs as breadcrumbs;
+use function igk_resources_gets as __;
+
+ 
+function home() {
+    return null;
+}
+
+$doc->title = sprintf( __('fsprint.website.title_1'),  __('Enterprise Jobs'), igk_configs()->website_domain);
+$t->div()->h2()->Content = __('Enterprise Jobs');
+$s = breadcrumbs(['home' => [
+    "text" => 'home',
+    "uri" => "@/enterprise",
+],
+// "update"=>'@/update',
+// "jobs"=>'@/jobs'
+], $ctrl);
+
+
+// $s->li()->span()
+// ->setClass('no-overflow')->content = Lorem::paragraph(5);
+
+
+$t->section()->container()
+->setClass('no-overflow')
+->row()->col()->nav([
+    "class"=>"menu no-overflow",
+    "arial-label"=>"menu"
+])->bind(
+  $s
+);
+$main = $t->main();
+$form = $main->section()->container()->row()->col()->div()->form();
+$form->fields([
+    'enterprise'=>["value"=>$data->search]
+]);
+$form->actionbar()->submit('btn.search', 'search')->setClass('dispib');
+if ($data->enterprises){
+    $b = $main->section()->container()->row()->col()->div()->ul();
+    /**
+     * @var JobEnterprises $row 
+     */
+    foreach($data->enterprises  as $row){ 
+        $li = $b->li();
+        $a = $li->a();
+        $a->content = $row->name; 
+        if ($offers = igk_getv($row, 'jobs')){
+            $a->span()->setClass('igk-badge')->content = sprintf('(%s)', count($offers));
+            $uul = $li->ul();
+            foreach($offers as $job){
+                $a = igk_create_node('a');
+                $a['href'] = $ctrl::uri('@/update/'.$job->id);
+                $a->span()->content = $job->title;
+                $uul->li()->bind(
+                    $a
+                );
+            }
+        }
+    }
+    $b->span()->content = 'result / '.count($data->enterprises);
+} 

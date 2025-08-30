@@ -1,0 +1,38 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: build/motivation.phtml
+// @desc: use to build motivation template 
+// @view: build/motivation
+// @date: 20250422 10:25:39
+/**
+ * @var mixed $t
+ */
+use IGK\System\Regex\Replacement;
+use function igk_html_host as _h;
+use function igk_html_title_domain as title;
+use function igk_resources_gets as __;
+$replacement = new Replacement;
+$replacement->add('/%__job_title__%/', '');
+$replacement->add('/%__job_reference__%/', '');
+$replacement->add('/%__job_source__%/', '');
+$replacement->add('/%__user_name__%/', '');
+$replacement->add('/%__user_contact__%/', '');
+$replacement->add('/%__.+__%/', '');
+$doc->title = title(__('Build Motivation Template'));
+$fields = [
+    'lang'=>['type'=>'select', 'data'=>[['t'=>'fr', 'i'=>'fr-FR']]],
+    'intro'=>['type'=>'textarea'],
+    'ask'=>['type'=>'textarea'],
+    'conclusion'=>['type'=>'textarea'],
+    'salutation'=>['type'=>'textarea']
+];
+$t['class'] = '-fit';
+if (isset($error)){
+    igk_wln_e('error', $error);
+}
+$form = _h('form.template',);
+$form['action'] = $ctrl::uri($fname.'/save');
+$form->fields($fields);
+$form->p()->content = __('tip.template.replacement.info');
+$form->actionbar()->submit('btn-send',__('save'));
+$t->add(_h('container > section', _h('h2', __('Motivation template Model builder')),$form));

@@ -3,9 +3,8 @@
 // @file: RegisterType.php
 // @date: 20240904 09:14:13
 namespace com\igkdev\projects\ForemJobDashboard;
-
 use com\igkdev\projects\ForemJobDashboard\Models\JobRegisterTypes;
-use IGK\Models\Traits\ModelConstantsHelper;
+use IGK\Models\Traits\ModelTableConstantTrait;
 use IGK\System\Traits\EnumeratesConstants;
 use IGK\Database\ORM\Annotations as ORM;
 ///<summary></summary>
@@ -17,7 +16,7 @@ use IGK\Database\ORM\Annotations as ORM;
 */
 abstract class RegisterType{
     use EnumeratesConstants;
-    use ModelConstantsHelper;
+    use ModelTableConstantTrait;
     protected static $model = JobRegisterTypes::class;
     protected static $field_name = JobRegisterTypes::FD_NAME;
     const FAKE = 'FAKE';

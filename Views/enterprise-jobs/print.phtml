@@ -1,0 +1,71 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: print.phtml
+// @date: 20250125 16:23:00
+// @desc: print enterprise file 
+// @command: balafon --run ./src/application/Projects/ForemJobDashboard/Views/enterprise/print.phtml
+use Faker\Provider\Lorem;
+use IGK\Helper\StringUtility;
+use igk\pdflib\PDFUtils;
+use IGK\System\Text\RegexMatcherContainer;
+use IGK\System\Text\RegexReplaceContent;
+igk_require_module('igk/pdflib');
+$doc = new \igk\pdflib\PDFDocument(); 
+$ctn = new RegexMatcherContainer;
+// $src = implode("\n", ["Candidat   p", "du jour   x", "avec joie", "Laravel and sample"]); 
+$src = file_get_contents($ctrl->getDataDir().'/templates/form.offers.submit.dat');
+$rp = new RegexReplaceContent;
+$container = new RegexMatcherContainer;
+$container->match("%(enterprise|title|site)%", 'pattern');
+$rp->info = [
+    "%title%"=>"developer adanced of PHP",
+    "%enterprise%"=>"IGKDEV"
+];
+$src = $rp->replaceWith($src, $container, function($e, $info){
+    return igk_getv($info, $e->value);
+});
+$ctn->match("^.+$");
+$offset = 0;
+$y = 10;
+$line = 1; 
+while($g = $ctn->detect($src, $offset)){
+    if ($e = $ctn->end($g, $src, $offset)){
+       $doc->h1()
+       ->setStyle('left: 10; top:'.$y.'; height: 100; line-height: 12; border-bottom-color: red; border-bottom-width: 0.12; color:#333; background-color: transparent;')
+       ->Content = PDFUtils::EncodeTextToUTF8($line.':'.$e->value);
+        $y+=8;
+        $line++;
+        // echo $e->value , PHP_EOL;
+    }
+}
+$doc->p()
+->setStyle("line-height:5; width:106; border-width:1; border-color: yellow;font-style:bold underline italic; font-size: 30")
+->Content = Lorem::paragraph(5);
+$page = $doc->page();
+// $doc->h1()->Content = "Bonjour Tout le monde";
+$doc->Producer = "Balafon";
+$doc->Author = IGK_AUTHOR; 
+$doc->output();
+igk_exit();
+$p = igk_getv($params, 0);
+$doc->title = 'Check printing document';
+if ($p=='all'){
+    echo "basic;";
+    igk_exit();
+}
+$uri = $furi.'/all';
+$t->div()->button()
+->setAttributes([
+    'onclick'=>'printDoc("'.$uri.'")'
+])
+->content = 'print document';
+$t->script()->Content = <<<'JS'
+function printDoc(uri){
+    const ptr = window.open('', '_blank');
+    // inject printing styles - or - use global css to register media printing. 
+    ptr.document.write('<style> .printing-content{ position : absolute; left:50%; top:0; color:red; font-size: 24pt;}</style>');
+    ptr.document.write('<div class="printing-content">'+uri+'</div>');
+    ptr.document.close();
+    ptr.print();
+}
+JS;

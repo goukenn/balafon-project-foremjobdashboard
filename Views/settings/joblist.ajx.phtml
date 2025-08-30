@@ -1,0 +1,26 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: settings/joblist.ajx.phtml
+// @desc: view for the job list 
+// @view: settings/joblist.ajx
+// @date: 20250518 11:08:12
+use function igk_html_host as _h;
+$t->div()->Content = 'View : settings/joblist.ajx.phtml';
+$fields = [
+    'job'=>[
+        'label_text'=>__('path phrase'),
+        'placeholder' => 'just enter your text',
+        'value'=>'just enter',
+        'tabindex'=>-1,
+        'attribs'=>[
+            'tabindex'=>-1,
+            'className'=>'key-enter'
+        ]
+    ]
+];
+$fields['location'] = [];
+$t->add(_h('div.container > form[action:$action]',function($form)use($fields){
+    $form->fields($fields);
+}));
+$fields['helio'] = [];
+$t->add(_h('div.container > form[action:$action]',_h('@fields', $fields)));

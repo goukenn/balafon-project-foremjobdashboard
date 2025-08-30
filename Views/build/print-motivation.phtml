@@ -1,0 +1,20 @@
+<?php
+
+use com\igkdev\projects\ForemJobDashboard\UserConfigSetting;
+use IGK\Helper\StringUtility;
+use igk\pdflib\PDFDocument;
+use IGK\System\Modules;
+
+$modules->require(Modules::igk_pdflib());
+$this->checkUser(false);
+$user = $ctrl->getUserProfile();
+$tr = UserConfigSetting::DbUserSetting($user);
+
+
+
+$pdf = new PDFDocument;
+$tr = UserConfigSetting::DbUserSetting($user);
+$pdf->b()->content = StringUtility::DisplayName($tr->firstName, $tr->lastName) ?? $tr->display;
+
+$pdf->output();
+igk_exit();

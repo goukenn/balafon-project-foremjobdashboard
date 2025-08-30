@@ -1,0 +1,6 @@
+{ 
+    "response_type": "token",
+    "client_id": "acc2ecfbed08a739aca73c41c20deb6970ca65f0022701d8e50e5e3abd11416c",
+    "redirect_uri": "https:\/\/local.com:7300\/forem\/api\/docs",
+    "state": "U2F0IEZlYiAwMSAyMDI1IDE0OjUzOjEzIEdNVCswMTAwIChDZW50cmFsIEV1cm9wZWFuIFN0YW5kYXJkIFRpbWUp"
+}

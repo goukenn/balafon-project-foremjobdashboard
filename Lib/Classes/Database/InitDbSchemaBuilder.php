@@ -3,10 +3,8 @@
 // @file: InitDbSchemaBuilder.php
 // @date: 20240904 08:59:56
 namespace com\igkdev\projects\ForemJobDashboard\Database;
-
 use IGK\Database\SchemaBuilder\IDiagramBuilder;
 use IGK\Database\SchemaBuilder\IDiagramSchemaBuilder;
-
 ///<summary></summary>
 /**
 * 

@@ -1,0 +1,28 @@
+<?php
+use com\igkdev\projects\ForemJobDashboard\IO\PDFPrinter;
+use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
+igk_require_module('igk\\pdflib'); 
+$user = $ctrl::SignInUser(); 
+if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
+    $cuser = $main->registerUser($user);
+    $faker = \Faker\Factory::create();
+    $tinfo = Jobs::select_all([Jobs::FD_USER_ID => $cuser->id]);
+    $doc = new \igk\pdflib\PDFDocument();
+    $page = false;
+    $pdfprinter = new PDFPrinter;
+    $count = 0;
+    foreach ($tinfo as $row) {
+        if ($row instanceof Jobs) {
+            if ($page)
+                $doc->addPage(); 
+            $pdfprinter->printJob($row, $doc);
+            $page = true;  
+            $count++;
+        }
+    }
+    $c = $doc->output();
+} else {
+    igk_die('missing utility');
+}
+igk_exit();

@@ -3,10 +3,8 @@
 // @desc: factory base
 // @date: 20240904 16:18:14
 namespace com\igkdev\projects\ForemJobDashboard\Database\Factories;
-
 use ForemJobDashboardController;
 use IGK\System\Database\Factories\FactoryBase as Factory;
-
 ///<summary>Factory base</summary>
 /**
 * Factory base
@@ -14,5 +12,4 @@ use IGK\System\Database\Factories\FactoryBase as Factory;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class FactoryBase extends Factory{
-
 }

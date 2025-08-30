@@ -10,4 +10,52 @@
 // $ctrl : controller that initiate the loading
 // $css_m: target node classname
 
-$def[$css_m.""] = "(:.google-Roboto)"; 
+$def[':root']=[
+    '--igk-link-visited-color'=> '#32760F',
+    '--igk-link-color'=> '#4C9129',
+    '--igk-link-visited-color'=> '#019DA8',
+    '--igk-link-color'=> '#019DA8',
+];
+$def[$css_m.""] = "(:.google-Roboto) [bgcl:primary-bg-color] color: [cl:primary-color];"; 
+$def[$css_m." iframe"] = "color: orangered; border:none;"; 
+
+// + | selection color definition 
+$def[$css_m." ::selection"] = "[fcl:selector-color,white] [bgcl:selectio-bg-color, red]";
+
+$key = $css_m.implode(','.$css_m, array_map(function($i){ return ' h'.$i;}, range(1,6)));
+$def[$key] = "(:.primary-header-font)";
+
+
+
+$def['.primary-header-font'] = 'font-family: arial, sans-serif';
+
+// + | breadcrumb
+$def['.igk-winui-breadcrumb'] = '{sys:dispib, no-wrap}';
+$def['.igk-winui-breadcrumb li'] = '{sys:dispib,alignt} ';
+$def['.igk-winui-breadcrumb li:not(:last-child):after'] = 'content: "/";padding:8px 5px;';
+
+
+$def['footer'] = '{sys:loc_b fitw} margin-top: 2em;';
+// $def[$css_m .''] = 'padding-bottom: 5em;';
+
+$def[$css_m .' a'] = 'color: var(--igk-link-color);';
+$def[$css_m .' a:visited'] = 'color: var(--igk-link-visited-color);';
+
+
+$def['.dispflex.flex-row.alignr'] = 'justify-content: right;';
+
+$def['nav.menu li > a'] = 'display:inline-block; padding: 10px;';
+ 
+
+
+$def['textarea.height-3em'] = 'height:calc(3rem + 4em) !important;';
+
+$def['nav .menu li a'] = 'padding: 10px 12px;';
+$def['header .box'] = '{sys:posab}'; 
+$def['header nav.menu-host'] = 'flex-grow:1; align-self:center;';
+
+$def['.dispflex.alignm'] = 'align-items: center;';
+$def['.dispflex.alignc'] = 'justify-content: center;';
+
+
+$def['nav .menu svg'] = '{sys:dispb} margin:0 1em;';

@@ -1,0 +1,71 @@
+<?php
+
+use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use IGK\System\Html\SVG\SvgRenderer;
+
+use function igk_resources_gets as __;
+use function igk_html_host as _h;
+
+$bg_color = '#040809';
+if (!$ctrl->checkUser(false)) {
+    if ($ulogin = $ctrl->getConfigs()->{'app.default-user'}) {
+        $tuser = igk_get_user_bylogin($ulogin);
+        $ctrl::login($tuser, null, null);
+        $user = $ctrl->getUser();
+    }
+}
+// igk_environment()->querydebug = 1;
+$create_at = igk_getv($params, 0, date("Y-m"));
+if (!$user) {
+    igk_die('missing user');
+}
+include_once $ctrl::getViewDir() . '/.auth.php';
+igk_view_handle_actions($fname, [
+    'search' => function () use (&$create_at) {
+        $create_at = igk_getr('search', $create_at);
+    }
+], $params);
+$doc->title = sprintf('Job - %s', $ctrl->getAppTitle());
+// get last update from data base and transform to DATA web 
+$doc->getMetas()->lastUpdate =  'Wed, 01 Oct 2025 12:00:00 GMT';
+$doc->setHeaderColor($bg_color);
+$doc->getbody()->setStyle('background-color: ' . $bg_color); 
+
+
+if ($header = $ctrl->getEnvParam('header')) {    
+    $r = _h(
+        $header->top,
+        _h('li > span',  igk_svg_use('forem.jobs')),
+        _h('li > a', [$ctrl::uri('@/jobs/add')], __('add')),
+        // _h('li > a', [$ctrl::uri('@/jobs/edit')], __('edit')),
+    );
+} 
+ 
+
+
+$form = _h('form.search');
+$form['action'] = $entry_uri . '/search';
+$form->fields(['search' => ['value' => $create_at, 'attribs' => ['autocomplete' => 'off']]]);
+$form->actionbar()->submit()->setClass('dispib')->setAttribute('value', __('search'));
+_h(
+    $t->section()->container()->row()->col(),
+    _h('h2', __('searching data')),
+    $form
+);
+
+$r = Jobs::select_all(
+    [
+        '@@' . Jobs::FD_CREATE_AT => Jobs::model()->getDataAdapter()->escape_string($create_at) . '%',
+        'jbs_user_id' => $user->jbu_id
+    ]
+);
+$t->div()->container()->row()->col()->div()->host(function ($n, $uri) use ($r) {
+    $ul = $n->ul();
+    foreach ($r as $row) {
+        $li = $ul->li()->a();
+        $li['class'] = 'dispflex flex-row gap-4';
+        $li['href'] = $uri . '/edit/' . $row->{Jobs::FD_ID};
+        $li->span($row->{Jobs::FD_CREATE_AT});
+        $li->span($row->{Jobs::FD_TITLE});
+    }
+}, $ctrl::uri($fname));

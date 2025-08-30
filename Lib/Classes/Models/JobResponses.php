@@ -1,13 +1,12 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: JobResponses.php
-// @date: 20240905 04:02:30
+// @date: 20250829 15:43:00
 namespace com\igkdev\projects\ForemJobDashboard\Models;
 
 
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 
-///<summary></summary>
 /**
 * 
 * @package com\igkdev\projects\ForemJobDashboard\Models
@@ -15,6 +14,11 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property int $id
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
+* @method static string FD_ID() - `id` full column name 
+* @method static string FD_CREATE_AT() - `Create_At` full column name 
+* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static ?array joinOnId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static ?string targetOnId() - macros function
 * @method static ?self Add(string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
 * @method static ?self AddIfNotExists(string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
@@ -25,7 +29,7 @@ class JobResponses extends ModelBase{
 	/**
 	* table's name
 	*/
-	protected $table = "%prefix%job_responses"; 
+	protected $table = "%prefix%job_responses";
 	/**
 	* override primary key 
 	*/

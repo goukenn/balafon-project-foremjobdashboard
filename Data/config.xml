@@ -1,8 +1,9 @@
 <config>
-	<clAppName>ForemJobDashboard</clAppName>
+	<clAppName>Onem job dashboard</clAppName>
 	<clAppNotActive>0</clAppNotActive>
 	<clBasicUriPattern>^/forem</clBasicUriPattern>
 	<clDataSchema>1</clDataSchema>
 	<clDataTablePrefix>tbigk_foremjobs_</clDataTablePrefix>
 	<clTitle>Forem Jobs</clTitle>
+	<app.default-user>cbondje@igkdev.com</app.default-user>
 </config>
