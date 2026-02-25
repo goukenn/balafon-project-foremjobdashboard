@@ -3,9 +3,7 @@
 // @file: JobCommandBase.php
 // @date: 20250822 07:21:19
 namespace com\igkdev\projects\ForemJobDashboard\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
-
 /**
 * 
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands

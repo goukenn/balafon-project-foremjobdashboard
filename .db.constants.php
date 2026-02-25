@@ -1,6 +1,6 @@
 <?php
 // Balafon : generated db constants file
-// date: 2025-08-29 15:43:27
+// date: 2025-11-13 14:18:27
 abstract class ForemJobDashboardControllerDbConstants{
 	const TB_JOB_CATEGORIES = "tbigk_foremjobs_job_categories";
 	const TB_JOB_CONTACTS = "tbigk_foremjobs_job_contacts";

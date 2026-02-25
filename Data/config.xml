@@ -6,4 +6,11 @@
 	<clDataTablePrefix>tbigk_foremjobs_</clDataTablePrefix>
 	<clTitle>Forem Jobs</clTitle>
 	<app.default-user>cbondje@igkdev.com</app.default-user>
+	<forem.offer-search.endpoint>https://www.leforem.be/recherche-offres/offre-detail</forem.offer-search.endpoint>
+	<env.dev>
+		<max_view_filesize>3145728</max_view_filesize>
+	</env.dev>
+	<env.ops>
+		<max_view_filesize>10485760</max_view_filesize>		
+	</env.ops>
 </config>

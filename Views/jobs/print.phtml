@@ -3,11 +3,13 @@ use com\igkdev\projects\ForemJobDashboard\IO\PDFPrinter;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 igk_require_module('igk\\pdflib'); 
-$user = $ctrl::SignInUser(); 
+include_once $ctrl::getViewDir() . '/.auth.pinc';
+// $user = $ctrl::SignInUser(); 
 if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
-    $cuser = $main->registerUser($user);
+    $cuser = $user; // $main->registerUser($user);
     $faker = \Faker\Factory::create();
-    $tinfo = Jobs::select_all([Jobs::FD_USER_ID => $cuser->id]);
+    $tinfo = Jobs::select_all([Jobs::FD_USER_ID => $cuser->id,
+    '@@'.Jobs::FD_CREATE_AT=>'2025-05-%'], ['OrderBy'=>[Jobs::FD_CREATE_AT]]);
     $doc = new \igk\pdflib\PDFDocument();
     $page = false;
     $pdfprinter = new PDFPrinter;

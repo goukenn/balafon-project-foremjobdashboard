@@ -10,7 +10,6 @@ use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobUsers;
 use IGK\Helper\Activator;
-
 use IGK\Models\Users;
 use IGK\System\Database\Import\DbModelImporterMap;
 use IGKException;

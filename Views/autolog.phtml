@@ -1,0 +1,27 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: autolog.phtml
+// @desc: 
+// @view: autolog
+// @date: 20251210 16:18:02
+$ref = $ctrl::uri('@/');
+$login = '';
+if (
+    igk_environment()->isDev()
+) {
+    if (!($usr = $ctrl->checkUser(false,  false))) {
+        $login = igk_getv($params, 0);
+        $user = null;
+        if ($login){
+            if (!($user = igk_get_user_bylogin($login))){
+                igk_die('missing login');
+            }
+        }  
+        $user = $user ?? igk_sys_default_user() ?? igk_die('user not resolved');
+        if (!($u =$ctrl::login($user, null, false))){
+            igk_die("failed to login"); 
+        }
+    }
+}
+$refer = igk_getr('referer') ?? igk_server()->HTTP_REFERER ?? $ref;
+igk_navto($refer);

@@ -1,11 +1,11 @@
 <?php
-
+use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use IGK\Database\DbQueryCondition;
+use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGK\System\Html\SVG\SvgRenderer;
-
 use function igk_resources_gets as __;
 use function igk_html_host as _h;
-
 $bg_color = '#040809';
 if (!$ctrl->checkUser(false)) {
     if ($ulogin = $ctrl->getConfigs()->{'app.default-user'}) {
@@ -19,7 +19,7 @@ $create_at = igk_getv($params, 0, date("Y-m"));
 if (!$user) {
     igk_die('missing user');
 }
-include_once $ctrl::getViewDir() . '/.auth.php';
+include_once $ctrl::getViewDir() . '/.auth.pinc';
 igk_view_handle_actions($fname, [
     'search' => function () use (&$create_at) {
         $create_at = igk_getr('search', $create_at);
@@ -30,8 +30,6 @@ $doc->title = sprintf('Job - %s', $ctrl->getAppTitle());
 $doc->getMetas()->lastUpdate =  'Wed, 01 Oct 2025 12:00:00 GMT';
 $doc->setHeaderColor($bg_color);
 $doc->getbody()->setStyle('background-color: ' . $bg_color); 
-
-
 if ($header = $ctrl->getEnvParam('header')) {    
     $r = _h(
         $header->top,
@@ -40,9 +38,6 @@ if ($header = $ctrl->getEnvParam('header')) {
         // _h('li > a', [$ctrl::uri('@/jobs/edit')], __('edit')),
     );
 } 
- 
-
-
 $form = _h('form.search');
 $form['action'] = $entry_uri . '/search';
 $form->fields(['search' => ['value' => $create_at, 'attribs' => ['autocomplete' => 'off']]]);
@@ -52,13 +47,34 @@ _h(
     _h('h2', __('searching data')),
     $form
 );
-
+$ad = Jobs::model()->getDataAdapter();
+// + | search for job only 
 $r = Jobs::select_all(
     [
-        '@@' . Jobs::FD_CREATE_AT => Jobs::model()->getDataAdapter()->escape_string($create_at) . '%',
+        DbQueryCondition::Create([
+        '@@' . Jobs::FD_CREATE_AT => $ad->escape_string($create_at) . '%',
+        '@@' . Jobs::FD_TITLE => '%'.$ad->escape_string($create_at) . '%',
+        ], DbQueryCondition::OP_OR),
         'jbs_user_id' => $user->jbu_id
     ]
-);
+); 
+// + | search for job with enterprise 
+// $create_at = 'treenity';
+$find = SQLQueryFieldPrefixOperators::FIND;
+$r = Jobs::prepare()
+->with(JobEnterprises::table(), 'enterprise')
+->join_left(JobEnterprises::table(), sprintf('%s=%s', $fn=JobEnterprises::FN_ID(), Jobs::FD_ENTERPRISE_ID))
+->conditions(
+    [
+        DbQueryCondition::Create([
+        '@@' . Jobs::FN_CREATE_AT() => $ad->escape_string($create_at) . '%',
+        '@@' . Jobs::FN_TITLE() => '%'.$ad->escape_string($create_at) . '%',
+        '@@' . JobEnterprises::FN_NAME() => '%'.$ad->escape_string($create_at) . '%',
+        ], DbQueryCondition::OP_OR),
+        'jbs_user_id' => $user->jbu_id
+    ]
+)->execute()->to_array(); 
+// igk_wln_e($r->query, $row = $r->getRowAtIndex(0), $row->name);
 $t->div()->container()->row()->col()->div()->host(function ($n, $uri) use ($r) {
     $ul = $n->ul();
     foreach ($r as $row) {

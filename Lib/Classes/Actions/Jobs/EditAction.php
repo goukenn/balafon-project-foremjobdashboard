@@ -4,11 +4,9 @@
 // @desc: view action Jobs/Edit
 // @date: 20250828 11:01:23
 namespace com\igkdev\projects\ForemJobDashboard\Actions\Jobs;
-
 use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use IGK\Actions\ActionBase;
-
 /**
 * view action
 * @package com\igkdev\projects\ForemJobDashboard\Actions\Jobs

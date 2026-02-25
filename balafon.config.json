@@ -8,5 +8,6 @@
     },
     "workbench": {
         "cwd": "/Volumes/Data/Dev/PHP/balafon_site_dev"
-    }
+    },
+    "default_user_profile": "consultant"
 }

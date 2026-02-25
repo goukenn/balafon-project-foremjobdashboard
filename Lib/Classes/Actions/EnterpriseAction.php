@@ -4,7 +4,6 @@
 // @desc: view action Enterprise
 // @date: 20250123 21:54:09
 namespace com\igkdev\projects\ForemJobDashboard\Actions;
-
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use Exception;
@@ -13,7 +12,6 @@ use IGK\Database\DbConstants;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 ///<summary>view action</summary>
 /**
  * view action
@@ -34,7 +32,6 @@ class EnterpriseAction extends ApiActionBase
             return true;
         }
         return !is_array($response);
-
     }
     /**
      * 
@@ -62,9 +59,7 @@ class EnterpriseAction extends ApiActionBase
                     Jobs::table(),
                     Jobs::FD_ENTERPRISE_ID() . '=' . JobEnterprises::FD_ID()
                 )
-                ->columns([
-                    // JobEnterprises::FD_ID(),
-                    // JobEnterprises::FD_NAME(),
+                ->columns([ 
                     JobEnterprises::table() . '.*',
                     Jobs::FD_ID()
                 ])
@@ -93,5 +88,4 @@ class EnterpriseAction extends ApiActionBase
         }
         return $response;
     }
-    
 }

@@ -3,7 +3,6 @@
 // @file: JobFollowCommand.php
 // @date: 20250825 15:21:13
 namespace com\igkdev\projects\ForemJobDashboard\System\Console\Commands;
-
 use com\igkdev\projects\ForemJobDashboard\Database\Utility as DatabaseUtility;
 use com\igkdev\projects\ForemJobDashboard\UserConfigSetting;
 use ForemJobDashboardController;
@@ -11,7 +10,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Commands\ServerCommandHelper;
 use igk\System\Console\Commands\Utility;
-
 /**
 * 
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
@@ -23,7 +21,7 @@ class JobFollowCommand extends JobCommandBase{
 	var $options=[
 		'--user:[id]'=>'user id'
 	];
-	var $category = '';
+	var $category = 'forem';
 	var $usage = '[options]';
 	public function exec($command) { 
 		$ctrl = ForemJobDashboardController::ctrl(true);
@@ -45,14 +43,8 @@ class JobFollowCommand extends JobCommandBase{
 		$tr->lastName = 'BONDJE DOUE';
 		$tr->drivingLicenses = 'B';
 		$tr->skills = ['PHP', 'CSS', 'HTML', 'Javascript', 'WebDev', 'DevOps', 'GIT', 'DOCKER', 'Virtualization', 'AI'];
-		
 		$tr->store();
-
-
-
 		$r = DatabaseUtility::GetUserSetting($user, 'followDate');
-
 		igk_wln_e('users :: ', $r);
-
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-// @command: balafon --run /Volumes/Data/wwwroot/core/Projects/ForemJobDashboard/Lib/Scripts/store-enterprises.php
+// @command: balafon --run src/application/Projects/ForemJobDashboard/Lib/Scripts/store-enterprises.php
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use IGK\System\Console\Logger;
 ForemJobDashboardController::ctrl(true);

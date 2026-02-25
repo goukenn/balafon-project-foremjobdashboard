@@ -63,7 +63,10 @@ class UserProfile extends SystemUserProfile{
     protected function registerProfile() { 
         // what to do to register profile to 
         if ($this->m_projectUser->isNew()){
-            Authorization::BindUserToGroup($this->getController(), $this->model(),  'consultant');
+            $ctrl = $this->getController();
+            if ($def_user_profile = $ctrl->getDefaultUserProfile()){
+                Authorization::BindUserToGroup($ctrl, $this->model(),  $def_user_profile);
+            }
         }
     }
     /**

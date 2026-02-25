@@ -3,11 +3,9 @@
 // @file: EnterpriseCommand.php
 // @date: 20250827 10:55:32
 namespace com\igkdev\projects\ForemJobDashboard\System\Console\Commands;
-
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * 
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
@@ -22,7 +20,9 @@ class EnterpriseCommand extends JobCommandBase{
 	public function exec($command, ?string $action=null, ...$params) {
 		!$action && igk_die('required action');
 		if (method_exists($this, $fc = '_action_'.$action)){
-			call_user_func_array([$this, $fc], [$command, ...$params]);
+				$arg = [$command];
+				array_push($arg, ...$params);
+				call_user_func_array([$this, $fc], $arg);
 		} else {
 			Logger::danger('missing ['.$action.'] action ');
 		}
@@ -33,9 +33,9 @@ class EnterpriseCommand extends JobCommandBase{
 			$q = array_shift($params);
 			array_map(function($a){
 				if (empty(trim($a))) return;
-				JobEnterprises::insertIfNotExists([JobEnterprises::FD_NAME=>trim($a)]);
+				$r = JobEnterprises::insertIfNotExists([JobEnterprises::FD_NAME=>trim($a)]);
+				Logger::info('add '.$a . ' : '.$r);
 			}, explode(',', $q));
 		}
-
 	}
 }

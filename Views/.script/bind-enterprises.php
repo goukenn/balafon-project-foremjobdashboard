@@ -2,10 +2,11 @@
 // + | --------------------------------------------------------------------
 // + | automatic bind array - enterprise to list  
 // + |
-// @command: balafon --run /Volumes/Data/wwwroot/core/Projects/ForemJobDashboard/Views/.script/bind-enterprises.php
+// @command: balafon --run src/application/Projects/ForemJobDashboard/Views/.script/bind-enterprises.php
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use IGK\System\Console\Logger;
+use IGK\System\Database\SQLQueryFieldPrefixOperators;
 $ctrl = ForemJobDashboardController::ctrl(true);
 $e_utility = $ctrl->modelUtility('enterprise');
 $enterprises = [
@@ -30,8 +31,8 @@ if (($user = igk_get_user_bylogin($login)) && ($ctrl::login($user, null, false))
     $user = $ctrl->getUserProfile()->user();
     //$tab = array_values(array_unique($tab));
     $grows = Jobs::select_all([
-        Jobs::FD_USER_ID => $user->id,
-        "@@".Jobs::FD_CREATE_AT=>'2025%' // year to bind 
+       Jobs::FD_USER_ID => $user->id,
+       SQLQueryFieldPrefixOperators::FIND.Jobs::FD_CREATE_AT=>'2025%' // year to bind 
     ]);
     $update = 0;
     while(count($grows) > 0 ){

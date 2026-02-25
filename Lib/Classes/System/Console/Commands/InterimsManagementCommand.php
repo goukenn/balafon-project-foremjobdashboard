@@ -3,20 +3,17 @@
 // @file: InterimsManagementCommand.php
 // @date: 20250829 15:55:14
 namespace com\igkdev\projects\ForemJobDashboard\System\Console\Commands;
-
 use com\igkdev\projects\ForemJobDashboard\Models\JobInterims;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Database\Traits\ManageDatabaseTrait;
-
 /**
 * 
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
 class InterimsManagementCommand extends AppExecCommand{
-	var $command='--forem-jobs:interims';
+	var $command='--forem-job:interims';
 	use ManageDatabaseTrait;
-
 	public function getModelClass() { 
 		return JobInterims::class;
 	}	
@@ -24,7 +21,6 @@ class InterimsManagementCommand extends AppExecCommand{
 	/* var $options=[]; */
 	/* var $category = ''; */
 	/* var $usage = ''; */ 
-
 	protected function _handle_add($command, ?string $names = null)
 	{
 		if ($names){

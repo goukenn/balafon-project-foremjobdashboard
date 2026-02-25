@@ -9,7 +9,7 @@ use IGK\System\Html\SVG\SvgRenderer;
 use function igk_html_host as _h;
 SvgRenderer::RegisterFolder($ctrl->getDataDir().'/assets/svg');
 igk_google_addfont($doc, "Roboto");
-$t->setClass("+google-Roboto fit");
+$t->setClass("+google-Roboto fit overflow-y-a");
 $img = _h('img', [$ctrl->getDataDir() . '/assets/img/logo.jpg'])->setSize(40, 45);
 if ($fname == 'default') {
     $h = $img;

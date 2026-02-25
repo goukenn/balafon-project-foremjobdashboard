@@ -3,10 +3,7 @@
 // @file: JobSearchEngine.php
 // @date: 20250829 14:31:40
 namespace com\igkdev\projects\ForemJobDashboard\Models;
-
-
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
-
 /**
 * job's engines
 * @package com\igkdev\projects\ForemJobDashboard\Models
@@ -17,12 +14,12 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property string $description description
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `id` full column name 
-* @method static string FD_NAME() - `name` full column name 
-* @method static string FD_URL() - `url` full column name 
-* @method static string FD_DESCRIPTION() - `description` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `id` full column name 
+* @method static string FN_NAME() - `name` full column name 
+* @method static string FN_URL() - `url` full column name 
+* @method static string FN_DESCRIPTION() - `description` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnJobEngId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnJobEngId() - macros function
 * @method static ?self Add(string $name, string $url, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper

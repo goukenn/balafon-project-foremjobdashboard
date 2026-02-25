@@ -1,12 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Jobs.php
-// @date: 20250829 15:43:00
+// @date: 20251112 14:38:45
 namespace com\igkdev\projects\ForemJobDashboard\Models;
-
-
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
-
 /**
 * 
 * @package com\igkdev\projects\ForemJobDashboard\Models
@@ -31,26 +28,26 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property string $path path indication
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `id` full column name 
-* @method static string FD_GUID() - `guid` full column name 
-* @method static string FD_TITLE() - `title` full column name 
-* @method static string FD_FROM_ID() - `from_id` full column name 
-* @method static string FD_CONTRACT_ID() - `contract_id` full column name 
-* @method static string FD_TREATED() - `treated` full column name 
-* @method static string FD_CATEGORY_ID() - `category_id` full column name 
-* @method static string FD_TYPE_ID() - `type_id` full column name 
-* @method static string FD_STATUS_ID() - `status_id` full column name 
-* @method static string FD_ENTERPRISE_ID() - `enterprise_id` full column name 
-* @method static string FD_CONTACT_ID() - `contact_id` full column name 
-* @method static string FD_PRINTABLE() - `printable` full column name 
-* @method static string FD_USER_ID() - `user_id` full column name 
-* @method static string FD_DESCRIPTION() - `description` full column name 
-* @method static string FD_FOLLOW() - `follow` full column name 
-* @method static string FD_SUMMARY() - `summary` full column name 
-* @method static string FD_SALARY() - `salary` full column name 
-* @method static string FD_PATH() - `path` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `id` full column name 
+* @method static string FN_GUID() - `guid` full column name 
+* @method static string FN_TITLE() - `title` full column name 
+* @method static string FN_FROM_ID() - `from_id` full column name 
+* @method static string FN_CONTRACT_ID() - `contract_id` full column name 
+* @method static string FN_TREATED() - `treated` full column name 
+* @method static string FN_CATEGORY_ID() - `category_id` full column name 
+* @method static string FN_TYPE_ID() - `type_id` full column name 
+* @method static string FN_STATUS_ID() - `status_id` full column name 
+* @method static string FN_ENTERPRISE_ID() - `enterprise_id` full column name 
+* @method static string FN_CONTACT_ID() - `contact_id` full column name 
+* @method static string FN_PRINTABLE() - `printable` full column name 
+* @method static string FN_USER_ID() - `user_id` full column name 
+* @method static string FN_DESCRIPTION() - `description` full column name 
+* @method static string FN_FOLLOW() - `follow` full column name 
+* @method static string FN_SUMMARY() - `summary` full column name 
+* @method static string FN_SALARY() - `salary` full column name 
+* @method static string FN_PATH() - `path` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnJbsId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnJbsId() - macros function
 * @method static ?self Add(string $guid, string $title, int|\com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes $from_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobContractTypes $contract_id, int $treated, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobCategories $category_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobRegisterTypes $type_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes $status_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises $enterprise_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobContacts $contact_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobUsers $user_id, string $description, string $follow, string $summary, float $salary, string $path, int $printable ="1", string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper

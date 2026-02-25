@@ -1,6 +1,9 @@
 <?php
+use com\igkdev\projects\ForemJobDashboard\ContactDataInfo;
+use com\igkdev\projects\ForemJobDashboard\EnumAuthorizations;
 use com\igkdev\projects\ForemJobDashboard\JobDocTypes as ForemJobDashboardJobDocTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobCategories as ModelsJobCategories;
+use com\igkdev\projects\ForemJobDashboard\Models\JobContacts;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDoctypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
@@ -10,91 +13,96 @@ use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes;
 use com\igkdev\projects\ForemJobDashboard\SourceTypes as ForemJobDashboardSourceTypes;
+use com\igkdev\projects\ForemJobDashboard\System\IO\Storage;
+use IGK\Helper\Activator;
+use IGK\Helper\JSon;
+use IGK\Models\Authorizations;
 use IGK\System\Html\HtmlAutocompleteValues;
+use IGK\System\Http\Request;
 use IGK\System\IO\Path;
 use IGK\System\Modules;
-
 use function igk_resources_gets as __;
 use function igk_html_host as _h;
 /**
  * @var mixed $t
  */
-
 $modules->require(Modules::igk_ios_SfSymbols());
-
 /**
  * @type IJobPostData
  * @property string $title
  * @property string $desc
  */
- include_once $ctrl::getViewDir().'/.auth.php';
- if (igk_server()->method('POST') &&  igk_getr("btn-delete")){ 
+include_once $ctrl::getViewDir() . '/.auth.pinc';
+if (igk_server()->method('POST') &&  igk_getr("btn-delete")) {
     $id = igk_getv($params, 0);
-    if ($job = Jobs::GetCache(Jobs::FD_ID, $id)){
+    if ($job = Jobs::GetCache(Jobs::FD_ID, $id)) {
         $job->delete();
         igk_navto($ctrl::uri('@/jobs'));
     }
 }
- igk_view_handle_actions($fname, [
-    'docs' => function (Jobs $job) use (& $params, $ctrl, $fname){
-        $store = function($job, $s, $responseType, $force_insert=false){
-              $cond = [
+igk_view_handle_actions($fname, [
+    'docs' => function (Jobs $job) use (&$params, $ctrl, $fname) {
+        $store = function ($job, $s, $responseType, $force_insert = false) {
+            $cond = [
                 JobDocs::FD_JOB_ID => $job->id,
                 JobDocs::FD_JOB_DOC_TYPE_ID => $responseType->id,
             ];
-            if (!$force_insert && ($hvi = JobDocs::select_row($cond))){
+            if (!$force_insert && ($hvi = JobDocs::select_row($cond))) {
                 $hvi->{JobDocs::FD_VALUE} =  $s;
                 $hvi->save();
-                igk_wln('update ', $hvi->to_array(), $s);
+                // igk_wln('update ', $hvi->to_array(), $s);
             } else {
                 $cond[JobDocs::FD_VALUE] = $s;
-                JobDocs::insert( $cond);
-                igk_wln('insert ');
+                JobDocs::insert($cond);
             }
         };
-        // igk_wln("handler.....docs");
         $params = [$job->{Jobs::FD_ID}];
         $tid = JobDoctypes::GetCache('id', igk_getr('type'));
-    
-        if (($file = igk_getv($_FILES, 'file')) && ($file['error']==0)){
-            $ext = '.pdf';
-            $path = uniqid('doc').$ext;
-
-            $dir = Path::Combine($ctrl->getDataDir(), $ctrl->getUserProfile()->model()->clLogin);
-            igk_io_move_uploaded_file($file['tmp_name'], Path::Combine($dir,  $path));
-            $s =  json_encode((object)[ 
+        if (($file = igk_getv($_FILES, 'file')) && ($file['error'] == 0)) {
+            $type = igk_getv($file, 'type') ?? 'application/pdf';
+            $ext = igk_getv(['application/pdf'=>'.pdf'], $type);
+            $path = uniqid('doc') . $ext; 
+            // retrieve current login path
+            $dir = $ctrl->currentLoginPath();
+            $storage = new Storage($dir, $ctrl);
+            $storage->moveUpload($file['tmp_name'], $path);
+            $s =  json_encode((object)[
                 'path' => $path,
                 'type' => $file['type'],
                 'size' => $file['size']
-            ], JSON_UNESCAPED_UNICODE); 
-            $store($job, $s, $tid);  
+            ], JSON_UNESCAPED_UNICODE);
+            $store($job, $s, $tid);
         }
-        if ($msg = igk_getr('msg')){
+        else if ($msg = igk_getr('msg')) {
             $msg = str_replace("\r", "", $msg);
             $s =  json_encode((object)[
                 'content' => $msg,
                 'type' => 'template',
                 'size' => strlen($msg)
             ], JSON_UNESCAPED_UNICODE);
-            $store($job, $s, $tid);          
+            $store($job, $s, $tid);
         }
-        igk_navto($ctrl::uri($fname.'/'.$job->{Jobs::FD_ID}));
+        igk_navto($ctrl::uri($fname . '/' . $job->{Jobs::FD_ID}));
     },
-    'contact' => function (Jobs $job)  use (& $params,$ctrl, $fname){
-        // igk_wln("handler.....contact");
-        $params = [$job->{Jobs::FD_ID}];
-        igk_navto($ctrl::uri($fname.'/'.$job->{Jobs::FD_ID}));
+    'contact' => function (Jobs $job, ?Request $request = null)  use (&$params, $ctrl, $fname) {
+        if (!$request->method('POST')) {
+            return;
+        }
+        $data = $request->getFormData();
+        $obj = igk_extract_obj($data, 'name|email|phone|address');
+        $l = Activator::CreateNewInstance(ContactDataInfo::class,$obj);
+        $r = JobContacts::Add('-', $obj->name, null, null, JSon::EncodeWithNoEmpty($l)); 
+        if ($r) {
+            $job->{JOBS::FD_CONTACT_ID} = $r->{JobContacts::FD_ID};
+            $job->save();
+        }
+        igk_navto($ctrl::uri($fname . '/' . $job->{Jobs::FD_ID}));
     }
 ], $params);
 if (!$params) {
     $t->div()->panel()->danger()->Content = __('Not allowed');
     return;
 }
-
-
-
-
-
 $id = igk_getv($params, 0);
 $row = Jobs::GetCache(Jobs::FD_ID, $id);
 if ($request->method('POST')) {
@@ -109,8 +117,8 @@ if ($request->method('POST')) {
     // }
     if ($obj->title) {
         $desc = $obj->description;
-        $desc = str_replace("\r","",$desc);
-        $obj->description = preg_replace("/\n+/","\n", $desc);
+        $desc = str_replace("\r", "", $desc);
+        $obj->description = preg_replace("/\n+/", "\n", $desc);
         $e_utility = $ctrl->modelUtility('enterprise');
         $row->{Jobs::FD_TITLE} = $obj->title;
         $row->{Jobs::FD_DESCRIPTION} = $obj->description;
@@ -122,30 +130,28 @@ if ($request->method('POST')) {
         $row->{Jobs::FD_STATUS_ID} = $obj->status ?? $row->{Jobs::FD_STATUS_ID};
         $e = $obj->enterprise;
         $c_eid = Jobs::FD_ENTERPRISE_ID;
-        $row->{$c_eid} = $e ? $e_utility->registerEnterprise($e) : null; 
-        $row->{Jobs::FD_CATEGORY_ID} = $obj->category;// ?? ModelsJobCategories::GetCache()
+        $row->{$c_eid} = $e ? $e_utility->registerEnterprise($e) : null;
+        $row->{Jobs::FD_CATEGORY_ID} = $obj->category; // ?? ModelsJobCategories::GetCache()
         $row->{Jobs::FD_TYPE_ID} = $obj->regtype;
         $row->save();
-        if ($obj->forem_ref){
-            JobForemJobs::AddIfNotExists($row->id, $obj->forem_ref); 
+        if ($obj->forem_ref) {
+            $r = JobForemJobs::AddIfNotExists($row->id, $obj->forem_ref);
         }
     }
 }
-if (!$row){
-    $t->div()->panel()->content = 'Missing Entries';
+if (!$row) {
+    $t->div()->panel()->content = __('Missing Entries');
     return;
 }
-$forem_ref = null;
-if ($c = JobForemJobs::select_all([JobForemJobs::FD_JOB_ID=>$row->id])){
-    $forem_ref = $c[0]->{JobForemJobs::FD_REFERENCE};
+$forem_ref = $row->foremReference();
+// null;
+// if ($c = JobForemJobs::select_all([JobForemJobs::FD_JOB_ID => $row->id])) {
+//     $forem_ref = $c[0]->{JobForemJobs::FD_REFERENCE};
+// }
+// igk_wln(json_encode(compact('forem_ref')));
+if ($header = $ctrl->getEnvParam('header')) {
+    _h($header->top, _h('li > a', [$ctrl::uri('@/jobs/add')], __('add')),);
 }
-
-
-if ($header = $ctrl->getEnvParam('header')){
-    _h( $header->top, _h('li > a', [$ctrl::uri('@/jobs/add')], __('add')),); 
-}
-
-
 $def = $doc->getTheme();
 $def['.min-h-1'] = 'min-height:100%;';
 $doc->title = 'edit - ' . htmlentities($row->title);
@@ -156,8 +162,8 @@ $b = $t->div()->container();
 $sdata = JobStatusTypes::formSelectData();
 // get enterprise 
 $edid = $row->{Jobs::FD_ENTERPRISE_ID};
-$e =(function ($edid){
-    if ($edid){
+$e = (function ($edid) {
+    if ($edid) {
         return JobEnterprises::Get(JobEnterprises::FD_ID, $edid);
     }
 })($edid);
@@ -165,16 +171,27 @@ $e =(function ($edid){
 $frow = $b->row();
 $form = $frow->col()->div()->form();
 $form['action'] = $ctrl::uri($fname . '/' . $id);
-$form['enctype']='multipart/form-data';
+$form['enctype'] = 'multipart/form-data';
 $form->label()->content = $row->{Jobs::FD_CREATE_AT};
+$fforem_attribs = [];
+if ($forem_ref && !$ctrl::isUserAllowedTo(EnumAuthorizations::update_forem_reference)){
+    $fforem_attribs = [
+        'readonly',
+        'class'=>'readonly'
+    ];
+}
 $form->fields([
     'title' => ['value' => $row->{Jobs::FD_TITLE}],
-    'enterprise'=>[
-        'value'=>$e ? $e->{JobEnterprises::FD_NAME} : null
+    'enterprise' => [
+        'value' => $e ? $e->{JobEnterprises::FD_NAME} : null
     ],
-    'forem_ref'=>['value'=>$forem_ref, 'placeholder'=>'forem reference', 
-    'label_text'=>'Forem Reference',
-    'autocomplete'=>HtmlAutocompleteValues::NOPE],
+    'forem_ref' => [
+        'value' => $forem_ref,
+        'placeholder' => 'forem reference',
+        'label_text' => 'Forem Reference',
+        'autocomplete' => HtmlAutocompleteValues::NOPE,
+        'attribs'=>$fforem_attribs
+    ],
     'description' => ['type' => 'textarea', "max-length" => 2500, 'value' => $row->{Jobs::FD_DESCRIPTION}],
     'summary' => ['type' => 'textarea', "max-length" => 2500, 'value' => $row->{Jobs::FD_SUMMARY}],
     'from' => [
@@ -182,107 +199,122 @@ $form->fields([
         'selected' => $row->{Jobs::FD_FROM_ID},
         'data' => array_merge(JobSourceTypes::formSelectData(), [])
     ],
-    'status'=>[
+    'status' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_STATUS_ID},
-        'data' => array_merge($sdata, []) 
+        'data' => array_merge($sdata, [])
     ],
-    'regtype'=>[
+    'regtype' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_TYPE_ID},
         'data' => JobRegisterTypes::formSelectData()
     ],
-     'category'=>[
+    'category' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_CATEGORY_ID},
         'data' => ModelsJobCategories::formSelectData()
     ]
 ]);
 // igk_wln_e("selected reg type ", $row->{Jobs::FD_TYPE_ID});
-$form->actionbar()->host(function($a){
+$form->actionbar()->host(function ($a) {
     $a->submit('', __('update'))->setClass('dispib');
     $a->submit('btn-delete', __('delete'))->setClass('dispib');
 });
-
 $col = $frow->col();
 $col['class'] = 'dispflex.flex-column';
 $form = $col->div()->form();
-$form['action'] = $ctrl::uri($fname.'/docs/'.$id);
-$form['enctype']='multipart/form-data';
+$form['action'] = $ctrl::uri($fname . '/docs/' . $id);
+$form['enctype'] = 'multipart/form-data';
 // + | ------------------------------------------------
 // + | get document 
 // + |
-$docs = JobDocs::select_all([JobDocs::FD_JOB_ID=>$id]);
+$docs = JobDocs::select_all([JobDocs::FD_JOB_ID => $id]);
 $p = $form->panel();
 $p->xmlnode('code')->Content = __("File or Text-message");
 $p->remove();
-$response = ''; 
+$response = '';
 $default_response = ForemJobDashboardJobDocTypes::RESPONSE();
-if ($rp = JobDocs::select_row([JobDocs::FD_JOB_ID=>$id, JobDocs::FD_JOB_DOC_TYPE_ID=> $default_response? $default_response->id :null ])){
-    if ($ts = json_decode($rp->value)){
-        if ($ts->type == 'template'){
-            $response = $ts->content;
+if ($rp = JobDocs::select_row([JobDocs::FD_JOB_ID => $id, JobDocs::FD_JOB_DOC_TYPE_ID => $default_response ? $default_response->id : null])) {
+    if ($ts = json_decode($rp->value)) {
+        if ($ts->type == 'template') {
+            //$response = $ts->content;
         }
-    } 
- } 
+    }
+}
 $form->fields([
-    ['type'=>'fieldset', 'legend'=>'docs'],
-    'jid'=>['type'=>'hidden','value'=>$id],
-    'type'=>[
-        'type'=>'select',
-        'data'=> JobDoctypes::formSelectData()
+    ['type' => 'fieldset', 'legend' => 'docs'],
+    'jid' => ['type' => 'hidden', 'value' => $id],
+    'type' => [
+        'type' => 'select',
+        'data' => JobDoctypes::formSelectData(),
+        'value'=> $default_response ? $default_response->id : null
     ],
     $p,
-    'file'=>['type'=>'file'],
-    'msg'=>['type'=>'textarea', 'value'=>$response]
+    'file' => ['type' => 'file'],
+    'msg' => ['type' => 'textarea', 'value' => $response]
 ]);
-$form->actionbar()->host(function($a){
+$form->actionbar()->host(function ($a) {
     $a->submit('', __('update'))->setClass('dispib');
 });
-
-_h($col->div(), 
-    _h('ajxa.clear-docs', [$ctrl::uri('@/jobs/edit/clear-docs/'.$id)], __('clear document'))->setAttribute('method', 'post')
+// + | count njumber of columnet 
+$form->add(_h('div.counter', sprintf(__('documents: %s'), count($data->docs))));
+_h(
+    $col->div(),
+    _h('ul', _h(
+        'li > a.btn[href:'.$ctrl::uri('@/docs/').$id.']', __('view documents')
+    )),
+    _h('ajxa.clear-docs', [$ctrl::uri('@/jobs/edit/clear-docs/' . $id)], __('clear document'))->setAttribute('method', 'post')
 );
-
-
-
-
-$form->add(_h('div.counter', 'docs: '.count($data->docs)));  
-
 // new form
 $form = $frow->col()->div()->form();
-$form['action'] = $ctrl::uri($fname.'/contact/'.$id);
+$form['action'] = $ctrl::uri($fname . '/contact/' . $id);
+$m = $row->{Jobs::FD_CONTACT_ID};
+(function($form, $m, $id){
+    $d = [];
+    if ($m){
+        $r = JobContacts::GetCache(JobContacts::FD_ID, $m);
+        $info = Activator::CreateNewInstance(ContactDataInfo::class, json_decode($r->{$r::FD_DATA}));
+        if ($info instanceof ContactDataInfo){
+            $d['name'] = $info->name;
+            $d['email'] = $info->email;
+            $d['phone'] = $info->phone;
+            $d['address'] = $info->address;
+        }
+    }
 $form->fields([
-    ['type'=>'fieldset', 'legend'=>'contact'],
-    'name'=>'',
-    'email'=>'',
-    'phone'=>'',
-    ['type'=>'efieldset'],
-    'jid'=>['type'=>'hidden','value'=>$id]
+    ['type' => 'fieldset', 'legend' => __('contact')],
+        'name' => igk_getv($d, 'name', ''),
+        'email' => igk_getv($d, 'email', ''),
+        'phone' => igk_getv($d, 'phone', ''),
+        'address' => igk_getv($d, 'address', ''),
+        'contact_id'=>['type'=>'hidden', 'value'=>$m ? $m : null],
+    ['type' => 'efieldset'],
+    'jid' => ['type' => 'hidden', 'value' => $id]
 ]);
-$form->actionbar()->host(function($a){
-    $a->submit('', __('update'))->setClass('dispib');
+})($form, $m, $id);
+$form->actionbar()->host(function ($a) {
+    $a->submit('', __('update2'))->setClass('dispib');
 });
-$t->section()->container()->col()->row()->actionbar()->host(function($a, $ctrl, $id, $fname){
+$t->section()->container()->col()->row()->actionbar()->host(function ($a, $ctrl, $id, $fname) {
     $a->a()->setAttributes([
-        'class'=>'igk-btn',
-        'href'=>$ctrl::uri(dirname($fname)) 
+        'class' => 'igk-btn',
+        'href' => $ctrl::uri(dirname($fname))
     ])->Content = __('home');
     $a->a()->setAttributes([
-        'class'=>'igk-btn',
-    'href'=>$ctrl::uri(dirname($fname).'/edit/'.($id+1)) 
-])->Content = __('next');
+        'class' => 'igk-btn',
+        'href' => $ctrl::uri(dirname($fname) . '/edit/' . ($id + 1))
+    ])->Content = __('next');
 }, $ctrl, $id, $fname);
 $footer = $t->div()->container();
-
-
-_h($t->container()->col()->div(), 
-    'Follow: '.$row->follow,
-    function($n){
+_h(
+    $t->container()->col()->div(),
+    'Follow: ' . $row->follow,
+    function ($n) {
         $n->add(
-            _h('span.shared', 
+            _h(
+                'span.shared',
                 igk_html_node_usesvg('square.and.arrow.up.circle.fill'),
-                _h('label',[''], ':>presentation<:')
+                _h('label', [''], ':>presentation<:')
             )
         );
     }

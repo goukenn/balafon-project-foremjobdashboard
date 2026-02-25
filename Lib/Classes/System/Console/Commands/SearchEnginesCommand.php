@@ -3,12 +3,10 @@
 // @file: SearchEnginesCommand.php
 // @date: 20250829 14:46:49
 namespace com\igkdev\projects\ForemJobDashboard\System\Console\Commands;
-
 use com\igkdev\projects\ForemJobDashboard\Models\JobSearchEngines;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Database\Traits\ManageDatabaseTrait;
 use IGK\System\Console\Logger;
-
 /**
  * 
  * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
@@ -16,13 +14,12 @@ use IGK\System\Console\Logger;
  */
 class SearchEnginesCommand extends JobCommandBase
 {
-	var $command = '--forem-jobs:engines';
+	var $command = '--forem-job:engines';
 	var $desc='manage search engines';
 	/* var $options=[]; */
 	/* var $category = ''; */
 	var $usage = '[action] [options]';
 	use ManageDatabaseTrait;
-
 	public function getModelClass() {
 		return JobSearchEngines::class;
 	} 

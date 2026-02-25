@@ -10,4 +10,13 @@ $l['title.build/cv'] = 'CV';
 $l['title.jobs/add'] = 'Ajouter - Emploi'; 
 $l['searching data'] = 'Emploi'; 
 
- 
+$l['hit the correpondance'] = 'Cocher la case correspondante';
+$l['Job Title-Description'] = 'Intitulé du poste';
+$l['Enterprise'] = 'Entreprise';
+$l['By Phone'] = 'Par téléphone';
+$l['On Location'] = 'Sur place';
+$l['Letter or Mai'] = 'Courrier ou mail';
+$l['Follow'] = 'Suivi';
+$l['No Entries'] = 'Aucune Entrée';
+$l['Forem\'s job application: %s'] = 'Candidatures : %s';
+$l['(address + phone + person)'] = '(addresse + téléphone et nom de la personne)';

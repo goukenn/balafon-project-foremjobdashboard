@@ -115,4 +115,4 @@ while (count($list) > 0) {
 Logger::SetColorizer(new Colorize);
 Logger::print("update : " . $update);
 Logger::print(json_encode($l, JSON_PRETTY_PRINT));
-exit;
+igk_exit();

@@ -9,7 +9,7 @@
 // $xlg_screen : exta large screen size style
 // $ctrl : controller that initiate the loading
 // $css_m: target node classname
-
+// $root['--fm-table-border-color'] = 'indigo';
 $def[':root']=[
     '--igk-link-visited-color'=> '#32760F',
     '--igk-link-color'=> '#4C9129',
@@ -59,3 +59,17 @@ $def['.dispflex.alignc'] = 'justify-content: center;';
 
 
 $def['nav .menu svg'] = '{sys:dispb} margin:0 1em;';
+
+// + | PRINTING
+$PTR['body'] = 'height:auto;';
+$PTR[$css_m.''] = 'height: auto; padding:10px; font-size: 8pt; width: 100%; position:relative;';
+$PTR[$css_m.' a'] = 
+$PTR[$css_m.' a:visited'] = 
+'color: #888;';
+
+$PTR[$css_m.' table'] = '{sys:fitw}';
+$PTR[$css_m.' header nav'] = '{sys:dispn}';
+
+$def['input[type=file]'] = '{sys:dispb} margin: 1.2em 0;';
+
+$def['input[readonly], textarea[readonly]'] = 'background-color: #a8a2a2ff; border:1px solid #ddd;';

@@ -1,12 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: JobEnterprises.php
-// @date: 20250829 15:43:00
+// @date: 20251112 14:38:45
 namespace com\igkdev\projects\ForemJobDashboard\Models;
-
-
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
-
 /**
 * store enterprises
 * @package com\igkdev\projects\ForemJobDashboard\Models
@@ -18,13 +15,13 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property string $description
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `id` full column name 
-* @method static string FD_NAME() - `name` full column name 
-* @method static string FD_VAT() - `vat` full column name 
-* @method static string FD_TITLE() - `title` full column name 
-* @method static string FD_DESCRIPTION() - `description` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `id` full column name 
+* @method static string FN_NAME() - `name` full column name 
+* @method static string FN_VAT() - `vat` full column name 
+* @method static string FN_TITLE() - `title` full column name 
+* @method static string FN_DESCRIPTION() - `description` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnId() - macros function
 * @method static ?self Add(string $name, string $vat, string $title, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper

@@ -52,7 +52,7 @@
 		<Column clDefaultNull="true" clName="salary" clType="float"></Column>
 		<!-- <Column clDefault="0" clName="contract_type_id" clNotNull="true" clType="Int"></Column> -->
 		<Column clName="path" clType="varchar" clTypeLength="255" clDescription="path indication"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_contacts">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
@@ -61,11 +61,11 @@
 		<Column clName="title" clType="varchar" clTypeLength="100"></Column>
 		<Column clName="alias" clType="varchar" clTypeLength="50"></Column>
 		<Column clName="data" clType="json"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_responses">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition Description="available skills" TableName="%prefix%job_skills">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
@@ -76,26 +76,26 @@
 			clType="Int"></Column>
 		<Column clDescription="indicate this skill is subject to rate rule" clName="rate"
 			clType="Int"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
-	<DataDefinition Prefix="jbu_" TableName="%prefix%job_users">
+	<DataDefinition Prefix="jbu_" TableName="%prefix%job_users" Description="register a system user to project">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 
 		<Column clLinkColumn="clGuid" clLinkType="%sysprefix%users" clName="guid" clNotNull="true"
 			clType="GUID"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition Prefix="jbs_" TableName="%prefix%job_status_types">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 		<Column clIsUnique="true" clName="name" clNotNull="true" clType="VarChar" clTypeLength="30"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_register_types">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 
 		<Column clIsUnique="true" clName="name" clNotNull="true" clType="varchar" clTypeLength="32"></Column>
 		<Column clName="description" clType="VarChar(255)"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_enterprises" Description="store enterprises">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
@@ -104,26 +104,24 @@
 		<Column clIsUnique="true" clIsUniqueColumnMember="true" clName="vat" clType="VarChar(20)"></Column>
 		<Column clName="title" clType="varchar(150)" clDescription="denomination"></Column>
 		<Column clName="description" clType="VarChar(255)"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_sectors">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
-
 		<Column clIsUnique="true" clName="name" clNotNull="true" clType="VarChar" clTypeLength="30"></Column>
 		<Column clName="description" clType="VarChar(255)"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_user_skills">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition Description="Contract's types" TableName="%prefix%job_contract_types">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
-
 		<Column clIsUnique="true" clName="name" clNotNull="true" clType="VarChar" clTypeLength="30"></Column>
 		<Column clName="description" clNotNull="true" clType="text"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_follows">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
@@ -131,7 +129,7 @@
 		<Column clLinkColumn="id" clLinkType="%prefix%jobs" clName="job_id" clNotNull="true"
 			clType="Int"></Column>
 		<Column clName="description" clType="VarChar(255)"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_forem_jobs">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
@@ -141,20 +139,19 @@
 		<Column clIsUnique="true" clIsUniqueColumnMember="true" clName="reference"
 			clType="VarChar(15)"></Column>
 		<Column clName="description" clType="VarChar(255)"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition Description="source's from" TableName="%prefix%job_source_types">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 
 		<Column clIsUnique="true" clName="name" clType="VarChar" clTypeLength="30" clNotNull="true"></Column>
 		<Column clName="description" clType="VarChar(255)"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_skill_types">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
-
 		<Column clIsUnique="true" clName="name" clType="VarChar(35)"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_enterprises_contacts"
 		Description="Job Enterprise's contact list">
@@ -165,7 +162,7 @@
 		<Column clName="enterprise_id" clType="Int" clTypeLength="11"
 			clLinkType="%prefix%job_enterprises" clLinkColumn="id" clIsUniqueColumnMember="true"></Column>
 		<Column clName="occupation" clType="varchar(30)" clDescription="contact occupation"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_docs" Description="Job's document" Prefix="jdv_">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
@@ -174,13 +171,13 @@
 		<Column clName="job_doc_type_id" clType="Int" clTypeLength="11"
 			clLinkType="%prefix%job_doctypes" clLinkColumn="id"></Column>
 		<Column clName="value" clType="text" clDescription="message"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_doctypes" Description="Job's type of extra document"
 		Prefix="jdt_">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 		<Column clName="name" clType="varchar(30)" clIsUnique="true" clNotNull="true"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 
 	<DataDefinition TableName="%prefix%job_messages" Description="Job's messages"
@@ -189,13 +186,13 @@
 		<Column clName="offer_id" clLinkType="%prefix%jobs" clLinkColumn="id" clNotNull="true"></Column>
 		<Column clName="message_type_id" clLinkType="%prefix%job_message_types" clLinkColumn="id"></Column>
 		<Column clName="content" clType="text"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_message_types" Description="Job's message types"
 		Prefix="jmst_">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 		<Column clName="name" clType="varchar(30)" clNotNull="true" clIsUnique></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 
 	<DataDefinition TableName="%prefix%job_categories" Description="Job's categories"
@@ -204,7 +201,7 @@
 		<Column clName="name" clType="varchar(150)" clNotNull="true" clIsUnique></Column>
 		<Column clName="short_name" clType="varchar(4)" clIsUnique></Column>
 		<Column clName="description" clType="text"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_motivations" Description="Job's categories"
 		Prefix="jmt_">
@@ -214,7 +211,7 @@
 		<Column clName="user_id" clType="Int" clLinkType="%prefix%job_users" clLinkColumn="id"
 			clNotNull="true"></Column>
 		<Column clName="data" clType="json"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 
 
@@ -224,7 +221,7 @@
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 		<Column clName="name" clType="varchar(150)" clNotNull="true" clIsUnique></Column>
 		<Column clName="description" clType="text"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_enterprise_glue_categories"
 		Description="enterprise list of categories"
@@ -234,7 +231,7 @@
 			clLinkColumn="id" clNotNull="true" clIsUniqueColumnMember></Column>
 		<Column clName="enterprise_cat_id" clLinkType="%prefix%job_enterprise_categories"
 			clType="Int" clLinkColumn="id" clNotNull="true" clIsUniqueColumnMember></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_user_settings" Description="user's settings"
 		Prefix="job_uss_">
@@ -243,7 +240,7 @@
 			clNotNull="true" clIsUniqueColumnMember></Column>
 		<Column clName="name" clType="varchar(64)" clNotNull="true" clIsUniqueColumnMember></Column>
 		<Column clName="value" clType="text"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 
 
@@ -251,7 +248,7 @@
 		Prefix="job_exp_">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 		<Column clName="title" clType="varchar(110)"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 
 	<DataDefinition TableName="%prefix%job_experience_details" Description="user's experiences categories details"
@@ -259,7 +256,7 @@
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 		<Column clName="experience_id" clLinkType="%prefix%job_experiences" clLinkColumn="id" clNotNull ></Column>
 		<Column clName="value" clType="text"></Column>
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 
 	<DataDefinition TableName="%prefix%job_search_engines" Description="job's engines"
@@ -268,7 +265,7 @@
 		<Column clName="name" clType="varchar(100)" clIsUnique></Column>
 		<Column clName="url" clType="text" clDescription="engine url"></Column>
 		<Column clName="description" clType="text" clDescription="description"></Column>		
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_interims" Description="job's engines"
 		Prefix="job_inter_">
@@ -277,7 +274,7 @@
 		<Column clName="url" clType="text" clDescription="engine url"></Column>
 		<Column clName="description" clType="text" clDescription="description"></Column>		
 		<Column clName="picture" clType="text" clDescription="interims pictures"></Column>		
-		<GenColumn name="updatetime"></GenColumn>
+		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 
 

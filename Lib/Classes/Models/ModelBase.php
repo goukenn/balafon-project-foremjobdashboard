@@ -1,11 +1,9 @@
 <?php 
 // @author: C.A.D. BONDJE DOUE
-// @date: 20250829 15:43:00
+// @date: 20251112 14:38:45
 namespace com\igkdev\projects\ForemJobDashboard\Models; 
 use IGK\Models\ModelBase as Model;
 use ForemJobDashboardController;
-
-
 /** 
  */
 abstract class ModelBase extends Model {

@@ -3,7 +3,6 @@
 // @file: UserConfigSetting.php
 // @date: 20250825 15:42:12
 namespace com\igkdev\projects\ForemJobDashboard;
-
 use com\igkdev\projects\ForemJobDashboard\Models\JobUserSettings;
 use com\igkdev\projects\ForemJobDashboard\UserConfigSettingData;
 use Error;
@@ -14,7 +13,6 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Reflection\Helper\ReflectionHelper;
 use ReflectionException;
-
 /**
  * 
  * @package com\igkdev\projects\ForemJobDashboard
@@ -23,13 +21,11 @@ use ReflectionException;
 class UserConfigSetting
 {
     private $m_user_profile;
-
     /**
      * display title 
      * @var mixed
      */
     var $display;
-
     /**
      * 
      * @var mixed
@@ -66,19 +62,16 @@ class UserConfigSetting
      * @var ?string
      */
     var $signature;
-
     /**
      * extra data 
      * @var ?object
      */
     var $data;
-
     /**
      * 
      * @var ?object
      */
     var $social_networks;
-
     var $linkedin;
     var $facebook;
     var $monsterbe;
@@ -96,19 +89,15 @@ class UserConfigSetting
      * @var ?string[]
      */
     var $skills;
-
     /**
      * 
      * @var mixed
      */
     var $drivingLicenses;
-
-
     public function __debugInfo()
     {
         return ReflectionHelper::DebugOnlyPublicMember($this);
     }
-
     /**
      * retrieve job user settings configuration 
      * @param mixed $user 		
@@ -181,7 +170,6 @@ class UserConfigSetting
                     $c->{$T1::FD_VALUE} = $v;
                     $c->update();
                 }
-                
             } 
         }
     }
