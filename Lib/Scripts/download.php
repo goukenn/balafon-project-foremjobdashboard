@@ -13,6 +13,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\JobForemJobs;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\Models\JobDoctypes as ModelJobDoctypes;
 use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 use IGK\Helper\IO;
 use IGK\Helper\ViewHelper;
@@ -20,10 +21,94 @@ use IGK\Models\Users;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\Modules;
+use IGK\System\Regex\Replacement;
 igk_require_module(Modules::igk_pdflib());
+$ctrl = ForemJobDashboardController::ctrl(true);
+$user = (isset($user) ? igk_get_user_bylogin($user->clLogin) : null) ?? ForemJobDashboardController::SignInUser();
 $e_utility = $ctrl->modelUtility('enterprise');
 $dir = $output ?? ViewHelper::Dir();
+$v_tab_dump_responses = [];
+$v_tab_dump_responses[] = <<<EOF
+Objet : Votre candidature - Poste de %title%
+Madame, Monsieur %name%,
+Nous vous remercions pour votre candidature au poste de %title%.
+Votre profil a retenu notre attention et nous avons apprécié la richesse de votre parcours. Néanmoins, nous avons le regret de vous informer que nous ne pourrons pas donner suite à votre candidature, ayant retenu d'autres profils correspondant plus étroitement aux exigences spécifiques du poste.
+Nous vous remercions de votre compréhension et vous souhaitons une excellente continuation dans vos démarches professionnelles.
+Cordialement,
 
+%RH Service%
+EOF;
+$v_tab_dump_responses[] = <<<EOF
+Objet : Réponse à votre candidature
+Bonjour %name%,
+Je vous remercie sincèrement pour l'intérêt que vous avez manifesté envers notre entreprise et pour le temps que vous avez consacré à votre candidature pour le poste de [Intitulé du poste].
+J'ai eu le plaisir de découvrir votre parcours qui reflète une expérience professionnelle riche et des compétences indéniables.
+Cependant, après une analyse minutieuse de toutes les candidatures reçues, je dois vous informer que nous avons fait le choix de poursuivre le processus avec d'autres profils dont l'expérience correspond plus étroitement aux spécificités techniques du poste. Cette décision a été difficile à prendre et ne diminue en rien la qualité de votre dossier.
+Je tiens à vous encourager vivement dans vos recherches et reste persuadé(e) que vous trouverez rapidement une opportunité qui saura valoriser pleinement vos talents.
+Avec mes meilleurs vœux de réussite,
+
+%RH Service%
+EOF;
+$v_tab_dump_responses[] = <<<EOF
+Objet : Suite à votre candidature - %title%
+Madame, Monsieur %name%,
+Nous vous remercions chaleureusement pour votre candidature au poste de %title% au sein de notre structure.
+Nous avons étudié avec grand intérêt votre CV qui met en évidence un parcours professionnel remarquable et des compétences de qualité.
+Malheureusement, nous ne sommes pas en mesure de donner une suite positive à votre candidature pour ce poste précis. Face au nombre important de candidatures reçues, nous avons dû faire des choix en fonction de critères très spécifiques liés aux besoins immédiats de l'équipe.
+Cependant, votre profil a particulièrement retenu notre attention et nous souhaiterions garder contact avec vous. Avec votre accord, nous conserverons votre candidature dans notre vivier de talents et vous recontacterons dès qu'une opportunité plus adaptée à votre profil se présentera.
+Nous vous souhaitons beaucoup de succès dans vos projets professionnels.
+Bien cordialement,
+
+%RH Service%
+EOF;
+$v_tab_dump_responses[] = <<<EOF
+Object: response à votre candidature
+Madame, Monsieur,
+Votre cadidature a été prise en compte au poste de %title%. 
+Nous reviendrons vers vous dans les plus bref délais.
+Cordialement,
+
+%RH Service%
+EOF;
+$v_tab_dump_responses[] = <<<EOF
+Object: confirmation de la réception de la candidature - %title%
+Bonjour,
+
+Nous accusons bonne réception de votre CV et vous en remercions.
+
+Celui-ci sera examiné attentivement dans les plus brefs délais.
+
+Sans retour de notre part, cela indiquera que votre profil ne correspond pas à nos besoins actuels. Néanmoins, il sera conservé dans notre réserve de recrutement pour de futures opportunités.
+
+A bientôt,
+EOF;
+$v_tab_dump_responses[] = <<<EOF
+Object: Candidature au poste de %title%
+
+Merci d'avoir posé votre candidature au poste de %title%
+Nous avons bien reçu votre candidature.
+Nous vous tiendrons au courant de la suite de la procédure.
+
+Cordialement,
+L'équipe de HR
+EOF;
+function get_dump_response($responses,  $title, ?string $enterprise = null, ?string $name = null, ?string $rh_service = null)
+{
+    $src = $responses[rand(0, count($responses) - 1)];
+    $rp = new Replacement;
+    if (is_array($title)) {
+        foreach ($title as $k => $v) {
+            $rp->add('/%' . $k . '%/', $v ?? '');
+        }
+    } else {
+        $rp->add('/%title%/', $title ?? '');
+        $rp->add('/%enterprise%/', $enterprise ?? '');
+        $rp->add('/%name%/', $name ?? '');
+        $rp->add('/%RH Service%/', $rh_service ?? '');
+    }
+    return $rp->replace($src);
+}
+// igk_wln_e(get_dump_response($responses, 'java'));
 /// comming from test - 
 if (!function_exists("igk_io_rmdir")) {
     /**
@@ -89,9 +174,7 @@ if (!function_exists("igk_io_rmdir")) {
         return igk_count($kdir) == 0;
     }
 }
-$ctrl = ForemJobDashboardController::ctrl(true);
-$user = (isset($user) ? igk_get_user_bylogin($user->clLogin) : null) ?? ForemJobDashboardController::SignInUser();
-
+igk_wln(__FILE__ . ":" . __LINE__,  "lk");
 if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
     $cuser = $main->registerUser($user);
     $tempdir = (isset($output) ? $output : null) ??  igk_io_tempdir('forem');
@@ -125,9 +208,8 @@ if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
             $m = $date[1];
             $d = $date[2];
             // exported date
-            $path = 
-                isset($forem_presentation) && $forem_presentation?
-                $path = Path::Combine(...[$m.'_'.$y]):
+            $path = isset($forem_presentation) && $forem_presentation ?
+                $path = Path::Combine(...[$y,  $m.'_'.$y]) :
                 $path = Path::Combine(...[$y, $m, $d]); // exported date 
             $tdir = Path::Combine($tempdir, $path);
             if (!isset($folders[$path])) {
@@ -151,8 +233,8 @@ if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
                 Logger::danger('missing enterprise for - ' . $row->id);
                 $missing_def[] = $row->id;
                 $missing_enterprise++;
-                $enterprise =JobEnterprises::createEmptyRow();
-                $enterprise->name = 'NOT_DEFINE.'.$row->id;
+                $enterprise = JobEnterprises::createEmptyRow();
+                $enterprise->name = 'NOT_DEFINE.' . $row->id;
                 //continue;
             }
             $c = $printer->printJob($row);
@@ -164,7 +246,7 @@ if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
             igk_io_w2file($tfile = Path::Combine($mark, "details_offre_" . $row->id . '_' . $count_ . ".pdf"), $c);
             $store = true;
             // + | create and update file to time 
-            if ($r = (new DateTime($row->Create_At))->getTimestamp()){
+            if ($r = (new DateTime($row->Create_At))->getTimestamp()) {
                 @touch($tfile, $r);
             }
             if ($docs) {
@@ -193,7 +275,7 @@ if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
             if ($responses) {
                 $r = json_decode($responses->value, false, 512);
                 if ($r->type == 'template') {
-                    $src = $r->content; 
+                    $src = $r->content;
                     $rep->job_title = $row->title;
                     $src = $rep->treat($src);
                     igk_io_w2file(
@@ -204,25 +286,36 @@ if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
                     $ext = igk_getv([
                         'application/pdf' => '.pdf'
                     ], $r->type, '.pdf');
-                    igk_io_w2file(
-                        Path::Combine($mark, 'response' . $ext),
-                        file_get_contents(Path::CombineAndFlattenPath($ctrl->getResponseDir(), $r->path))
-                    );
+                    if (file_exists($tfile = Path::CombineAndFlattenPath($ctrl->getResponseDir(), $r->path))) {
+                        igk_io_w2file(
+                            Path::Combine($mark, 'response' . $ext),
+                            file_get_contents($tfile)
+                        );
+                    }
                 }
             } else {
-                if ([0, 1][rand(0, 1)])
-                    $lib['response.txt'] = "Votre cadidature a été prise en compte. ";
+                if ([0, 1][rand(0, 1)]) {
+                    $ts = get_dump_response($v_tab_dump_responses, $row->title, $name,  $rep->name);
+                    $main->storeJobDocument(
+                        $row,
+                        json_encode((object)[
+                            'content' => $ts,
+                            'type' => 'template',
+                            'size' => strlen($ts)
+                        ], JSON_UNESCAPED_UNICODE),
+                        ModelJobDoctypes::GetCache(ModelJobDoctypes::FD_NAME, JobDocTypes::RESPONSE)
+                    );
+                    $lib['response.txt'] = $ts;
+                }
             }
             if (isset($row->motivation))
                 $lib['motivation.txt'] = $row->motivation;
-            //     $lib['cv.docx'] = "CV.";
-            //igk_io_w2file(Path::Combine($tdir, "motivation.txt"), ''); 
             foreach ($lib as $n => $m) {
                 igk_io_w2file(Path::Combine($mark, $n), $m);
                 $store = true;
             }
             $count_++;
-        } 
+        }
     }
     if ($outzip) {
         $odir = igk_io_tempdir('forem');

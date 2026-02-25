@@ -1,6 +1,5 @@
 <?php
 namespace com\igkdev\projects\ForemJobDashboard\Database;
-
 use com\igkdev\projects\ForemJobDashboard\Models\JobUserSettings;
 use IGK\Models\Users;
 class Utility{
@@ -14,7 +13,6 @@ class Utility{
      */
     public static function GetUserSetting($user, string $v){
         $T1 = JobUserSettings::class;
-
         /**
          * @var mixed
          */

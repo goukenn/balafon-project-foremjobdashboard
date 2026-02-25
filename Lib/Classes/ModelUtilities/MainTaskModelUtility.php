@@ -4,17 +4,27 @@
 // @desc: module utility MainTaskModelUtility
 // @date: 20240904 20:10:49
 namespace com\igkdev\projects\ForemJobDashboard\ModelUtilities;
+use com\igkdev\projects\ForemJobDashboard\ContactDataInfo;
 use com\igkdev\projects\ForemJobDashboard\ContractTypes;
+use com\igkdev\projects\ForemJobDashboard\Models\JobContacts;
+use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
+use com\igkdev\projects\ForemJobDashboard\Models\JobDoctypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobForemJobs;
+use com\igkdev\projects\ForemJobDashboard\Models\JobResponses;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobUsers;
 use com\igkdev\projects\ForemJobDashboard\RegisterType;
 use com\igkdev\projects\ForemJobDashboard\SourceTypes;
 use com\igkdev\projects\ForemJobDashboard\StatusTypes;
 use IGK\Database\DataAdapterBase;
+use IGK\Database\DbConstants;
+use IGK\Database\DbQueryCondition;
+use IGK\Helper\Activator;
 use IGK\Models\Users;
 use IGK\System\Database\DbUtils;
 use IGKDbModelUtility;
+use IGKException;
 ///<summary>view entry point</summary>
 /**
  * view entry point
@@ -65,7 +75,7 @@ class MainTaskModelUtility extends IGKDbModelUtility
      * @param null|int $timespan 
      * @return object|null|void 
      */
-    public function addJob(string $title, JobUsers $user, ?int $timespan = null, ?string $description=null)
+    public function addJob(string $title, JobUsers $user, ?int $timespan = null, ?string $description = null)
     {
         $date = !is_null($timespan) && ($timespan > 0) ? date('Y-m-d', $timespan) : JobUsers::FC_NOW;
         $d = [
@@ -83,12 +93,12 @@ class MainTaskModelUtility extends IGKDbModelUtility
             Jobs::FD_CREATE_AT => $date,
             Jobs::FD_UPDATE_AT => $date
         ];
-        $l = Jobs::insert($d); 
+        $l = Jobs::insert($d);
         return $l;
     }
     public function isForemJobs(Jobs $job): bool
     {
-        if (($user = JobUsers::GetCache(JobUsers::FD_ID, $job->user_id)) instanceof JobUsers){
+        if (($user = JobUsers::GetCache(JobUsers::FD_ID, $job->user_id)) instanceof JobUsers) {
             $ids = self::GetOwnerForemReferenceJob($user);
             return in_array($job->id, $ids->keys);
         }
@@ -113,7 +123,7 @@ class MainTaskModelUtility extends IGKDbModelUtility
     }
     public static function GetOwnerForemReferenceJob(JobUsers $user)
     {
-        if($ids = igk_getv(self::$sm_ownerForems, $user->id)){
+        if ($ids = igk_getv(self::$sm_ownerForems, $user->id)) {
             return $ids;
         }
         $q = JobForemJobs::prepare(JobForemJobs::table())
@@ -140,5 +150,96 @@ class MainTaskModelUtility extends IGKDbModelUtility
         $r = (object)compact('keys', 'rows');
         self::$sm_ownerForems[$user->id] = $r;
         return $r;
+    }
+    /**
+     * 
+     * @param mixed $user 
+     * @param null|string $search 
+     * @return mixed 
+     */
+    public function selectAllUserJobApplication(JobUsers $user, ?string $search = null)
+    {
+        $cond = [];
+        $options = [
+            'OrderBy' => [
+                Jobs::FD_CREATE_AT
+            ],
+            // DbConstants::CALLBACK_OPTS=>function($a){                                
+            //     return $a;
+            // }
+        ];
+        $cond[Jobs::FD_USER_ID] = $user->id;
+        if ($search) {
+            $cond[] = DbQueryCondition::Create([
+                Jobs::FD_CREATE_AT => $search . '%',
+                Jobs::FD_TITLE => $search
+            ], DbQueryCondition::OP_OR);
+        }
+        return Jobs::select_all($cond, $options);
+    }
+    /**
+     * 
+     * @param mixed $id 
+     * @return {row: JobContacts, data: ContactDataInfo}
+     */
+    public function getContact($id)
+    {
+        $v = JobContacts::GetCache(JobContacts::primaryKey(), $id);
+        return (object)['row' => $v, 'data' => Activator::CreateNewInstance(ContactDataInfo::class,  json_decode($v->data ?? '{}'))];
+    }
+    /**
+     * 
+     * @param Jobs $job 
+     * @return string|void 
+     */
+    public function getSourceTypeFromJob(Jobs $job)
+    {
+        if ($l = JobSourceTypes::GetCache(JobSourceTypes::FD_ID, $job->from_id)) {
+            return $l->name;
+        }
+    }
+    /**
+     * 
+     * @param mixed $user 
+     * @param null|string $search 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public function listJobs($user, ?string $search = null)
+    {
+        $ad = Jobs::model()->getDataAdapter();
+        $cond =     [
+                'jbs_user_id' => $user->jbu_id
+            ];
+        if ($search) {
+            $cond[] = DbQueryCondition::Create([
+                '@@' . Jobs::FD_CREATE_AT => $ad->escape_string($search) . '%',
+                '@@' . Jobs::FD_TITLE => '%' . $ad->escape_string($search) . '%',
+            ], DbQueryCondition::OP_OR);
+        }
+        $r = Jobs::select_all($cond);
+        return $r;
+    }
+    /**
+     * 
+     * @param Jobs $job 
+     * @param mixed $s data
+     * @param JobDoctypes $responseType 
+     * @param bool $force_insert 
+     * @return void 
+     */
+    public function storeJobDocument(Jobs $job, $s, JobDoctypes $responseType, $force_insert = false) {
+            $cond = [
+                JobDocs::FD_JOB_ID => $job->id,
+                JobDocs::FD_JOB_DOC_TYPE_ID => $responseType->id,
+            ];
+            if (!$force_insert && ($hvi = JobDocs::select_row($cond))) {
+                $hvi->{JobDocs::FD_VALUE} =  $s;
+                $hvi->save();
+                // igk_wln('update ', $hvi->to_array(), $s);
+            } else {
+                $cond[JobDocs::FD_VALUE] = $s;
+                JobDocs::insert($cond);
+            }
     }
 }

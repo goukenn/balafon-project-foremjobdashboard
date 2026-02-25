@@ -5,12 +5,11 @@
 // @view: settings/joblist.ajx
 // @date: 20250518 11:08:12
 use function igk_html_host as _h;
-$t->div()->Content = 'View : settings/joblist.ajx.phtml';
 $fields = [
     'job'=>[
-        'label_text'=>__('path phrase'),
-        'placeholder' => 'just enter your text',
-        'value'=>'just enter',
+        'label_text'=>__('Job Title'),
+        'placeholder' => __('job title'),
+        'value'=>'',
         'tabindex'=>-1,
         'attribs'=>[
             'tabindex'=>-1,
@@ -18,9 +17,9 @@ $fields = [
         ]
     ]
 ];
-$fields['location'] = [];
 $t->add(_h('div.container > form[action:$action]',function($form)use($fields){
     $form->fields($fields);
 }));
-$fields['helio'] = [];
-$t->add(_h('div.container > form[action:$action]',_h('@fields', $fields)));
+$t->add(
+_h('div.container > row > col > div', _h('a.igk-btn', [$ctrl::uri('@/')], 'open forem data'))
+);

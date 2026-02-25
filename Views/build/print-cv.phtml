@@ -1,26 +1,21 @@
 <?php
-
 use com\igkdev\projects\ForemJobDashboard\UserConfigSetting;
 use IGK\Helper\StringUtility;
 use igk\pdflib\PDFDocument;
 use IGK\System\Modules;
 $this->checkUser(false);
 $user = $ctrl->getUserProfile();
-
 $modules->require(Modules::igk_pdflib());
 $pdf = new PDFDocument;
 $tr = UserConfigSetting::DbUserSetting($user);
-
 //  $pdf->
 $pdf->fillRect("#ccc", "0", "0", "10mm", "297mm");
 $pdf->setXY(0,0);
 $pdf->b()->setStyle('top:1cm')->content = $fn = StringUtility::DisplayName( $tr->firstName, $tr->lastName) ??  $tr->display;
 $pdf->b()->setStyle('top:15mm; font-size:20pt;')->content = mb_convert_encoding( $tr->address, 'ISO-8859-1', 'UTF-8');
-
 $pdf->Author = 'C.A.D BONDJE DOUE';
 $pdf->Producer = 'BALAFON';
 $pdf->Subject = 'CV';
 $pdf->Title = $title = date('Y'). StringUtility::FuncName($fn);
 $pdf->output(null,null, $title.'.cv.pdf', true);
 igk_exit();
-

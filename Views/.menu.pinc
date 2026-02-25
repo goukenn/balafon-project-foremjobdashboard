@@ -11,5 +11,6 @@ return [
         'motivation' => '@/build/motivation',
         'cv' => '@/build/cv',
         'enterprises' => '@/enterprise-jobs',
+        'print-report'=>'@/capsulate',
         'about' => '@/about' 
     ];

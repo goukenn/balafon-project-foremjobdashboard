@@ -1,0 +1,117 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: capsulate.phtml
+// @desc: view of all jobs application formulars summary 
+// @view: capsulate
+// @date: 20251031 09:01:51
+/**
+ * @var mixed $t
+ */
+use com\igkdev\projects\ForemJobDashboard\ContactDataInfo;
+use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
+use IGK\Helper\ViewHelper;
+use function igk_resources_getsf as  __;
+use function igk_html_host as _h;
+require_once ViewHelper::Dir() . '/.auth.pinc';
+$def = $doc->getTheme();
+$def['td'] = 'padding:4px;';
+$def['td'] = $def['th'] =  'border:1px solid var(--fm-table-border-color, #ddd);';
+$def['th.desc'] = 'min-width: 350px;';
+$def['.page-break'] = 'break-after:page;';
+$doc->title = __('Job Applications');
+if ($a = $data->job_applications) {
+    $stride = $data->get('stride', 18);
+    $t->h1()->content = __('Forem\'s job application: %s', $user ? $user->display() : '');
+    $offset = 0;
+    $c = 0;
+    while (count($a) > $offset) {
+        $rows = array_slice($a, $offset, $stride);
+        $offset += $stride;
+        if (count($rows) == 0)
+            break;
+        if ($c) {
+            $t->span()->setClass('page-break');
+        }
+        $c = 1;
+        $table = $t->tablehost()->table();
+        // + | writing header 
+        _h(
+            $table->tr(),
+            _h('th[rowspan:2]', __('Date')),
+            _h('th[rowspan:2]', _h('h2',  __('Enterprise')), _h('span', __('(address + phone + person)'))),
+            _h('th.desc[rowspan:2]', __('Job Title-Description')),
+            _h('th[rowspan:2]', __('Contact')),
+            _h('th', __('By Phone')),
+            _h('th', __('On Location')),
+            _h('th', __('Letter or Mail')),
+            _h('th[rowspan:2]', __('Follow')),
+        );
+        _h(
+            $table->tr(),
+            _h('td.alignc[colspan:3]', __('hit the correpondance'))
+        );
+        if ($rows) {
+            $modelUtility = $data->modelUtility;
+            $table
+                ->loop($rows)->host(function ($n, $i) use ($modelUtility, $ctrl) {
+                    /**
+                     * @var MainTaskModelUtility $modelUtility 
+                     * 
+                     */
+                    $tr = $n->tr()->setClass('e');
+                    $contact = '';
+                    $rc = '';
+                    if ($cid = $i->{Jobs::FD_CONTACT_ID}) {
+                        $tcontact = $modelUtility->getContact($cid);
+                        $contact = implode(' ', array_filter([
+                            $tcontact->row->firstname,
+                            strtoupper($tcontact->row->lastname ?? ''),
+                        ]));
+                        $rc = implode('<br />', array_filter([
+                            $tcontact->data->address,
+                            $tcontact->data->phone
+                        ])); 
+                    } else {
+                        $contact = $modelUtility->getSourceTypeFromJob($i);
+                    }
+                    $eid = $i->{Jobs::FD_ENTERPRISE_ID};
+                    $tr->td()->content = igk_date_display_date($i->{Jobs::FD_CREATE_AT}, 'd-m-Y');
+                    $tr->td()->content = ($eid ?
+                        _h('div', JobEnterprises::GetCache(JobEnterprises::FD_ID, $eid)->{JobEnterprises::FD_NAME}) : '') 
+                        .($rc? _h('span', $rc).'': '');
+                    $tr->td()->content =
+                        sprintf(
+                            '<h2>%s</h2>',
+                            _h('a', [
+                                $ctrl::uri('@/jobs/edit/'.$i->{Jobs::FD_ID}),                                
+                            ])->setContent($i->{Jobs::FD_TITLE})
+                        );
+                        // .
+                        // (
+                            // $i->{Jobs::FD_SUMMARY} ? sprintf(
+                            //     '<span>%s</span>',
+                            //     $i->{Jobs::FD_SUMMARY})
+                            // : 
+                            //($rc? _h('span', $rc).'': '---')
+                        // )
+                        ;
+                    // JobEnterprises::GetCache(JobEnterprises::FD_ID,$i->{Jobs::FD_ENTERPRISE_ID})->{JobEnterprises::FD_NAME};
+                    $tr->td()->content = $contact; // 'cbondje@igkdev.com'; //$i->{Jobs::FD_CONTACT_ID} ; // JobEnterprises::GetCache(JobEnterprises::FD_ID,$i->{Jobs::FD_ENTERPRISE_ID})->{JobEnterprises::FD_NAME};
+                    $tr->td()->space();
+                    $tr->td()->space();
+                    $tr->td()->content = 'x';
+                    // + | follow:
+                    $tr->td()->space(); // content = $i->{Jobs::FD_CONTACT_ID} ; // JobEnterprises::GetCache(JobEnterprises::FD_ID,$i->{Jobs::FD_ENTERPRISE_ID})->{JobEnterprises::FD_NAME};
+                });
+        } else {
+            $table->tr()->td()->setAttributes([
+                'colspan' => 9,
+                'style' => 'text-align:center; border:1px solid #ddd;'
+            ])->content = __('No Entries');
+        }
+    }
+} else {
+    $t->div()->content = __('No Application result');
+}

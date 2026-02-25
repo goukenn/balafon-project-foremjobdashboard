@@ -3,10 +3,8 @@
 // @file: LetterModeleListCommand.php
 // @date: 20250822 07:19:16
 namespace com\igkdev\projects\ForemJobDashboard\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * 
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands

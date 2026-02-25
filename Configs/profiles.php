@@ -2,6 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @desc: profiles definition
 // @date: 20250210 15:58:30
+use com\igkdev\projects\ForemJobDashboard\EnumAuthorizations;
 return [
     "admin"=>[
         "read",
@@ -10,16 +11,19 @@ return [
         "patch",
         "create",
         "read",
-        "search"
+        "search",
+        "document_management"
     ],
     "provider"=>[
         "create",
         'write',
         "read",
-        "search"
+        "search",
+        EnumAuthorizations::document_management
     ],
-    "consultant"=>[
+    'consultant'=>[
         'read',
-        'search'
+        'search',
+        EnumAuthorizations::document_management
     ]
 ];

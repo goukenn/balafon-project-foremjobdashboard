@@ -12,15 +12,17 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\Regex\RegexHelper;
 ///<summary>Controller entry point</summary>
 /**
-* Controller entry point
-* @author C.A.D. BONDJE DOUE
-*/
-class ForemJobDashboardController extends ApplicationController{
+ * Controller entry point
+ * @author C.A.D. BONDJE DOUE
+ */
+class ForemJobDashboardController extends ApplicationController
+{
     /**
      * get file service in used 
      * @return FileService 
      */
-    protected function getFileService(){
+    protected function getFileService()
+    {
         return new FileService($this);
     }
     /**
@@ -30,9 +32,10 @@ class ForemJobDashboardController extends ApplicationController{
      * @return void 
      * @throws Exception 
      */
-    protected static function SignInUser($login=null){
+    protected static function SignInUser($login = null)
+    {
         $login = $login ?? igk_getv($_ENV, 'IGK_DEFAULT_USER') ?? igk_die('missing default user');
-        $user = igk_get_user_bylogin($login); 
+        $user = igk_get_user_bylogin($login);
         if (!$user) {
             $user = Users::Register([
                 Users::FD_CL_LOGIN => $login,
@@ -45,40 +48,50 @@ class ForemJobDashboardController extends ApplicationController{
      * @param Array? $info
      * @return void 
      */
-    protected function outputDownload($info=null){
-        extract(array_merge($info ?? [], ['ctrl'=>$this]));
-        return include $this->getClassesDir().'/../Scripts/download.php';
+    protected function outputDownload($info = null)
+    {
+        extract(array_merge($info ?? [], ['ctrl' => $this]));
+        return include $this->getClassesDir() . '/../Scripts/download.php';
     }
     /**
      * current login path 
+     * @param IUserProfile|null $u user
      * @return string 
      */
-    protected function currentLoginPath(){
-        $s = '';
-        $u = $this->getUserProfile();
-        if ($u){
-            $s = '/'.$u->clLogin;
-        }
+    protected function currentLoginPath(
+        $u = null
+    ): string {
+        /**
+         * @var IUserProfile|null $u
+         */
+        $s = 'store';
+        $u = $u ?? $this->getUserProfile();
+        if (($u) && ($login = $u->{'clLogin'})){
+            $s .= '/' . $login;
+        } 
         return $s;
     }
-    protected function getOfferDir(){
-        return $this->getDataDir().$this->currentLoginPath().'/db/offers/';
+    protected function getOfferDir()
+    {
+        return $this->getDataDir() . $this->currentLoginPath() . '/db/offers/';
     }
-    protected function getResponseDir(){
-        return $this->getDataDir().$this->currentLoginPath().'/db/response/';
-    } 
+    protected function getResponseDir()
+    {
+        return $this->getDataDir() . $this->currentLoginPath() . '/db/response/';
+    }
     /**
      * override forced session uri 
      * @return array<string|int, int> 
      */
-    protected function forceSessionUris(){
+    protected function forceSessionUris()
+    {
         return [
-            $this->uriPath('@/api/docs')=>1,
-            function($d){
+            $this->uriPath('@/api/docs') => 1,
+            function ($d) {
                 $l = $this->uriPath('/api');
                 $l = RegexHelper::Escape($l);
-                return preg_match('/'.$l.'/', $d);
+                return preg_match('/' . $l . '/', $d);
             }
         ];
-    } 
+    }
 }

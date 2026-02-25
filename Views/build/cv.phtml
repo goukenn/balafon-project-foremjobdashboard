@@ -4,32 +4,25 @@
 // @desc: 
 // @view: build/cv
 // @date: 20250822 15:33:54
-
 use com\igkdev\projects\ForemJobDashboard\UserConfigSetting;
-
 use function igk_resources_gets as __;
 use function igk_html_host as _h;
-
 $this->checkUser(false);
 $user = $ctrl->getUserProfile();
 $tr = UserConfigSetting::DbUserSetting($user);
-
 $form = _h('form');
 $form->fields([
     'cv' => [
         'type' => 'textarea'
     ]
 ]);
-
 $form->actionbar()->submit('btn.save' , 
 __('save'));
-
 $t->main()->add(_h(
     'container > row > col',
     _h('h1', 'CV Builder'),
     $form
 ));
-
 _h(
     $t->section(),
     _h(

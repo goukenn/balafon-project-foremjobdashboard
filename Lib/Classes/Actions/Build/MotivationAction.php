@@ -9,7 +9,6 @@ use Exception;
 use IGK\Actions\ActionBase;
 use IGK\Helper\JSon;
 use IGKException;
-
 ///<summary>view action</summary>
 /**
 * view action
