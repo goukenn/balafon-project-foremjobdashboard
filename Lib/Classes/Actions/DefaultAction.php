@@ -14,6 +14,10 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobInterims;
  */
 class DefaultAction extends ActionBase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function index_get()
     {
         $job_search_engines = JobSearchEngines::select_all();
@@ -27,6 +31,10 @@ class DefaultAction extends ActionBase
         // $c =  get_defined_vars(); 
         return compact('interims', 'job_search_engines');
     }
+
+    /**
+    * auto generate doc.
+    */
     public function logout(){
         $this->getController()->logout();
     }

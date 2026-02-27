@@ -12,7 +12,12 @@ use IGK\System\Database\Factories\FactoryBase;
 * @author C.A.D. BONDJE DOUE
 */
 class JobEnterprisesContactsFactory extends FactoryBase{
-	public function definition(): ?array{
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
+    public function definition(): ?array{
 		if (!$this->data || (count($this->data)<2)){
 			return null;
 		}

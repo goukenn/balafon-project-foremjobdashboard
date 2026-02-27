@@ -17,10 +17,19 @@ use IGK\System\Traits\ComposerFakerTrait;
 class JobContactsFactory extends FactoryBase
 {
 	use ComposerFakerTrait;
-	function can(){
+
+    /**
+    * auto generate doc.
+    */
+    function can(){
 		return rand(0,1)===1;
 	}
-	public function definition(): ?array
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
+    public function definition(): ?array
 	{
 		$v_faker = $this->getFaker();
 		$v_data = $this->can() ? new JobContactData : null;

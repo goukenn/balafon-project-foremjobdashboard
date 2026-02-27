@@ -33,15 +33,11 @@ class EnterpriseAction extends ApiActionBase
         }
         return !is_array($response);
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @return array 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return array
+    */
     function index_post($name = null)
     {
         $n = $name ?? igk_getr('enterprise');

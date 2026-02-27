@@ -38,18 +38,32 @@ use IGKException;
 class OfferDocumentAction extends ApiActionBase
 {
     use BearerAuthenticatorTrait;
+
+    /**
+    * auto generate doc.
+    * @param bool $update
+    * @param null|mixed & $token
+    * @return ?ModelBase
+    */
     protected function getUserFromToken(bool $update = true, &$token = null): ?ModelBase
     {
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $app_user
+    * @return ?IUserProfile
+    */
     protected function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile
     {
         return null;
     }
+
     /**
-     * 
-     * @return JsonResponse 
-     */
+    * auto generate doc.
+    * @return JsonResponse
+    */
     protected function emptyResponse()
     {
         return ApiResponse::EmptyJsonResponse();
@@ -117,13 +131,11 @@ class OfferDocumentAction extends ApiActionBase
         }
         return ApiResponse::EmptyJsonResponse();
     }
+
     /**
-     * 
-     * @param JobDocs $doc 
-     * @return WebFileContentResponse|void 
-     * @responses()
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return WebFileContentResponse|void
+    */
     public function documentContent(JobDocs $doc)
     {
         if (($c = $doc->value) && ($c = json_decode($c))) {
@@ -194,14 +206,11 @@ class OfferDocumentAction extends ApiActionBase
             ])
             ->execute()->to_array();
     }
+
     /**
-     * 
-     * @param Jobs $job 
-     * @param JobRegisterTypes $t 
-     * @return null|array 
-     * @throws IGKException 
-     * @responses({"200":{}, "401":{"description":"unauthorize"}})
-     */
+    * auto generate doc.
+    * @return null|array
+    */
     public function offer_change_type_post(Jobs $job, JobRegisterTypes $type)
     {
         $u = $this->currentUser;
@@ -221,11 +230,11 @@ class OfferDocumentAction extends ApiActionBase
     // * @security(["BearerAuth", "BasicAuth", "OAuth2Auth"])
     // * @security(["BearerAuth","OAuth2Auth", "BasicAuth"])
     // * @securityFlow('implicit', authorizationUrl="@/api/docs/swagger.oauth", scopes={"read":"read access", "write":"write access"})
+
     /**
-     * @responses({"200":{"content":{"application/json":{}}}})
-     * @security(["OAuth2Auth"])
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public function auth_check_post()
     {
         $token = null;

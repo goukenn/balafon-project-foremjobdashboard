@@ -6,8 +6,9 @@ namespace com\igkdev\projects\ForemJobDashboard\Database;
 use IGK\Database\SchemaBuilder\IDiagramBuilder;
 use IGK\Database\SchemaBuilder\IDiagramSchemaBuilder;
 ///<summary></summary>
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\Database
 * @author C.A.D. BONDJE DOUE
 */

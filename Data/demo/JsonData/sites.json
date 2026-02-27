@@ -1,0 +1,4664 @@
+{
+    "sites": [
+        {
+            "site": "https://lcdtech.info",
+            "name": "lcdtedch",
+            "primaryCategory": [
+                "Tool",
+                "DeadPixelCheck"
+            ]
+        },
+        {
+            "site": "https://labs.google/fx/fr/tools/whisk/project",
+            "name": "Whisk",
+            "primaryCategory": [
+                "AI",
+                "Free Generate Videos",
+                "DeadPixelCheck"
+            ]
+        },
+        {
+            "site": "https://omg.org",
+            "name": "omg",
+            "description":"object management group",
+            "primaryCategory": [
+                "Standardization"
+            ]
+        },
+        {
+            "site": "https://uiverse.io",
+            "name": "uiverse",
+            "description":"the largest library of open-source UI",
+            "primaryCategory": [
+                "WebDesign"
+            ]
+        },
+        {
+            "site": "https://www.bestsecret.com",
+            "name": "bestsecret",
+            "description":"Marchand",
+            "primaryCategory": [
+                "BestSecret"
+            ]
+        },
+        {
+            "site": "https://rendez-vous.autosecurite.be",
+            "name": "render-vous.autosecurite",
+            "description":"controle technique",
+            "primaryCategory": [
+                "WebDesign"
+            ]
+        },
+        {
+            "site": "https://joshwcomeau.com",
+            "name": "joshwcomeau",
+            "primaryCategory": [
+                "Css",
+                "MarginCollapse"
+            ]
+        },
+        {
+            "site": "https://ollama.com",
+            "name": "ollama",
+            "primaryCategory": [
+                "LLM*",
+                "AI"
+            ]
+        },
+        {
+            "site": "https://n8n.io",
+            "name": "agnent",
+            "description":"https://github.com/n8n-io/n8n",
+            "github":"https://github.com/n8n-io/n8n",
+            "primaryCategory": [
+                "LLM*",
+                "AI"
+            ]
+        },
+        {
+            "site": "https://www.flaticon.com",
+            "name": "flaticon",
+            "primaryCategory": [
+                "Icons"
+            ]
+        },
+        {
+            "site": "https://openlibrary.org/",
+            "name": "openlibrary",
+            "primaryCategory": [
+                "Book"
+            ]
+        },
+        {
+            "site": "https://coolors.co",
+            "name": "coolors",
+            "primaryCategory": [
+                "WebTool",
+                "ColorPalette"
+            ]
+        },
+        {
+            "site": "https://play.google.com",
+            "name": "play google",
+            "primaryCategory": [
+                "Android"
+            ]
+        },
+        {
+            "site": "https://docs.claude.com/en/docs/claude-code/overview#install-and-authenticate",
+            "name": "claude",
+            "primaryCategory": [
+                "AI*",
+                "Antropic",
+                "Claude"
+            ]
+        },
+        {
+            "site": "https://agilemanifest.be",
+            "name": "agile",
+            "primaryCategory": [
+                "Agile"
+            ]
+        },
+        {
+            "site": "https://developer.apple.com",
+            "name": "developer - apple",
+            "primaryCategory": [
+                "Apple"
+            ]
+        },
+        {
+            "site": "https://appstoreconnect.apple.com/apps",
+            "name": "developer - apple - distribute app ",
+            "primaryCategory": [
+                "Apple"
+            ]
+        },
+        {
+            "site": "https://reservations.tablebooker.com",
+            "name": "restorant",
+            "primaryCategory": [
+                "Restorant"
+            ]
+        },
+        {
+            "site": "https://archive.org",
+            "name": "archive",
+            "primaryCategory": [
+                "Music",
+                "Archive"
+            ]
+        },
+        {
+            "site": "https://join.com",
+            "name": "join",
+            "primaryCategory": [
+                "JobSearch"
+            ]
+        },
+        {
+            "site": "twitch.tv",
+            "name": "twitch",
+            "primaryCategory": [
+                "Community"
+            ]
+        },
+        {
+            "site": "https://chat.deepseek.com",
+            "name": "deepseek",
+            "primaryCategory": [
+                "IA"
+            ]
+        },
+        {
+            "site": "https://cdex.mu",
+            "name": "cdex",
+            "primaryCategory": [
+                "Tool",
+                "MP3Converter",
+                "Windows"
+            ]
+        },
+        {
+            "site": "https://restful-api.dev/",
+            "name": "resetfull apa ",
+            "primaryCategory": [
+                "REST*",
+                "WebTool"
+            ]
+        },
+        {
+            "site": "https://www.comparateur-energie.be",
+            "name": "comparateur-energie",
+            "primaryCategory": [
+                "Electric",
+                "Gaz"
+            ]
+        },
+        {
+            "site": "https://www.hacking-autodidacte.fr",
+            "name": "hacking-autodidacte",
+            "primaryCategory": [
+                "WireShark",
+                "Gaz"
+            ]
+        },
+        {
+            "site": "https://www.masante.belgique.be",
+            "name": "masante-belgique",
+            "primaryCategory": [
+                "MaSante"
+            ]
+        },
+        {
+            "site": "https://getuikit.com/",
+            "name": "uikit",
+            "primaryCategory": [
+                "UIKit",
+                "Javascript",
+                "FrontEnd"
+            ]
+        },
+        {
+            "site": "https://www.emu-land.net",
+            "name": "emu-lang",
+            "primaryCategory": [
+                "Emulator"
+            ]
+        },
+        {
+            "site": "https://winmap.com",
+            "name": "Winamp",
+            "primaryCategory": [
+                "Windows",
+                "MusicPlayer*"
+            ]
+        },
+        {
+            "site": "https://ui8.net",
+            "name": "ui8",
+            "primaryCategory": [
+                "Buy",
+                "UI"
+            ]
+        },
+        {
+            "site": "https://www.mondemul.me",
+            "name": "mondemul",
+            "primaryCategory": [
+                "Emulator"
+            ]
+        },
+        {
+            "site": "https://www.deezer.com",
+            "name": "deezer",
+            "primaryCategory": [
+                "Music*",
+                "Streaming"
+            ]
+        },
+        {
+            "site": "https://photobucket.com",
+            "name": "photobucket",
+            "primaryCategory": [
+                "Photo",
+                "Inspiration"
+            ]
+        },
+        {
+            "site": "https://kodi.tv",
+            "name": "kodi",
+            "primaryCategory": [
+                "IPTV"
+            ]
+        },
+        {
+            "site": "https://www.sofascore.com",
+            "name": "sofascore",
+            "primaryCategory": [
+                "Bet*",
+                "Sport"
+            ]
+        },
+        {
+            "site": "https://www.ggsport.tv",
+            "name": "sofascore",
+            "primaryCategory": [
+                "Bet*",
+                "Sport"
+            ]
+        },
+        {
+            "site": "https://themeforest.net",
+            "name": "themeforest",
+            "primaryCategory": [
+                "Web*",
+                "ThemeAdmin"
+            ]
+        },
+        {
+            "site": "https://237mons.be",
+            "name": "237mons.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://www.sketch.com",
+            "name": "sketch",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://coolors.co",
+            "name": "coolors",
+            "primaryCategory": "ColorEditor"
+        },
+        {
+            "site": "https://dev.to",
+            "name": "dev",
+            "primaryCategory": [
+                "Community*",
+                "Development"
+            ]
+        },
+        {
+            "site": "https://iosacademy.io",
+            "name": "iosacademy",
+            "primaryCategory": "Development"
+        },
+        {
+            "site": "https://colorhunt.co",
+            "name": "colorhunt",
+            "primaryCategory": "ColorEditor"
+        },
+        {
+            "site": "https://colordesigner.io",
+            "name": "colordesigner",
+            "primaryCategory": "ColorEditor"
+        },
+        {
+            "site": "https://color.adobe.com",
+            "name": "color.adobe",
+            "primaryCategory": "ColorEditor"
+        },
+        {
+            "site": "https://unsplash.com",
+            "name": "unsplash",
+            "primaryCategory": "ImageGallery"
+        },
+        {
+            "site": "https://www.bluestacks.com",
+            "name": "bluestacks",
+            "primaryCategory": "Games"
+        },
+        {
+            "site": "https://www.codeconvert.ai",
+            "name": "codeconvert",
+            "primaryCategory": [
+                "Development",
+                "CodeConverter"
+            ]
+        },
+        {
+            "site": "https://mysticmondays.com",
+            "name": "mysticmondays",
+            "primaryCategory": "Numerology"
+        },
+        {
+            "site": "https://www.sonarsource.com",
+            "name": "sonarsource",
+            "primaryCategory": [
+                "Learning",
+                "JS"
+            ]
+        },
+        {
+            "site": "https://gamers-outlet.net",
+            "name": "gamers-outlet",
+            "description": "buy of cheaper",
+            "primaryCategory": [
+                "MarchandSite",
+                "OS"
+            ]
+        },
+        {
+            "site": "https://www.1337x.to",
+            "name": "1337x",
+            "primaryCategory": "Torrent"
+        },
+        {
+            "site": "https://grab.com",
+            "name": "grab",
+            "primaryCategory": "Delivery"
+        },
+        {
+            "site": "https://js.electronforge.io",
+            "name": "electronforge",
+            "primaryCategory": [
+                "Documentation",
+                "Development",
+                "JS*"
+            ]
+        },
+        {
+            "site": "https://threejs.org",
+            "name": "threejs",
+            "primaryCategory": [
+                "JS",
+                "JSLibrary",
+                "3D"
+            ]
+        },
+        {
+            "site": "https://pinterest.com",
+            "name": "pinterest",
+            "primaryCategory": "Inspiration"
+        },
+        {
+            "site": "https://www.cpasbien.cw",
+            "name": "cpasbien",
+            "primaryCategory": "Torrent"
+        },
+        {
+            "site": "https://marketplace.visualstudio.com/manage/publishers",
+            "name": "vscode-plublisher-page",
+            "primaryCategory": [
+                "Microsoft",
+                "Development",
+                "VScode"
+            ]
+        },
+        {
+            "site": "https://play.qobuz.com/",
+            "name": "qobuz",
+            "primaryCategory": [
+                "music",
+                "Torrent"
+            ]
+        },
+        {
+            "site": "https://www.coreldrawdesign.com",
+            "name": "corel draw design",
+            "primaryCategory": [
+                "DAO"
+            ]
+        },
+        {
+            "site": "https://www.lamn.be",
+            "name": "mutualité.neutre",
+            "primaryCategory": [
+                "Mutuality",
+                "JobSearch"
+            ]
+        },
+        {
+            "site": "https://www.typescriptlang.org",
+            "name": "Typescript",
+            "primaryCategory": [
+                "ProgrammingLanguage",
+                "TypeScript"
+            ]
+        },
+        {
+            "site": "https://abvv.be",
+            "name": "abvv.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://codeburst.io",
+            "name": "codeburst",
+            "primaryCategory": "Development"
+        },
+        {
+            "site": "https://academicpositions.be",
+            "name": "academic-positions",
+            "primaryCategory": [
+                "Research",
+                "Doctor",
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://netflix.com",
+            "name": "netflix",
+            "primaryCategory": "VideoStreaming"
+        },
+        {
+            "site": "https://accountprotection.microsoft.com",
+            "name": "accountprotection.microsoft.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://epicgames.com",
+            "name": "epicgames.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://www.livecareer.co.uk",
+            "name": "livecareer.co",
+            "primaryCategory": "CV-Builder"
+        },
+        {
+            "site": "https://jobstechniquehelora.talentfinder.be/fr/self-application.aspx",
+            "name": "talentfinder.be",
+            "primaryCategory": [
+                "Job",
+                "SearchEngine"
+            ]
+        },
+        {
+            "site": "https://www.emu-land.net",
+            "name": "emu-land",
+            "primaryCategory": "Emulator"
+        },
+        {
+            "site": "https://romsfun.com",
+            "name": "romsfun",
+            "primaryCategory": "Emulator"
+        },
+        {
+            "site": "https://icons8.com",
+            "name": "icons8",
+            "primaryCategory": "icons"
+        },
+        {
+            "site": "https://federgon.be",
+            "name": "federgon",
+            "primaryCategory": "InterimManagement"
+        },
+        {
+            "site": "https://acertacareercenter.be",
+            "desc": null,
+            "name": "acertacareercenter",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://actief.be",
+            "name": "actief",
+            "primaryCategory": "Interim",
+            "status": "sa"
+        },
+        {
+            "site": "https://adecco.be",
+            "name": "adecco",
+            "primaryCategory": "Interim",
+            "title": "ADECCO PERSONNEL SERVICES",
+            "vat": "0404.221.962",
+            "status": "sa",
+            "address": "7000, Boulevard André Delvaux, 15, Mons"
+        },
+        {
+            "site": "https://adobe.com",
+            "name": "adobe.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://afjv.com",
+            "desc": "for jobs video games ",
+            "name": "afjv",
+            "primaryCategory": [
+                "VideoGame",
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://aliexpress.com",
+            "name": "aliexpress",
+            "primaryCategory": "Shopping"
+        },
+        {
+            "site": "https://alldaydevops.com",
+            "name": "alldaydevops.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://voo.be",
+            "name": "voo",
+            "primaryCategory": "Internet"
+        },
+        {
+            "site": "https://devoteam.com",
+            "name": "devoteam.com",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://editx.eu/en",
+            "name": "editx.eu",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://alye.be",
+            "name": "alye.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://am.atlassian.com",
+            "name": "am.atlassian.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://amazon.com",
+            "name": "amazon",
+            "primaryCategory": "Shopping"
+        },
+        {
+            "site": "https://amoma.com",
+            "name": "amoma.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://angular.dev",
+            "name": "angular",
+            "desc": "web framework that empowers developers to build fast, reliable applications",
+            "primaryCategory": "JSFramework"
+        },
+        {
+            "site": "https://apollographql.com",
+            "name": "apollographql.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://graphql.org",
+            "name": "graphql",
+            "primaryCategory": [
+                "Web",
+                "Development",
+                "GraphQL*"
+            ]
+        },
+        {
+            "site": "https://apple.com",
+            "name": "apple",
+            "primaryCategory": "MTC"
+        },
+        {
+            "site": "https://appoint.be",
+            "name": "appoint.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://archibat.com",
+            "desc": null,
+            "name": "archibat",
+            "primaryCategory": [
+                "Forem-Search",
+                "Architecture",
+                "France"
+            ]
+        },
+        {
+            "site": "https://artevita.view21.net",
+            "name": "artevita.view21.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://asiatekcorp.com",
+            "name": "asiatekcorp.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://atlassian.net",
+            "name": "atlassian.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://auxvieuxcrampons.org",
+            "name": "auxvieuxcrampons.org",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://b5.webredirect.org",
+            "name": "b5.webredirect.org",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://balafon.igkdev.com",
+            "name": "balafon",
+            "primaryCategory": "PhpFramework"
+        },
+        {
+            "site": "https://bantubeat.atlassian.net",
+            "name": "bantubeat.atlassian.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://be.edenred.info",
+            "name": "be.edenred.info",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "http://be.fashionjobs.com",
+            "desc": null,
+            "name": "be.fashionjobs",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://be.gsk.com",
+            "desc": null,
+            "name": "be.gsk",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://be.hudson.com",
+            "desc": null,
+            "name": "be.hudson",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://gist.github.com/whitingx/3840905",
+            "name": "git.whitingx.metas",
+            "primaryCategory": [
+                "Git",
+                "Learn",
+                "WebMetaTag"
+            ]
+        },
+        {
+            "site": "https://firebase.google.com",
+            "name": "firebase",
+            "primaryCategory": [
+                "Google",
+                "Firebase*"
+            ]
+        },
+        {
+            "site": "https://console.firebase.google.com",
+            "name": "firebase-console",
+            "primaryCategory": [
+                "Google",
+                "Firebase",
+                "FirebaseConsole"
+            ]
+        },
+        {
+            "site": "https://html.spec.whatwg.org/multipage/semantics.html",
+            "name": "web.specification",
+            "primaryCategory": [
+                "Learn",
+                "WebMetaTag"
+            ]
+        },
+        {
+            "site": "https://heroicons.com",
+            "name": "heroicons",
+            "primaryCategory": [
+                "Icons",
+                "Svg",
+                "Web"
+            ]
+        },
+        {
+            "site": "https://flowbite.com",
+            "name": "flowbite",
+            "primaryCategory": [
+                "Icons",
+                "Svg",
+                "Web",
+                "TailwindCss"
+            ]
+        },
+        {
+            "site": "https://iconoir.com",
+            "name": "iconoir",
+            "primaryCategory": [
+                "Icons",
+                "Svg",
+                "Web"
+            ]
+        },
+        {
+            "site": "https://be.indeed.com",
+            "name": "indeed",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://www.sitecom.com",
+            "name": "sitecom",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://be.kompass.com",
+            "name": "kompasse",
+            "desc": "european business directory",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://beeg.com",
+            "name": "beeg",
+            "primaryCategory": "ADT"
+        },
+        {
+            "site": "https://theporndude.com",
+            "name": "theporndude",
+            "primaryCategory": "ADT"
+        },
+        {
+            "site": "https://sharesome.com",
+            "name": "sharesome",
+            "description": "flame credit",
+            "primaryCategory": [
+                "ADT",
+                "AI"
+            ]
+        },
+        {
+            "site": "https://stability.ai",
+            "name": "stability",
+            "primaryCategory": [
+                "ADT",
+                "AI"
+            ]
+        },
+        {
+            "site": "https://www.artbreeder.com",
+            "name": "artbreeder",
+            "primaryCategory": [
+                "ADT",
+                "AI"
+            ]
+        },
+        {
+            "site": "https://pixai.art",
+            "name": "pixai",
+            "primaryCategory": [
+                "ADT",
+                "AI",
+                "FreeCredit-Everyday"
+            ]
+        },
+        {
+            "site": "https://flexboxlabs.netlify.app/",
+            "name": "flexboxlabs.netlify",
+            "primaryCategory": [
+                "Development",
+                "CSS"
+            ]
+        },
+        {
+            "site": "https://behostings.be",
+            "name": "behostings.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://behostings.com",
+            "name": "behostings.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://belgiantrain.be",
+            "name": "sncb",
+            "primaryCategory": "Public"
+        },
+        {
+            "site": "https://betuned.be",
+            "name": "betuned.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://bevopr.io",
+            "name": "bevopr.io",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://billetterie.mons.be",
+            "name": "billetterie.mons.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://bing.com",
+            "name": "bing",
+            "primaryCategory": "SearchEngine"
+        },
+        {
+            "site": "https://blablacar.com",
+            "name": "blablacar.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://blender.org",
+            "desc": null,
+            "name": "blender",
+            "primaryCategory": [
+                "DAO",
+                "3DDrawing",
+                "GNU",
+                "GPL"
+            ]
+        },
+        {
+            "name": "bnp-parisbas-fortis",
+            "title": "Bnp Parisbas Fortis",
+            "site": "https://bnpparibasfortis.be",
+            "vat": "0403.199.702",
+            "tel": "327622000",
+            "primaryCategory": "Bank",
+            "status": "sa"
+        },
+        {
+            "site": "https://bondje.igkdev.com",
+            "name": "bondje-igkdev",
+            "primaryCategory": "Development",
+            "vat": "0831.622.768",
+            "tel": "32471078643",
+            "mail": "cbondje@igkdev.com"
+        },
+        {
+            "site": "https://bongo.be",
+            "name": "bongo.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://booking.com",
+            "name": "booking.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://booking.flixbus.com",
+            "name": "booking.flixbus.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://booktwizel.com",
+            "name": "booktwizel.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://bosa.fgov.be",
+            "name": "bosa.fgov.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://bpost.be",
+            "name": "bpost.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://braintreepayments.com",
+            "name": "braintreepayments.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://braytonglobal.com",
+            "name": "braytonglobal.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://brazzer.com",
+            "name": "brazzer",
+            "primaryCategory": "ADT"
+        },
+        {
+            "site": "https://bricksboard.bleb.it",
+            "name": "bricksboard.bleb.it",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://bridgeimmigration.be",
+            "name": "bridgeimmigration.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://brusselsairlines.com",
+            "name": "brusselsairlines.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://btbvirzvge.ifvxqxhs.tk",
+            "name": "btbvirzvge.ifvxqxhs.tk",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://bttours.be",
+            "name": "bttours.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://bunq.com",
+            "name": "bunq.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://downloads.khinsider.com",
+            "name": "khinsider",
+            "primaryCategory": [
+                "GameSoundTrack"
+            ]
+        },
+        {
+            "site": "https://buyway.be",
+            "name": "buyway.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://dnschecker.org",
+            "name": "dnschecker",
+            "primaryCategory": "WebTool"
+        },
+        {
+            "site": "https://career.bpost.be",
+            "desc": null,
+            "name": "career.bpost",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://careers.un.org",
+            "desc": null,
+            "name": "careers.un",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://celside.com",
+            "name": "celside.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://celside.eu",
+            "name": "celside.eu",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://cepegra.be",
+            "name": "cepegra.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://cfwb.be",
+            "name": "cfwb.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://chatgpt.com",
+            "name": "chatgpt",
+            "primaryCategory": "AI"
+        },
+        {
+            "site": "https://circleci.com",
+            "name": "circleci.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://clearsource.eu",
+            "name": "clearsource.eu",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://cleverbridge.com",
+            "name": "cleverbridge.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://cnn.com",
+            "name": "CNN",
+            "primaryCategory": "News"
+        },
+        {
+            "site": "https://coca-cola.com/be/fr",
+            "name": "cocacola",
+            "primaryCategory": "Drinks"
+        },
+        {
+            "site": "https://code.visualstudio.com",
+            "name": "vscode",
+            "primaryCategory": [
+                "IDE"
+            ]
+        },
+        {
+            "site": "https://codeigniter.com",
+            "name": "codeigniter",
+            "primaryCategory": "PhpFramework"
+        },
+        {
+            "site": "https://codemywordpress.com",
+            "name": "codemywordpress.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://coinmama.com",
+            "name": "coinmama.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://collabo2013.com",
+            "name": "collabo2013.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://comm.telenet.be",
+            "name": "comm.telenet.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://communication.belgiantrain.be",
+            "name": "communication.belgiantrain.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://communication.eos",
+            "name": "communication.eos",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://communication.microsoft.com",
+            "name": "communication.microsoft.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://communications.paypal.com",
+            "name": "communications.paypal.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://companyweb.be",
+            "name": "companyweb",
+            "primaryCategory": "SearchEngine"
+        },
+        {
+            "site": "https://connect.sncf",
+            "name": "connect.sncf",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://connectconsulting.be",
+            "name": "connectconsulting.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://copyright.be",
+            "name": "copyright.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://copyrightapi.com",
+            "name": "copyrightapi.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://cpanel.net",
+            "name": "cpanel.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://www.atlassian.com",
+            "name": "Jira",
+            "primaryCategory": "Reporting"
+        },
+        {
+            "site": "https://downloads.khinsider.com",
+            "name": "khinsider",
+            "primaryCategory": [
+                "GameSoundTrack"
+            ]
+        },
+        {
+            "site": "https://www.webfx.com",
+            "name": "emoji",
+            "desc": "[tool for emoji](www.emoji-cheat-sheet.com)",
+            "primaryCategory": [
+                "Emoji"
+            ]
+        },
+        {
+            "site": "https://myoctocat.com",
+            "name": "myoctocat",
+            "desc": "create a custom octocat",
+            "primaryCategory": [
+                "Octocat"
+            ]
+        },
+        {
+            "site": "https://sdlmame.lngn.net",
+            "name": "sdlmame",
+            "primaryCategory": [
+                "Game",
+                "Emulator",
+                "Arcade",
+                "Rom"
+            ]
+        },
+        {
+            "site": "https://uxwing.com",
+            "name": "uxwing",
+            "primaryCategory": [
+                "Svg",
+                "Icons",
+                "WebDesign"
+            ]
+        },
+        {
+            "site": "https://crunchyroll.com",
+            "name": "crunchyroll.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://rollupjs.org",
+            "name": "rollupjs",
+            "primaryCategory": "JsTool"
+        },
+        {
+            "site": "https://csod.com",
+            "name": "csod.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://designr.com",
+            "desc": null,
+            "name": "designr",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://dacoentreprises.eu",
+            "name": "dacoentreprises.eu",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://dakim.dcls.my.id",
+            "name": "dakim.dcls.my.id",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://danone.com",
+            "desc": null,
+            "name": "danone",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://darty.com",
+            "name": "darty.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://datalist.biz",
+            "name": "datalist.biz",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://delijn.be",
+            "name": "delijn",
+            "primaryCategory": [
+                "Public",
+                "Transport"
+            ]
+        },
+        {
+            "site": "https://dell.com",
+            "name": "dell.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://deloitte.com",
+            "name": "deloitte",
+            "primaryCategory": [
+                "Bank",
+                "Forem-Search*"
+            ]
+        },
+        {
+            "site": "https://developer.mozilla.org",
+            "name": "mozilla-developer",
+            "primaryCategory": "Development"
+        },
+        {
+            "site": "https://www.developpez.com/",
+            "name": "developpez",
+            "primaryCategory": "Development"
+        },
+        {
+            "site": "https://www.lavenir.net",
+            "name": "lavenir",
+            "primaryCategory": "News"
+        },
+        {
+            "site": "https://devici.com",
+            "name": "devici.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://devsense.com",
+            "name": "devsense.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://dhiwise.com",
+            "name": "dhiwise.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "http://diagnosticompetences.iportfolio.velay.greta.fr",
+            "desc": null,
+            "name": "diagnosticompetences.iportfolio.velay.greta",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://discobar80.be",
+            "name": "discobar80.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://discoord.com",
+            "name": "discoord",
+            "primaryCategory": "SocialNetwork"
+        },
+        {
+            "site": "https://discord.com",
+            "name": "discord.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://doccle.be",
+            "name": "doccle.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://documents.manpowergroup.be",
+            "name": "documents.manpowergroup.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://dpd.be",
+            "name": "dpd",
+            "primaryCategory": "Delivery"
+        },
+        {
+            "site": "https://dynalogic.eu",
+            "name": "dynalogic.eu",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://ebay.com",
+            "name": "ebay.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://ec.europa.eu",
+            "desc": null,
+            "name": "ec.europa",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://ecolo.be",
+            "name": "ecolo",
+            "primaryCategory": "Politics party",
+            "desc": "Association pour la Promotion de l'Ecologie sur le Terrain politique",
+            "vat": "0420.577.053"
+        },
+        {
+            "site": "https://ecom.ingenico.com",
+            "name": "ecom.ingenico.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://economie.fgov.be",
+            "name": "Bank Carrefour",
+            "primaryCategory": "Public",
+            "desc": "Electric/Gas public services."
+        },
+        {
+            "site": "https://editions-eni.fr",
+            "name": "edition-eni",
+            "primaryCategory": [
+                "E-Learning",
+                "BookShopping"
+            ]
+        },
+        {
+            "site": "https://editx.eu",
+            "name": "editx.eu",
+            "primaryCategory": [
+                "JobSearchEngine",
+                "IT"
+            ]
+        },
+        {
+            "site": "https://eib.org",
+            "name": "eib",
+            "title": "european investisment bank",
+            "primaryCategory": [
+                "EuropeInstitution*",
+                "Forem-Search*"
+            ]
+        },
+        {
+            "site": "https://elao.online",
+            "name": "elao.online",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://emploi.wallonie.be",
+            "desc": null,
+            "name": "emploi.wallonie",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://engie.be",
+            "name": "engie",
+            "primaryCategory": "Public",
+            "desc": "Electric/Gas public services. ",
+            "vat": "0831.958.211",
+            "create": "2012-12-02",
+            "title": "ENGIE ENERGY MANAGEMENT"
+        },
+        {
+            "site": "https://eni.fr",
+            "name": "eni.fr",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "http://enseignement.catholique.be",
+            "desc": null,
+            "name": "enseignement.catholique",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://etnic.be",
+            "name": "etnic.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://eumail.hicloud.com",
+            "name": "eumail.hicloud.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://euroclear.com",
+            "name": "euroclear",
+            "primaryCategory": [
+                "Bank",
+                "Forem-Search*"
+            ]
+        },
+        {
+            "site": "https://euronews.com",
+            "name": "euronews",
+            "primaryCategory": "News"
+        },
+        {
+            "site": "https://europages.fr",
+            "name": "europage",
+            "desc": "european business directory",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://europarl.europa.eu",
+            "name": "europarl",
+            "title": "european parlement",
+            "primaryCategory": [
+                "EuropeInstitution*",
+                "Forem-Search*"
+            ]
+        },
+        {
+            "site": "https://european-union.europa.eu",
+            "name": "europa",
+            "desc": "europa commission",
+            "primaryCategory": [
+                "EuropeInstitution*",
+                "Forem-Search*"
+            ]
+        },
+        {
+            "site": "https://events.ovhcloud.com",
+            "name": "events.ovhcloud.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "http://experis.be",
+            "desc": null,
+            "name": "experis",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://explort.be",
+            "name": "export",
+            "desc": "Marshal plan",
+            "primaryCategory": [
+                "Forem-Search",
+                "Info"
+            ]
+        },
+        {
+            "site": "https://express.medallia.com",
+            "name": "express.medallia.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://extonglobal.net",
+            "name": "extonglobal.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://facebook.com",
+            "name": "facebook",
+            "primaryCategory": "SocialNetwork"
+        },
+        {
+            "site": "https://facebookmail.com",
+            "name": "facebookmail.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://feedback.avis",
+            "name": "feedback.avis",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://fgtb.be",
+            "name": "fgtb",
+            "primaryCategory": "Syndicat"
+        },
+        {
+            "site": "https://fibertelecom.it",
+            "name": "fibertelecom.it",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://figma.com",
+            "name": "figma.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://fimaser.be",
+            "name": "fimaser.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://finances.belgium.be/fr/E-services/Tax-on-web",
+            "name": "taxonweb",
+            "primaryCategory": "Public"
+        },
+        {
+            "site": "https://finaxys.com",
+            "name": "finaxys.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://flixbus.com",
+            "name": "flixbus.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://softload.nl",
+            "desc": "buy windows office licence",
+            "name": "softnl",
+            "primaryCategory": "DigitalLicenseKey"
+        },
+        {
+            "site": "https://www.gamers-outlet.net",
+            "desc": "buy windows/office licence",
+            "name": "gamers-outlet",
+            "primaryCategory": "DigitalLicenseKey"
+        },
+        {
+            "site": "https://forem.be",
+            "name": "forem",
+            "primaryCategory": "Forem",
+            "desc": "Office wallon de la Formation professionnelle et de l'Emploi",
+            "vat": "0236.363.165",
+            "status": "e-public",
+            "create": "1988-12-16"
+        },
+        {
+            "site": "https://forem.s05.eur1.teams",
+            "name": "forem.s05.eur1.teams",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "http://fr.dreamwall.be",
+            "desc": null,
+            "name": "dreamwall",
+            "primaryCategory": [
+                "Forem-Search",
+                "Media",
+                "Communication"
+            ]
+        },
+        {
+            "site": "https://fr.glassdoor.be",
+            "desc": null,
+            "name": "glassdoor",
+            "primaryCategory": [
+                "Forem-Search",
+                "JobSearchEngine"
+            ]
+        },
+        {
+            "site": "http://fr.keywall.be",
+            "desc": null,
+            "name": "fr.keywall",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://fuzyo.com",
+            "name": "fuzyo.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://gentisrecruitment.com",
+            "name": "gentisrecruitment.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://getbootstrap.com",
+            "name": "bootstrap",
+            "primaryCategory": "CssFramework",
+            "desc": "build fast, responsive sites with bootstrap"
+        },
+        {
+            "site": "https://getcomposer.org",
+            "name": "composer",
+            "desc": "store package that can help build package.",
+            "primaryCategory": "PhpTools"
+        },
+        {
+            "site": "https://gimp.org",
+            "desc": "draw raster picture",
+            "name": "gimp",
+            "primaryCategory": [
+                "DAO",
+                "GNU"
+            ]
+        },
+        {
+            "site": "https://gitguardian.com",
+            "name": "gitguardian.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://github.com",
+            "name": "github",
+            "title": "github",
+            "primaryCategory": [
+                "Hub"
+            ]
+        },
+        {
+            "site": "https://glassdoor.com",
+            "name": "glassdoor.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://gmail.com",
+            "name": "gmail.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://google.com",
+            "name": "google",
+            "primaryCategory": "SearchEngine"
+        },
+        {
+            "site": "https://gotinder.com",
+            "name": "gotinder.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://greeka.com",
+            "name": "greeka.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hackerrankforwork.com",
+            "name": "hackerrankforwork.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hays.com",
+            "name": "hays.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://healthstationng.com",
+            "name": "healthstationng.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://heh.be",
+            "name": "heh.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hello.zengo.com",
+            "name": "hello.zengo.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hms.aspiegel.com",
+            "name": "hms.aspiegel.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hoangvantrane92.shop",
+            "name": "hoangvantrane92.shop",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://holcim.com",
+            "name": "holcim",
+            "primaryCategory": [
+                "Construction"
+            ]
+        },
+        {
+            "site": "https://hostnode5.behostings.net",
+            "name": "hostnode5.behostings.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hotelmons.eu",
+            "name": "hotelmons.eu",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hotmail.com",
+            "name": "hotmail.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hotmail.fr",
+            "name": "hotmail.fr",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hp.com",
+            "name": "hp.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hvw-capac.fgov.be",
+            "name": "capac",
+            "primaryCategory": "Syndicat"
+        },
+        {
+            "site": "https://i4m.be",
+            "name": "i4m.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://iconscout.com",
+            "name": "iconscout.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://id.apple.com",
+            "name": "id.apple.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://igkdev.be/roundcube",
+            "name": "igkdev.mailbox",
+            "primaryCategory": "MailBox"
+        },
+        {
+            "site": "https://igkdev.com",
+            "name": "igkdev",
+            "primaryCategory": "Development"
+        },
+        {
+            "site": "https://ikmnet.com",
+            "name": "ikmnet.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://ilyeum.com",
+            "name": "ilyeum.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://immoweb.be",
+            "name": "immoweb",
+            "vat": "0429.223.614",
+            "status": "sa",
+            "create": "1986-07-31",
+            "address": "1000, Rue aux Laines, 70, Bruxelles",
+            "tel": "3223332505",
+            "primaryCategory": [
+                "Estate",
+                "Agency"
+            ]
+        },
+        {
+            "site": "https://indeed.com",
+            "name": "indeed.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://indes.com",
+            "name": "indes.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://info.crunchyroll.com",
+            "name": "info.crunchyroll.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://info.doccle.be",
+            "name": "info.doccle.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://info.ebay.be",
+            "name": "info.ebay.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://info.surfshark.com",
+            "name": "info.surfshark.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://info.testachats.be",
+            "name": "info.testachats.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://info.vercel.com",
+            "name": "info.vercel.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://informaticien.be",
+            "name": "informaticien.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://infrabel.be",
+            "name": "infrabel",
+            "desc": "maintenance",
+            "primaryCategory": [
+                "Public",
+                "Transport",
+                "Logistics",
+                "Infrastructure"
+            ]
+        },
+        {
+            "site": "https://inkscape.org",
+            "desc": "draw vectorial freely",
+            "name": "inkscape",
+            "primaryCategory": [
+                "DAO",
+                "GNU",
+                "GPL"
+            ]
+        },
+        {
+            "site": "https://inomics.com",
+            "desc": null,
+            "name": "inomics",
+            "primaryCategory": [
+                "Forem-Search",
+                "Economy",
+                "Management"
+            ]
+        },
+        {
+            "site": "https://insideapple.apple.com",
+            "name": "insideapple.apple.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://instagram.com",
+            "name": "instagram",
+            "primaryCategory": "SocialNetwork"
+        },
+        {
+            "site": "https://instructure.com",
+            "name": "instructure.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://intrum.be",
+            "name": "intrum.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://ionic.io",
+            "name": "ionicons",
+            "primaryCategory": [
+                "Development",
+                "Icons",
+                "Svg"
+            ]
+        },
+        {
+            "site": "http://iportfolio.velay.greta.fr",
+            "desc": null,
+            "name": "iportfolio.velay.greta",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://ircc.canada.ca",
+            "name": "canada.exports",
+            "desc": "Work in Canada",
+            "primaryCategory": [
+                "Forem-Search",
+                "Info"
+            ]
+        },
+        {
+            "site": "https://istorm.be",
+            "name": "istorm.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://itgreen.tech",
+            "name": "itgreen.tech",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://itlink.fr",
+            "name": "itlink.fr",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://itsme.be",
+            "name": "itsme.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://japandihome.fr",
+            "name": "japandihome.fr",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://jetandmore.net",
+            "name": "jetandmore.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://jetbrains.com",
+            "name": "jetbrains.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://jeunesmr.be",
+            "name": "jeunes mr",
+            "primaryCategory": "Politics party",
+            "desc": "L'avenir s'éclaire",
+            "title": "JEUNES LIBERAUX",
+            "status": "asbl",
+            "mail": "info@jeunesmr.be",
+            "tel": "3225005060",
+            "vat": "0474.824.601"
+        },
+        {
+            "site": "https://jobagent.stepstone.be",
+            "name": "jobagent.stepstone.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://jobat.be",
+            "name": "jobat",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://jobpol.be",
+            "name": "jobpol",
+            "primaryCategory": [
+                "Public"
+            ]
+        },
+        {
+            "site": "https://jobs.references.be",
+            "name": "jobs-references",
+            "desc": null,
+            "primaryCategory": [
+                "JobSearchEngine*",
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://jobsdays.be",
+            "name": "jobsdays.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://jobsinbanking.be",
+            "name": "jobsinbanking",
+            "primaryCategory": [
+                "Bank",
+                "Forem-Search*"
+            ]
+        },
+        {
+            "site": "https://jolimont.be",
+            "name": "jolimont.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://joomla.org",
+            "name": "joomla",
+            "primaryCategory": "PhpFramework"
+        },
+        {
+            "site": "https://goingbus.com",
+            "name": "goingbus",
+            "primaryCategory": "Plateform"
+        },
+        {
+            "site": "https://www.php.net",
+            "name": "php",
+            "description":"official php sites",
+            "primaryCategory": [
+                "Development",
+                "ProgrammingLanguage"
+            ]
+        },
+        {
+            "site": "https://www.php-fig.org",
+            "name": "php-fig",
+            "description":"norma",
+            "primaryCategory": [
+                "Development",
+                "ProgrammingLanguage",
+                "Norma"
+            ]
+        },
+        {
+            "site": "https://npm.org",
+            "name": "npm",
+            "description":"united state churl",
+            "primaryCategory": [
+                "Church"
+            ]
+        },
+        {
+            "site": "https://nasdaqprivatemarket.com",
+            "name": "nasdaqprivate market",
+            "description":"npm",
+            "primaryCategory": [
+                "Crypto"
+            ]
+        },
+        {
+            "site": "https://www.python.org",
+            "name": "python",
+            "primaryCategory": [
+                "Development",
+                "ProgrammingLanguage"
+            ]
+        },
+        {
+            "site": "https://just.fgov.be",
+            "name": "just.fgov.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://justice.belgium.be",
+            "name": "justice",
+            "primaryCategory": [
+                "Public",
+                "Justice",
+                "Forem"
+            ]
+        },
+        {
+            "site": "https://kbopub.economie.fgov.be",
+            "name": "Bank Carrefour - Public search",
+            "desc": "Tools",
+            "primaryCategory": [
+                "Public",
+                "JobTools"
+            ]
+        },
+        {
+            "site": "https://khronos.org",
+            "name": "khronos.org",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://lago.be",
+            "name": "lago.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://laravel.com",
+            "name": "laravel",
+            "primaryCategory": "PhpFramework"
+        },
+        {
+            "site": "https://lescheminsdeferengagent.be",
+            "name": "sncb-recruetment",
+            "primaryCategory": [
+                "Transport",
+                "JobSearch"
+            ]
+        },
+        {
+            "site": "https://lesengages.be",
+            "name": "engagés",
+            "primaryCategory": "Politics party",
+            "vat": "0457.782.491",
+            "desc": "les engagées pour une societe regénérée",
+            "logo": "https://www.lesengages.be/wp-content/themes/gblmaster/img/logo-engages.svg",
+            "status": "asbl"
+        },
+        {
+            "site": "https://letec.be",
+            "name": "letec",
+            "primaryCategory": [
+                "Public",
+                "Transport"
+            ]
+        },
+        {
+            "site": "https://letsencrypt.org",
+            "name": "letsencrypt",
+            "primaryCategory": [
+                "Cryptographie",
+                "Web"
+            ]
+        },
+        {
+            "site": "https://librairiescientia.be",
+            "name": "librairiescientia.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://lidl.fr",
+            "name": "lidl.fr",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://linkedin.com",
+            "name": "linkedin",
+            "primaryCategory": "SocialNetwork"
+        },
+        {
+            "site": "https://litebit.eu",
+            "name": "litebit.eu",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://livedirect.fr",
+            "name": "livedirect.fr",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://logojoy.com",
+            "name": "logojoy.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://lokareaservices.com",
+            "name": "lokareaservices.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://looka.com",
+            "name": "looka.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://fontawesome.com",
+            "name": "fontawesome",
+            "primaryCategory": [
+                "Icons",
+                "Svg"
+            ]
+        },
+        {
+            "site": "https://flatuicolors.com/",
+            "name": "flatuicolor",
+            "primaryCategory": [
+                "Colors",
+                "Web"
+            ]
+        },
+        {
+            "site": "https://heropatterns.com",
+            "name": "heropatterns",
+            "primaryCategory": [
+                "Patterns",
+                "Web"
+            ]
+        },
+        {
+            "site": "https://fontjoy.com",
+            "name": "fontjoy",
+            "primaryCategory": [
+                "Fonts",
+                "Web"
+            ]
+        },
+        {
+            "site": "https://uikit.kelcak.com",
+            "name": "kelcak",
+            "desc": "robinn/uikit. require php 8+",
+            "primaryCategory": [
+                "Php",
+                "Development",
+                "UIKit",
+                "Web"
+            ]
+        },
+        {
+            "site": "https://www.geeksforgeeks.org",
+            "name": "geeksforgeeks",
+            "primaryCategory": [
+                "Development"
+            ]
+        },
+        {
+            "site": "https://stackoverflow.com",
+            "name": "stackoverflow",
+            "primaryCategory": [
+                "Development"
+            ]
+        },
+        {
+            "site": "https://m3.material.io",
+            "name": "materialio",
+            "primaryCategory": [
+                "Google",
+                "Material*"
+            ]
+        },
+        {
+            "site": "https://manpower.be",
+            "name": "manpower",
+            "primaryCategory": "Interim",
+            "title": "Manpower Belgium",
+            "vat": "0412.695.309",
+            "status": "sa",
+            "address": "7000, Place des Grands Prés, 1, Mons",
+            "mail": "info@manpower.be",
+            "tel": "3226391070"
+        },
+        {
+            "site": "https://manpowerjobs.com",
+            "name": "manpowerjobs.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://marketplace.visualstudio.com",
+            "name": "vcode.marketplace",
+            "desc": "visual studio code market place",
+            "primaryCategory": [
+                "MarketPlace"
+            ]
+        },
+        {
+            "site": "https://marmiton.org",
+            "name": "marmiton",
+            "primaryCategory": "Cooks"
+        },
+        {
+            "site": "https://codepen.io",
+            "name": "codepen",
+            "primaryCategory": [
+                "Development"
+            ]
+        },
+        {
+            "site": "https://martinshotels.com",
+            "name": "martinshotels.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://mboaparis.com",
+            "name": "mboaparis.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://mcdonalds.be",
+            "name": "McDonalds",
+            "primaryCategory": "Cooks"
+        },
+        {
+            "site": "https://medium.com",
+            "name": "medium.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://metier.siep.be",
+            "desc": null,
+            "name": "metier.siep",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://app.mews.com",
+            "name": "app.mews",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://mg.comparethewholesalersmarket.com",
+            "name": "mg.comparethewholesalersmarket.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://microsoft.com",
+            "name": "microsoft",
+            "primaryCategory": "MTC"
+        },
+        {
+            "site": "https://microsoft.entelechargement.com",
+            "name": "microsoft.entelechargement.com",
+            "desc": "download",
+            "primaryCategory": [
+                "Marchand",
+                "Windows"
+            ]
+        },
+        {
+            "site": "https://premiumcdkeys.com",
+            "name": "premiumcdkeys",
+            "desc": "download",
+            "primaryCategory": [
+                "Marchand",
+                "Windows"
+            ]
+        },
+        {
+            "site": "https://blocket-be.vip",
+            "name": "job online",
+            "desc": "job online",
+            "primaryCategory": [
+                "Marchand",
+                "Windows"
+            ]
+        },
+        {
+            "site": "https://www.test-achats.be",
+            "name": "test achats",
+            "desc": "",
+            "primaryCategory": [
+                "Consommation"
+            ]
+        },
+        {
+            "site": "https://www.comptesdormants.be",
+            "name": "comptesdormants",            
+            "primaryCategory": [
+                "Consommation"
+            ]
+        },
+        {
+            "site": "https://midjourney.com",
+            "name": "midjourney",
+            "primaryCategory": "AI"
+        },
+        {
+            "site": "https://mil.be",
+            "name": "mil",
+            "desc": "site militaire",
+            "primaryCategory": [
+                "Public"
+            ]
+        },
+        {
+            "site": "https://mobilitedesjeunes.be",
+            "name": "mobilitedesjeunes",
+            "desc": "Work or get a stage on foreign country",
+            "primaryCategory": [
+                "Forem-Search",
+                "Info"
+            ]
+        },
+        {
+            "site": "https://monstage.be",
+            "name": "monstage",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://monster.com",
+            "name": "monster",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://moovijob.com",
+            "name": "moovijob",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://mp.tl",
+            "name": "mp.tl",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://mr.be",
+            "name": "mr",
+            "primaryCategory": "Politics party",
+            "desc": "L'avenir s'éclaire",
+            "title": "Mouvement Réformateur",
+            "status": "asbl",
+            "mail": "mr@mr.be",
+            "tel": "3225003511"
+        },
+        {
+            "site": "https://monsenmieux.be",
+            "name": "monsenmieux",
+            "primaryCategory": "Politics party",
+            "desc": "L'avenir s'éclaire",
+            "title": "Mouvement Réformateur",
+            "status": "asbl",
+            "vat": "0684.690.237",
+            "mail": "mr@mr.be",
+            "tel": "3225003511"
+        },
+        {
+            "site": "https://mycareer.be",
+            "name": "mycarreer",
+            "primaryCategory": "Public",
+            "desc": "get information about my carreer"
+        },
+        {
+            "site": "https://mycollections.be",
+            "name": "mycollections.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://mycollections.com",
+            "name": "mycollections.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://mypension.be",
+            "name": "mypension.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://mysql.com",
+            "name": "mysql",
+            "primaryCategory": "Database"
+        },
+        {
+            "site": "http://mytraveljob.be",
+            "desc": null,
+            "name": "mytraveljob",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://n-va.be",
+            "name": "n-va",
+            "primaryCategory": "Politics party",
+            "title": "New-Vlaamse Alliantie(N-VA)",
+            "locale": "nl"
+        },
+        {
+            "site": "https://napoleonsports.be",
+            "desc": null,
+            "name": "napoleonsports",
+            "primaryCategory": [
+                "Bet",
+                "Sport"
+            ]
+        },
+        {
+            "site": "https://nato.int",
+            "name": "nato",
+            "desc": "north antlantic treaty organization",
+            "primaryCategory": [
+                "EuropeInstitution*",
+                "Forem-Search*"
+            ]
+        },
+        {
+            "site": "https://nbb.be",
+            "name": "nbb.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://nestle.be",
+            "desc": null,
+            "name": "nestle",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://nethumanitaires.wordpress.com",
+            "desc": null,
+            "name": "nethumanitaires.wordpress",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://news.leboncoin.fr",
+            "name": "news.leboncoin.fr",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://news.minfin.fed.be",
+            "name": "news.minfin.fed.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://news.ovhcloud.com",
+            "name": "news.ovhcloud.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://news.proximus.com",
+            "name": "news.proximus.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://news.sendwave.com",
+            "name": "news.sendwave.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://newsletter.2k.com",
+            "name": "newsletter.2k.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://nextjs.org",
+            "name": "nextjs",
+            "desc": "Everything you need to build great products on the web.",
+            "primaryCategory": "JSFramework"
+        },
+        {
+            "site": "https://nieuwejobs.com",
+            "name": "nieuwejobs.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://nintendo.com",
+            "name": "nintendo",
+            "primaryCategory": "Entertainment",
+            "vat": "0758.668.375"
+        },
+        {
+            "site": "https://nmpjs.com",
+            "name": "npm",
+            "desc": "node packages manager",
+            "primaryCategory": "DevTools"
+        },
+        {
+            "site": "https://nodejs.org",
+            "name": "nodejs",
+            "primaryCategory": "DevTools",
+            "desc": "JavaScript runtime environment that lets developers create servers, web apps, command line tools and scripts."
+        },
+        {
+            "site": "https://noreply.github.com",
+            "name": "noreply.github.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://noreply.test",
+            "name": "noreply.test",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://northernvirginiadivorcelawyer.net",
+            "name": "northernvirginiadivorcelawyer.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://notice.aliexpress.com",
+            "name": "notice.aliexpress.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://notifications.digital",
+            "name": "notifications.digital",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://notify.openclassrooms.com",
+            "name": "notify.openclassrooms.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://npmjs.com",
+            "name": "npmjs.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://odoo.be",
+            "name": "odoo",
+            "primaryCategory": [
+                "Delivery",
+                "CMS"
+            ]
+        },
+        {
+            "site": "https://oecd.org",
+            "title": "Organisation de coopération et de développement économiques",
+            "desc": "Des politiques meilleures pour une vie meilleure.",
+            "name": "oecd",
+            "primaryCategory": [
+                "EuropeInstitution*"
+            ]
+        },
+        {
+            "site": "https://one.google.com",
+            "name": "google-one",
+            "primaryCategory": [
+                "GoogleTools",
+                "Google",
+                "OneDrive"
+            ]
+        },
+        {
+            "site": "https://onesource.one",
+            "name": "onesource",
+            "primaryCategory": [
+                "ITConsulting Agency",
+                "ReceiveMail"
+            ]
+        },
+        {
+            "site": "https://spline.design",
+            "name": "spline",
+            "primaryCategory": [
+                "Drawing"
+            ]
+        },
+        {
+            "site": "https://editx.eu",
+            "name": "editx",
+            "desc": "search for it job",
+            "primaryCategory": [
+                "ITConsulting Agency",
+                "ReceiveMail",
+                "JobSearch"
+            ]
+        },
+        {
+            "site": "https://openclassrooms.com",
+            "name": "openclassrooms",
+            "primaryCategory": "Learning"
+        },
+        {
+            "site": "https://opengl.org",
+            "name": "opengl",
+            "desc": "The Industry's Foundation for High Performance Graphics",
+            "primaryCategory": "Graphics"
+        },
+        {
+            "site": "https://operations.buyway.be",
+            "name": "operations.buyway.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://optioncarriere.be",
+            "name": "optioncarriere",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://ores.be",
+            "name": "ores",
+            "vat": "0897.436.971",
+            "primaryCategory": "Public",
+            "desc": "Electric/Gas public services."
+        },
+        {
+            "site": "https://ovh.com",
+            "name": "ovh.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://packagist.org/",
+            "name": "packagist",
+            "desc": "php package store.",
+            "primaryCategory": "PhpTools"
+        },
+        {
+            "site": "https://partenamut.be",
+            "name": "partenamut.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://paybox.com",
+            "name": "paybox.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://payconiq.be",
+            "name": "payconiq.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://payconiqbybancontact.com",
+            "name": "payconiqbybancontact.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://paypal.be",
+            "name": "paypal.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://medium.com",
+            "name": "paypal.be",
+            "primaryCategory": [
+                "Development",
+                "Learning"
+            ]
+        },
+        {
+            "site": "https://pccwglobal.com",
+            "name": "pccwglobal.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://pdfa.org",
+            "name": "pdfa.org",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://pepsinterim.be",
+            "name": "peps",
+            "primaryCategory": "Interim",
+            "logo": "https://www.pepsinterim.be/swfiles/logo/logo.svg?nocache=1726811609",
+            "vat": "0872.546.573",
+            "status": "sa",
+            "address": "7000, Rue de Gages, 2A, Mons"
+        },
+        {
+            "site": "https://photos.google.com",
+            "name": "google-photos",
+            "primaryCategory": [
+                "GoogleTools",
+                "Google",
+                "Photo"
+            ]
+        },
+        {
+            "site": "https://playstation.com",
+            "name": "playstation",
+            "primaryCategory": "Entertainment"
+        },
+        {
+            "site": "https://pornhub.com",
+            "name": "pornhub",
+            "primaryCategory": "ADT"
+        },
+        {
+            "site": "https://priceminister.com",
+            "name": "priceminister.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://pro.codeur.com",
+            "name": "pro.codeur.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://pro.guidesocial.be",
+            "name": "guidesocial.pro",
+            "primaryCategory": [
+                "Forem-Search",
+                "Social"
+            ]
+        },
+        {
+            "site": "https://proximus.be",
+            "name": "proximus.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://proximus.com",
+            "name": "proximus.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://ptb.be",
+            "name": "ptb",
+            "primaryCategory": "Politics party",
+            "title": "Party des travailleur Belge",
+            "mail": "info@ptb.be"
+        },
+        {
+            "site": "https://travaillerpour.be",
+            "name": "selor",
+            "desc": "travailler pour...",
+            "primaryCategory": [
+                "Public",
+                "JobSearch"
+            ]
+        },
+        {
+            "site": "https://pulsar.be",
+            "name": "pulsar.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://randstad.be",
+            "name": "randstad",
+            "primaryCategory": "Interim",
+            "title": "Randstad Belgium",
+            "vat": "0402.725.291",
+            "status": "sa",
+            "address": "7033, Rue des Sandrinettes, 25/10, Mons"
+        },
+        {
+            "site": "https://daoust.be",
+            "name": "daoust",
+            "primaryCategory": "Interim",
+            "title": "Daoust Belgium",
+            "vat": "0400.523.292",
+            "status": "sa",
+            "mail": "admin@daoust.be",
+            "address": "1050, Galerie de la Porte Louise, 203 - 5, Ixelles"
+        },
+        {
+            "site": "https://dajobs.be",
+            "name": "dajobs",
+            "primaryCategory": "Interim",
+            "title": "Daoust Job Search Engine "
+        },
+        {
+            "site": "https://react.dev",
+            "name": "react",
+            "desc": "The library for web and native user interfaces",
+            "primaryCategory": "JSFramework"
+        },
+        {
+            "site": "https://references.lesoir.be",
+            "name": "lesoir",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://relaycloud2.behostings.net",
+            "name": "relaycloud2.behostings.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://reliefweb.int",
+            "name": "reliefweb",
+            "primaryCategory": [
+                "Forem-Search",
+                "ONG",
+                "Human"
+            ]
+        },
+        {
+            "site": "https://reply2.ebay.be",
+            "name": "reply2.ebay.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://roguewave.com",
+            "name": "roguewave.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://rtbf.be",
+            "name": "rtbf.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://satisfaction.ovh.com",
+            "name": "satisfaction.ovh.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "http://screen.brussels",
+            "desc": null,
+            "name": "screen.brussels",
+            "primaryCategory": [
+                "Forem-Search",
+                "Media",
+                "Communication"
+            ]
+        },
+        {
+            "site": "https://scribbr.nl",
+            "name": "scribbr.nl",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://select-jobs.be",
+            "name": "select-jobs",
+            "primaryCategory": [
+                "Interim"
+            ]
+        },
+        {
+            "site": "https://selor.be",
+            "name": "selor.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://serv.bongo.be",
+            "name": "serv.bongo.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://service.wondershare.com",
+            "name": "service.wondershare.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://services.ovhcloud.com",
+            "name": "services.ovhcloud.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://shape.nato.int",
+            "name": "shape",
+            "title": "SUPREME HEADQUARTERS ALLIED POWERS EUROPE",
+            "desc": "shape",
+            "primaryCategory": [
+                "Public"
+            ]
+        },
+        {
+            "site": "https://shehata.com",
+            "name": "shehata.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://showcase.doyoubuzz.com",
+            "name": "showcase.doyoubuzz.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://sim.delijn.be",
+            "name": "sim.delijn.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://site123.com",
+            "name": "site123.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://sketch.com",
+            "name": "sketch.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://developer.sketch.com",
+            "name": "deveeloper.sketch.com",
+            "primaryCategory": "SketchDevelopment"
+        },
+        {
+            "site": "https://smals.be",
+            "name": "smals.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "http://smartbe.be",
+            "desc": null,
+            "name": "smartbe",
+            "primaryCategory": [
+                "Forem-Search",
+                "Artist"
+            ]
+        },
+        {
+            "site": "https://smartrecruiters.com",
+            "name": "smartrecruiters.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://socialmediafocus.fr",
+            "name": "socialmediafocus.fr",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://spi.be",
+            "desc": null,
+            "name": "spi",
+            "primaryCategory": [
+                "Forem-Search",
+                "Luik",
+                "Zoning"
+            ]
+        },
+        {
+            "site": "https://spilberg.be",
+            "name": "spilberg.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://sprint.com",
+            "name": "sprint.com",
+            "primaryCategory": [
+                "mobile"
+            ]
+        },
+        {
+            "site": "https://t-mobile.com",
+            "name": "t-mobile.com",
+            "primaryCategory": [
+                "mobile"
+            ]
+        },
+        {
+            "site": "https://stanfilsrl.eu",
+            "name": "stanfilsrl.eu",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://startpeople.be",
+            "name": "startpeople",
+            "primaryCategory": "Interim",
+            "title": "Start People",
+            "vat": "0456.512.385",
+            "status": "sa",
+            "desc": "Start people inhouse H&M, Rue René wattiez 8, 7011 Mons"
+        },
+        {
+            "site": "https://steampowered.com",
+            "name": "steampowered.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://stepstonegroup.com",
+            "name": "stepstonegroup",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://student.be",
+            "name": "student",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://successfactors.com",
+            "name": "successfactors.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://successfactors.eu",
+            "name": "successfactors.eu",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://superapprenant.com",
+            "name": "superapprenant.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://surfshark.com",
+            "name": "surfshark.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://symfony.com",
+            "name": "symfony",
+            "primaryCategory": "PhpFramework"
+        },
+        {
+            "site": "https://syndicatsmagazine.be",
+            "name": "syndicatsmagazine.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://tailwindcss.com",
+            "name": "tailwindcss",
+            "primaryCategory": "CssFramework",
+            "desc": "rapidly build modern websites without ever leaving your HTML."
+        },
+        {
+            "site": "https://takeaway.com",
+            "name": "takeaway.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://takeout.google.com",
+            "name": "google-takeout",
+            "primaryCategory": [
+                "GoogleTools",
+                "Google",
+                "TakeOut"
+            ]
+        },
+        {
+            "site": "https://talencia.be",
+            "name": "talencia.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://talent.brussels",
+            "name": "talent.brussels",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://taptapsend.os.tc",
+            "name": "taptapsend.os.tc",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://tastoutcompris.com",
+            "name": "tastoutcompris.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://tchatcho.net",
+            "name": "tchatcho.net",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://technocite.be",
+            "name": "technocite.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://technofuturtic.be",
+            "name": "technofuturtic.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://teksystems.com",
+            "name": "teksystems.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://thestepstonegroup.com",
+            "name": "stepstone.group",
+            "primaryCategory": "JobSearchEngine"
+        },
+        {
+            "site": "https://thomeurope.com",
+            "name": "thomeurope.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://tickets.imagix.be",
+            "name": "imagix",
+            "primaryCategory": "Cinema"
+        },
+        {
+            "site": "https://tiktok.com",
+            "name": "tiktok",
+            "primaryCategory": "SocialNetwork"
+        },
+        {
+            "site": "https://tiny.cloud",
+            "name": "tiny.cloud",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://openai.com",
+            "name": "openai",
+            "primaryCategory": [
+                "IA"
+            ]
+        },
+        {
+            "site": "https://status.openai.com",
+            "name": "openai",
+            "primaryCategory": [
+                "IA"
+            ]
+        },
+        {
+            "site": "https://toitetmoi.be",
+            "name": "toitetmoi.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://tourismewallonie.be",
+            "name": "tourismewallonie.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://transactionnel.buyway.be",
+            "name": "transactionnel.buyway.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://treenityconsulting.com",
+            "name": "treenityconsulting.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://treenitysolutions.com",
+            "name": "treenitysolutions.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://ttre.be",
+            "desc": "recycling in brussels",
+            "name": "ttre",
+            "primaryCategory": [
+                "Recycling"
+            ]
+        },
+        {
+            "site": "https://turbologo.com",
+            "name": "turbologo.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://bolt.new/",
+            "name": "bolt",
+            "primaryCategory": [
+                "Web",
+                "Development",
+                "AI*"
+            ]
+        },
+        {
+            "site": "https://uber.com",
+            "name": "uber",
+            "primaryCategory": "Delivery"
+        },
+        {
+            "site": "https://ubi.com",
+            "name": "ubi.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://uclouvain.be",
+            "name": "uclouvain",
+            "desc": "université de louvain",
+            "primaryCategory": [
+                "Forem-Search",
+                "University"
+            ]
+        },
+        {
+            "site": "https://un.org",
+            "name": "onu",
+            "title": "organization of united nations",
+            "primaryCategory": [
+                "EuropeInstitution*",
+                "Forem-Search*"
+            ],
+            "linkJobPage": "https://careers.un.org"
+        },
+        {
+            "site": "https://unamur.be",
+            "name": "unamur",
+            "desc": "Namur University",
+            "primaryCategory": [
+                "Forem-Search",
+                "University"
+            ]
+        },
+        {
+            "site": "https://unifiedpost.com",
+            "name": "unifiedpost.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://unique.be",
+            "name": "unique",
+            "primaryCategory": "Interim",
+            "status": "sa"
+        },
+        {
+            "site": "https://unity3d.com",
+            "name": "unity3d.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://ups.com",
+            "name": "ups.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://uvcw.be",
+            "name": "uvcw",
+            "title": "union des villes et communes de wallonie",
+            "primaryCategory": [
+                "Public"
+            ]
+        },
+        {
+            "site": "https://vercel.com",
+            "name": "vercel.com",
+            "description":"vercel application software",
+            "primaryCategory": "JSFramework"
+        },
+        {
+            "site": "https://vibegroup.com",
+            "name": "vibegroup",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://vindazo.be",
+            "name": "vindazo.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://visadecarrefour.be",
+            "name": "visadecarrefour.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://viteconf.org",
+            "name": "viteconf.org",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://vite.dev",
+            "name": "vite",
+            "desc": "The build tool for the web",
+            "primaryCategory": [
+                "Development",
+                "JSFramework"
+            ]
+        },
+        {
+            "site": "https://www.odeskwork.com",
+            "name": "odeskwork",
+            "desc": "",
+            "primaryCategory": [
+                "Development",
+                "JSFramework"
+            ]
+        },
+        {
+            "site": "https://vitejs.dev",
+            "name": "vitejs",
+            "desc": "Vite Next Generation Frontend Tooling",
+            "primaryCategory": "JSFramework"
+        },
+        {
+            "site": "https://voice.ai",
+            "name": "voice.ai",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://voiliersoccasions.com",
+            "name": "voiliersoccasions.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://vscode.dev",
+            "name": "vscode-dev",
+            "primaryCategory": [
+                "IDE"
+            ]
+        },
+        {
+            "site": "https://vsse.be",
+            "name": "vsse.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://vuejs.org",
+            "name": "vue3",
+            "desc": "The progressive javascript framework",
+            "primaryCategory": "JSFramework"
+        },
+        {
+            "site": "https://vueschool.io",
+            "name": "vueschool",
+            "desc": "vue school",
+            "primaryCategory": "JSFramework"
+        },
+        {
+            "site": "https://vurpillat.org",
+            "name": "vurpillat",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://w3schools.com",
+            "name": "w3schools",
+            "primaryCategory": "Learning"
+        },
+        {
+            "site": "https://web.be",
+            "name": "web.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://hotalxoc.com",
+            "name": "hotalxoc.be",
+            "primaryCategory": "BadSite"
+        },
+        {
+            "site": "https://web.umons.ac.be",
+            "name": "umons",
+            "desc": "Mons University",
+            "primaryCategory": [
+                "Forem-Search",
+                "University"
+            ]
+        },
+        {
+            "site": "https://webinarkit.com",
+            "name": "webinarkit.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://wikipedia.org",
+            "name": "wikipedia",
+            "primaryCategory": "Encyclopedic"
+        },
+        {
+            "site": "https://windev.com",
+            "name": "windev.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://wirexapp.com",
+            "name": "wirexapp.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://witrigs.com",
+            "name": "witrigs.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://wixevents.com",
+            "name": "wixevents.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://woocommerce.com",
+            "name": "woocommerce",
+            "primaryCategory": "ERP"
+        },
+        {
+            "site": "https://word.tips",
+            "name": "wordtips",
+            "title": "word tips",
+            "primaryCategory": [
+                "Learning",
+                "Language",
+                "English"
+            ]
+        },
+        {
+            "site": "https://wordpress.com",
+            "name": "wordpress",
+            "primaryCategory": "PhpCMS"
+        },
+        {
+            "site": "https://workinmons.be",
+            "name": "workinmons.be",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://worldremit.com",
+            "name": "worldremit.com",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://www.abg.asso.fr",
+            "name": "abgasso",
+            "primaryCategory": [
+                "Research",
+                "Doctor",
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.acalangues.net",
+            "desc": null,
+            "name": "acalangues",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.acodev.be",
+            "desc": null,
+            "name": "acodev",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.actiris.brussels",
+            "name": "actiris",
+            "primaryCategory": "Interim",
+            "vat": "0239.843.188",
+            "status": "e-public",
+            "address": "1210, Avenue de l'Astronomie, 14, Saint-Josse-ten-Noode"
+        },
+        {
+            "site": "https://www.aeroemploiformation.com",
+            "desc": "Aeronical Job",
+            "name": "aeroemploiformation",
+            "primaryCategory": [
+                "Forem-Search",
+                "Aeronautics",
+                "France"
+            ]
+        },
+        {
+            "site": "https://www.agrimatch.be",
+            "desc": null,
+            "name": "agrimatch",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.aide-emploi.net",
+            "desc": null,
+            "name": "aide-emploi",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.aldi.be",
+            "name": "aldi",
+            "primaryCategory": [
+                "Logistics",
+                "Food"
+            ],
+            "desc": null,
+            "vat": "0456.815.659",
+            "create": "1995-12-22",
+            "title": "ALDI HOLDING",
+            "status": "sa"
+        },
+        {
+            "site": "https://www.alterjob.be",
+            "desc": null,
+            "name": "alterjob",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.annonces-medicales.com",
+            "desc": null,
+            "locale": "fr",
+            "name": "annonces-medicales",
+            "primaryCategory": [
+                "Forem-Search",
+                "France",
+                "Medical"
+            ]
+        },
+        {
+            "site": "https://www.apec.fr",
+            "desc": null,
+            "name": "apec",
+            "locale": "fr",
+            "primaryCategory": [
+                "Forem-Search",
+                "France",
+                "JobSearchEngine"
+            ]
+        },
+        {
+            "site": "https://www.approachpeople.com",
+            "desc": null,
+            "name": "approachpeople",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.archi-urgent.com",
+            "desc": null,
+            "name": "archi-urgent",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.assimil.com",
+            "desc": null,
+            "name": "assimil",
+            "primaryCategory": [
+                "Language",
+                "Learning"
+            ]
+        },
+        {
+            "site": "https://www.axis.eu",
+            "desc": null,
+            "name": "axis",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.bep.be",
+            "name": "bep",
+            "desc": "BEP Développement économique, Environnement et territorial à Namur",
+            "title": "BEP Developpement économique",
+            "primaryCategory": [
+                "Forem",
+                "Forem-Search*"
+            ],
+            "tel": "3281717171"
+        },
+        {
+            "site": "http://www.bepub.com",
+            "desc": null,
+            "name": "bepub",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.berlitz.com",
+            "desc": null,
+            "name": "berlitz",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.betcenter.be",
+            "desc": null,
+            "name": "betcenter",
+            "primaryCategory": [
+                "Bet"
+            ]
+        },
+        {
+            "site": "https://www.bnpparibasfortis.com",
+            "desc": null,
+            "name": "bnpparibasfortis",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "name": "bpost",
+            "vat": "0214.596.464",
+            "site": "https://www.bpost.be",
+            "status": "sa",
+            "primaryCategory": [
+                "Bank",
+                "Logistics"
+            ]
+        },
+        {
+            "site": "https://www.brusselsairport.be",
+            "desc": null,
+            "name": "brusselairport",
+            "primaryCategory": [
+                "Tourism",
+                "Transport"
+            ]
+        },
+        {
+            "site": "http://www.cadremploi.fr",
+            "desc": null,
+            "name": "cadremploi",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.careerbuilder.com",
+            "desc": null,
+            "name": "careerbuilder",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.careerstructure.com",
+            "desc": null,
+            "name": "careerstructure",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.cdenv.be",
+            "name": "cdenv",
+            "primaryCategory": "Politics party",
+            "title": "Christen-Democratisch en Vlaams",
+            "locale": "nl",
+            "create": "2002-04-16",
+            "vat": "0478.482.786",
+            "status": "asbl"
+        },
+        {
+            "site": "https://www.century21.be",
+            "name": "century21",
+            "vat": "0451.724.941",
+            "status": "sa",
+            "title": "Century 21 Benelux",
+            "create": "1993-12-09",
+            "address": "1410, Drêve richelle, 161B/10, Waterloo",
+            "tel": "3223332505",
+            "primaryCategory": [
+                "Estate",
+                "Agency"
+            ]
+        },
+        {
+            "site": "https://www.cll.be",
+            "desc": null,
+            "name": "cll",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.coe-recruitment.com",
+            "name": "coe",
+            "title": "council of europe",
+            "primaryCategory": [
+                "EuropeInstitution*",
+                "Forem-Search*"
+            ]
+        },
+        {
+            "site": "https://www.colruyt.be",
+            "name": "colryut",
+            "primaryCategory": [
+                "Logistics",
+                "Food"
+            ],
+            "desc": null,
+            "vat": "0400.378.485",
+            "create": "1950-03-09",
+            "status": "sa"
+        },
+        {
+            "site": "https://www.comedien.be",
+            "desc": null,
+            "name": "comedien",
+            "primaryCategory": [
+                "Forem-Search",
+                "Artist"
+            ]
+        },
+        {
+            "site": "http://www.computerfutures.com",
+            "desc": null,
+            "name": "computerfutures",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.cpeons.be",
+            "desc": null,
+            "name": "cpeons",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.culture.be",
+            "desc": null,
+            "name": "culture",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.conseils.com",
+            "desc": null,
+            "name": "conseils",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.delhaize.be",
+            "name": "delhaize",
+            "title": "Delhaize Le Lion/De Leeuw",
+            "primaryCategory": [
+                "Logistics",
+                "Food"
+            ],
+            "desc": null,
+            "vat": "0402.206.045",
+            "create": "1962-01-01",
+            "mail": "info@delhaize.be",
+            "status": "sa"
+        },
+        {
+            "site": "https://www.digimedia.be",
+            "desc": null,
+            "name": "digimedia",
+            "primaryCategory": [
+                "Forem-Search",
+                "Media",
+                "Communication"
+            ]
+        },
+        {
+            "site": "https://www.doyoubuzz.com",
+            "desc": null,
+            "name": "doyoubuzz",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.e-neos.be",
+            "desc": null,
+            "name": "e-neos",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.eclipse.org",
+            "name": "eclipse",
+            "primaryCategory": [
+                "IDE"
+            ]
+        },
+        {
+            "site": "https://www.econosoc.be",
+            "desc": null,
+            "name": "econosoc",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.eei.com.fr",
+            "desc": null,
+            "name": "eei.com",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.eldi.be",
+            "name": "eldi",
+            "primaryCategory": [
+                "Logistics",
+                "Elektro"
+            ],
+            "desc": null,
+            "vat": "0873.040.085",
+            "create": "2005-04-07",
+            "title": "B.C.",
+            "mail": "serviceclientele@eldi.be",
+            "status": "sa",
+            "address": "9600, Chaussée de Leuze, 169, Renaix"
+        },
+        {
+            "site": "https://www.emploi-store.fr",
+            "desc": null,
+            "locale": "fr",
+            "name": "emploi-store",
+            "primaryCategory": [
+                "Forem-Search",
+                "France"
+            ]
+        },
+        {
+            "site": "https://www.emplois.ca",
+            "desc": null,
+            "name": "emplois",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.enseignement.be",
+            "desc": null,
+            "name": "enseignement",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.essenscia.be",
+            "desc": null,
+            "name": "essenscia",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.eurojobs.com",
+            "desc": null,
+            "name": "eurojobs",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.europass.cedefop.europa.eu",
+            "desc": null,
+            "name": "europass.cedefop.europa",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.experteer.be",
+            "desc": null,
+            "name": "experteer",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.expressmedical.be",
+            "desc": null,
+            "name": "expressmedical",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.federgon.be",
+            "desc": null,
+            "name": "federgon",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.francetravail.fr",
+            "desc": null,
+            "locale": "fr",
+            "name": "francetravail",
+            "primaryCategory": [
+                "Forem-Search",
+                "JobSearchEngine"
+            ]
+        },
+        {
+            "site": "http://www.gentisrecruitment.com",
+            "desc": null,
+            "name": "gentisrecruitment",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.graphic-jobs.com",
+            "desc": null,
+            "name": "graphic-jobs",
+            "primaryCategory": [
+                "Forem-Search",
+                "Graphics",
+                "Printing"
+            ]
+        },
+        {
+            "site": "http://www.guide-interim.com",
+            "desc": null,
+            "name": "guide-interim",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.guidesocial.be",
+            "desc": null,
+            "name": "guidesocial",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.habeas.be",
+            "desc": null,
+            "name": "habeas",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.hays.be",
+            "desc": null,
+            "name": "hays",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.hyundai.com",
+            "name": "hyundai",
+            "title": "Korean Motor Company",
+            "vat": "0404.273.333",
+            "primaryCategory": [
+                "Automobile",
+                "Showroom"
+            ],
+            "tel": "3234500670",
+            "status": "sa",
+            "create": "1964-10-31",
+            "address": "2550, Pierstraat, 229, Kontich"
+        },
+        {
+            "site": "https://www.iagora.com",
+            "desc": null,
+            "name": "iagora",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.ictjob.be",
+            "desc": null,
+            "name": "ictjob",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.ikea.com",
+            "desc": null,
+            "name": "ikea",
+            "primaryCategory": [
+                "Logistics",
+                "Home"
+            ]
+        },
+        {
+            "name": "ing",
+            "title": "ING BELGIQUE",
+            "site": "https://www.ing.be",
+            "primaryCategory": "Bank",
+            "vat": "0403.200.393",
+            "status": "sa"
+        },
+        {
+            "site": "https://www.iweps.be",
+            "name": "iweps",
+            "title": "federation wallonie bruxelles",
+            "primaryCategory": [
+                "Forem",
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.jde.be",
+            "desc": null,
+            "name": "jde",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.jobintree.com",
+            "desc": null,
+            "name": "jobintree",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.jobs4tourism.be",
+            "desc": null,
+            "name": "jobs4tourism",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.jobsabroad.com",
+            "desc": null,
+            "name": "jobsabroad",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.kia.com",
+            "name": "kia",
+            "vat": "0477.443.106",
+            "primaryCategory": [
+                "Automobile",
+                "Showroom"
+            ],
+            "status": "sa",
+            "kia": "80069706970",
+            "address": "1930, Ikaroslaan, 33, Zaventem"
+        },
+        {
+            "site": "https://www.krefel.be",
+            "name": "krefel",
+            "title": "krefel",
+            "vat": "0400.673.544",
+            "primaryCategory": [
+                "Elektro"
+            ],
+            "status": "sa",
+            "create": "1958-12-02"
+        },
+        {
+            "site": "https://www.labojobs.be",
+            "desc": null,
+            "name": "labojobs",
+            "primaryCategory": [
+                "Forem-Search",
+                "Health"
+            ]
+        },
+        {
+            "site": "https://www.largus.fr",
+            "desc": "auto recrute",
+            "name": "largus",
+            "primaryCategory": [
+                "Forem-Search",
+                "France"
+            ]
+        },
+        {
+            "site": "https://www.leboncoin.fr",
+            "name": "leboncoin",
+            "title": "le bon coin",
+            "primaryCategory": [
+                "JobSearchEngine"
+            ],
+            "status": "sa"
+        },
+        {
+            "site": "https://www.leforem.be",
+            "desc": null,
+            "name": "leforem",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.lescheminsdeferengagent.be",
+            "desc": null,
+            "name": "lescheminsdeferengagent",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.lexgo.be",
+            "desc": null,
+            "name": "lexgo",
+            "primaryCategory": [
+                "Forem-Search",
+                "Justice",
+                "Public"
+            ]
+        },
+        {
+            "site": "https://www.lidl.be",
+            "name": "lidl",
+            "primaryCategory": [
+                "Logistics",
+                "Food"
+            ],
+            "desc": null,
+            "vat": "0451.881.923",
+            "create": "1994-01-31",
+            "title": "LIDL BELGIUM GmbH und Co.KG",
+            "status": "foreign-entity"
+        },
+        {
+            "site": "https://www.maison-de-repos.be",
+            "desc": null,
+            "name": "maison-de-repos",
+            "primaryCategory": [
+                "Forem-Search",
+                "Health"
+            ]
+        },
+        {
+            "site": "https://www.mediarte.be",
+            "desc": null,
+            "name": "mediarte",
+            "primaryCategory": [
+                "Forem-Search",
+                "Media",
+                "Communication"
+            ]
+        },
+        {
+            "site": "https://www.megabyte.be",
+            "desc": null,
+            "name": "megabyte",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.mercuriurval.com",
+            "desc": null,
+            "name": "mercuriurval",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.mongodb.com",
+            "name": "mongodb",
+            "primaryCategory": "Database"
+        },
+        {
+            "site": "https://www.mons.be",
+            "name": "mons",
+            "desc": "Mons Commune",
+            "address": "7000, Hôtel de Ville Grand-Place, 22, Mons",
+            "tel": "3265404111",
+            "primaryCategory": [
+                "Public"
+            ]
+        },
+        {
+            "site": "https://www.msf-azg.be",
+            "desc": null,
+            "name": "msf-azg",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.nbb.be",
+            "name": "nbb",
+            "desc": "National Belgium Bank",
+            "primaryCategory": "Bank"
+        },
+        {
+            "site": "https://www.onisep.fr",
+            "desc": null,
+            "name": "onisep",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.ormit.be",
+            "desc": null,
+            "name": "ormit",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.partenamut.be",
+            "name": "partenamut",
+            "primaryCategory": [
+                "Mutuality",
+                "JobSearch"
+            ]
+        },
+        {
+            "site": "https://www.mc.be",
+            "name": "mutualité.chrétienne",
+            "primaryCategory": [
+                "Mutuality",
+                "JobSearch"
+            ]
+        },
+        {
+            "site": "http://www.pharmajobs.com",
+            "desc": null,
+            "name": "pharmajobs",
+            "primaryCategory": [
+                "Forem-Search",
+                "Health"
+            ]
+        },
+        {
+            "site": "https://www.pharmiweb.jobs",
+            "desc": null,
+            "name": "pharmiweb",
+            "primaryCategory": [
+                "Forem-Search",
+                "Health",
+                "JobSearchEngine"
+            ]
+        },
+        {
+            "site": "https://www.plopsaquadepanne.be",
+            "name": "plopsaquadepanne",
+            "primaryCategory": "Park"
+        },
+        {
+            "site": "https://www.pole-emploi-international.fr",
+            "desc": null,
+            "name": "pole-emploi-international",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.pole-emploi.fr",
+            "desc": null,
+            "name": "pole-emploi",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.portfoliobox.net",
+            "desc": null,
+            "name": "portfoliobox",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.profilculture.com",
+            "desc": null,
+            "name": "profilculture",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.proselect.be",
+            "desc": null,
+            "name": "proselect",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.ps.be",
+            "name": "ps",
+            "primaryCategory": "Politics party",
+            "status": "asbl",
+            "vat": "0865.936.519",
+            "tel": "3225483211",
+            "mail": "info@ps.be",
+            "address": "13, Boulevard de l'empereur, 1000, Bruxelles"
+        },
+        {
+            "site": "https://www.randstaddigital.be",
+            "name": "randstaddigital",
+            "primaryCategory": [
+                "Interim"
+            ]
+        },
+        {
+            "site": "https://www.refaire-mon-.fr",
+            "desc": null,
+            "name": "refaire-mon-",
+            "primaryCategory": [
+                "Forem-Search",
+                "Tools"
+            ]
+        },
+        {
+            "site": "http://www.reseau-idee.be",
+            "desc": null,
+            "name": "reseau-idee",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.roberthalf.be",
+            "desc": null,
+            "name": "roberthalf",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.robertwalters.be",
+            "desc": null,
+            "name": "robertwalters",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.searchselection.com",
+            "desc": null,
+            "name": "searchselection",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.selecthr.be",
+            "desc": null,
+            "name": "selecthr",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.selor.be",
+            "desc": null,
+            "name": "selor",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.service-a.com",
+            "desc": null,
+            "name": "service-a",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.setisw.be",
+            "desc": null,
+            "name": "setisw",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.starttowork.be",
+            "desc": null,
+            "name": "starttowork",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.stef.com",
+            "desc": null,
+            "name": "stef",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "http://www.stepstone.be",
+            "desc": null,
+            "name": "stepstone",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.stib-mivb.be",
+            "name": "stib",
+            "primaryCategory": [
+                "Public",
+                "Transport"
+            ]
+        },
+        {
+            "site": "http://www.studyrama.be",
+            "desc": null,
+            "name": "studyrama",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.toyota.be",
+            "name": "toyota",
+            "primaryCategory": [
+                "Automobile"
+            ]
+        },
+        {
+            "site": "https://www.trifinance.com",
+            "name": "trifinance",
+            "primaryCategory": [
+                "Bank",
+                "Forem-Search*"
+            ],
+            "mail": "info@trifinance.be",
+            "tel": "3232012560"
+        },
+        {
+            "site": "https://www.udemy.com",
+            "name": "udemy",
+            "primaryCategory": "Learning"
+        },
+        {
+            "site": "https://pixabay.com",
+            "name": "pixabay",
+            "primaryCategory": [
+                "ImageGallery",
+                "Learning"
+            ]
+        },
+        {
+            "site": "https://www.uliege.be",
+            "name": "ulg",
+            "desc": "Luik University",
+            "primaryCategory": [
+                "Forem-Search",
+                "University"
+            ]
+        },
+        {
+            "site": "https://www.unilever.be",
+            "desc": null,
+            "name": "unilever",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.ups.com",
+            "name": "ups",
+            "primaryCategory": "Delivery"
+        },     
+        {
+            "site": "https://www.vandenborre.be",
+            "name": "vandenborre",
+            "title": "Fnac Vanden Borre",
+            "vat": "0412.723.419",
+            "desc": "c'est pour la vie",
+            "primaryCategory": [
+                "Elektro"
+            ],
+            "tel": "3223340000",
+            "create": "1972-10-26",
+            "status": "sa"
+        },
+        {
+            "site": "https://www.veolia.com",
+            "name": "veolia",
+            "title": "VEOLIA NV-SA",
+            "desc": "",
+            "vat": "0406.129.003",
+            "primaryCategory": [
+                "Ecolo",
+                "Recycling"
+            ]
+        },
+        {
+            "site": "https://www.visit.brussels",
+            "desc": null,
+            "name": "visit-brussels",
+            "mail": "hello@visit.brussels",
+            "tel": "3225138940",
+            "primaryCategory": [
+                "Forem-Search",
+                "Tourism"
+            ]
+        },
+        {
+            "site": "https://www.wallangues.be",
+            "desc": null,
+            "name": "wallangues",
+            "primaryCategory": [
+                "Language",
+                "Learning"
+            ]
+        },
+        {
+            "site": "http://www.walloniedesign.be",
+            "desc": null,
+            "name": "walloniedesign",
+            "primaryCategory": [
+                "Forem-Search",
+                "Artist"
+            ]
+        },
+        {
+            "site": "https://yt1d.com",
+            "desc": "download youtube videos",
+            "name": "download.youtube.video.online",
+            "primaryCategory": [
+                "WebTool",
+                "YouTube",
+                "Google"
+            ]
+        },
+        {
+            "site": "http://www.walterspeople.be",
+            "desc": null,
+            "name": "walterspeople",
+            "primaryCategory": [
+                "Forem-Search"
+            ]
+        },
+        {
+            "site": "https://www.wallonie.be",
+            "name": "wallonie",
+            "primaryCategory": [
+                "Public"
+            ]
+        },
+        {
+            "site": "https://www.webdesign-inspiration.com",
+            "name": "webdesign-inspiration",
+            "primaryCategory": "WebDesign"
+        },
+        {
+            "site": "https://webflow.com",
+            "name": "webflow",
+            "primaryCategory": [
+                "WebDesign",
+                "WebTemplate"
+            ]
+        },
+        {
+            "site": "https://algomap.io",
+            "name": "algomap",
+            "primaryCategory": [
+                "Algorithm",
+                "RoadMap"
+            ]
+        },
+        {
+            "site": "https://x.com",
+            "name": "x",
+            "desc": "Twitter - Tesla - X - Elon Musk",
+            "primaryCategory": "SocialNetwork"
+        },
+        {
+            "site": "https://xbox.com",
+            "name": "xbox",
+            "primaryCategory": "Entertainment"
+        },
+        {
+            "site": "https://xdebug.org",
+            "name": "xdebug",
+            "primaryCategory": [
+                "PhpTools"
+            ]
+        },
+        {
+            "site": "https://xvideos.com",
+            "name": "xvideos",
+            "primaryCategory": "ADT"
+        },
+        {
+            "site": "https://yahoo.com",
+            "name": "yahoo",
+            "primaryCategory": "SearchEngine"
+        },
+        {
+            "site": "https://youtube.com",
+            "name": "youtube",
+            "primaryCategory": "Videos"
+        },
+        {
+            "site": "https://zengo.com",
+            "name": "zengo",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://zoomit.eu",
+            "name": "zoomit.eu",
+            "primaryCategory": "ReceiveMail"
+        },
+        {
+            "site": "https://www.prc.cm",
+            "name": "prc",
+            "primaryCategory": [
+                "News",
+                "Cameroun"
+            ]
+        }
+    ]
+}

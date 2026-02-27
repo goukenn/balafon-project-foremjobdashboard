@@ -26,12 +26,42 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $name, string $short_name, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobCategories extends ModelBase{
-	const FD_ID="jct_id";
-	const FD_NAME="jct_name";
-	const FD_SHORT_NAME="jct_short_name";
-	const FD_DESCRIPTION="jct_description";
-	const FD_CREATE_AT="jct_Create_At";
-	const FD_UPDATE_AT="jct_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="jct_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_NAME="jct_name";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_SHORT_NAME="jct_short_name";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_DESCRIPTION="jct_description";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="jct_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="jct_Update_At";
 	/**
 	* table's name
 	*/

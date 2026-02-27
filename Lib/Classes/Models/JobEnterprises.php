@@ -28,13 +28,48 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $name, string $vat, string $title, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobEnterprises extends ModelBase{
-	const FD_ID="id";
-	const FD_NAME="name";
-	const FD_VAT="vat";
-	const FD_TITLE="title";
-	const FD_DESCRIPTION="description";
-	const FD_CREATE_AT="Create_At";
-	const FD_UPDATE_AT="Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_NAME="name";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_VAT="vat";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_TITLE="title";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_DESCRIPTION="description";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="Update_At";
 	/**
 	* table's name
 	*/
@@ -51,7 +86,12 @@ class JobEnterprises extends ModelBase{
 	*override display key
 	*/
 	protected $display = "name";
-	protected $unique_columns = array (
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'name',

@@ -15,6 +15,10 @@ use IGK\Actions\ApiActionBase;
 * @auth(admin, strict=true)
 */
 class AdminAction extends ApiActionBase{
+
+    /**
+    * auto generate doc.
+    */
     public function job_post(){
         return [];
     }

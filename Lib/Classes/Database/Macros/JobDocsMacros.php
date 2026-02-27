@@ -10,11 +10,17 @@ use com\igkdev\projects\ForemJobDashboard\JobDocTypes as EnumJobDocTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobUsers;
 use IGK\Models\ModelBase;
+
 /**
- * 
- * @package com\igkdev\projects\ForemJobDashboard\Database\Macros
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Database\Macros
+* @author C.A.D. BONDJE DOUE
+*/
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Database\Macros
+*/
 abstract class JobDocsMacros
 {
     /**
@@ -26,6 +32,13 @@ abstract class JobDocsMacros
     {
         return JobDocTypes::GetCache(JobDocTypes::FD_ID, $model->job_doc_type_id)->name ?? 'unknown';
     }
+
+    /**
+    * auto generate doc.
+    * @param JobDocs $model
+    * @param mixed $user
+    * @return bool
+    */
     public static function isUserFileDocument(JobDocs $model, $user): bool
     {
         $t = EnumJobDocTypes::FILE();
@@ -38,6 +51,13 @@ abstract class JobDocsMacros
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param JobDocs $model
+    * @param mixed $user
+    * @return bool
+    */
     public static function isOwnedBy(JobDocs $model, $user): bool {
         $q = Jobs::GetCache(Jobs::FD_ID, $model->job_doc_type_id);
         $u = JobUsers::GetCache(JobUsers::FD_GUID, $user->clGuid);

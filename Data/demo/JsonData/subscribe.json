@@ -1,0 +1,78 @@
+[
+    {
+        "site_name": "nbb",
+        "new_letter": true,
+        "job_alert": true,
+        "account": "bondje.doue@gmail.com"
+    },
+    {
+        "site_name": "udemy",
+        "new_letter": false,
+        "registred": true,
+        "job_alert": true,
+        "date": "2024-09-24",
+        "account": "bondje.doue@gmail.com"
+    },
+    {
+        "site_name": "leboncoin",
+        "new_letter": false,
+        "registred": true,
+        "job_alert": false,
+        "date": "2024-09-24",
+        "account": "bondje.doue",
+        "email": "bondje.doue@gmail.com"
+    },
+    {
+        "site_name": "kia",
+        "new_letter": false,
+        "registred": true,
+        "job_alert": false,
+        "date": "2024-09-24",
+        "account": "bondje.doue@gmail.com"
+    },
+    {
+        "site_name": "kia",
+        "new_letter": false,
+        "registred": true,
+        "job_alert": false,
+        "date": "2024-09-24",
+        "account": "bondje.doue@gmail.com"
+    },
+    {
+        "site_name": "inkscape",
+        "new_letter": false,
+        "registred": true,
+        "job_alert": false,
+        "date": "2024-09-25",
+        "account": "goukenn",
+        "email": "bondje.doue@gmail.com"
+    },
+    {
+        "site_name": "napoleonsports",
+        "new_letter": false,
+        "registred": true,
+        "job_alert": false,
+        "unsubscribed":"2024-28-09",
+        "itsme": true,
+        "date": "2024-09-25",
+        "account": "goukenn",
+        "email": "bondje.doue@gmail.com"
+    },
+    {
+        "site_name": "editx",
+        "new_letter": false,
+        "registred": true,
+        "job_alert": false,  
+        "date": "2024-10-11", 
+        "email": "bondje.doue@gmail.com"
+    },
+    {
+        "site_name": "odeskwork",
+        "new_letter": false,
+        "registred": true,
+        "job_alert": false,  
+        "date": "2024-10-16",
+        "account": "goukenn",
+        "email": "bondje.doue@gmail.com"
+    }
+]

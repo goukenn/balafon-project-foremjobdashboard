@@ -14,11 +14,19 @@ use IGK\System\Http\Request;
 * @author C.A.D. BONDJE DOUE
 */
 class CapsulateAction extends ActionBase{
+
+    /**
+    * auto generate doc.
+    * @param null|Request $request
+    * @param null|ForemJobDashboardController $ctrl
+    */
     public function index(?Request $request=null, ?ForemJobDashboardController $ctrl=null){
         list($search) = $request->get('search');
+
         /**
-         * @var MainTaskModelUtility
-         */
+        * auto generate doc.
+        * @var MainTaskModelUtility
+        */
         $ctrl = $ctrl ?? $this->getController();
         $job  = $ctrl->modelUtility('maintask') ?? igk_die('missing jobs utility');        
         $user = $ctrl->getUserProfile()->user();

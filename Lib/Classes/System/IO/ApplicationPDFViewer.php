@@ -5,12 +5,25 @@
 namespace com\igkdev\projects\ForemJobDashboard\System\IO;
 use IGK\System\IO\Path;
 use function igk_resources_gets as __;
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\IO
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\System\IO
+*/
 class ApplicationPDFViewer extends FileViewer{
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param mixed $content
+    * @param mixed $ctrl
+    */
     public function view($node, $content, $ctrl)
     {
         $d = $ctrl->currentLoginPath();

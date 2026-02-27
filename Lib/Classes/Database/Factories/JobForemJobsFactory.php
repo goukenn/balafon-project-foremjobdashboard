@@ -14,7 +14,12 @@ use TBN\ModelUtilities\TaskModelUtility;
 * @author C.A.D. BONDJE DOUE
 */
 class JobForemJobsFactory extends FactoryBase{
-	public function create():?array{
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
+    public function create():?array{
 		if (!$this->data)
 			return parent::create();
 		$r = [];
@@ -32,7 +37,12 @@ class JobForemJobsFactory extends FactoryBase{
 		}
 		return $r;
 	}
-	public function definition(): ?array{
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
+    public function definition(): ?array{
 		return null; 
 	// 	array (
 	//   'id' => 0,

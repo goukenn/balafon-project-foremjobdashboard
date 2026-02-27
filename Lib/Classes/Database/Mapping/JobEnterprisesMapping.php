@@ -13,7 +13,12 @@ use IGK\System\Models\ModelBase;
 * @author C.A.D. BONDJE DOUE
 */
 class JobEnterprisesMapping extends SysDbMapping{
-	public function map(ModelBase $model){
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
+    public function map(ModelBase $model){
 	    return parent::map($model);
 	}
 }

@@ -12,18 +12,38 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes;
 use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 use function igk_resources_gets as __;
 ///<summary></summary>
+
 /**
- * 
- * @package com\igkdev\projects\ForemJobDashboard\IO
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\IO
+* @author C.A.D. BONDJE DOUE
+*/
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\IO
+*/
 class PDFPrinter
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_faker;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_faker = \Faker\Factory::create('fr');
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $txt
+    */
     public function treatText(?string $txt=null){
         if (null === $txt)return $txt;
         $txt = str_replace('é', "\xe9",  $txt);
@@ -31,12 +51,11 @@ class PDFPrinter
         $txt = str_replace('ï', "\xef",  $txt);
         return $txt;
     }
+
     /**
-     * 
-     * @param Jobs $job 
-     * @param mixed $doc 
-     * @return string|false|void 
-     */
+    * auto generate doc.
+    * @return string|false|void
+    */
     public function printJob(Jobs $job, $doc = null)
     {
         $date_format = igk_configs()->get('date_format', 'Y-m-d');
@@ -84,6 +103,10 @@ class PDFPrinter
             return $c;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getFakeName()
     {
         return implode(" ", array_filter([
@@ -93,12 +116,11 @@ class PDFPrinter
             $this->m_faker->email()
         ]));
     }
+
     /**
-     * 
-     * @param mixed $v 
-     * @param mixed $document 
-     * @return string 
-     */
+    * auto generate doc.
+    * @return string
+    */
     public function styleValue($k, $v, $document)
     {   
         if (in_array($l = strtolower($k), explode("|", "status"))){

@@ -21,11 +21,11 @@ use IGK\System\IO\Path;
 * @author C.A.D. BONDJE DOUE
 */
 class DocsAction extends MiddlewireActionBase{
+
     /**
-     * 
-     * @param null|Jobs $job 
-     * @return void|mixed|IResponse|null 
-     */
+    * auto generate doc.
+    * @return void|mixed|IResponse|null
+    */
     public function index(?Jobs $job=null, ?Request $request=null){
         Jobs::registerMacro('documents', function(){
             return JobDocs::select_all([JobDocs::FD_JOB_ID => $this->id]);

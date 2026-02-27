@@ -92,6 +92,15 @@ Nous vous tiendrons au courant de la suite de la procédure.
 Cordialement,
 L'équipe de HR
 EOF;
+
+/**
+* auto generate doc.
+* @param mixed $responses
+* @param mixed $title
+* @param null|string $enterprise
+* @param null|string $name
+* @param null|string $rh_service
+*/
 function get_dump_response($responses,  $title, ?string $enterprise = null, ?string $name = null, ?string $rh_service = null)
 {
     $src = $responses[rand(0, count($responses) - 1)];
@@ -111,13 +120,11 @@ function get_dump_response($responses,  $title, ?string $enterprise = null, ?str
 // igk_wln_e(get_dump_response($responses, 'java'));
 /// comming from test - 
 if (!function_exists("igk_io_rmdir")) {
+
     /**
-     * 
-     * @param mixed $dir 
-     * @param bool $recursive 
-     * @param mixed $callback 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
     function igk_io_rmdir($dir, $recursive = true, $callback = null)
     {
         if (!is_dir($dir))

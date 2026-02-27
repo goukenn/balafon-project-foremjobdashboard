@@ -4,15 +4,30 @@ use IGK\Models\Traits\ModelTableConstantTrait;
 use IGK\System\Traits\EnumeratesConstants;
 use com\igkdev\projects\ForemJobDashboard\Models\JobMessageTypes as JobMessageTypesModel;
 use IGK\Database\ORM\Annotations as ORM;
+
 /**
- * 
- * @package com\igkdev\projects\ForemJobDashboard
-*  @ORM\InitDataAnnotation()
- */
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard
+*/
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard
+*/
 class JobMessageTypes{
     use EnumeratesConstants;
     use ModelTableConstantTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected static $model = JobMessageTypesModel::class;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected static $field_name = JobMessageTypesModel::FD_NAME;
     /**
      * enterprise response

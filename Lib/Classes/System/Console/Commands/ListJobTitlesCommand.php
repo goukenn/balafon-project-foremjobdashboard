@@ -6,21 +6,57 @@ namespace com\igkdev\projects\ForemJobDashboard\System\Console\Commands;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
- * 
- * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
+* @author C.A.D. BONDJE DOUE
+*/
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
+*/
 class ListJobTitlesCommand extends JobCommandBase
 {
-	var $command = '--forem-job:titles';
-	var $desc = 'list job title';
-	var $options = [
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--forem-job:titles';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'list job title';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [
 		'--fix'=>'fix fake with existing data',
 	];
-	var $category = 'forem';
-	var $usage = '[options]'; 
-	public function exec($command)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'forem';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command)
 	{
 		$fix = property_exists($command->options, '--fix');
 		$key = Jobs::FD_TITLE;

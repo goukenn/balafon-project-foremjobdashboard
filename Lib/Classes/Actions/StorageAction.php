@@ -13,6 +13,11 @@ use IGK\Actions\ActionBase;
 * @author C.A.D. BONDJE DOUE
 */
 class StorageAction extends ActionBase{
+
+    /**
+    * auto generate doc.
+    * @param string $path_encoded
+    */
     public function index_get(string $path_encoded){
         if (igk_valid_cref(false) || $this->getUser()){
             $storage = new Storage(base64_decode($path_encoded), $this->getController());  

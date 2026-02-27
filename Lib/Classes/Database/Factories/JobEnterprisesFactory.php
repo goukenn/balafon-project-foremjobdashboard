@@ -15,7 +15,12 @@ use IGK\System\Traits\ComposerFakerTrait;
 class JobEnterprisesFactory extends FactoryBase
 {
 	use ComposerFakerTrait;
-	public function definition(): ?array
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
+    public function definition(): ?array
 	{
 		$faker = $this->getFaker();
 		$type = igk_getv(['Limited','SA','LTD','Company'], rand(0,3));

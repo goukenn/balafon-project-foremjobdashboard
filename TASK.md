@@ -1,10 +1,8 @@
 # TASK LIST PROJECT
 
-
-
--[ ] import list of jobs
--[ ] export list of jobs 
--[ ] extract output archive 
+-[x] import list of jobs
+-[x] export list of jobs 
+-[x] extract output archive 
 
 - to generate file execution :
 ```sh

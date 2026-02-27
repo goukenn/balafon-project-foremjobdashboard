@@ -26,12 +26,42 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static ?self AddIfNotExists(int|\com\igkdev\projects\ForemJobDashboard\Models\JobUsers $user_id, string $name, string $value, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobUserSettings extends ModelBase{
-	const FD_ID="job_uss_id";
-	const FD_USER_ID="job_uss_user_id";
-	const FD_NAME="job_uss_name";
-	const FD_VALUE="job_uss_value";
-	const FD_CREATE_AT="job_uss_Create_At";
-	const FD_UPDATE_AT="job_uss_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="job_uss_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_USER_ID="job_uss_user_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_NAME="job_uss_name";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_VALUE="job_uss_value";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="job_uss_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="job_uss_Update_At";
 	/**
 	* table's name
 	*/
@@ -44,7 +74,12 @@ class JobUserSettings extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "job_uss_id";
-	protected $unique_columns = array (
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'job_uss_user_id',

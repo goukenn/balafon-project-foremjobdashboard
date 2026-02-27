@@ -13,44 +13,83 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Reflection\Helper\ReflectionHelper;
 use ReflectionException;
+
 /**
- * 
- * @package com\igkdev\projects\ForemJobDashboard
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard
+* @author C.A.D. BONDJE DOUE
+*/
 class UserConfigSetting
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_user_profile;
     /**
      * display title 
      * @var mixed
      */
     var $display;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $firstName;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $lastName;
     /**
      * user app locale 
      * @var ?string locale
      */
     var $locale;
-    var $followDate;
-    var $defaultMotivationTemplate;
-    var $defaultCVTemplate;
-    var $email;
-    var $phone;
-    var $address;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
+    var $followDate;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $defaultMotivationTemplate;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $defaultCVTemplate;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $email;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $phone;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $address;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $license;
     /**
      * my title 
@@ -67,17 +106,53 @@ class UserConfigSetting
      * @var ?object
      */
     var $data;
+
     /**
-     * 
-     * @var ?object
-     */
+    * auto generate doc.
+    * @var ?object
+    */
     var $social_networks;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $linkedin;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $facebook;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $monsterbe;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $stepstone;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $luxembourg;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $indeed;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $x;
     /**
      * keywords
@@ -89,11 +164,16 @@ class UserConfigSetting
      * @var ?string[]
      */
     var $skills;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $drivingLicenses;
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return ReflectionHelper::DebugOnlyPublicMember($this);
@@ -134,16 +214,11 @@ class UserConfigSetting
         $c->m_user_profile = $user;
         return $c;
     }
+
     /**
-     * 
-     * @return void 
-     * @throws Error 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public function store()
     {
         $T1 = JobUserSettings::class;
@@ -157,9 +232,11 @@ class UserConfigSetting
                 $T1::FD_USER_ID => $uid,
                 $T1::FD_NAME => $k,
             ];
+
             /**
-             * @var mixed $c
-             */
+            * auto generate doc.
+            * @var mixed $c
+            */
             if ($c = $T1::insertIfNotExists($c, null, false)) {
                 if (is_bool($c)) {
                     if ($c){

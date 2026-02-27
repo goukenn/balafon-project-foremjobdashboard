@@ -8,18 +8,55 @@ use IGK\Helper\JSon as HelperJSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
+*/
 class EnterpriseListCommand extends JobCommandBase{
-	var $command='--forem-job:list';
-	var $desc='list enterprise command';
-	var $options=[];
-	var $category = 'forem-job';
-	var $usage = '[options]';
-	public function exec($command, string $type='interim') { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--forem-job:list';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='list enterprise command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'forem-job';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param string $type
+    */
+    public function exec($command, string $type='interim') { 
 		$r = []; 
 		$c = JobEnterprises::select_all();
 		foreach($c as $row){

@@ -14,10 +14,16 @@ use IGKDbModelUtility;
 * @author C.A.D. BONDJE DOUE
 */
 class JobContactsModelUtility extends IGKDbModelUtility{
+
+    /**
+    * auto generate doc.
+    */
     public function list(){
+
         /**
-         * @var IDbQueryOptions
-         */
+        * auto generate doc.
+        * @var IDbQueryOptions
+        */
         $v_opts =  new DbQueryOptions;
         $v_opts->Columns = [
             JobContacts::column(JobContacts::FD_FIRSTNAME)=>'firstName', 
