@@ -2,6 +2,11 @@
 namespace com\igkdev\projects\ForemJobDashboard\Database;
 use com\igkdev\projects\ForemJobDashboard\Models\JobUserSettings;
 use IGK\Models\Users;
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Database
+*/
 class Utility{
 
     /**
