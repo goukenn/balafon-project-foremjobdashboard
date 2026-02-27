@@ -14,13 +14,19 @@ use IGK\Models\Users;
 use IGK\System\Database\Import\DbModelImporterMap;
 use IGKException;
 ///<summary></summary>
+
 /**
- * 
- * @package com\igkdev\projects\ForemJobDashboard\Database\Import
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Database\Import
+* @author C.A.D. BONDJE DOUE
+*/
 class JobsImportMapping extends DbModelImporterMap
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_loading;
     /**
      * entry import data
@@ -31,12 +37,11 @@ class JobsImportMapping extends DbModelImporterMap
             return parent::_onImportData((array)$info);
         }
     }
+
     /**
-     * 
-     * @param array $data 
-     * @param mixed $model_classe 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
     protected function _onLoadData(array $data, string $model_classe , & $row):bool
     {
         $row = null;
@@ -70,6 +75,11 @@ class JobsImportMapping extends DbModelImporterMap
         }
         return true;
     }
+
+    /**
+    * .ctr
+    * @param ModelBase $model
+    */
     public function __construct(ModelBase $model)
     {
         parent::__construct($model);
@@ -111,11 +121,11 @@ class JobsImportMapping extends DbModelImporterMap
             }
         });
     }
-/**
- * 
- * @return array 
- * @throws IGKException 
- */
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function export(): array
     {
         $ctrl = Jobs::model()->getController();
@@ -150,9 +160,11 @@ class JobsImportMapping extends DbModelImporterMap
                 if (!$inf->jobs){
                     $inf->jobs = [];
                 }
+
                 /**
-                 * @var Jobs $t
-                 */
+                * auto generate doc.
+                * @var Jobs $t
+                */
                 $l = new JobEntryImportInfo;
                 $l->title = $t->title;
                 $l->date = $t->Create_At;

@@ -3,8 +3,9 @@
 // @file: UserConfigSettingData.php
 // @date: 20250826 17:26:26
 namespace com\igkdev\projects\ForemJobDashboard;
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard
 * @author C.A.D. BONDJE DOUE
 */

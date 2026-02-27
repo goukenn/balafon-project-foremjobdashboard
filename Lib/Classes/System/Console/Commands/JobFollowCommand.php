@@ -10,20 +10,56 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Commands\ServerCommandHelper;
 use igk\System\Console\Commands\Utility;
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
+*/
 class JobFollowCommand extends JobCommandBase{
-	var $command='--forem-job:follow';
-	var $desc='view jobs follows list';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--forem-job:follow';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='view jobs follows list';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--user:[id]'=>'user id'
 	];
-	var $category = 'forem';
-	var $usage = '[options]';
-	public function exec($command) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'forem';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command) { 
 		$ctrl = ForemJobDashboardController::ctrl(true);
 		self::BindUserCommand($ctrl, $command);
 		DbCommandHelper::Init($command);

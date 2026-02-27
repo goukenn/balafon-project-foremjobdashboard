@@ -20,25 +20,35 @@ class UserProfile extends SystemUserProfile{
      * override de profileModelClass 
      */
     const profileModelClass = JobUsers::class;
+
     /**
-     * @var JobUsers
-     */
+    * auto generate doc.
+    * @var JobUsers
+    */
     protected $m_projectUser;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
     }
+
     /**
-     * 
-     * @param Users $user 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return void
+    */
     protected function initProjectDbUser(Users $user){
         if (is_null($v_user = JobUsers::GetCache(JobUsers::FD_GUID, $user->clGuid))){
             $v_user = $this->createNewProjectUser($user, JobUsers::class);
         }
         ($this->m_projectUser = $v_user) ?? igk_die('missing project user');
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $class_name
+    */
     protected function getdbCacheColumnList($class_name){
         return [JobUsers::FD_GUID, IGK_FD_GUID];
     }

@@ -5,31 +5,48 @@
 namespace com\igkdev\projects\ForemJobDashboard\Models;
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 ///<summary></summary>
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\Models
 * @author C.A.D. BONDJE DOUE
-* @property int $id
-* @property string $client_id
-* @property string $user_id
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
-* @method static string FN_ID() - `id` full column name 
-* @method static string FN_CLIENT_ID() - `client_id` full column name 
-* @method static string FN_USER_ID() - `user_id` full column name 
-* @method static string FN_CREATE_AT() - `Create_At` full column name 
-* @method static string FN_UPDATE_AT() - `Update_At` full column name 
-* @method static ?array joinOnId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
-* @method static ?string targetOnId() - macros function
-* @method static ?self Add(string $client_id, string $user_id, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string $client_id, string $user_id, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
-* */
+*/
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Models
+*/
 class SwaggerOauth extends ModelBase{
-	const FD_ID="id";
-	const FD_CLIENT_ID="client_id";
-	const FD_USER_ID="user_id";
-	const FD_CREATE_AT="Create_At";
-	const FD_UPDATE_AT="Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLIENT_ID="client_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_USER_ID="user_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="Update_At";
 	/**
 	* table's name
 	*/

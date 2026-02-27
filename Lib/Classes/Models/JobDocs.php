@@ -26,12 +26,42 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static ?self AddIfNotExists(int|?\com\igkdev\projects\ForemJobDashboard\Models\Jobs $job_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobDoctypes $job_doc_type_id, string $value, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobDocs extends ModelBase{
-	const FD_ID="jdv_id";
-	const FD_JOB_ID="jdv_job_id";
-	const FD_JOB_DOC_TYPE_ID="jdv_job_doc_type_id";
-	const FD_VALUE="jdv_value";
-	const FD_CREATE_AT="jdv_Create_At";
-	const FD_UPDATE_AT="jdv_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="jdv_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_JOB_ID="jdv_job_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_JOB_DOC_TYPE_ID="jdv_job_doc_type_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_VALUE="jdv_value";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="jdv_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="jdv_Update_At";
 	/**
 	* table's name
 	*/

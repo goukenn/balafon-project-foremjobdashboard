@@ -36,6 +36,10 @@ class MotivationAction extends ActionBase{
         }
         return compact('response', 'error');
     }
+
+    /**
+    * auto generate doc.
+    */
     public function index(){ 
     }
 }

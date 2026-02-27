@@ -13,6 +13,11 @@ use IGK\Actions\ActionBase;
 * @author C.A.D. BONDJE DOUE
 */
 class EditAction extends ActionBase{
+
+    /**
+    * auto generate doc.
+    * @param null|Jobs $job
+    */
     public function index(?Jobs $job=null){
         $response = [];
         if ($job){
@@ -21,6 +26,11 @@ class EditAction extends ActionBase{
         }
         return $response;
     }
+
+    /**
+    * auto generate doc.
+    * @param Jobs $job
+    */
     public function clear_docs_post(Jobs $job){
         igk_wln_e("clear document");
         JobDocs::delete([JobDocs::FD_JOB_ID => $job->id]);

@@ -15,7 +15,16 @@ use IGK\System\Http\Request;
 * @author C.A.D. BONDJE DOUE
 */
 class DefaultAction extends ApiActionBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const VERSION = '1.0';
+
+    /**
+    * auto generate doc.
+    */
     public function index_get(){ 
         return [
             'author'=>IGK_AUTHOR,
@@ -23,10 +32,21 @@ class DefaultAction extends ApiActionBase{
             'description'=>'REST api to administrate list of job for forem.'
         ];
     }
-     public function index_put(Jobs $job, Request $request){         
+
+    /**
+    * auto generate doc.
+    * @param Jobs $job
+    * @param Request $request
+    */
+    public function index_put(Jobs $job, Request $request){         
         $data = $request->getJsonData(); 
         return $request->error('no json data',400);
     }
+
+    /**
+    * auto generate doc.
+    * @param Jobs $job
+    */
     public function info(Jobs $job){
         return $job->to_array();
     }

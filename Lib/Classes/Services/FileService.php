@@ -7,17 +7,37 @@ use ForemJobDashboardController;
 use com\igkdev\projects\ForemJobDashboard\JobDocTypes as ConstantJobDocTypes;
 use IGK\System\IO\Path;
 ///<summary></summary>
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\Services
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Services
+*/
 class FileService{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_controller;
+
+    /**
+    * .ctr
+    * @param ForemJobDashboardController $ctrl
+    */
     public function __construct(ForemJobDashboardController $ctrl)
     {
         $this->m_controller = $ctrl;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function dirs(){        
         $ctrl = $this->m_controller;
         $dirs = [
@@ -39,6 +59,11 @@ class FileService{
             @unlink($f);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    */
     public function fileContent($file){
         list($path, $type) = $file;
         $dirs = $this->dirs();

@@ -9,13 +9,23 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprisesContacts;
 use ForemJobDashboardController;
 use IGK\System\Database\Seeds\SeederBase;
 ///<summary></summary>
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\Database\Seeds
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Database\Seeds
+*/
 class DataBaseSeeder extends SeederBase{
-	public function run(){
+
+    /**
+    * auto generate doc.
+    */
+    public function run(){
 	// + | DATABASE Seeder
 	// + | [model]::factory(number)->create();
 		$enterprises = JobEnterprises::factory(rand(5, 60))->create();

@@ -5,10 +5,16 @@
 namespace com\igkdev\projects\ForemJobDashboard\System\IO;
 use IGK\Helper\StringUtility;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\IO
 * @author C.A.D. BONDJE DOUE
+*/
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\System\IO
 */
 abstract class FileViewer{
     /**
@@ -24,5 +30,12 @@ abstract class FileViewer{
         }
         throw new IGKException('missing view type : '.$cl);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param string $content
+    * @param mixed $ctrl
+    */
     abstract function view($node, string $content, $ctrl);
 }

@@ -9,6 +9,11 @@ $user = igk_get_user_bylogin('cbondje@igkdev.com');
 Logger::SetColorizer(new Colorize);
 // register application server 
 $expire_at =  date('Y-m-d H:i:s', strtotime('+1 month'));
+
+/**
+* auto generate doc.
+* @param mixed $user
+*/
 function gen_client_id($user){
     return hash('sha256', implode("", [
         igk_app()->getConfigs()->hashKey,

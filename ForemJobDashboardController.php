@@ -44,10 +44,11 @@ class ForemJobDashboardController extends ApplicationController
         }
         return $user;
     }
+
     /**
-     * @param Array? $info
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     protected function outputDownload($info = null)
     {
         extract(array_merge($info ?? [], ['ctrl' => $this]));
@@ -61,9 +62,11 @@ class ForemJobDashboardController extends ApplicationController
     protected function currentLoginPath(
         $u = null
     ): string {
+
         /**
-         * @var IUserProfile|null $u
-         */
+        * auto generate doc.
+        * @var IUserProfile|null $u
+        */
         $s = 'store';
         $u = $u ?? $this->getUserProfile();
         if (($u) && ($login = $u->{'clLogin'})){
@@ -75,6 +78,10 @@ class ForemJobDashboardController extends ApplicationController
     {
         return $this->getDataDir() . $this->currentLoginPath() . '/db/offers/';
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getResponseDir()
     {
         return $this->getDataDir() . $this->currentLoginPath() . '/db/response/';

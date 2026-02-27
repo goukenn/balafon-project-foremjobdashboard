@@ -49,7 +49,12 @@ class JobsFactory extends FactoryBase
 		}
 		return $result;
 	}
-	public function definition(): ?array
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
+    public function definition(): ?array
 	{
 		return null;
 	}

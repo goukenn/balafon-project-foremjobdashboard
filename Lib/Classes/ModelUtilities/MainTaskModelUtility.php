@@ -33,6 +33,11 @@ use IGKException;
  */
 class MainTaskModelUtility extends IGKDbModelUtility
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_ownerForems = [];
     /**
      * register user
@@ -49,10 +54,11 @@ class MainTaskModelUtility extends IGKDbModelUtility
         }
         return $ru;
     }
+
     /**
-     * 
-     * @return null|JobUsers 
-     */
+    * auto generate doc.
+    * @return null|JobUsers
+    */
     public function last()
     {
         return JobUsers::Get("id", JobUsers::last_id());
@@ -68,13 +74,11 @@ class MainTaskModelUtility extends IGKDbModelUtility
             JobUsers::FD_GUID => $user->clGuid
         ]) != null;
     }
+
     /**
-     * 
-     * @param string $title 
-     * @param JobUsers $user 
-     * @param null|int $timespan 
-     * @return object|null|void 
-     */
+    * auto generate doc.
+    * @return object|null|void
+    */
     public function addJob(string $title, JobUsers $user, ?int $timespan = null, ?string $description = null)
     {
         $date = !is_null($timespan) && ($timespan > 0) ? date('Y-m-d', $timespan) : JobUsers::FC_NOW;
@@ -96,6 +100,12 @@ class MainTaskModelUtility extends IGKDbModelUtility
         $l = Jobs::insert($d);
         return $l;
     }
+
+    /**
+    * auto generate doc.
+    * @param Jobs $job
+    * @return bool
+    */
     public function isForemJobs(Jobs $job): bool
     {
         if (($user = JobUsers::GetCache(JobUsers::FD_ID, $job->user_id)) instanceof JobUsers) {
@@ -121,6 +131,11 @@ class MainTaskModelUtility extends IGKDbModelUtility
         $cond = [JobForemJobs::FD_JOB_ID => $job->{Jobs::FD_ID}, $cl_ref => $reference];
         return JobForemJobs::insertIfNotExists($cond);
     }
+
+    /**
+    * auto generate doc.
+    * @param JobUsers $user
+    */
     public static function GetOwnerForemReferenceJob(JobUsers $user)
     {
         if ($ids = igk_getv(self::$sm_ownerForems, $user->id)) {
@@ -151,12 +166,11 @@ class MainTaskModelUtility extends IGKDbModelUtility
         self::$sm_ownerForems[$user->id] = $r;
         return $r;
     }
+
     /**
-     * 
-     * @param mixed $user 
-     * @param null|string $search 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     public function selectAllUserJobApplication(JobUsers $user, ?string $search = null)
     {
         $cond = [];
@@ -177,34 +191,32 @@ class MainTaskModelUtility extends IGKDbModelUtility
         }
         return Jobs::select_all($cond, $options);
     }
+
     /**
-     * 
-     * @param mixed $id 
-     * @return {row: JobContacts, data: ContactDataInfo}
-     */
+    * auto generate doc.
+    * @return {row: JobContacts, data: ContactDataInfo}
+    */
     public function getContact($id)
     {
         $v = JobContacts::GetCache(JobContacts::primaryKey(), $id);
         return (object)['row' => $v, 'data' => Activator::CreateNewInstance(ContactDataInfo::class,  json_decode($v->data ?? '{}'))];
     }
+
     /**
-     * 
-     * @param Jobs $job 
-     * @return string|void 
-     */
+    * auto generate doc.
+    * @return string|void
+    */
     public function getSourceTypeFromJob(Jobs $job)
     {
         if ($l = JobSourceTypes::GetCache(JobSourceTypes::FD_ID, $job->from_id)) {
             return $l->name;
         }
     }
+
     /**
-     * 
-     * @param mixed $user 
-     * @param null|string $search 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     public function listJobs($user, ?string $search = null)
     {
         $ad = Jobs::model()->getDataAdapter();
@@ -220,14 +232,11 @@ class MainTaskModelUtility extends IGKDbModelUtility
         $r = Jobs::select_all($cond);
         return $r;
     }
+
     /**
-     * 
-     * @param Jobs $job 
-     * @param mixed $s data
-     * @param JobDoctypes $responseType 
-     * @param bool $force_insert 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public function storeJobDocument(Jobs $job, $s, JobDoctypes $responseType, $force_insert = false) {
             $cond = [
                 JobDocs::FD_JOB_ID => $job->id,

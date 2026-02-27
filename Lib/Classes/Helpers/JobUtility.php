@@ -8,12 +8,25 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use IGK\Helper\IO;
 ///<summary></summary>
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\Helpers
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Helpers
+*/
 class JobUtility{
+
+    /**
+    * auto generate doc.
+    * @param Jobs $job
+    * @param mixed $src
+    * @param bool $append
+    */
     public static function StoreTemplateResponse(Jobs $job, $src, bool $append=false){
         $type = JobDocTypes::RESPONSE;
         $doctype_id = JobDocTypes::GetCacheData($type)->id;
@@ -32,6 +45,13 @@ class JobUtility{
         } else
             $s = JobDocs::createIfNotExists($r);
     }
+
+    /**
+    * auto generate doc.
+    * @param Jobs $job
+    * @param mixed $src
+    * @param bool $append
+    */
     public static function StoreResponse(Jobs $job, $src, bool $append){
         $offer_dir = $job->getController()->getOfferDir();
         $tfile = $offer_dir . $job->id;

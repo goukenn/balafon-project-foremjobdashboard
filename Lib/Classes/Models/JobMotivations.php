@@ -28,13 +28,48 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $guid, int|\com\igkdev\projects\ForemJobDashboard\Models\JobUsers $user_id, string $data, string $lang ="en-EN", string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobMotivations extends ModelBase{
-	const FD_ID="jmt_id";
-	const FD_GUID="jmt_guid";
-	const FD_LANG="jmt_lang";
-	const FD_USER_ID="jmt_user_id";
-	const FD_DATA="jmt_data";
-	const FD_CREATE_AT="jmt_Create_At";
-	const FD_UPDATE_AT="jmt_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="jmt_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_GUID="jmt_guid";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_LANG="jmt_lang";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_USER_ID="jmt_user_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_DATA="jmt_data";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="jmt_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="jmt_Update_At";
 	/**
 	* table's name
 	*/

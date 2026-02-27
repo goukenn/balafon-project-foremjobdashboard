@@ -29,10 +29,22 @@ class EnterpriseModelUtility extends IGKDbModelUtility
     {
         return JobEnterprises::model();
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param null|string $vat
+    */
     public function add(string $name, ?string $vat = null)
     {
         return $this->primary()->AddIfNotExists($name, $vat);
     }
+
+    /**
+    * auto generate doc.
+    * @param JobEnterprises $model
+    * @param JobContacts $contact
+    */
     public function addContactTo(JobEnterprises $model, JobContacts $contact)
     {
         return JobEnterprisesContacts::model()->AddIfNotExists($model->id, $contact->id);
@@ -50,14 +62,11 @@ class EnterpriseModelUtility extends IGKDbModelUtility
             ]]);
         return $q->execute();
     }
+
     /**
-     * 
-     * @param JobEnterprises $model 
-     * @param JobUsers $user 
-     * @return bool|null|IDbQueryResult 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return bool|null|IDbQueryResult
+    */
     public function getUserContacts(JobEnterprises $model, JobUsers $user)
     {
         $q = JobEnterprisesContacts::model()->prepare()

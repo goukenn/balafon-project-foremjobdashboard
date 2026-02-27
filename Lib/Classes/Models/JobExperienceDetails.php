@@ -24,11 +24,36 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static ?self AddIfNotExists(int|\com\igkdev\projects\ForemJobDashboard\Models\JobExperiences $experience_id, string $value, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobExperienceDetails extends ModelBase{
-	const FD_ID="job_expd_id";
-	const FD_EXPERIENCE_ID="job_expd_experience_id";
-	const FD_VALUE="job_expd_value";
-	const FD_CREATE_AT="job_expd_Create_At";
-	const FD_UPDATE_AT="job_expd_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="job_expd_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_EXPERIENCE_ID="job_expd_experience_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_VALUE="job_expd_value";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="job_expd_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="job_expd_Update_At";
 	/**
 	* table's name
 	*/

@@ -5,10 +5,16 @@
 namespace com\igkdev\projects\ForemJobDashboard;
 use IGK\System\Regex\Replacement;
 ///<summary></summary>
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard
 * @author C.A.D. BONDJE DOUE
+*/
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard
 */
 class EnterpriseResponseTemplateManager{
     /**
@@ -16,21 +22,30 @@ class EnterpriseResponseTemplateManager{
      * @var ?string
      */
     var $name;
+
     /**
-     * 
-     * @var ?string
-     */
+    * auto generate doc.
+    * @var ?string
+    */
     var $enterprise_info;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $contact;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $job_title;
+
+    /**
+    * auto generate doc.
+    * @param string $source
+    * @param null|array $info
+    */
     public function treat(string $source, ?array $info = null){
         $replacement = new Replacement;
         foreach(['name'] as $k){

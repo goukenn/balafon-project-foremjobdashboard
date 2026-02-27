@@ -24,11 +24,36 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static ?self AddIfNotExists(int|\com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises $enterprise_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobEnterpriseCategories $enterprise_cat_id, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobEnterpriseGlueCategories extends ModelBase{
-	const FD_ID="job_ec_id";
-	const FD_ENTERPRISE_ID="job_ec_enterprise_id";
-	const FD_ENTERPRISE_CAT_ID="job_ec_enterprise_cat_id";
-	const FD_CREATE_AT="job_ec_Create_At";
-	const FD_UPDATE_AT="job_ec_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="job_ec_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ENTERPRISE_ID="job_ec_enterprise_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ENTERPRISE_CAT_ID="job_ec_enterprise_cat_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="job_ec_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="job_ec_Update_At";
 	/**
 	* table's name
 	*/
@@ -41,7 +66,12 @@ class JobEnterpriseGlueCategories extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "job_ec_id";
-	protected $unique_columns = array (
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'job_ec_enterprise_id',

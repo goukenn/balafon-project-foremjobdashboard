@@ -26,12 +26,42 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static ?self AddIfNotExists(int|\com\igkdev\projects\ForemJobDashboard\Models\Jobs $offer_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobMessageTypes $message_type_id, string $content, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobMessages extends ModelBase{
-	const FD_ID="jms_id";
-	const FD_OFFER_ID="jms_offer_id";
-	const FD_MESSAGE_TYPE_ID="jms_message_type_id";
-	const FD_CONTENT="jms_content";
-	const FD_CREATE_AT="jms_Create_At";
-	const FD_UPDATE_AT="jms_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="jms_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_OFFER_ID="jms_offer_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MESSAGE_TYPE_ID="jms_message_type_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CONTENT="jms_content";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="jms_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="jms_Update_At";
 	/**
 	* table's name
 	*/

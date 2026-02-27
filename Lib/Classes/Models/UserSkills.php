@@ -5,20 +5,36 @@
 namespace com\igkdev\projects\ForemJobDashboard\Models;
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 ///<summary></summary>
+
 /**
-* 
+* auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\Models
 * @author C.A.D. BONDJE DOUE
-* @property int $id
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
-* @method static ?self Add(string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
-* */
+*/
+
+/**
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Models
+*/
 class UserSkills extends ModelBase{
-	const FD_ID="id";
-	const FD_CREATE_AT="Create_At";
-	const FD_UPDATE_AT="Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="Update_At";
 	/**
 	* table's name
 	*/

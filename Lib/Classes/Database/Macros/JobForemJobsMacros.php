@@ -6,11 +6,12 @@
 declare(strict_types=1);
 namespace com\igkdev\projects\ForemJobDashboard\Database\Macros;
 use com\igkdev\projects\ForemJobDashboard\Models\JobForemJobs;
+
 /**
- * 
- * @package com\igkdev\projects\ForemJobDashboard\Database\Macros
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package com\igkdev\projects\ForemJobDashboard\Database\Macros
+* @author C.A.D. BONDJE DOUE
+*/
 abstract class JobForemJobsMacros
 {
     /**
