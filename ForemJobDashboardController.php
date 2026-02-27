@@ -74,6 +74,10 @@ class ForemJobDashboardController extends ApplicationController
         } 
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getOfferDir()
     {
         return $this->getDataDir() . $this->currentLoginPath() . '/db/offers/';
