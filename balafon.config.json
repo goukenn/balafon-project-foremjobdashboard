@@ -3,8 +3,10 @@
     "name": "ForemJobDashboard",
     "author": "C.A.D. BONDJE DOUE",
     "version": "1.0",
-    "required": { 
-        "igk/docs/swagger":"^1.0"
+    "required": {
+        "igk/docs/swagger":"^1.0",
+        "igk/authentications/googleAuth2FA":"^1.0",
+        "igk/authentications/WebAuthn":"^1.0"
     },
     "workbench": {
         "cwd": "/Volumes/Data/Dev/PHP/balafon_site_dev"

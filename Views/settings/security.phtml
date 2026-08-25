@@ -1,0 +1,69 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: settings/security.phtml
+// @desc: two-factor authentication (TOTP) enrollment/disable, styled with Tailwind CSS
+// @view: settings/security
+// @date: 20260825 00:00:00
+use function igk_html_host as _h;
+use function igk_resources_gets as __;
+
+/**
+ * @var mixed $t
+ * @var mixed $ctrl
+ * @var mixed $data
+ */
+
+$doc->title = sprintf('%s - %s', __('Security'), $ctrl->getAppTitle());
+
+$wrap = $t->div()->setClass('max-w-lg mx-auto p-6');
+$wrap->h2()->setClass('text-xl font-bold mb-4')->Content = __('Two-factor authentication');
+
+if (!empty($data->error)) {
+    $wrap->div()->setClass('bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded-lg px-4 py-3 mb-4')
+        ->Content = $data->error;
+}
+if (!empty($data->success)) {
+    $wrap->div()->setClass('bg-green-50 dark:bg-green-900/40 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 text-sm rounded-lg px-4 py-3 mb-4')
+        ->Content = $data->success;
+}
+
+if ($data->twofa_enabled) {
+    $wrap->p()->setClass('text-gray-600 dark:text-gray-300 mb-4')->Content = __('Two-factor authentication is enabled on your account.');
+    $form = $wrap->form();
+    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri('@/settings/twofa_disable')]);
+    $form->button()->setAttributes(['type' => 'submit'])
+        ->setClass('bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition')
+        ->Content = __('Disable two-factor authentication');
+} elseif ($data->twofa_pending_secret) {
+    $wrap->p()->setClass('text-gray-600 dark:text-gray-300 mb-4')->Content = __('Scan this QR code with your authenticator app, then enter the 6-digit code to confirm.');
+    if ($data->twofa_pending_qr) {
+        $wrap->img([$data->twofa_pending_qr])->setClass('mb-4');
+    } else {
+        $wrap->p()->setClass('font-mono text-sm break-all mb-4')->Content = $data->twofa_pending_uri;
+    }
+    $wrap->p()->setClass('font-mono text-sm mb-4')->Content = $data->twofa_pending_secret;
+    $form = $wrap->form();
+    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri('@/settings/twofa_enable')]);
+    $form->setClass('space-y-4');
+    $field = $form->div();
+    $field->label()->setClass('block text-sm font-medium mb-1')->Content = __('6-digit code');
+    $field->input()->setAttributes([
+        'type' => 'text',
+        'name' => 'code',
+        'inputmode' => 'numeric',
+        'pattern' => '[0-9]{6}',
+        'required' => 'required',
+        'autocomplete' => 'one-time-code',
+        'autofocus' => 'autofocus',
+    ])->setClass('w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2');
+    $form->button()->setAttributes(['type' => 'submit'])
+        ->setClass('bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition')
+        ->Content = __('Confirm');
+} else {
+    $wrap->p()->setClass('text-gray-600 dark:text-gray-300 mb-4')->Content = __('Two-factor authentication is not enabled on your account.');
+    $form = $wrap->form();
+    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri('@/settings/twofa_generate')]);
+    $form->button()->setAttributes(['type' => 'submit'])
+        ->setClass('bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition')
+        ->Content = __('Enable two-factor authentication');
+}

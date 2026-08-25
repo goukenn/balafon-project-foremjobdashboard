@@ -43,6 +43,8 @@ if ($header = $ctrl->getEnvParam('header')) {
         _h('li > a', [$ctrl::uri('@/jobs/add')], __('add')),
     );
 }
+$active_job_tab = 'list';
+include $ctrl::getViewDir() . '/jobs/.tabs.pinc';
 $form = _h('form.search');
 $form['action'] = $entry_uri . '/search';
 $form->fields(['search' => ['value' => $create_at, 'attribs' => ['autocomplete' => 'off']]]);
