@@ -1,0 +1,281 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: login/default.phtml
+// @desc: login view — password, TOTP 2FA and WebAuthn steps, styled with Tailwind CSS.
+//        Ported from the AssimilTraining project's login view.
+// @view: login
+// @date: 20260825 00:00:00
+use function igk_html_host as _h;
+use function igk_resources_gets as __;
+
+igk_require_module('igk/Balafon/AdvancedComponent');
+/**
+ * @var mixed $t
+ * @var IGKHtmldoc $doc
+ * @var mixed $ctrl
+ * @var mixed $data
+ */
+
+$doc->title = __('Login');
+
+$def = $doc->getTheme();
+$def['.i-vp-field'] = '{sys:dispflex} align-items:center;';
+$def['.i-vp-field input[type="password"], .pw-field input[type="text"]'] =
+    'padding: 10px 46px 10px 12px;';
+$def['.i-vp-field #pw-toggle'] = '{sys:posab} z-index:1; right: 6px; display: flex; align-items: center; justify-content: center;width: 32px;height: 32px;padding: 0;background: transparent;border: none;border-radius: 6px;color: var(--muted);cursor: pointer;transition: color 0.15s ease, background 0.15s ease;';
+
+$def['.igk-form .igk-action-bar'] = 'margin-top:2em';
+$def['.igk-form div.secret-group'] = 'display:none;';
+$def['.igk-winui-password-2fa-component'] = 'display:flex; width: 100%; justify-content: space-between; font-size: 2em;';
+$def['.igk-winui-password-2fa-component .field-place'] = 'padding:0px;';
+$def['.igk-winui-password-2fa-component .field-place input'] = 'padding:16px;';
+$def['.main-page'] = 'flex-grow:1;';
+
+$def['.def-login'] = '{sys:dispflex flex-column fith}';
+$def['body, html'] = '{sys:fit}';
+$def['.fit'] = '{sys:fit}';
+$def['.flex-row'] = '{sys:flex-row}';
+$def['*'] = 'border-box:content;';
+$t->setClass('def-login');
+$t->setStyle('display: flex{sys:dispflex}');
+
+$main = $t->main()->setClass("main-page bg-gray-50 dark:bg-gray-900 flex items-center justify-center px-4 transition-colors duration-300");
+
+$card = $main->div()->setClass("w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow p-8 relative transition-colors duration-300");
+
+$themeBtn = $card->button();
+$themeBtn->setClass("igk-winui-toggle-theme absolute top-4 right-4 px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition text-sm font-medium");
+$themeBtn->id = "theme-toggle";
+$themeBtn->type = "button";
+$themeBtn->setAttribute("aria-label", "Toggle dark mode");
+
+$card->h1()->setClass("text-2xl font-bold text-gray-900 dark:text-white mb-1")->Content = __('Welcome back');
+$card->p()->setClass("text-gray-500 dark:text-gray-400 mb-6")->Content = __('Sign in to manage your job search');
+
+if (!empty($data->error)) {
+    $card->div()->setClass("bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded-lg px-4 py-3 mb-6")
+        ->Content = $data->error;
+}
+
+$form = $card->form();
+$form->setAttributes([
+    'method' => 'POST',
+    'action' => $ctrl::uri('@/login'),
+]);
+$form->setClass("space-y-4");
+
+$step = $data->step ?? null; // null | 'password' | 'secret' — sticky redisplay after a step-2 error
+$isSecretStep = $step === 'secret';
+$isStep2 = $step === 'password' || $isSecretStep;
+
+$loginField = $form->div();
+$loginField->label()->setClass("block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1")->Content = __('Login');
+$loginField->input()->setAttributes(array_filter([
+    'type' => 'text',
+    'placeholder' => __('login / email'),
+    'name' => 'login',
+    'id' => 'login-login',
+    'required' => 'required',
+    'autocomplete' => 'username',
+    'value' => $data->login ?? '',
+    'readonly' => $isStep2 ? 'readonly' : null,
+]))->setClass("w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600");
+
+$passwordField = $form->div()->setAttribute('id', 'login-password-field');
+if (!$isStep2) {
+    $passwordField->setAttribute('style', 'display:none');
+}
+$passwordField->label()->setAttribute('id', 'login-password-label')->setClass("block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1")
+    ->Content = $isSecretStep ? __('Verification code') : __('Password');
+$passwordWrap = $passwordField->div()->setClass("relative");
+$passwordWrap->input()->setAttributes(array_filter([
+    'type' => $isSecretStep ? 'text' : 'password',
+    'name' => $isSecretStep ? 'secret' : 'password',
+    'id' => 'login-password',
+    'required' => $isStep2 ? 'required' : null,
+    'class' => $isSecretStep ? '' : 'igk-input-view-password',
+    'autocomplete' => $isSecretStep ? 'one-time-code' : 'current-password',
+    'inputmode' => $isSecretStep ? 'numeric' : null,
+    'pattern' => $isSecretStep ? '[0-9]{6}' : null,
+    'maxlength' => $isSecretStep ? '6' : null,
+]))->setClass("w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 pr-16 focus:outline-none focus:ring-2 focus:ring-blue-600");
+
+$secretGroup = $form->div()->setClass('secret-group');
+$secretGroup->fields([
+    'secret' => [
+        'label_attribs' => ['class' => 'text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'],
+        'component' => [
+            igk_html_node_password2FAComponent(
+                'secret',
+                null,
+                ['size' => 6, 'input_class' => 'lib dark:border-gray-600 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600']
+            )->setClass('secret-zone'),
+            _h('div.error.igk-panel.igk-danger.dispn#page-error-secret', '')
+        ]
+    ]
+]);
+
+if ($isSecretStep) {
+    $secretGroup->setStyle(['display' => 'block']);
+    $passwordField->setAttribute('style', 'display:none');
+}
+
+$form->fields([
+    '_view' => ['type' => 'hidden']
+]);
+
+$backBtn = $form->button();
+$backBtn->setAttribute('type', 'button');
+$backBtn->setAttribute('id', 'login-back');
+$backBtn->setClass(($isStep2 ? "" : "hidden ") . "text-sm text-blue-600 dark:text-blue-400 hover:underline");
+$backBtn->Content = __('Use a different login');
+
+$form->actionbar()->host(function ($a) use ($isStep2) {
+    $a->button()->setAttributes(['type' => 'submit', 'id' => 'login-submit'])
+        ->setClass("w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition")
+        ->Content = $isStep2 ? __('Login') : __('Continue');
+});
+
+$existsUrl = json_encode($ctrl::uri('@/login/exists'));
+$webauthGetUrl = json_encode($ctrl::uri('@/login/webauth_authenticate'));
+$continueLabel = json_encode(__('Continue'));
+$loginLabel = json_encode(__('Login'));
+$passwordLabel = json_encode(__('Password'));
+$codeLabel = json_encode(__('Verification code'));
+$initialStep = json_encode($isStep2 ? 'step2' : null);
+
+$form->balafonjs()->Content = <<<JS
+(function () {
+    var loginInput = document.getElementById('login-login');
+    var passwordField = document.getElementById('login-password-field');
+    var passwordInput = document.getElementById('login-password');
+    var passwordLabelEl = document.getElementById('login-password-label');
+    var submitBtn = document.getElementById('login-submit');
+    var backBtn = document.getElementById('login-back');
+    var form = loginInput ? loginInput.closest('form') : null;
+    const secretZone = \$igk('div.secret-group').first();
+    if (!loginInput || !passwordField || !passwordInput || !submitBtn || !form) return;
+
+    var step = {$initialStep} === 'step2' ? 2 : 1;
+    if (step === 1) {
+        passwordField.style.display = 'none';
+        passwordInput.required = false;
+    }
+
+    function hidePasswordToggle(hidden) {
+        var toggle = document.getElementById('pw-toggle');
+        if (toggle) toggle.style.display = hidden ? 'none' : '';
+    }
+
+    function toStep2(requires2fa) {
+        if (requires2fa) {
+            secretZone.o.style.display = 'block';
+            secretZone.select('input').first().o.focus();
+            form['_view'].value = 'secret';
+            form['password'].value = '';
+        } else {
+             secretZone.o.style.display = '';
+             secretZone.o.style = 'display:\'none\';';
+
+             form['_view'].value = 'pwd';
+            passwordInput.type = 'password';
+            passwordInput.name = 'password';
+            passwordInput.removeAttribute('inputmode');
+            passwordInput.removeAttribute('pattern');
+            passwordInput.removeAttribute('maxlength');
+            passwordInput.setAttribute('autocomplete', 'current-password');
+            if (passwordLabelEl) passwordLabelEl.textContent = {$passwordLabel};
+            hidePasswordToggle(false);
+            passwordField.style.display = '';
+            passwordInput.required = true;
+            passwordInput.focus();
+        }
+        loginInput.readOnly = true;
+        submitBtn.textContent = {$loginLabel};
+        if (backBtn) backBtn.classList.remove('hidden');
+        step = 2;
+    }
+
+    function toStep1() {
+        passwordField.style.display = 'none';
+        passwordInput.required = false;
+        passwordInput.value = '';
+        loginInput.readOnly = false;
+        submitBtn.textContent = {$continueLabel};
+        if (backBtn) backBtn.classList.add('hidden');
+        step = 1;
+        loginInput.focus();
+    }
+
+    if (backBtn) backBtn.addEventListener('click', toStep1);
+
+    async function authenticate(credentials, login) {
+        var _topass = { credentials: credentials, action: 'get', login: login };
+        return fetch({$webauthGetUrl}, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(_topass)
+        }).then(function (r) {
+            return r.json();
+        }).catch(function (e) {
+            return { error: true };
+        });
+    }
+
+    async function doWebAuthn(data){
+        if (!('credentials' in navigator) || !data.credentials)
+            return null;
+        const { bufferUtils } = igk.navigator.credentialsUtility;
+        var publicKey = bufferUtils.bta(data.credentials).publicKey;
+
+        const created = await navigator.credentials.get({ publicKey: publicKey }).catch(function (e) {
+
+        });
+        if (!created) return null;
+        return authenticate(bufferUtils.serveData(created), data.login);
+    };
+
+    function handleFallback(data){
+        if (-1 != data.identifierType.indexOf('2fa')){
+            return toStep2(true);
+        }
+        return toStep2(false);
+    };
+
+    form.addEventListener('submit', function (e) {
+        if (step === 2) return;
+        e.preventDefault();
+        if (!loginInput.value) return;
+        submitBtn.disabled = true;
+        fetch({$existsUrl}, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'login=' + encodeURIComponent(loginInput.value)
+        }).then(function (r) { return r.json(); }).then(function (data) {
+            if (data.found){
+                if (-1 != data.identifierType.indexOf('webauthn')){
+                    doWebAuthn(data.data).then(function (result) {
+                        if (result && !result.error) {
+                            document.location.reload();
+                        } else {
+                            handleFallback(data);
+                        }
+                    });
+                    return;
+                }
+                handleFallback(data);
+            }
+
+        }).catch(function () {
+            toStep2(false);
+        }).finally(function () {
+            submitBtn.disabled = false;
+        });
+    });
+})();
+JS;
+
+$card->p()->setClass("text-center text-sm text-gray-500 dark:text-gray-400 mt-6")
+    ->a($ctrl::uri('@/'))
+    ->setClass("text-blue-600 dark:text-blue-400 hover:underline")
+    ->Content = __('Back to home');

@@ -98,6 +98,11 @@ class ForemJobDashboardController extends ApplicationController
                 $l = $this->uriPath('/api');
                 $l = RegexHelper::Escape($l);
                 return preg_match('/' . $l . '/', $d);
+            },
+            function ($d) {
+                $l = $this->uriPath('/login');
+                $l = RegexHelper::Escape($l);
+                return preg_match('/' . $l . '/', $d);
             }
         ];
     }

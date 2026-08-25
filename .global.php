@@ -14,7 +14,11 @@ igk_reg_hook(IGKEvents::HOOK_WINUI_SETTING_MENU, function($e){
         'ajx'=>true,
         'href'=>$jctrl::uri('@/settings/joblist'),
         'data-arg'=>['store-ref'=>true]
-    ]));  
+    ]));
+    $t->add($engine->menuItem(__('ForemJobs Security'),
+        'lock-closed-outline',[
+        'href'=>$jctrl::uri('@/settings/security'),
+    ]));
 });
 igk_reg_hook(IGKEvents::HOOK_USER_CLEAN, function($e){
     list($user) = igk_extract($e->args, 'user'); 

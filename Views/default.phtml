@@ -13,6 +13,9 @@ use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\IO\Path;
 use function igk_html_host as _h;
+
+/* */
+
 class PageContainer extends HtmlNode
 {
     private $container;
@@ -31,6 +34,12 @@ class PageContainer extends HtmlNode
         $p->add($this);
     }
 }
+
+/**
+ * @var mixed $ctrl
+ * @var mixed $t
+ * @var mixed $doc
+ */
 $this->checkUser(false);
 $pagecontainer = new PageContainer;
 $pagecontainer->panel()->setContent('Dashboard list');
@@ -66,8 +75,8 @@ _h(
     $profile ? null :
         _h(
             'div.sign-or-register.dispflex.flex-row.flex-item-start',
-            _h('abtn.sign', ['/signin/identifier'], 'SignIn'),
-            _h('abtn.register', ['/sign/register'], 'Register')
+            _h('abtn.sign', [$ctrl::uri('@/login')], 'SignIn'),
+            _h('abtn.register', [$ctrl::uri('@/sign/register')], 'Register')
         )
 );
 $section = $t->add(_h('section[style:"min-height:520px;"]',));

@@ -1,0 +1,58 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: login/2fa.phtml
+// @desc: 2FA code entry step, shown after a successful password check when the account has
+//        two-factor authentication enabled. Ported from the AssimilTraining project's view.
+// @view: login/2fa
+// @date: 20260825 00:00:00
+
+use function igk_resources_gets as __;
+
+/**
+ * @var mixed $t
+ * @var IGKHtmldoc $doc
+ * @var mixed $ctrl
+ * @var mixed $data
+ */
+
+$doc->title = __('Verify your identity');
+$t->clearChilds();
+
+$main = $t->main()->setClass("min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center px-4 transition-colors duration-300");
+
+$card = $main->div()->setClass("w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow p-8 relative transition-colors duration-300");
+
+$themeBtn = $card->button();
+$themeBtn->setClass("igk-winui-toggle-theme absolute top-4 right-4 px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition text-sm font-medium");
+$themeBtn->id = "theme-toggle";
+$themeBtn->type = "button";
+$themeBtn->setAttribute("aria-label", "Toggle dark mode");
+
+$card->h1()->setClass("text-2xl font-bold text-gray-900 dark:text-white mb-1")->Content = __('Verify your identity');
+$card->p()->setClass("text-gray-500 dark:text-gray-400 mb-6")->Content = __('Enter the 6-digit code from your authenticator app.');
+
+if (!empty($data->error)) {
+    $card->div()->setClass("bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded-lg px-4 py-3 mb-6")
+        ->Content = $data->error;
+}
+
+$form = $card->form();
+$form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri('@/login/login2fa')]);
+$form->setClass("space-y-4");
+$form->input()->setAttributes(['type' => 'hidden', 'name' => 'redirect', 'value' => $data->redirect ?? $ctrl::uri('@/')]);
+
+$codeField = $form->div();
+$codeField->label()->setClass("block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1")->Content = __('6-digit code');
+$codeField->input()->setAttributes([
+    'type' => 'text',
+    'name' => 'code',
+    'inputmode' => 'numeric',
+    'pattern' => '[0-9]{6}',
+    'required' => 'required',
+    'autocomplete' => 'one-time-code',
+    'autofocus' => 'autofocus',
+])->setClass("w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600");
+
+$form->button()->setAttributes(['type' => 'submit'])
+    ->setClass("w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition")
+    ->Content = __('Verify');

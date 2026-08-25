@@ -4,6 +4,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 use function igk_html_host as _h;
+use function igk_resources_gets as __;
 
 include_once $ctrl::getViewDir().'/.auth.pinc';
 igk_view_handle_actions($fname, [
@@ -40,7 +41,9 @@ if ($header = $ctrl->getEnvParam('header')) {
         $header->top,
         _h('li > a', [$ctrl::uri('@/jobs')], igk_svg_use('forem.jobs')),  
     );
-} 
+}
+$active_job_tab = 'add';
+include $ctrl::getViewDir() . '/jobs/.tabs.pinc';
 $row = $t->main()->container()->row();
 if ($j = $ctrl->getEnvParam('job')){
     $row->col('fitw')->div()->a($ctrl::uri('@/jobs/edit/'.$j->id))->content = 'edit : '.$j->id;
