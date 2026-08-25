@@ -8,7 +8,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobUsers;
 use IGK\Actions\ActionBase;
 use IGK\Models\Users;
-///<summary>view action</summary>
+
 /**
 * view action
 * @package com\igkdev\projects\ForemJobDashboard\Actions

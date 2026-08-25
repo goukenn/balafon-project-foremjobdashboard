@@ -5,7 +5,6 @@
 namespace com\igkdev\projects\ForemJobDashboard\Database;
 use IGK\Database\SchemaBuilder\IDiagramBuilder;
 use IGK\Database\SchemaBuilder\IDiagramSchemaBuilder;
-///<summary></summary>
 
 /**
 * auto generate doc.
@@ -17,12 +16,10 @@ class InitDbSchemaBuilder implements IDiagramBuilder{
 	* update database 
 	*/
 	public function upgrade(IDiagramSchemaBuilder $builder){
-	    // $builder->entity(...)
 	}
 	/** 
 	* downgrade database -  
 	*/
 	function downgrade(IDiagramSchemaBuilder $builder){
-	    // $builder->entity(...);
 	}
 }

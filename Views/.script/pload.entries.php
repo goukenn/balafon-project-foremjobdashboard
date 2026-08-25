@@ -11,6 +11,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\SiteNoteBook\Models\Sites; 
 use IGK\System\Console\Logger;
+
 $g = ForemJobDashboardController::ctrl(true);
 $site = SiteNoteBookController::ctrl(true);
 $uid  = null;
@@ -50,7 +51,6 @@ while(count($list)>0){
         $c->save();
     }
 }
-// init 
 include(__DIR__ . '/init_enterprise_from_sites.php'); 
 Logger::success('complete');
 igk_exit(0);

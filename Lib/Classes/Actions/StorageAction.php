@@ -7,13 +7,13 @@ namespace com\igkdev\projects\ForemJobDashboard\Actions;
 use com\igkdev\projects\ForemJobDashboard\System\IO\Storage;
 use igk;
 use IGK\Actions\ActionBase;
+
 /**
 * view action
 * @package com\igkdev\projects\ForemJobDashboard\Actions
 * @author C.A.D. BONDJE DOUE
 */
 class StorageAction extends ActionBase{
-
     /**
     * auto generate doc.
     * @param string $path_encoded

@@ -1,6 +1,7 @@
 <?php
 // @command: balafon --run src/application/Projects/ForemJobDashboard/Lib/.tests/treatment.php
 use com\igkdev\projects\ForemJobDashboard\EnterpriseResponseTemplateManager;
+
 $ctrl = ForemJobDashboardController::ctrl(true);
 $r = new EnterpriseResponseTemplateManager;
 $r->name = 'Charles BONDJE';

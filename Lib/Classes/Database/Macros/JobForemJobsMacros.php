@@ -3,10 +3,10 @@
 // @file: JobForemJob.phtml
 // @desc: macros for model JobForemJobs
 // @date: 20251210 18:38:03
+
 declare(strict_types=1);
 namespace com\igkdev\projects\ForemJobDashboard\Database\Macros;
 use com\igkdev\projects\ForemJobDashboard\Models\JobForemJobs;
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\Database\Macros

@@ -1,9 +1,12 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: JobEnterprises.php
-// @date: 20251112 14:38:45
+// @date: 20260824 18:09:05
 namespace com\igkdev\projects\ForemJobDashboard\Models;
+
+
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
+
 /**
 * store enterprises
 * @package com\igkdev\projects\ForemJobDashboard\Models
@@ -13,63 +16,31 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property string $vat
 * @property string $title denomination
 * @property string $description
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
+* @property string $info store enterprise's extra info
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
 * @method static string FN_ID() - `id` full column name 
 * @method static string FN_NAME() - `name` full column name 
 * @method static string FN_VAT() - `vat` full column name 
 * @method static string FN_TITLE() - `title` full column name 
 * @method static string FN_DESCRIPTION() - `description` full column name 
+* @method static string FN_INFO() - `info` full column name 
 * @method static string FN_CREATE_AT() - `Create_At` full column name 
 * @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnId() - macros function
-* @method static ?self Add(string $name, string $vat, string $title, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string $name, string $vat, string $title, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string $name, string $vat, string $title, string $description, string $info, string $Create_At ="Now()", string $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string $name, string $vat, string $title, string $description, string $info, string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobEnterprises extends ModelBase{
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_ID="id";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_NAME="name";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_VAT="vat";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_TITLE="title";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_DESCRIPTION="description";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_CREATE_AT="Create_At";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_UPDATE_AT="Update_At";
+	const FD_ID="id";
+	const FD_NAME="name";
+	const FD_VAT="vat";
+	const FD_TITLE="title";
+	const FD_DESCRIPTION="description";
+	const FD_INFO="info";
+	const FD_CREATE_AT="Create_At";
+	const FD_UPDATE_AT="Update_At";
 	/**
 	* table's name
 	*/
@@ -86,12 +57,7 @@ class JobEnterprises extends ModelBase{
 	*override display key
 	*/
 	protected $display = "name";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    protected $unique_columns = array (
+	protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'name',

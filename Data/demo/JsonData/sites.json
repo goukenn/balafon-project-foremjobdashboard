@@ -9,6 +9,36 @@
             ]
         },
         {
+            "site": "https://json-schema.org",
+            "name": "json-schema",
+            "description":"validate json data",
+            "primaryCategory": [
+                "Development"
+            ]
+        },
+        {
+            "site": "https://gvisor.dev",
+            "name": "gvisor",
+            "primaryCategory": [
+                "Container",
+                "Security"
+            ]
+        },
+        {
+            "site": "https://ethicalsource.dev",
+            "name": "ethicalsource",
+            "primaryCategory": [
+                "License"
+            ]
+        },
+        {
+            "site": "https://pulsar-consulting.be",
+            "name": "pulsar consulting",
+            "primaryCategory": [
+                "ITConsulting Agency"
+            ]
+        },
+        {
             "site": "https://labs.google/fx/fr/tools/whisk/project",
             "name": "Whisk",
             "primaryCategory": [
@@ -2072,6 +2102,39 @@
             ]
         },
         {
+            "site": "https://www.python.org",
+            "name": "python",
+            "primaryCategory": [
+                "Development",
+                "ProgrammingLanguage"
+            ]
+        },
+        {
+            "site": "https://docs.python.org",
+            "name": "python-documentation",
+            "primaryCategory": [
+                "Development",
+                "ProgrammingLanguage"
+            ]
+        },
+        {
+            "site": "https://lets-code.co.in",
+            "name": "python-documentation",
+            "primaryCategory": [
+                "Development",
+                "ProgrammingLanguage"
+            ]
+        },
+        {
+            "site": "https://pypi.org",
+            "name": "pypi",
+            "description":"Python packages index",
+            "primaryCategory": [
+                "Development",
+                "ProgrammingLanguage"
+            ]
+        },
+        {
             "site": "https://just.fgov.be",
             "name": "just.fgov.be",
             "primaryCategory": "ReceiveMail"
@@ -2823,6 +2886,10 @@
             "vat": "0402.725.291",
             "status": "sa",
             "address": "7033, Rue des Sandrinettes, 25/10, Mons"
+        },
+        {
+            "site": "https://dribbble.com",
+            "name": "dribbble"
         },
         {
             "site": "https://daoust.be",
@@ -3600,6 +3667,33 @@
             ]
         },
         {
+            "site": "https://www.axios-http.com",
+            "desc": "Axios Http - Promise base http client",
+            "name": "axios",
+            "primaryCategory": [
+                "Development",
+                "Javascript",
+                "NodeJS"
+            ]
+        },
+        {
+            "site": "https://koor.fr",
+            "desc": "Learning and tutorials",
+            "name": "koor",
+            "primaryCategory": [
+                "Development",
+                "Javascript",
+                "NodeJS"
+            ]
+        },
+        {
+            "site": "https://fakeupdate.net",
+            "desc": "Fake update",
+            "name": "fake-update",
+            "primaryCategory": [
+            ]
+        },
+        {
             "site": "https://www.bep.be",
             "name": "bep",
             "desc": "BEP Développement économique, Environnement et territorial à Namur",
@@ -3650,6 +3744,14 @@
             "primaryCategory": [
                 "Bank",
                 "Logistics"
+            ]
+        },
+        {
+            "name": "postgresql",
+            "site": "https://www.postgresql.org",
+            "primaryCategory": [
+                "Database",
+                "SGBD"
             ]
         },
         {
@@ -4658,6 +4760,13 @@
             "primaryCategory": [
                 "News",
                 "Cameroun"
+            ]
+        },
+        {
+            "site": "https://color.adobe.com/fr/create/color-wheel",
+            "name": "Adobe Color Selector",
+            "primaryCategory": [
+                "WebDev"
             ]
         }
     ]

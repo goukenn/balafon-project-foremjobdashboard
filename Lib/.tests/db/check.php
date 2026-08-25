@@ -5,12 +5,9 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobDoctypes;
 use IGK\Helper\JSon;
 use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
+
 $ctrl = ForemJobDashboardController::ctrl(true);
 $d = JobDocs::select_all([JobDocs::FD_JOB_DOC_TYPE_ID=>3]);
-// echo JSon::Encode($d, null, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS), PHP_EOL;
-// exit;
-// $data = json_decode($d->value);
-// igk_wln_e( implode("\n", explode("\\n",$data->content )));
 $src = file_get_contents('/Volumes/Data/wwwroot/core/Projects/ForemJobDashboard/Data/models/response_Model2.template');
 $cr = json_encode(
     (object)[
@@ -38,7 +35,6 @@ $cr3 = json_encode(
     ],
     JSON_UNESCAPED_UNICODE
 );
-// echo $cr, PHP_EOL, PHP_EOL;
 $s1 = 'Objet : Ru00e9ponse u00e0 votre candidature u2013 %__job_title__%nnMonsieur/Madame %__name__%,nnNous vous remercions sincu00e8rement pour lu2019intu00e9ru00eat que vous avez portu00e9 u00e0 notre entreprise et pour le temps consacru00e9 u00e0 votre candidature.nnApru00e8s une analyse attentive de votre profil, nous avons le regret de vous informer que nous ne donnerons pas suite u00e0 votre candidature pour le poste du2019informaticien analyste PHP.nnCette du00e9cision ne remet pas en question la qualitu00e9 de votre parcours, mais ru00e9sulte du2019un choix difficile parmi de nombreuses candidatures qualifiu00e9es.nnNous vous souhaitons le meilleur pour la suite de votre carriu00e8re.nnBien cordialement,nn%__contact__%n%__enterprise_info__%';
 $s2 = 'Objet : Refus de candidature u2013 %__job_title__%nnBonjour %__name__%nnMerci pour votre candidature. Apru00e8s u00e9tude de votre dossier, nous ne donnerons pas suite favorablement u00e0 votre demande.nnNous vous souhaitons une bonne continuation dans vos recherches.nnCordialement,n n%__contact__%n%__enterprise_info__%';
 $s3 = 'Objet : Réponse à votre candidature – %__job_title__%nnMonsieur/Madame %__name__%,nnNous vous remercions sincèrement pour l’intérêt que vous avez porté à notre entreprise et pour le temps consacré à votre candidature.nnAprès une analyse attentive de votre profil, nous avons le regret de vous informer que nous ne donnerons pas suite à votre candidature pour le poste d’informaticien analyste PHP.nnCette décision ne remet pas en question la qualité de votre parcours, mais résulte d’un choix difficile parmi de nombreuses candidatures qualifiées.nnNous vous souhaitons le meilleur pour la suite de votre carrière.nnBien cordialement,nn%__contact__%n%__enterprise_info__%';

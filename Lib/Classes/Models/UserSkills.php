@@ -4,32 +4,22 @@
 // @date: 20240905 03:52:54
 namespace com\igkdev\projects\ForemJobDashboard\Models;
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
-///<summary></summary>
-
-/**
-* auto generate doc.
-* @package com\igkdev\projects\ForemJobDashboard\Models
-* @author C.A.D. BONDJE DOUE
-*/
 
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\Models
 */
 class UserSkills extends ModelBase{
-
     /**
     * auto generate doc.
     * @var mixed
     */
     const FD_ID="id";
-
     /**
     * auto generate doc.
     * @var mixed
     */
     const FD_CREATE_AT="Create_At";
-
     /**
     * auto generate doc.
     * @var mixed

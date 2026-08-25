@@ -4,6 +4,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 use function igk_html_host as _h;
+
 include_once $ctrl::getViewDir().'/.auth.pinc';
 igk_view_handle_actions($fname, [
     'store'=>function()use($user, $ctrl){
@@ -49,7 +50,7 @@ $frm['action'] = $ctrl::uri($fname.'/store');
 $frm->fields([
     'title',
     'enterprise',
-    'description'=>['type'=>'textarea', 'max-length'=>2600],
+    'description'=>['type'=>'textarea', 'maxlength'=>2500],
     'summary'=>['type'=>'textarea','className'=>'small', 'attribs'=>['class'=>'small height-3em', 'maxlength'=>300]],
     'from'=>[
         'type' => 'select',

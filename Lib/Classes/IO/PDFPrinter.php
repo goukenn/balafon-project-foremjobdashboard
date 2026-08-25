@@ -11,27 +11,19 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes;
 use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 use function igk_resources_gets as __;
-///<summary></summary>
 
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\IO
 * @author C.A.D. BONDJE DOUE
-*/
-
-/**
-* auto generate doc.
-* @package com\igkdev\projects\ForemJobDashboard\IO
-*/
+*/ 
 class PDFPrinter
 {
-
     /**
     * auto generate doc.
     * @var mixed
     */
     private $m_faker;
-
     /**
     * .ctr
     */
@@ -39,7 +31,6 @@ class PDFPrinter
     {
         $this->m_faker = \Faker\Factory::create('fr');
     }
-
     /**
     * auto generate doc.
     * @param null|string $txt
@@ -51,7 +42,6 @@ class PDFPrinter
         $txt = str_replace('ï', "\xef",  $txt);
         return $txt;
     }
-
     /**
     * auto generate doc.
     * @return string|false|void
@@ -69,7 +59,6 @@ class PDFPrinter
         $tg = [
             "Date" => date($date_format, strtotime($job->Create_At)),
             "Title" =>  $this->treatText($job->title),
-            // "Contact" =>  $this->getFakeName(), // "ICT-JOB",
             "Status" => JobStatusTypes::GetCache('id', $job->status_id)->{JobStatusTypes::FD_NAME},
             "From" => JobSourceTypes::GetCache('id', $job->from_id)->{JobSourceTypes::FD_NAME},
             "Enterprise" => $this->treatText($e ? $e->name : '-'),
@@ -90,7 +79,6 @@ class PDFPrinter
             $tg
             as $k => $v
         ) {
-            //  $y = 30 + ($c * $tsize);
             $host->span()
                 ->Content = sprintf("%s: %s", $k, $this->styleValue($k, $v, $doc));
             $c++;
@@ -103,7 +91,6 @@ class PDFPrinter
             return $c;
         }
     }
-
     /**
     * auto generate doc.
     */
@@ -116,7 +103,6 @@ class PDFPrinter
             $this->m_faker->email()
         ]));
     }
-
     /**
     * auto generate doc.
     * @return string

@@ -106,6 +106,19 @@
 		<Column clName="description" clType="VarChar(255)"></Column>
 		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
+	<DataDefinition TableName="%prefix%job_enterprise_value_types" Description="store enterprises's known values">
+		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>		
+		<Column clName="name" clType="varchar(150)" clIsUnique clNotNull clDescription="denomination"></Column>
+		<Column clName="description" clType="VarChar(255)"></Column>
+		<GenColumn name="updateTime"></GenColumn>
+	</DataDefinition>
+		<DataDefinition TableName="%prefix%job_enterprise_values" Description="store enterprises's known values">
+		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>		
+		<Column clName="enterprise_id" clLinkColumn="id" clType='int' clLinkType="%prefix%job_enterprises" clNotNull clIsUniqueColumnMember ></Column>
+		<Column clName="enterprise_value_id" clLinkColumn="id" clType='int' clLinkType="%prefix%job_enterprise_value_types" clNotNull clIsUniqueColumnMember></Column>
+		<GenColumn name="updateTime"></GenColumn>
+	</DataDefinition>
+
 	<DataDefinition TableName="%prefix%job_sectors">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 		<Column clIsUnique="true" clName="name" clNotNull="true" clType="VarChar" clTypeLength="30"></Column>
@@ -277,7 +290,17 @@
 		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 
-
+<DataDefinition TableName="%prefix%job_users_documents" Description="store user's documents"
+		Prefix="job_udocs_">
+		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>		
+		<Column clName="user_guid" clType="GUID" clIsUnique="false" clLinkType="%prefix%job_users" clLinkColumn="guid"></Column>
+		<Column clName="type" clType="VARCHAR(15)" clDefault="MOTIVATION" clNotNull></Column>
+		<Column clName="content" clType="text" clDescription="description"></Column>		
+		<Column clName="title" clType="VARCHAR(255)" clDescription="content title"></Column>
+		<Column clName="slug" clType="VARCHAR(255)" clIsUnique></Column>
+		<Column clName="description" clType="text" clDescription="description"></Column>
+		<GenColumn name="updateTime"></GenColumn>
+	</DataDefinition>
 	<Migrations>
 		<Migration>
 			<addColumn table="%prefix%jobs" after="enterprise_id">
@@ -359,6 +382,24 @@
 				<Column clName="picture" clType="text" clDescription="picture"></Column>
 			</addColumn>
 		</Migration>
+		<Migration comment="change comment to not null">
+			<changeColumn table="%prefix%job_search_engines" column="name" >
+				<Column clName="name" clType="varchar(100)" clIsUnique clNotNull></Column>
+			</changeColumn>
+		</Migration>
+		<Migration comment="append column" date="2026-03-14">
+			<addColumn table="%prefix%job_enterprises" after="description" >
+				<Column clName="info" clType="json" clDescription="store enterprise's extra info"></Column>
+			</addColumn>
+		</Migration>
+		<Migration comment="append column" date="2026-03-27">
+			<addColumn table="%prefix%job_doctypes" after="name" >
+				<Column clName="cardinality" clType="int" clDefault="0" clNotNull clDescription="store enterprise's doc type cardinality. 0 means infinite. >0 will count before add"></Column>
+			</addColumn>
+		</Migration>
+
+
+
 	</Migrations>
 
 </data-schemas>

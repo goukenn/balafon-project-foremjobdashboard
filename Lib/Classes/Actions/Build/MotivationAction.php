@@ -9,7 +9,7 @@ use Exception;
 use IGK\Actions\ActionBase;
 use IGK\Helper\JSon;
 use IGKException;
-///<summary>view action</summary>
+
 /**
 * view action
 * @package com\igkdev\projects\ForemJobDashboard\Actions\Build
@@ -36,7 +36,6 @@ class MotivationAction extends ActionBase{
         }
         return compact('response', 'error');
     }
-
     /**
     * auto generate doc.
     */

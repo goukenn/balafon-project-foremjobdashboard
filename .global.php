@@ -5,7 +5,8 @@
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobUsers;
 use function igk_resources_gets as __;
- igk_reg_hook(IGKEvents::HOOK_WINUI_SETTING_MENU, function($e){
+
+igk_reg_hook(IGKEvents::HOOK_WINUI_SETTING_MENU, function($e){
     list($t, $user, $engine) = igk_extract($e->args, 't|user|engine');
     $jctrl = ForemJobDashboardController::ctrl(true); 
     $t->add($engine->menuItem(__('ForemJobs'),
@@ -22,7 +23,6 @@ igk_reg_hook(IGKEvents::HOOK_USER_CLEAN, function($e){
     ];
     $row = JobUsers::select_row($cond);
     if ($row){
-        // remove all attachecd jobs 
         Jobs::delete([
             Jobs::FD_USER_ID=>$row->id
         ]);

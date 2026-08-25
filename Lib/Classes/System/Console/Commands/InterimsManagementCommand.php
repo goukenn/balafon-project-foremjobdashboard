@@ -12,27 +12,23 @@ use IGK\System\Console\Commands\Database\Traits\ManageDatabaseTrait;
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 */
 class InterimsManagementCommand extends AppExecCommand{
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $command='--forem-job:interims';
 	use ManageDatabaseTrait;
-
     /**
     * auto generate doc.
     */
     public function getModelClass() { 
 		return JobInterims::class;
 	}
-
     /**
     * auto generate doc.
     * @var mixed
@@ -41,7 +37,6 @@ class InterimsManagementCommand extends AppExecCommand{
 	/* var $options=[]; */
 	/* var $category = ''; */
 	/* var $usage = ''; */
-
     /**
     * auto generate doc.
     * @param mixed $command

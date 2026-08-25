@@ -8,7 +8,7 @@ use com\igkdev\projects\ForemJobDashboard\JobContactData;
 use IGK\Helper\JSon;
 use IGK\System\Database\Factories\FactoryBase;
 use IGK\System\Traits\ComposerFakerTrait;
-///<summary>factory</summary>
+
 /**
  * factory
  * @package com\igkdev\projects\ForemJobDashboard\Database\Factories
@@ -17,14 +17,12 @@ use IGK\System\Traits\ComposerFakerTrait;
 class JobContactsFactory extends FactoryBase
 {
 	use ComposerFakerTrait;
-
     /**
     * auto generate doc.
     */
     function can(){
 		return rand(0,1)===1;
 	}
-
     /**
     * auto generate doc.
     * @return ?array

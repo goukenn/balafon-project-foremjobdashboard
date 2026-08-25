@@ -17,6 +17,7 @@ use IGK\System\Http\JsonResponse;
 use IGK\System\Http\Request;
 use IGK\System\Http\StatusCode;
 use IGK\System\Modules;
+
 igk_require_module(Modules::igk_docs_swagger());
 igk_view_handle_actions($fname, [
     'swagger.refresh-token' => function () {
@@ -49,7 +50,6 @@ igk_view_handle_actions($fname, [
                 igk_do_response(new JsonResponse([], StatusCode::UNAUTHORIZED));
             } 
         } 
-        // token - client_id - token
         $ob = (object)$_REQUEST;
         SwaggerOAuth::HandleData($ob); 
     },
@@ -72,13 +72,11 @@ igk_view_handle_actions($fname, [
                 $response = SwaggerAccess::Login($username, $password, $ctrl, $user, $scope); 
                 break;
             case 'authorization_code':
-                // handle authorization code
                 list($scope, $code, $username, $password, $code_verifier) = igk_extract($data, 'scope|code|client_id|client_secret|code_verifier');
                 $response = SwaggerAccess::PKCELoginAndTokenResponse($username,  $password, $code, $code_verifier, $scope,
                 $ctrl, $user);
                 break;
             case 'client_credentials':
-                // bearer auth container login:password in base64 encoding format
                 $access = igk_server()->getAccessObject();
                 $token = $access->getBasicToken();
                 list($login, $pwd) = explode(':', base64_decode($token));
@@ -98,8 +96,7 @@ if (($auth = Activator::CreateFromInterface(ISwaggerViewAuthConfig::class)) inst
     }
     $auth->appName = 'ForemJobDashboard';
     $auth->clientSecret = '';
-    $auth->clientId = $user ? $user->clLogin: null; // will auto fill request  
-    // for authorizationCode - load data sample:
+    $auth->clientId = $user ? $user->clLogin: null; 
     $auth->usePkceWithAuthorizationCodeGrant = true;
 } 
 $token = $user ? SwaggerAccess::GetAuthToken($user->clGuid) : null;
@@ -109,23 +106,15 @@ $rtoken = $token ? [
         "token_type"=>"token"
     ]
 ]: null;
-SwaggerView::View($ctrl, null, [
-    // 'title' => ':::::::Api Reference for Forem Dashboard',
-    // 'description' => 'Refence swagger docs:::::',
+SwaggerView::View($ctrl, null, [ 
     'oauth2RedirectUrl' => $ctrl::uri('@/api/docs/access-token'),
     'persistAuthorization' => $user ? true : false,
     'usePkceWithAuthorizationCodeGrant' => false,
     'oauth' => $auth,
-    // 'preauthorizeApi' => [
-        // inject pre-auth api key definition Only 
-        // "name" => "OAuth2Auth",
-        // "key" => "Sample-finifition",
-    // ],
     'authAction' => [ 
         "OAuth2Auth"=>$rtoken
     ]
 ]);
-// * loading definition script component
 $t->swagger_script()->content = <<<JS
 // swagger script content - 
 JS;

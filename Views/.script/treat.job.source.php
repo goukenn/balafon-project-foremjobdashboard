@@ -8,6 +8,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\SourceTypes;
+
 /**
  * description information 
  * @property string $title title of the jobs
@@ -59,11 +60,10 @@ $e_utility = $ctrl->modelUtility('enterprise');
 $count = 0;
 foreach ($data as $k => $v) {
     if (in_array($v->jbs_id, [2, 322]) || !empty($v->jbs_description))
-        continue;// skip exclude  
+        continue;
     if (count($list)>= $Tcount){
         break;
     }
-    // search for a random list 
     while (isset($list[$idx = rand(0, $Tcount - 1)]));
     $eidx = rand(0, count($enterprises) - 1);
     $n = $enterprises[$eidx];
@@ -91,7 +91,6 @@ foreach ($data as $k => $v) {
     if (   $v->{Jobs::FD_ENTERPRISE_ID} != $e_id ){
         $v->{Jobs::FD_ENTERPRISE_ID} = $e_id; 
     }
-    // Jobs::update($v, ['jbs_id' => $v->jbs_id]);
     $count++; 
 }
 igk_wln_e("ok -::::- " . $count);

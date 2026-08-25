@@ -9,7 +9,7 @@ use IGK\Helper\Authorization;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\SystemUserProfile;
-///<summary>data : </summary>
+
 /**
 * use profiles data - 
 * @package com\igkdev\projects\ForemJobDashboard
@@ -20,20 +20,18 @@ class UserProfile extends SystemUserProfile{
      * override de profileModelClass 
      */
     const profileModelClass = JobUsers::class;
-
+    const profileModelLinkCachedColumn = [JobUsers::FD_GUID, IGK_FD_GUID];
     /**
     * auto generate doc.
     * @var JobUsers
     */
     protected $m_projectUser;
-
     /**
     * .ctr
     */
     public function __construct()
-    {
+    { 
     }
-
     /**
     * auto generate doc.
     * @return void
@@ -44,14 +42,7 @@ class UserProfile extends SystemUserProfile{
         }
         ($this->m_projectUser = $v_user) ?? igk_die('missing project user');
     }
-
-    /**
-    * auto generate doc.
-    * @param mixed $class_name
-    */
-    protected function getdbCacheColumnList($class_name){
-        return [JobUsers::FD_GUID, IGK_FD_GUID];
-    }
+    
     /**
      * create new Project Users
      * @param Users $user 
@@ -71,7 +62,6 @@ class UserProfile extends SystemUserProfile{
      * @return mixed 
      */
     protected function registerProfile() { 
-        // what to do to register profile to 
         if ($this->m_projectUser->isNew()){
             $ctrl = $this->getController();
             if ($def_user_profile = $ctrl->getDefaultUserProfile()){

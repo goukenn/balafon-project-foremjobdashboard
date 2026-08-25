@@ -4,6 +4,7 @@
 // @desc: view of all jobs application formulars summary 
 // @view: capsulate
 // @date: 20251031 09:01:51
+
 /**
  * @var mixed $t
  */
@@ -88,22 +89,13 @@ if ($a = $data->job_applications) {
                                 $ctrl::uri('@/jobs/edit/'.$i->{Jobs::FD_ID}),                                
                             ])->setContent($i->{Jobs::FD_TITLE})
                         );
-                        // .
-                        // (
-                            // $i->{Jobs::FD_SUMMARY} ? sprintf(
-                            //     '<span>%s</span>',
-                            //     $i->{Jobs::FD_SUMMARY})
-                            // : 
-                            //($rc? _h('span', $rc).'': '---')
-                        // )
                         ;
-                    // JobEnterprises::GetCache(JobEnterprises::FD_ID,$i->{Jobs::FD_ENTERPRISE_ID})->{JobEnterprises::FD_NAME};
-                    $tr->td()->content = $contact; // 'cbondje@igkdev.com'; //$i->{Jobs::FD_CONTACT_ID} ; // JobEnterprises::GetCache(JobEnterprises::FD_ID,$i->{Jobs::FD_ENTERPRISE_ID})->{JobEnterprises::FD_NAME};
+                    $tr->td()->content = $contact; 
                     $tr->td()->space();
                     $tr->td()->space();
                     $tr->td()->content = 'x';
                     // + | follow:
-                    $tr->td()->space(); // content = $i->{Jobs::FD_CONTACT_ID} ; // JobEnterprises::GetCache(JobEnterprises::FD_ID,$i->{Jobs::FD_ENTERPRISE_ID})->{JobEnterprises::FD_NAME};
+                    $tr->td()->space(); 
                 });
         } else {
             $table->tr()->td()->setAttributes([

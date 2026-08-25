@@ -2,6 +2,7 @@
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use IGK\Helper\JSon;
 use IGK\System\Http\JsonResponse;
+
 include_once $ctrl::getViewDir().'/.auth.php';
 $o = JSon::encode( Jobs::select_all(
     ['jbs_user_id'=>$user->jbu_id]

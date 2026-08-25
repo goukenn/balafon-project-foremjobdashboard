@@ -1,44 +1,33 @@
 <?php
-// views: document store  
 /**
  *  @var mixed $t
  * */
+use com\igkdev\projects\ForemJobDashboard\JobDocTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
+use com\igkdev\projects\ForemJobDashboard\Models\JobDoctypes as ModelDocTypes;
 use com\igkdev\projects\ForemJobDashboard\System\IO\FileViewer;
 use IGK\Helper\IO; 
 use function igk_html_host as _h;
 use function igk_resources_getsf as __;
+
 $def['.ft-s-4'] = 'font-size: 0.687em';
-// JobDocs::registerMacro('typeName', function(){
-//        return JobDocTypes::GetCache(JobDocTypes::FD_ID, $this->job_doc_type_id)->name ?? 'unknown';
-// });
 $error = [];
 if ($request->method('POST') && $_FILES){
     $file = (object)igk_getv($_FILES, 'doc');
     $uid = '';
-    // $request->file('doc');
     $outdir = $ctrl->getDeclaredDir().'/Data/docs';
     IO::CreateDir($outdir);
     if (!($c = igk_io_move_uploaded_file($file->tmp_name, $outdir.'/'.$file->name))){
-        $error[] = 'stored errors';
+        $error[] = 'move uploaded file failed';
     } else{
         igk_navto($ruri);
     }
 }
 $job = $data->job;
 $doc->title = $job ? $job->title .'\'s Document': 'Manages documents';
-$form = igk_create_node('form');
-$form->multipart();
-$form->fields([
-    'doc'=>['type'=>'file', 'label_text'=>'documents']
-]);
-$form->actionbar(function($a): void{
-    $a->submit('btn.add.doc', __('add document'))->setClass('dispib');
-});
 $_title =  $job ? _h('div > h1 > a.igk-btn[href:'.$ctrl::uri('@/jobs/edit/'.$job->id).']', $job->title) : null;
 $t->main()->container()->div()->bind(
-    $_title,
-    $form
+    $_title
 );
 if($docs = $data->documents){ 
     $c = count($docs);
@@ -50,10 +39,16 @@ if($docs = $data->documents){
         if ($r->type == 'template'){
             $node->h2()->content = $jobDocument->typeName() ?? 'template-motivation';
             _h($node, _h('pre.preserve.ft-s-4.overflow-a', $r->content ));
-        } else {
-            if ($viewer = FileViewer::CreateFromType($r->type)){
-                $node->li()->content = $r->type;
-                $viewer->view($node, $r, $ctrl);
+        } else { 
+            $dd =ModelDocTypes::GetCache($jobDocument->job_doc_type_id);
+            $node->li()->content = "Type: ".igk_getv($dd, 'name');
+            $node->li()->content = $r->type;
+            try{
+                if ($viewer = FileViewer::CreateFromType($r->type)){
+                    $viewer->view($node, $r, $ctrl);
+                }
+            }
+            catch(\Exception $ex){  
             }
         }
         _h($node, _h('ajxa[method:post]', [$ctrl::uri('@/docs/drop/'.$jobDocument->id.';render=web')], 
@@ -67,16 +62,8 @@ if($docs = $data->documents){
     }
 }
 if (isset($error) && $error){
-    igk_wln_e("error : ", $error);
+    $t->add(_h('p.danger', $error));
 }
 if ($action_node = $ctrl::actionKey($action)){
     $t->add(_h('div.teleport.action-host', _h('notifyhost', [$action_node])));
 }
-//$s = 'notify ::: '.igk_notifyctrl($ctrl->notifyKey($action->getNotifyName()));
-// if ($action){
-// $t->div()->notifyhost($action->notify_name);
-// }
-// $t->div()->obdata(function() use ($ctrl,$action){
-//     echo "notify list .... ";
-//     print_r($action);
-// });

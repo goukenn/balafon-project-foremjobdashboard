@@ -13,7 +13,7 @@ use IGK\Database\IDbQueryResult;
 use Exception;
 use IGKDbModelUtility;
 use IGKException;
-///<summary>view entry point</summary>
+
 /**
  * view entry point
  * @package com\igkdev\projects\ForemJobDashboard\ModelUtilities
@@ -29,7 +29,6 @@ class EnterpriseModelUtility extends IGKDbModelUtility
     {
         return JobEnterprises::model();
     }
-
     /**
     * auto generate doc.
     * @param string $name
@@ -39,7 +38,6 @@ class EnterpriseModelUtility extends IGKDbModelUtility
     {
         return $this->primary()->AddIfNotExists($name, $vat);
     }
-
     /**
     * auto generate doc.
     * @param JobEnterprises $model
@@ -62,7 +60,6 @@ class EnterpriseModelUtility extends IGKDbModelUtility
             ]]);
         return $q->execute();
     }
-
     /**
     * auto generate doc.
     * @return bool|null|IDbQueryResult
@@ -87,7 +84,6 @@ class EnterpriseModelUtility extends IGKDbModelUtility
      */
     public function registerEnterprise(string $e){
         if ($e){
-            //register enterprise and store 
             $e = JobEnterprises::insertIfNotExists([JobEnterprises::FD_NAME=>$e]);
             if ($e){
                 if ($e === true){
@@ -96,7 +92,6 @@ class EnterpriseModelUtility extends IGKDbModelUtility
                return $e->{JobEnterprises::FD_ID};
             } 
         } else {
-            // get 
             if ($e = JobEnterprises::GetCache(JobEnterprises::FD_NAME, $e, true)){
                 return  $e->{JobEnterprises::FD_ID};
             } 
@@ -117,7 +112,7 @@ class EnterpriseModelUtility extends IGKDbModelUtility
      */
     public function getJobEnterpriseResponse($id){
         $c = JobMessages::select_all([
-            JobMessages::FD_OFFER_ID()=>$id
+            JobMessages::FN_OFFER_ID()=>$id
         ]);
         return $c;
     }

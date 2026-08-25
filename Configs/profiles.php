@@ -3,6 +3,7 @@
 // @desc: profiles definition
 // @date: 20250210 15:58:30
 use com\igkdev\projects\ForemJobDashboard\EnumAuthorizations;
+
 return [
     "admin"=>[
         "read",

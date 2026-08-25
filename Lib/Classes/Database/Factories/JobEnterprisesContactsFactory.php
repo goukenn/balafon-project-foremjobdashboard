@@ -5,14 +5,13 @@
 // @date: 20240914 08:33:33
 namespace com\igkdev\projects\ForemJobDashboard\Database\Factories;
 use IGK\System\Database\Factories\FactoryBase;
-///<summary>factory</summary>
+
 /**
 * factory expected data to be and array of entreprises and contacts
 * @package com\igkdev\projects\ForemJobDashboard\Database\Factories
 * @author C.A.D. BONDJE DOUE
 */
 class JobEnterprisesContactsFactory extends FactoryBase{
-
     /**
     * auto generate doc.
     * @return ?array

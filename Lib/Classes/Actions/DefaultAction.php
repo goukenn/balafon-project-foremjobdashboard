@@ -7,6 +7,7 @@ namespace com\igkdev\projects\ForemJobDashboard\Actions;
 use IGK\Actions\ActionBase;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSearchEngines;
 use com\igkdev\projects\ForemJobDashboard\Models\JobInterims;
+
 /**
  * view action
  * @package com\igkdev\projects\ForemJobDashboard\Actions
@@ -14,7 +15,6 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobInterims;
  */
 class DefaultAction extends ActionBase
 {
-
     /**
     * auto generate doc.
     */
@@ -28,10 +28,8 @@ class DefaultAction extends ActionBase
         usort($interims, function ($a, $b) {
             return strtolower($a->name) <=> strtolower($b->name);
         });
-        // $c =  get_defined_vars(); 
         return compact('interims', 'job_search_engines');
     }
-
     /**
     * auto generate doc.
     */

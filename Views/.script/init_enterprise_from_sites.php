@@ -4,9 +4,9 @@
 // @date: 20250414 07:52:20
 // @desc: init enterprise with var 
 // @command: balafon --run src/application/Projects/ForemJobDashboard/Views/.script/init_enterprise_from_sites.php
-// * enterprise with vat
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\SiteNoteBook\Models\Sites;
+
 $g = ForemJobDashboardController::ctrl(true);
 $site = SiteNoteBookController::ctrl(true);
 $enterprises = (function () {

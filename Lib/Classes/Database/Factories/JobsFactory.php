@@ -9,7 +9,7 @@ use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 use IGK\System\Database\Factories\FactoryBase;
 use IGK\System\Traits\ComposerFakerTrait;
 use IGKException;
-///<summary>factory</summary>
+
 /**
  * factory
  * @package com\igkdev\projects\ForemJobDashboard\Database\Factories
@@ -49,7 +49,6 @@ class JobsFactory extends FactoryBase
 		}
 		return $result;
 	}
-
     /**
     * auto generate doc.
     * @return ?array

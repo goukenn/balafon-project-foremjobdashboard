@@ -5,7 +5,7 @@
 namespace com\igkdev\projects\ForemJobDashboard\Database\Factories;
 use ForemJobDashboardController;
 use IGK\System\Database\Factories\FactoryBase as Factory;
-///<summary>Factory base</summary>
+
 /**
 * Factory base
 * @package com\igkdev\projects\ForemJobDashboard\Database\Factories

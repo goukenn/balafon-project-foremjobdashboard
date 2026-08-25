@@ -3,6 +3,7 @@
 // @file: FileViewer.php
 // @date: 20251210 09:37:57
 namespace com\igkdev\projects\ForemJobDashboard\System\IO;
+use IGK\Controllers\BaseController;
 use IGK\Helper\StringUtility;
 use IGKException;
 
@@ -11,7 +12,6 @@ use IGKException;
 * @package com\igkdev\projects\ForemJobDashboard\System\IO
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\IO
@@ -30,12 +30,11 @@ abstract class FileViewer{
         }
         throw new IGKException('missing view type : '.$cl);
     }
-
     /**
     * auto generate doc.
     * @param mixed $node
-    * @param string $content
-    * @param mixed $ctrl
+    * @param mixed|string|object $content
+    * @param BaseController $ctrl
     */
-    abstract function view($node, string $content, $ctrl);
+    abstract function view($node, $content, BaseController $ctrl);
 }

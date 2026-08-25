@@ -7,13 +7,13 @@ namespace com\igkdev\projects\ForemJobDashboard\Actions\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use IGK\Actions\ActionBase;
+
 /**
 * view action
 * @package com\igkdev\projects\ForemJobDashboard\Actions\Jobs
 * @author C.A.D. BONDJE DOUE
 */
 class EditAction extends ActionBase{
-
     /**
     * auto generate doc.
     * @param null|Jobs $job
@@ -26,13 +26,18 @@ class EditAction extends ActionBase{
         }
         return $response;
     }
-
     /**
     * auto generate doc.
     * @param Jobs $job
     */
-    public function clear_docs_post(Jobs $job){
-        igk_wln_e("clear document");
+    public function clear_docs_post(Jobs $job){        
         JobDocs::delete([JobDocs::FD_JOB_ID => $job->id]);
+    }
+    /**
+     * handle post index 
+     * @return void 
+     */
+    public function index_post(){ 
+        return $this->index();
     }
 }

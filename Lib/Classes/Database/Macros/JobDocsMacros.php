@@ -16,7 +16,6 @@ use IGK\Models\ModelBase;
 * @package com\igkdev\projects\ForemJobDashboard\Database\Macros
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\Database\Macros
@@ -32,7 +31,6 @@ abstract class JobDocsMacros
     {
         return JobDocTypes::GetCache(JobDocTypes::FD_ID, $model->job_doc_type_id)->name ?? 'unknown';
     }
-
     /**
     * auto generate doc.
     * @param JobDocs $model
@@ -51,7 +49,6 @@ abstract class JobDocsMacros
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param JobDocs $model

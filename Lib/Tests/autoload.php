@@ -1,8 +1,8 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @date: 20240904 08:59:56
+
 require_once (function ($name) {
-    // init environment    
     foreach (['IGK_BASE_DIR', 'IGK_TEST_CONTROLLER', 'IGK_APP_DIR'] as $m) {
         if (defined($m))
             continue;
@@ -21,7 +21,6 @@ require_once (function ($name) {
             }
             return $p;
         };
-        // loading environment
         $bdir = isset($_SERVER["PWD"]) ? $_SERVER["PWD"] : getcwd();
         if (function_exists('simplexml_load_file')) {
             $tconfigFile = null;

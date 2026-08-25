@@ -7,6 +7,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use IGK\System\Console\Logger;
 use IGK\System\Database\SQLQueryFieldPrefixOperators;
+
 $ctrl = ForemJobDashboardController::ctrl(true);
 $e_utility = $ctrl->modelUtility('enterprise');
 $enterprises = [
@@ -29,10 +30,9 @@ array_unique($enterprises);
 $login = igk_getv($params, 0) ?? 'cbondje@igkdev.com';
 if (($user = igk_get_user_bylogin($login)) && ($ctrl::login($user, null, false))) {
     $user = $ctrl->getUserProfile()->user();
-    //$tab = array_values(array_unique($tab));
     $grows = Jobs::select_all([
        Jobs::FD_USER_ID => $user->id,
-       SQLQueryFieldPrefixOperators::FIND.Jobs::FD_CREATE_AT=>'2025%' // year to bind 
+       SQLQueryFieldPrefixOperators::FIND.Jobs::FD_CREATE_AT=>'2025%' 
     ]);
     $update = 0;
     while(count($grows) > 0 ){

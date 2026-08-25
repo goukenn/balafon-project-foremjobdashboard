@@ -6,7 +6,7 @@
 namespace com\igkdev\projects\ForemJobDashboard\Actions\Api;
 use IGK\Actions\ActionBase;
 use IGK\Actions\ApiActionBase;
-///<summary>view action</summary>
+
 /**
 * view action
 * @package com\igkdev\projects\ForemJobDashboard\Actions\Api
@@ -15,7 +15,6 @@ use IGK\Actions\ApiActionBase;
 * @auth(admin, strict=true)
 */
 class AdminAction extends ApiActionBase{
-
     /**
     * auto generate doc.
     */

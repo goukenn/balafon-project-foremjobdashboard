@@ -2,6 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @date: 20250213 11:02:06
 use igk\docs\swagger\SwaggerSecurityInfo;
+
 return [
     'title'=>'ForemJob Dashboard',
     'description'=>' ',

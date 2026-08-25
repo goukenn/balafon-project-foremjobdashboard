@@ -2,6 +2,7 @@
 // @command: balafon --run src/application/Projects/ForemJobDashboard/Data/treatments/do_treat.php
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+
 ForemJobDashboardController::ctrl(true);
 $titles = [
     'Business analyst',

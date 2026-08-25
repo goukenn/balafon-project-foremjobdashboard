@@ -7,19 +7,17 @@ namespace com\igkdev\projects\ForemJobDashboard\ModelUtilities;
 use com\igkdev\projects\ForemJobDashboard\Models\JobContacts;
 use IGK\Database\DbQueryOptions;
 use IGKDbModelUtility;
-///<summary>view entry point</summary>
+
 /**
 * view entry point
 * @package com\igkdev\projects\ForemJobDashboard\ModelUtilities
 * @author C.A.D. BONDJE DOUE
 */
 class JobContactsModelUtility extends IGKDbModelUtility{
-
     /**
     * auto generate doc.
     */
     public function list(){
-
         /**
         * auto generate doc.
         * @var IDbQueryOptions

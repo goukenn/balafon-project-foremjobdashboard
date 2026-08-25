@@ -1,0 +1,28 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: enterprise/default.phtml
+// @desc: enterprise manipulation 
+// @view: enterprise/default
+// @date: 20260314 08:11:56
+use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use function igk_html_host as _h;
+use function igk_resources_gets as __;
+
+$form = _h('form#search-form');
+$result = (function ($s)use($ctrl) {
+    if ($o =  $s ? _h('p.result') : null) {
+        foreach ($s as $p) {
+            $o->li()->span()->a($ctrl::uri('@/enterprise/details/'.$p->id))->content = $p->{JobEnterprises::FD_NAME};
+        }
+    }
+    return $o;
+})($data->enterprises);
+$form->fields([
+    'enterprise' => '',
+    '-'
+]);
+_h($t, _h(
+    'main',
+    _h('container > row', $form),
+    _h('container > row', $result ?: __('No result found'))
+));

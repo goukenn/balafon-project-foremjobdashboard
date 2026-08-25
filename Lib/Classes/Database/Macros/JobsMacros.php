@@ -6,6 +6,8 @@
 namespace com\igkdev\projects\ForemJobDashboard\Database\Macros;
 use com\igkdev\projects\ForemJobDashboard\Models\JobForemJobs;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use IGK\Database\DataAdapterBase;
+
 /**
 * macros for jobs operations
 * @package com\igkdev\projects\ForemJobDashboard\Database\Macros
@@ -22,5 +24,17 @@ abstract class JobsMacros{
         return $c->{JobForemJobs::FD_REFERENCE};
     }
     return null;
+   }
+   /**
+    * attach forem reference
+    * @param Jobs $model 
+    * @param mixed $ref_id 
+    * @return null|bool|DataAdapterBase 
+    */
+   public static function attachForemReference(Jobs $model, $ref_id){
+        return JobForemJobs::insertIfNotExists([
+            JobForemJobs::FD_JOB_ID=>$model->id,
+            JobForemJobs::FD_REFERENCE=>$ref_id
+        ]);
    }
 }
