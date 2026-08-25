@@ -6,6 +6,7 @@
 // + | --------------------------------------------------------------------
 // + | update value ... 
 // + |
+
 /**
  * @var mixed $t
  * @var IGKHtmlDoc $doc
@@ -25,12 +26,11 @@ use com\igkdev\projects\ForemJobDashboard\SourceTypes as ForemJobDashboardSource
 use IGK\Helper\IO;
 use IGK\Models\Users;
 use IGK\System\IO\Path;
-include_once $ctrl->getViewDir().'/.auth.php';
+include_once $ctrl->getViewDir().'/.auth.pinc';
 $main = $ctrl::modelUtility("MainTask");
 $doc->title = 'update - jobs';
 $offer_dir = $ctrl->getOfferDir();
 $t['class'] = '+fit overflow-y-a';
-// $t['style'] = 'overflow-y: auto;';
 /**
  * 
  * @param string $tfile 
@@ -47,7 +47,6 @@ function _store_job_file(string $tfile, $offer_file, $job, $type, $append = fals
     $doctype_id = JobDocTypes::GetCacheData($type)->id;
     $v_suffix = '';
     if ($append) {
-        //$n = igk_io_basenamewithoutext($tfile);  
         $c = JobDocs::count([
             JobDocs::FD_JOB_ID => $job->id,
             JobDocs::FD_JOB_DOC_TYPE_ID =>  $doctype_id,
@@ -72,7 +71,6 @@ function _store_job_file(string $tfile, $offer_file, $job, $type, $append = fals
         $s = JobDocs::insert($r);
     } else
         $s = JobDocs::createIfNotExists($r);
-    // store in file storage 
     IO::CreateDir(
         dirname($tfile)
     );
@@ -106,7 +104,7 @@ if ($request->method('POST')) {
      * @var MainTaskModelUtility
      */
     $offer_file = $request->file('ofile');
-    $response_file = $request->file('rfile'); // add response file 
+    $response_file = $request->file('rfile'); 
     $drop_file = igk_getr('btn-drop');
     $drop_response_file = igk_getr('btn-drop-response');
     $is_r = true;
@@ -137,7 +135,6 @@ if ($request->method('POST')) {
                 }
             }
             $job->save();
-            // set form job
             if ($reference && ($v_forem_type == $job->from_id)) {
                 JobForemJobs::delete([
                     JobForemJobs::FD_JOB_ID => $job->id,
@@ -192,8 +189,6 @@ if ($request->method('POST')) {
         }
     }
 }
-// if (!is_numeric($id))
-//     $id = 0;
 if ($id) {
     $job = Jobs::select_row($id);
     if (is_null($job)) {
@@ -247,7 +242,6 @@ if ($job instanceof Jobs) {
         "summary" => ["value" => $job->summary, "type" => "textarea"],
         "description" => ["value" => $job->description, "type" => "textarea"],
         null,
-        // "description" => ["value" => $job->description, "type" => "textarea"],
         'ofile' => ['type' => 'file', 'placeholder' => 'offer file', 'label_text' => __('offer')],
         'rfile' => ['type' => 'file', 'placeholder' => 'response file', 'label_text' => __('response')]
     ]);
@@ -283,7 +277,6 @@ $ac_bar->bind(
     ($id > 0) ? next_btn($furi . '/' . ($id - 1), 'prev') : null,
     $id ? next_btn($furi . '/' . ($id + 1) . '/1') : null,
 );
-// $ac_bar->vsep();
 $ac_bar->a($furi . '/new')->setClass('igk-btn')->Content = __('new');
 $t->div()->container()->row()->bind(
     $ac_bar

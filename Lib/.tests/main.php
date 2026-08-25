@@ -3,15 +3,12 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use IGK\Helper\IO;
 use IGK\Helper\JSon;
+
 $ctrl = ForemJobDashboardController::ctrl(true);
-// clean all summary 
-// Jobs::update([Jobs::FD_SUMMARY=>null]);
-// igk_exit();
 $dirs = ['/Volumes/Data/Dev/PHP/balafon_site_dev/src/application/Projects/ForemJobDashboard/Views/output',
 '/Users/charlesbondjedoue/Desktop/jobs'];
 while (count($dirs) > 0) {
     $dir = array_shift($dirs);
-    // load enterprises 
     foreach (IO::GetFiles($dir, '/_offre.+\.pdf$/', true) as $f) {
         $n = explode("_", igk_io_basenamewithoutext($f), 2);
         if (empty($n[0])) continue;

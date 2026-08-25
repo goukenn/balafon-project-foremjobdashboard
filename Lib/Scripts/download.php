@@ -22,6 +22,7 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\Modules;
 use IGK\System\Regex\Replacement;
+
 igk_require_module(Modules::igk_pdflib());
 $ctrl = ForemJobDashboardController::ctrl(true);
 $user = (isset($user) ? igk_get_user_bylogin($user->clLogin) : null) ?? ForemJobDashboardController::SignInUser();
@@ -92,7 +93,6 @@ Nous vous tiendrons au courant de la suite de la procédure.
 Cordialement,
 L'équipe de HR
 EOF;
-
 /**
 * auto generate doc.
 * @param mixed $responses
@@ -117,10 +117,7 @@ function get_dump_response($responses,  $title, ?string $enterprise = null, ?str
     }
     return $rp->replace($src);
 }
-// igk_wln_e(get_dump_response($responses, 'java'));
-/// comming from test - 
 if (!function_exists("igk_io_rmdir")) {
-
     /**
     * auto generate doc.
     * @return bool
@@ -181,13 +178,12 @@ if (!function_exists("igk_io_rmdir")) {
         return igk_count($kdir) == 0;
     }
 }
-igk_wln(__FILE__ . ":" . __LINE__,  "lk");
+
 if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
     $cuser = $main->registerUser($user);
     $tempdir = (isset($output) ? $output : null) ??  igk_io_tempdir('forem');
     igk_io_w2file($tempdir . "/README.md", "# ");
     igk_io_w2file($tempdir . "/DELETEME.md", "# please delete me");
-    // copy 
     $bfile = $ctrl->getDeclaredDir() . '/Data/docs';
     $bln = strlen($bfile);
     foreach (IO::GetFiles($bfile, "/\.(docx|pdf)$/") as $f) {
@@ -199,7 +195,7 @@ if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
     $response_doc_id = JobDocTypes::GetCacheData(JobDocTypes::RESPONSE)->id;
     $missing_enterprise  = 0;
     $missing_def = [];
-    $tinfo = Jobs::select_all([Jobs::FD_USER_ID => $cuser->id]); //  $main->getJobs($cuser);
+    $tinfo = Jobs::select_all([Jobs::FD_USER_ID => $cuser->id]); 
     $folders = [];
     $printer = new PDFPrinter;
     $count_ = 0;
@@ -214,10 +210,9 @@ if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
             $y = $date[0];
             $m = $date[1];
             $d = $date[2];
-            // exported date
             $path = isset($forem_presentation) && $forem_presentation ?
                 $path = Path::Combine(...[$y,  $m.'_'.$y]) :
-                $path = Path::Combine(...[$y, $m, $d]); // exported date 
+                $path = Path::Combine(...[$y, $m, $d]); 
             $tdir = Path::Combine($tempdir, $path);
             if (!isset($folders[$path])) {
                 IO::CreateDir($tdir);
@@ -242,13 +237,11 @@ if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
                 $missing_enterprise++;
                 $enterprise = JobEnterprises::createEmptyRow();
                 $enterprise->name = 'NOT_DEFINE.' . $row->id;
-                //continue;
             }
             $c = $printer->printJob($row);
             $name = strtoupper(preg_replace('/\s+/', '_',  $enterprise ? $enterprise->{$_cl_name} : 'unknown'));
             $is_forem = $foremjobs != null;
             $mark = Path::Combine($tdir, $is_forem ? 'Forem/' . $foremjobs->reference : $name);
-            // print description infomation 
             $lib = [];
             igk_io_w2file($tfile = Path::Combine($mark, "details_offre_" . $row->id . '_' . $count_ . ".pdf"), $c);
             $store = true;
@@ -268,17 +261,8 @@ if (($main = $ctrl::modelUtility("MainTask")) instanceof MainTaskModelUtility) {
                 $store = true;
             }
             $e_id = $row->id();
-            // $docs = $e_utility->getOffersDocumentToPrint($e_id);
-            // $responses = $e_utility->getJobEnterpriseResponse($e_id);
             if ($row->description)
                 $lib['description.txt'] = $row->description;
-            // render response
-            // if ($docs) {
-            // esxtract store document 
-            //igk_io_w2file(Path::Combine($tdir, "response.txt"), '');
-            //     foreach($docs as $kdoc){
-            //     }
-            // } 
             if ($responses) {
                 $r = json_decode($responses->value, false, 512);
                 if ($r->type == 'template') {

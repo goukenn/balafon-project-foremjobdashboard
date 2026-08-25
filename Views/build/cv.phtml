@@ -7,6 +7,7 @@
 use com\igkdev\projects\ForemJobDashboard\UserConfigSetting;
 use function igk_resources_gets as __;
 use function igk_html_host as _h;
+
 $this->checkUser(false);
 $user = $ctrl->getUserProfile();
 $tr = UserConfigSetting::DbUserSetting($user);

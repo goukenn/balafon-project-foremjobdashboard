@@ -4,6 +4,7 @@
 // @date: 20250829 14:31:40
 namespace com\igkdev\projects\ForemJobDashboard\Models;
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
+
 /**
 * job's engines
 * @package com\igkdev\projects\ForemJobDashboard\Models
@@ -12,8 +13,8 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property string $name
 * @property string $url engine url
 * @property string $description description
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
 * @method static string FN_ID() - `id` full column name 
 * @method static string FN_NAME() - `name` full column name 
 * @method static string FN_URL() - `url` full column name 
@@ -26,37 +27,31 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $name, string $url, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobSearchEngine extends ModelBase{
-
     /**
     * auto generate doc.
     * @var mixed
     */
     const FD_ID="job_eng_id";
-
     /**
     * auto generate doc.
     * @var mixed
     */
     const FD_NAME="job_eng_name";
-
     /**
     * auto generate doc.
     * @var mixed
     */
     const FD_URL="job_eng_url";
-
     /**
     * auto generate doc.
     * @var mixed
     */
     const FD_DESCRIPTION="job_eng_description";
-
     /**
     * auto generate doc.
     * @var mixed
     */
     const FD_CREATE_AT="job_eng_Create_At";
-
     /**
     * auto generate doc.
     * @var mixed

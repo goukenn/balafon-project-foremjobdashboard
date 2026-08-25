@@ -11,19 +11,16 @@ use IGK\System\Console\Logger;
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 */
 class CVModeleListCommand extends JobCommandBase{
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $command='--forem-job:cv';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -31,13 +28,11 @@ class CVModeleListCommand extends JobCommandBase{
     var $desc='manage forem job cv';
 	/* var $options=[]; */
 	/* var $category = ''; */
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $usage = '';
-
     /**
     * auto generate doc.
     * @param mixed $command

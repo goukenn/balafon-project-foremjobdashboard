@@ -4,6 +4,7 @@
 // @desc: 
 // @view: autolog
 // @date: 20251210 16:18:02
+
 $ref = $ctrl::uri('@/');
 $login = '';
 if (
@@ -17,7 +18,7 @@ if (
                 igk_die('missing login');
             }
         }  
-        $user = $user ?? igk_sys_default_user() ?? igk_die('user not resolved');
+        $user = $user ?? igk_sys_default_user() ?? igk_die('missing default user');
         if (!($u =$ctrl::login($user, null, false))){
             igk_die("failed to login"); 
         }

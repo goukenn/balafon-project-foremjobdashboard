@@ -9,10 +9,10 @@ use IGK\Helper\StringUtility;
 use igk\pdflib\PDFUtils;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexReplaceContent;
+
 igk_require_module('igk/pdflib');
 $doc = new \igk\pdflib\PDFDocument(); 
 $ctn = new RegexMatcherContainer;
-// $src = implode("\n", ["Candidat   p", "du jour   x", "avec joie", "Laravel and sample"]); 
 $src = file_get_contents($ctrl->getDataDir().'/templates/form.offers.submit.dat');
 $rp = new RegexReplaceContent;
 $container = new RegexMatcherContainer;
@@ -35,14 +35,12 @@ while($g = $ctn->detect($src, $offset)){
        ->Content = PDFUtils::EncodeTextToUTF8($line.':'.$e->value);
         $y+=8;
         $line++;
-        // echo $e->value , PHP_EOL;
     }
 }
 $doc->p()
 ->setStyle("line-height:5; width:106; border-width:1; border-color: yellow;font-style:bold underline italic; font-size: 30")
 ->Content = Lorem::paragraph(5);
 $page = $doc->page();
-// $doc->h1()->Content = "Bonjour Tout le monde";
 $doc->Producer = "Balafon";
 $doc->Author = IGK_AUTHOR; 
 $doc->output();

@@ -1,4 +1,5 @@
 <?php
+use com\igkdev\projects\ForemJobDashboard\Actions\DocsAction;
 use com\igkdev\projects\ForemJobDashboard\ContactDataInfo;
 use com\igkdev\projects\ForemJobDashboard\EnumAuthorizations;
 use com\igkdev\projects\ForemJobDashboard\JobDocTypes as ForemJobDashboardJobDocTypes;
@@ -23,6 +24,7 @@ use IGK\System\IO\Path;
 use IGK\System\Modules;
 use function igk_resources_gets as __;
 use function igk_html_host as _h;
+
 /**
  * @var mixed $t
  */
@@ -41,46 +43,9 @@ if (igk_server()->method('POST') &&  igk_getr("btn-delete")) {
     }
 }
 igk_view_handle_actions($fname, [
-    'docs' => function (Jobs $job) use (&$params, $ctrl, $fname) {
-        $store = function ($job, $s, $responseType, $force_insert = false) {
-            $cond = [
-                JobDocs::FD_JOB_ID => $job->id,
-                JobDocs::FD_JOB_DOC_TYPE_ID => $responseType->id,
-            ];
-            if (!$force_insert && ($hvi = JobDocs::select_row($cond))) {
-                $hvi->{JobDocs::FD_VALUE} =  $s;
-                $hvi->save();
-                // igk_wln('update ', $hvi->to_array(), $s);
-            } else {
-                $cond[JobDocs::FD_VALUE] = $s;
-                JobDocs::insert($cond);
-            }
-        };
-        $params = [$job->{Jobs::FD_ID}];
-        $tid = JobDoctypes::GetCache('id', igk_getr('type'));
-        if (($file = igk_getv($_FILES, 'file')) && ($file['error'] == 0)) {
-            $type = igk_getv($file, 'type') ?? 'application/pdf';
-            $ext = igk_getv(['application/pdf'=>'.pdf'], $type);
-            $path = uniqid('doc') . $ext; 
-            // retrieve current login path
-            $dir = $ctrl->currentLoginPath();
-            $storage = new Storage($dir, $ctrl);
-            $storage->moveUpload($file['tmp_name'], $path);
-            $s =  json_encode((object)[
-                'path' => $path,
-                'type' => $file['type'],
-                'size' => $file['size']
-            ], JSON_UNESCAPED_UNICODE);
-            $store($job, $s, $tid);
-        }
-        else if ($msg = igk_getr('msg')) {
-            $msg = str_replace("\r", "", $msg);
-            $s =  json_encode((object)[
-                'content' => $msg,
-                'type' => 'template',
-                'size' => strlen($msg)
-            ], JSON_UNESCAPED_UNICODE);
-            $store($job, $s, $tid);
+    'docs' => function (Jobs $job, $type=null, ?Request $request=null) use (&$params, $ctrl, $fname) {
+        if ($request->method('POST')){
+            DocsAction::CreateInstance($ctrl)->index_post($job, $type);        
         }
         igk_navto($ctrl::uri($fname . '/' . $job->{Jobs::FD_ID}));
     },
@@ -109,20 +74,16 @@ if ($request->method('POST')) {
     /**
      * @var IJobPostData 
      */
-    $obj = $request->getFormData();
-    // $validator = new FormJobValidator;
-    // if ($validator->validate($obj)){
-    //     $row->{Jobs::FD_TITLE} = $validator->title;
-    //     $row->{Jobs::FD_DESCRIPTION} = $validator->description;  
-    // }
+    $obj = $request->getFormData(); 
     if ($obj->title) {
         $desc = $obj->description;
         $desc = str_replace("\r", "", $desc);
-        $obj->description = preg_replace("/\n+/", "\n", $desc);
+        $obj->description = substr(preg_replace("/\n+/", "\n", $desc), 0, 2500);   
+        $obj->summary = substr($obj->summary ?? $obj->description, 0, 2500);     
         $e_utility = $ctrl->modelUtility('enterprise');
         $row->{Jobs::FD_TITLE} = $obj->title;
         $row->{Jobs::FD_DESCRIPTION} = $obj->description;
-        $row->{Jobs::FD_SUMMARY} = $obj->summary ?? $obj->description;
+        $row->{Jobs::FD_SUMMARY} = $obj->summary;
         $row->{Jobs::FD_FROM_ID} = $obj->from ?? JobSourceTypes::GetCacheColumn(
             JobSourceTypes::FD_ID,
             ForemJobDashboardSourceTypes::WEB
@@ -131,24 +92,19 @@ if ($request->method('POST')) {
         $e = $obj->enterprise;
         $c_eid = Jobs::FD_ENTERPRISE_ID;
         $row->{$c_eid} = $e ? $e_utility->registerEnterprise($e) : null;
-        $row->{Jobs::FD_CATEGORY_ID} = $obj->category; // ?? ModelsJobCategories::GetCache()
+        $row->{Jobs::FD_CATEGORY_ID} = $obj->category; 
         $row->{Jobs::FD_TYPE_ID} = $obj->regtype;
         $row->save();
-        if ($obj->forem_ref) {
-            $r = JobForemJobs::AddIfNotExists($row->id, $obj->forem_ref);
+        if ($obj->forem_ref){
+            $row->attachForemReference($obj->forem_ref);
         }
     }
 }
 if (!$row) {
     $t->div()->panel()->content = __('Missing Entries');
     return;
-}
-$forem_ref = $row->foremReference();
-// null;
-// if ($c = JobForemJobs::select_all([JobForemJobs::FD_JOB_ID => $row->id])) {
-//     $forem_ref = $c[0]->{JobForemJobs::FD_REFERENCE};
-// }
-// igk_wln(json_encode(compact('forem_ref')));
+} 
+$forem_ref = $row->foremReference(); 
 if ($header = $ctrl->getEnvParam('header')) {
     _h($header->top, _h('li > a', [$ctrl::uri('@/jobs/add')], __('add')),);
 }
@@ -160,14 +116,12 @@ $head = $t->div()->container();
 $head->h2()->Content = __('Edit');
 $b = $t->div()->container();
 $sdata = JobStatusTypes::formSelectData();
-// get enterprise 
 $edid = $row->{Jobs::FD_ENTERPRISE_ID};
 $e = (function ($edid) {
     if ($edid) {
         return JobEnterprises::Get(JobEnterprises::FD_ID, $edid);
     }
 })($edid);
-// igk_wln_e($_REQUEST, $row->{Jobs::FD_ENTERPRISE_ID}, JobEnterprises::Get(JobEnterprises::FD_ID, $edid)->{JobEnterprises::FD_NAME});
 $frow = $b->row();
 $form = $frow->col()->div()->form();
 $form['action'] = $ctrl::uri($fname . '/' . $id);
@@ -192,8 +146,8 @@ $form->fields([
         'autocomplete' => HtmlAutocompleteValues::NOPE,
         'attribs'=>$fforem_attribs
     ],
-    'description' => ['type' => 'textarea', "max-length" => 2500, 'value' => $row->{Jobs::FD_DESCRIPTION}],
-    'summary' => ['type' => 'textarea', "max-length" => 2500, 'value' => $row->{Jobs::FD_SUMMARY}],
+    'description' => ['type' => 'textarea', "attribs"=>["maxlength" => 2500], 'value' => $row->{Jobs::FD_DESCRIPTION}],
+    'summary' => ['type' => 'textarea', "attribs"=>["maxlength" => 2500], 'value' => $row->{Jobs::FD_SUMMARY}],
     'from' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_FROM_ID},
@@ -215,7 +169,6 @@ $form->fields([
         'data' => ModelsJobCategories::formSelectData()
     ]
 ]);
-// igk_wln_e("selected reg type ", $row->{Jobs::FD_TYPE_ID});
 $form->actionbar()->host(function ($a) {
     $a->submit('', __('update'))->setClass('dispib');
     $a->submit('btn-delete', __('delete'))->setClass('dispib');
@@ -237,7 +190,6 @@ $default_response = ForemJobDashboardJobDocTypes::RESPONSE();
 if ($rp = JobDocs::select_row([JobDocs::FD_JOB_ID => $id, JobDocs::FD_JOB_DOC_TYPE_ID => $default_response ? $default_response->id : null])) {
     if ($ts = json_decode($rp->value)) {
         if ($ts->type == 'template') {
-            //$response = $ts->content;
         }
     }
 }
@@ -257,7 +209,7 @@ $form->actionbar()->host(function ($a) {
     $a->submit('', __('update'))->setClass('dispib');
 });
 // + | count njumber of columnet 
-$form->add(_h('div.counter', sprintf(__('documents: %s'), count($data->docs))));
+$form->add(_h('div.counter', sprintf(__('documents: %s'), count($data->docs ?? []))));
 _h(
     $col->div(),
     _h('ul', _h(
@@ -265,7 +217,6 @@ _h(
     )),
     _h('ajxa.clear-docs', [$ctrl::uri('@/jobs/edit/clear-docs/' . $id)], __('clear document'))->setAttribute('method', 'post')
 );
-// new form
 $form = $frow->col()->div()->form();
 $form['action'] = $ctrl::uri($fname . '/contact/' . $id);
 $m = $row->{Jobs::FD_CONTACT_ID};

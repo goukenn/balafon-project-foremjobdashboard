@@ -8,21 +8,18 @@ use IGK\Models\Users;
 * @package com\igkdev\projects\ForemJobDashboard\Database
 */
 class Utility{
-
     /**
     * auto generate doc.
     * @param Users $user
     */
     public static function GetAllJobs(Users $user){
     }
-
     /**
     * auto generate doc.
     * @return mixed
     */
     public static function GetUserSetting($user, string $v){
         $T1 = JobUserSettings::class;
-
         /**
         * auto generate doc.
         * @var mixed

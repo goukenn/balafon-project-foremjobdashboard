@@ -1,0 +1,20 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: doc-builder/motivation.phtml
+// @desc: build my custom motivation cs in markder 
+// @view: doc-builder/motivation
+// @date: 20260328 08:01:58
+use function igk_html_host as _h;
+use function igk_resources_gets as __;
+
+$doc->title = 'Lettre de Motivation';
+$form = _h('form.editor');
+$form['action'] = $rname . '/store';
+$form->fields([
+    'content' => ['type' => 'textarea']
+]);
+$form->actionbar()->host('actionbar_form_submit');
+$t->add(_h('div', 'here you code an edit your motivation letter'));
+$t->add(_h('main > container > row > col.50% ', $form));
+if ($data->motivation)
+$t->add(_h('div > markdown', [$data->motivation]));

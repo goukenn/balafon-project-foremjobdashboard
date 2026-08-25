@@ -2,19 +2,19 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: .header.pinc
 // @date: 20240904 08:59:55
-
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\SVG\SvgRenderer;
-
 use function igk_html_host as _h;
+
+$modules->require('igk.ios.SfSymbols');
 SvgRenderer::RegisterFolder($ctrl->getDataDir().'/assets/svg');
 igk_google_addfont($doc, "Roboto");
 $t->setClass("+google-Roboto fit overflow-y-a");
-$img = _h('img', [$ctrl->getDataDir() . '/assets/img/logo.jpg'])->setSize(40, 45);
+$img = _h('img', [$ctrl->getDataDir() . '/assets/img/logo.jpg'])->setSize(64, 64);
 if ($fname == 'default') {
     $h = $img;
 } else {
-    $h = _h('a.dispflex', [$ctrl::uri('@/')], $img);
+    $h = _h('a.dispflex.cursor-pointer', [$ctrl::uri('@/')], $img);
 }
 function viewAuth()
 {
@@ -30,7 +30,6 @@ function viewAuth()
         );
     }
 }
-
 $nav = _h('nav', viewAuth());
 $menu = _h('nav.menu-host', $menu_l = _h('ul.menu.dispflex.flex-row.alignm'));
 $t->add(_h(

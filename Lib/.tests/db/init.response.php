@@ -3,11 +3,11 @@
 use com\igkdev\projects\ForemJobDashboard\EnterpriseResponseTemplateManager;
 use com\igkdev\projects\ForemJobDashboard\Helpers\JobUtility;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+
 $ctrl = ForemJobDashboardController::ctrl(true);
 $login = igk_getv($params, 0) ?? 'cbondje@igkdev.com';
 if (($user = igk_get_user_bylogin($login)) && ($ctrl::login($user, null, false))) {
     $user = $ctrl->getUserProfile()->user();
-    //$tab = array_values(array_unique($tab));
     $grows = Jobs::select_all([
         Jobs::FD_USER_ID => $user->id
     ]);
@@ -22,7 +22,6 @@ if (($user = igk_get_user_bylogin($login)) && ($ctrl::login($user, null, false))
     $rep->name = 'Charles';
     while (count($indexes) > 0) {
         $idx = array_shift($indexes);
-        //  igk_wln("d : ", $idx);
         $r = $grows[$idx];
         $ri = rand(0, count($models) - 1);
         $src = $models[$ri];

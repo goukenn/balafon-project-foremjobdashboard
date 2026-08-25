@@ -1,39 +1,31 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: JobUserSkills.php
-// @date: 20251112 14:38:45
+// @date: 20260824 18:09:05
 namespace com\igkdev\projects\ForemJobDashboard\Models;
+
+
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 
 /**
-* auto generate doc.
+* 
 * @package com\igkdev\projects\ForemJobDashboard\Models
 * @author C.A.D. BONDJE DOUE
-*/
-
-/**
-* auto generate doc.
-* @package com\igkdev\projects\ForemJobDashboard\Models
-*/
+* @property int $id
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
+* @method static string FN_ID() - `id` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
+* @method static ?array joinOnId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static ?string targetOnId() - macros function
+* @method static ?self Add(string $Create_At ="Now()", string $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
+* */
 class JobUserSkills extends ModelBase{
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_ID="id";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_CREATE_AT="Create_At";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_UPDATE_AT="Update_At";
+	const FD_ID="id";
+	const FD_CREATE_AT="Create_At";
+	const FD_UPDATE_AT="Update_At";
 	/**
 	* table's name
 	*/

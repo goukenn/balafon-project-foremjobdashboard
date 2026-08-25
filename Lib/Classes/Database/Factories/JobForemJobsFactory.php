@@ -7,14 +7,13 @@ namespace com\igkdev\projects\ForemJobDashboard\Database\Factories;
 use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 use IGK\System\Database\Factories\FactoryBase;
 use TBN\ModelUtilities\TaskModelUtility;
-///<summary>factory</summary>
+
 /**
 * factory
 * @package com\igkdev\projects\ForemJobDashboard\Database\Factories
 * @author C.A.D. BONDJE DOUE
 */
 class JobForemJobsFactory extends FactoryBase{
-
     /**
     * auto generate doc.
     * @return ?array
@@ -37,20 +36,11 @@ class JobForemJobsFactory extends FactoryBase{
 		}
 		return $r;
 	}
-
     /**
     * auto generate doc.
     * @return ?array
     */
     public function definition(): ?array{
 		return null; 
-	// 	array (
-	//   'id' => 0,
-	//   'job_id' => 0,
-	//   'reference' => NULL,
-	//   'description' => NULL,
-	//   'Create_At' => 'Now()',
-	//   'Update_At' => 'Now()',
-	// );
 	}
 }

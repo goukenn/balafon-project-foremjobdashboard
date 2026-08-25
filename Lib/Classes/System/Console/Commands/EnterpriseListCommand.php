@@ -14,43 +14,36 @@ use IGK\System\Console\Logger;
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 */
 class EnterpriseListCommand extends JobCommandBase{
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $command='--forem-job:list';
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $desc='list enterprise command';
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $options=[];
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $category = 'forem-job';
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $usage = '[options]';
-
     /**
     * auto generate doc.
     * @param mixed $command

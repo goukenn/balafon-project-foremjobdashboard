@@ -9,13 +9,11 @@ namespace com\igkdev\projects\ForemJobDashboard;
 * @package com\igkdev\projects\ForemJobDashboard
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard
 */
 abstract class FJDHooks{
-
     /**
     * auto generate doc.
     * @var mixed

@@ -8,6 +8,7 @@ $l["title.offer"] = "Offre";
 $l['fsprint.website.title_1'] = '%s - [%s]'; 
 $l['title.build/cv'] = 'CV'; 
 $l['title.jobs/add'] = 'Ajouter - Emploi'; 
+$l['title.enterprise/default'] = 'Entreprises'; 
 $l['searching data'] = 'Emploi'; 
 
 $l['hit the correpondance'] = 'Cocher la case correspondante';

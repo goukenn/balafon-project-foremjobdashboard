@@ -7,11 +7,11 @@
 // @balafon-usage:
 // @balafon-command:forem-job:db-clean
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+
 $ctrl = ForemJobDashboardController::ctrl(true);
 $login = igk_getv($params , 0 ) ?? igk_configs()->default_user;
 if (($user = igk_get_user_bylogin($login)) && ($ctrl::login($user, null, false))) {
     $user = $ctrl->getUserProfile()->user();
-    //$tab = array_values(array_unique($tab));
     $grows = Jobs::select_all([
         Jobs::FD_USER_ID => $user->id,
         '!'.Jobs::FD_DESCRIPTION=>null

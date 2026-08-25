@@ -8,13 +8,13 @@ use IGK\Actions\ActionBase;
 use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 use ForemJobDashboardController;
 use IGK\System\Http\Request;
+
 /**
 * view action
 * @package com\igkdev\projects\ForemJobDashboard\Actions
 * @author C.A.D. BONDJE DOUE
 */
 class CapsulateAction extends ActionBase{
-
     /**
     * auto generate doc.
     * @param null|Request $request
@@ -22,7 +22,6 @@ class CapsulateAction extends ActionBase{
     */
     public function index(?Request $request=null, ?ForemJobDashboardController $ctrl=null){
         list($search) = $request->get('search');
-
         /**
         * auto generate doc.
         * @var MainTaskModelUtility

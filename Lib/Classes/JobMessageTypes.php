@@ -8,22 +8,16 @@ use IGK\Database\ORM\Annotations as ORM;
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard
-*/
-
-/**
-* auto generate doc.
-* @package com\igkdev\projects\ForemJobDashboard
-*/
+* @ORM\InitData()
+*/ 
 class JobMessageTypes{
     use EnumeratesConstants;
     use ModelTableConstantTrait;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     protected static $model = JobMessageTypesModel::class;
-
     /**
     * auto generate doc.
     * @var mixed

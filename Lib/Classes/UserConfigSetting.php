@@ -21,7 +21,6 @@ use ReflectionException;
 */
 class UserConfigSetting
 {
-
     /**
     * auto generate doc.
     * @var mixed
@@ -32,13 +31,11 @@ class UserConfigSetting
      * @var mixed
      */
     var $display;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $firstName;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -49,43 +46,36 @@ class UserConfigSetting
      * @var ?string locale
      */
     var $locale;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $followDate;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $defaultMotivationTemplate;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $defaultCVTemplate;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $email;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $phone;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $address;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -106,49 +96,41 @@ class UserConfigSetting
      * @var ?object
      */
     var $data;
-
     /**
     * auto generate doc.
     * @var ?object
     */
     var $social_networks;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $linkedin;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $facebook;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $monsterbe;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $stepstone;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $luxembourg;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $indeed;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -164,13 +146,11 @@ class UserConfigSetting
      * @var ?string[]
      */
     var $skills;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $drivingLicenses;
-
     /**
     * Used by var_dump() to customize debug output.
     */
@@ -214,7 +194,6 @@ class UserConfigSetting
         $c->m_user_profile = $user;
         return $c;
     }
-
     /**
     * auto generate doc.
     * @return void
@@ -232,7 +211,6 @@ class UserConfigSetting
                 $T1::FD_USER_ID => $uid,
                 $T1::FD_NAME => $k,
             ];
-
             /**
             * auto generate doc.
             * @var mixed $c

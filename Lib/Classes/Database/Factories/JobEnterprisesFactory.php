@@ -6,7 +6,7 @@
 namespace com\igkdev\projects\ForemJobDashboard\Database\Factories;
 use IGK\System\Database\Factories\FactoryBase;
 use IGK\System\Traits\ComposerFakerTrait;
-///<summary>factory</summary>
+
 /**
  * factory
  * @package com\igkdev\projects\ForemJobDashboard\Database\Factories
@@ -15,7 +15,6 @@ use IGK\System\Traits\ComposerFakerTrait;
 class JobEnterprisesFactory extends FactoryBase
 {
 	use ComposerFakerTrait;
-
     /**
     * auto generate doc.
     * @return ?array

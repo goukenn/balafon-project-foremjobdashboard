@@ -3,6 +3,7 @@
 // @file: default.phtml
 // @desc: default balafon view
 // @date: 20240904 08:59:56 
+
 /**
  * @var mixed $t
  */
@@ -30,19 +31,12 @@ class PageContainer extends HtmlNode
         $p->add($this);
     }
 }
-// invoke the check user first 
 $this->checkUser(false);
 $pagecontainer = new PageContainer;
 $pagecontainer->panel()->setContent('Dashboard list');
 function get_pageview($ctrl)
 {
     $tab = [];
-    // foreach(range(2,rand(2, 40)) as $k){
-    //   $o = new PageContainer;
-    //     $o->section()->row()->col('fitw')
-    //     ->div()->Content = 'Page List :'.$k;
-    // $tab[] = $o;
-    // }
     return $tab;
 }
 _h(

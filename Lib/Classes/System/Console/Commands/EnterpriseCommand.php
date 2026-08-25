@@ -12,19 +12,16 @@ use IGK\System\Console\Logger;
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 */
 class EnterpriseCommand extends JobCommandBase{
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $command='--forem-job:enterprise';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -32,13 +29,11 @@ class EnterpriseCommand extends JobCommandBase{
     var $desc='enterprise manager';
 	/* var $options=[]; */
 	/* var $category = ''; */
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $usage = 'action [options]';
-
     /**
     * auto generate doc.
     * @param mixed $command
@@ -55,14 +50,12 @@ class EnterpriseCommand extends JobCommandBase{
 			Logger::danger('missing ['.$action.'] action ');
 		}
 	}
-
     /**
     * auto generate doc.
     * @param mixed $command
     * @param mixed ...$params
     */
     public function _action_add($command, ...$params){
-		//igk_wln_e('calling .... ', $params);
 		while(count($params)){
 			$q = array_shift($params);
 			array_map(function($a){

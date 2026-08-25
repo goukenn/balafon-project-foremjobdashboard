@@ -8,20 +8,18 @@ use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use IGK\Actions\ActionBase;
 use IGK\Actions\ApiActionBase;
 use IGK\System\Http\Request;
-///<summary>view action</summary>
+
 /**
 * view action
 * @package com\igkdev\projects\ForemJobDashboard\Actions\Api
 * @author C.A.D. BONDJE DOUE
 */
 class DefaultAction extends ApiActionBase{
-
     /**
     * auto generate doc.
     * @var mixed
     */
     const VERSION = '1.0';
-
     /**
     * auto generate doc.
     */
@@ -32,7 +30,6 @@ class DefaultAction extends ApiActionBase{
             'description'=>'REST api to administrate list of job for forem.'
         ];
     }
-
     /**
     * auto generate doc.
     * @param Jobs $job
@@ -42,7 +39,6 @@ class DefaultAction extends ApiActionBase{
         $data = $request->getJsonData(); 
         return $request->error('no json data',400);
     }
-
     /**
     * auto generate doc.
     * @param Jobs $job

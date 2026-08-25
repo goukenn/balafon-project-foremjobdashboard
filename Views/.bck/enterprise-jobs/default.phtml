@@ -7,6 +7,7 @@
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use function igk_html_node_breadcrumbs as breadcrumbs;
 use function igk_resources_gets as __;
+
 function home() {
     return null;
 }
@@ -16,11 +17,7 @@ $s = breadcrumbs(['home' => [
     "text" => 'home',
     "uri" => "@/enterprise",
 ],
-// "update"=>'@/update',
-// "jobs"=>'@/jobs'
 ], $ctrl);
-// $s->li()->span()
-// ->setClass('no-overflow')->content = Lorem::paragraph(5);
 $t->section()->container()
 ->setClass('no-overflow')
 ->row()->col()->nav([

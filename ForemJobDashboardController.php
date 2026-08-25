@@ -10,7 +10,7 @@ use IGK\Models\Users;
 use IGK\System\Applications\ApplicationUserProfile;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Regex\RegexHelper;
-///<summary>Controller entry point</summary>
+
 /**
  * Controller entry point
  * @author C.A.D. BONDJE DOUE
@@ -44,7 +44,6 @@ class ForemJobDashboardController extends ApplicationController
         }
         return $user;
     }
-
     /**
     * auto generate doc.
     * @return void
@@ -62,7 +61,6 @@ class ForemJobDashboardController extends ApplicationController
     protected function currentLoginPath(
         $u = null
     ): string {
-
         /**
         * auto generate doc.
         * @var IUserProfile|null $u
@@ -74,7 +72,6 @@ class ForemJobDashboardController extends ApplicationController
         } 
         return $s;
     }
-
     /**
     * auto generate doc.
     */
@@ -82,7 +79,6 @@ class ForemJobDashboardController extends ApplicationController
     {
         return $this->getDataDir() . $this->currentLoginPath() . '/db/offers/';
     }
-
     /**
     * auto generate doc.
     */

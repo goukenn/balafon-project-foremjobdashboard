@@ -3,6 +3,7 @@ use com\igkdev\projects\ForemJobDashboard\UserConfigSetting;
 use IGK\Helper\StringUtility;
 use igk\pdflib\PDFDocument;
 use IGK\System\Modules;
+
 $modules->require(Modules::igk_pdflib());
 $this->checkUser(false);
 $user = $ctrl->getUserProfile();

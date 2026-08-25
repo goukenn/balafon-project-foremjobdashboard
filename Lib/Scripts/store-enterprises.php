@@ -2,6 +2,7 @@
 // @command: balafon --run src/application/Projects/ForemJobDashboard/Lib/Scripts/store-enterprises.php
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use IGK\System\Console\Logger;
+
 ForemJobDashboardController::ctrl(true);
 $enterprise = [];
 $store = 0;

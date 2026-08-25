@@ -3,7 +3,7 @@
 /**
  * script that will run after sync-deployment
  */
-// remove swagger - files and update migration  
+
 $installer->rmFiles('/Data/swagger');
 $extra_arg = implode(' ', ['--wdir:'.$installer->siteRootDir]);
 foreach (
@@ -12,5 +12,5 @@ foreach (
         $installer->balafon . ' --db:migrate --controller:' . $installer->projectName
     ] as  $cmd) 
     {
-    `{$cmd} {$extra_arg}2>&1`;
+    shell_exec("{$cmd} {$extra_arg}2>&1");
 } 

@@ -10,7 +10,7 @@ return [
         'zip' => '/jobs/archive',
         'motivation' => '@/build/motivation',
         'cv' => '@/build/cv',
-        'enterprises' => '@/enterprise-jobs',
+        'enterprises' => '@/enterprise',
         'print-report'=>'@/capsulate',
         'about' => '@/about' 
     ];

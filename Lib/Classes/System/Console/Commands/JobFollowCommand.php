@@ -16,25 +16,21 @@ use igk\System\Console\Commands\Utility;
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 */
 class JobFollowCommand extends JobCommandBase{
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $command='--forem-job:follow';
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $desc='view jobs follows list';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -42,19 +38,16 @@ class JobFollowCommand extends JobCommandBase{
     var $options=[
 		'--user:[id]'=>'user id'
 	];
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $category = 'forem';
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $usage = '[options]';
-
     /**
     * auto generate doc.
     * @param mixed $command

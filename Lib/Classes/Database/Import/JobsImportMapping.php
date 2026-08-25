@@ -13,7 +13,6 @@ use IGK\Helper\Activator;
 use IGK\Models\Users;
 use IGK\System\Database\Import\DbModelImporterMap;
 use IGKException;
-///<summary></summary>
 
 /**
 * auto generate doc.
@@ -22,7 +21,6 @@ use IGKException;
 */
 class JobsImportMapping extends DbModelImporterMap
 {
-
     /**
     * auto generate doc.
     * @var mixed
@@ -37,7 +35,6 @@ class JobsImportMapping extends DbModelImporterMap
             return parent::_onImportData((array)$info);
         }
     }
-
     /**
     * auto generate doc.
     * @return bool
@@ -51,7 +48,7 @@ class JobsImportMapping extends DbModelImporterMap
         $status_id = $contact_id = $type_id = $user_id = null;
         $user_profile = $ctrl->getUserProfile();
         if ($user_profile){
-            $user_id = $user_profile->user()->id;// $user->clId;
+            $user_id = $user_profile->user()->id;
         }else{
             return true;
         }
@@ -75,7 +72,6 @@ class JobsImportMapping extends DbModelImporterMap
         }
         return true;
     }
-
     /**
     * .ctr
     * @param ModelBase $model
@@ -92,7 +88,6 @@ class JobsImportMapping extends DbModelImporterMap
             if (!is_array($v)){
                 $v = [$v];
             }
-            // transform to job entry definitions . that require enterprise 
             $tq = [];
             while(count($v)>0){
                 $q = array_shift($v);
@@ -121,7 +116,6 @@ class JobsImportMapping extends DbModelImporterMap
             }
         });
     }
-
     /**
     * auto generate doc.
     * @return array
@@ -160,7 +154,6 @@ class JobsImportMapping extends DbModelImporterMap
                 if (!$inf->jobs){
                     $inf->jobs = [];
                 }
-
                 /**
                 * auto generate doc.
                 * @var Jobs $t

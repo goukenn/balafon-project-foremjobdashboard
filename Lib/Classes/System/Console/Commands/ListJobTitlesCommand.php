@@ -12,26 +12,22 @@ use IGK\System\Console\Logger;
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package com\igkdev\projects\ForemJobDashboard\System\Console\Commands
 */
 class ListJobTitlesCommand extends JobCommandBase
 {
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $command = '--forem-job:titles';
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $desc = 'list job title';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -39,19 +35,16 @@ class ListJobTitlesCommand extends JobCommandBase
     var $options = [
 		'--fix'=>'fix fake with existing data',
 	];
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $category = 'forem';
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $usage = '[options]';
-
     /**
     * auto generate doc.
     * @param mixed $command
@@ -65,9 +58,6 @@ class ListJobTitlesCommand extends JobCommandBase
 			->columns([Jobs::FD_TITLE/*, Jobs::FD_ID*/])
 			->orderBy([$key]);
 		$g = $query->execute()->to_array();
-		// usort($g, function ($a, $b) use ($key) {
-		// 	return strcmp($a->{$key}, $b->{$key});
-		// });
 		$fix_tab = [];
 		if ($fix){
 				foreach ($g as $row) {

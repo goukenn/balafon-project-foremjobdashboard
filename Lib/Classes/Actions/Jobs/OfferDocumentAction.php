@@ -13,8 +13,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\JobRegisterTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes;
-use com\igkdev\projects\ForemJobDashboard\Models\JobUsers;
-use Exception;
+use com\igkdev\projects\ForemJobDashboard\Models\JobUsers; 
 use IGK\Actions\ApiActionBase;
 use IGK\Actions\Traits\Authenticator\BearerAuthenticatorTrait;
 use IGK\Models\ModelBase;
@@ -22,12 +21,10 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\Http\ApiResponse;
 use IGK\System\Http\JsonResponse;
 use IGK\System\Http\StatusCode;
-use IGK\System\Http\WebFileContentResponse;
-use IGK\System\Http\WebFileResponse;
-use IGK\System\Http\WebResponse;
+use IGK\System\Http\WebFileContentResponse; 
 use IGK\System\IO\Path;
 use IGKException;
-///<summary>view action</summary>
+
 /**
  * view action
  * @package com\igkdev\projects\ForemJobDashboard\Actions\Jobs
@@ -38,7 +35,6 @@ use IGKException;
 class OfferDocumentAction extends ApiActionBase
 {
     use BearerAuthenticatorTrait;
-
     /**
     * auto generate doc.
     * @param bool $update
@@ -49,7 +45,6 @@ class OfferDocumentAction extends ApiActionBase
     {
         return null;
     }
-
     /**
     * auto generate doc.
     * @param ModelBase $app_user
@@ -59,7 +54,6 @@ class OfferDocumentAction extends ApiActionBase
     {
         return null;
     }
-
     /**
     * auto generate doc.
     * @return JsonResponse
@@ -75,9 +69,6 @@ class OfferDocumentAction extends ApiActionBase
     public function auth(){
         return ["auth"=>"success", "request"=>$_REQUEST];
     }
-    //     function index(){
-    //         igk_wln_e("offer");
-    //     }
     /**
      * delete all offer's documents 
      * @param Jobs $job 
@@ -103,13 +94,18 @@ class OfferDocumentAction extends ApiActionBase
         }
         return $this->emptyResponse();
     }
+    /**
+    * auto generate doc.
+    * @param mixed $docs
+    * @param mixed & $file
+    * @return
+    */
     private function _getFileToDeletes($docs, &$file)
     {
         foreach ($docs as $k) {
             $c = $k->{JobDocs::FD_VALUE};
             if ($c && ($c = json_decode($c))) {
                 list($path) = igk_extract($c, 'path');
-                // depth on docement 
                 $file[] = [$path, $k->{JobDocs::FD_JOB_DOC_TYPE_ID}];
             }
         }
@@ -131,7 +127,6 @@ class OfferDocumentAction extends ApiActionBase
         }
         return ApiResponse::EmptyJsonResponse();
     }
-
     /**
     * auto generate doc.
     * @return WebFileContentResponse|void
@@ -148,7 +143,6 @@ class OfferDocumentAction extends ApiActionBase
             return $rep;
         }
     }
-    //private function _getDirs
     /**
      * unlnk file 
      * @param mixed $file 
@@ -206,7 +200,6 @@ class OfferDocumentAction extends ApiActionBase
             ])
             ->execute()->to_array();
     }
-
     /**
     * auto generate doc.
     * @return null|array
@@ -224,13 +217,8 @@ class OfferDocumentAction extends ApiActionBase
         }
         $job->type_id = $type;
         $job->update();
-        return $this->offer_get($job); //$job->to_array();
+        return $this->offer_get($job); 
     }
-    // * @securityFlow('implicit',{"authorizationUrl":"/api/auth"})
-    // * @security(["BearerAuth", "BasicAuth", "OAuth2Auth"])
-    // * @security(["BearerAuth","OAuth2Auth", "BasicAuth"])
-    // * @securityFlow('implicit', authorizationUrl="@/api/docs/swagger.oauth", scopes={"read":"read access", "write":"write access"})
-
     /**
     * auto generate doc.
     * @return void

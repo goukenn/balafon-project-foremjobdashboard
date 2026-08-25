@@ -1,9 +1,12 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: JobSkills.php
-// @date: 20251112 14:38:45
+// @date: 20260824 18:09:05
 namespace com\igkdev\projects\ForemJobDashboard\Models;
+
+
 use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
+
 /**
 * available skills
 * @package com\igkdev\projects\ForemJobDashboard\Models
@@ -13,8 +16,8 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property string $description
 * @property int|?\com\igkdev\projects\ForemJobDashboard\Models\JobSkillTypes $skill_type_id
 * @property int $rate indicate this skill is subject to rate rule
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
 * @method static string FN_ID() - `id` full column name 
 * @method static string FN_NAME() - `name` full column name 
 * @method static string FN_DESCRIPTION() - `description` full column name 
@@ -24,52 +27,17 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnId() - macros function
-* @method static ?self Add(string $name, string $description, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobSkillTypes $skill_type_id, int $rate, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string $name, string $description, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobSkillTypes $skill_type_id, int $rate, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string $name, string $description, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobSkillTypes $skill_type_id, int $rate, string $Create_At ="Now()", string $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string $name, string $description, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobSkillTypes $skill_type_id, int $rate, string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class JobSkills extends ModelBase{
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_ID="id";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_NAME="name";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_DESCRIPTION="description";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_SKILL_TYPE_ID="skill_type_id";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_RATE="rate";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_CREATE_AT="Create_At";
-
-    /**
-    * auto generate doc.
-    * @var mixed
-    */
-    const FD_UPDATE_AT="Update_At";
+	const FD_ID="id";
+	const FD_NAME="name";
+	const FD_DESCRIPTION="description";
+	const FD_SKILL_TYPE_ID="skill_type_id";
+	const FD_RATE="rate";
+	const FD_CREATE_AT="Create_At";
+	const FD_UPDATE_AT="Update_At";
 	/**
 	* table's name
 	*/

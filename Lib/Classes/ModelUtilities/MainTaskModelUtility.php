@@ -25,7 +25,7 @@ use IGK\Models\Users;
 use IGK\System\Database\DbUtils;
 use IGKDbModelUtility;
 use IGKException;
-///<summary>view entry point</summary>
+
 /**
  * view entry point
  * @package com\igkdev\projects\ForemJobDashboard\ModelUtilities
@@ -33,7 +33,6 @@ use IGKException;
  */
 class MainTaskModelUtility extends IGKDbModelUtility
 {
-
     /**
     * auto generate doc.
     * @var mixed
@@ -54,7 +53,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
         }
         return $ru;
     }
-
     /**
     * auto generate doc.
     * @return null|JobUsers
@@ -74,19 +72,18 @@ class MainTaskModelUtility extends IGKDbModelUtility
             JobUsers::FD_GUID => $user->clGuid
         ]) != null;
     }
-
     /**
     * auto generate doc.
     * @return object|null|void
     */
-    public function addJob(string $title, JobUsers $user, ?int $timespan = null, ?string $description = null)
+    public function addJob(string $title, JobUsers $user, ?int $timespan = null, ?string $description = null, string $type=RegisterType::REAL)
     {
         $date = !is_null($timespan) && ($timespan > 0) ? date('Y-m-d', $timespan) : JobUsers::FC_NOW;
         $d = [
             Jobs::FD_GUID => igk_create_guid(),
             Jobs::FD_TITLE => $title,
             Jobs::FD_FROM_ID => SourceTypes::GetCacheData(SourceTypes::WEB),
-            Jobs::FD_TYPE_ID =>  RegisterType::GetCacheData(RegisterType::FAKE),
+            Jobs::FD_TYPE_ID =>  RegisterType::GetCacheData($type),
             Jobs::FD_CONTRACT_ID => ContractTypes::GetCacheData(ContractTypes::EMPOYEE),
             Jobs::FD_STATUS_ID => StatusTypes::GetCacheData(StatusTypes::OPENED),
             Jobs::FD_USER_ID => $user->id,
@@ -100,7 +97,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
         $l = Jobs::insert($d);
         return $l;
     }
-
     /**
     * auto generate doc.
     * @param Jobs $job
@@ -125,13 +121,11 @@ class MainTaskModelUtility extends IGKDbModelUtility
         if (!is_numeric($reference)) {
             igk_die("only numeric value allowed");
         }
-        //str pad value
         $cl_ref = JobForemJobs::FD_REFERENCE;
         $reference = JobForemJobs::strPadValue($cl_ref, $reference);
         $cond = [JobForemJobs::FD_JOB_ID => $job->{Jobs::FD_ID}, $cl_ref => $reference];
         return JobForemJobs::insertIfNotExists($cond);
     }
-
     /**
     * auto generate doc.
     * @param JobUsers $user
@@ -142,7 +136,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
             return $ids;
         }
         $q = JobForemJobs::prepare(JobForemJobs::table())
-            // ->with(Jobs::table())
             ->join([Jobs::table() => [Jobs::column(Jobs::FD_ID) . '=' . JobForemJobs::column(JobForemJobs::FD_JOB_ID)]])
             ->columns(
                 array_merge(
@@ -166,7 +159,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
         self::$sm_ownerForems[$user->id] = $r;
         return $r;
     }
-
     /**
     * auto generate doc.
     * @return mixed
@@ -178,9 +170,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
             'OrderBy' => [
                 Jobs::FD_CREATE_AT
             ],
-            // DbConstants::CALLBACK_OPTS=>function($a){                                
-            //     return $a;
-            // }
         ];
         $cond[Jobs::FD_USER_ID] = $user->id;
         if ($search) {
@@ -191,7 +180,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
         }
         return Jobs::select_all($cond, $options);
     }
-
     /**
     * auto generate doc.
     * @return {row: JobContacts, data: ContactDataInfo}
@@ -201,7 +189,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
         $v = JobContacts::GetCache(JobContacts::primaryKey(), $id);
         return (object)['row' => $v, 'data' => Activator::CreateNewInstance(ContactDataInfo::class,  json_decode($v->data ?? '{}'))];
     }
-
     /**
     * auto generate doc.
     * @return string|void
@@ -212,7 +199,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
             return $l->name;
         }
     }
-
     /**
     * auto generate doc.
     * @return mixed
@@ -232,7 +218,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
         $r = Jobs::select_all($cond);
         return $r;
     }
-
     /**
     * auto generate doc.
     * @return void
@@ -245,7 +230,6 @@ class MainTaskModelUtility extends IGKDbModelUtility
             if (!$force_insert && ($hvi = JobDocs::select_row($cond))) {
                 $hvi->{JobDocs::FD_VALUE} =  $s;
                 $hvi->save();
-                // igk_wln('update ', $hvi->to_array(), $s);
             } else {
                 $cond[JobDocs::FD_VALUE] = $s;
                 JobDocs::insert($cond);
