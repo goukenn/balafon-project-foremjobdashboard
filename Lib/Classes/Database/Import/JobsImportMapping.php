@@ -9,6 +9,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobRegisterTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobUsers;
+use com\igkdev\projects\ForemJobDashboard\Helpers\JobUtility;
 use IGK\Helper\Activator;
 use IGK\Models\Users;
 use IGK\System\Database\Import\DbModelImporterMap;
@@ -54,13 +55,19 @@ class JobsImportMapping extends DbModelImporterMap
         }
         while(count($jobs)>0){
             if(($q = array_shift($jobs)) instanceof JobEntryImportInfo){
-                // + insert job offer 
+                // + insert job offer
                 $from_id = -1;
                 $contract_id = -1;
+                $treated = 0;
+                $category_id = null;
+                $is_important = 0;
+                $identify = JobUtility::CreateJobIdentify($q->title, $enterprise->{JobEnterprises::FD_NAME} ?? '', $q->reference ?? null);
                 if($r = Jobs::AddIfNotExists(igk_create_guid(),$q->title, $from_id,
-                 $contract_id, $type_id, $status_id, $enterprise_id, $contact_id, 
+                 $contract_id, $treated, $category_id, $type_id, $status_id, $enterprise_id, $contact_id,
+                 $is_important, $identify,
                  $user_id,
                  $q->description,
+                 null,
                  $q->summary,
                  $q->salary,
                  $q->path,
