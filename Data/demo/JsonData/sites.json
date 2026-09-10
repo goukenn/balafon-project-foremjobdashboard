@@ -171,6 +171,13 @@
             ]
         },
         {
+            "site": "https://tailwindcolor.com/",
+            "name": "tailwindcolor",
+            "primaryCategory": [
+                "WebDesign"
+            ]
+        },
+        {
             "site": "https://developer.apple.com",
             "name": "developer - apple",
             "primaryCategory": [
