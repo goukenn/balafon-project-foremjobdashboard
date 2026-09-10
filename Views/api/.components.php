@@ -4325,15 +4325,7 @@ if (!function_exists("track")) {
         return igk_create_node("track", null, func_get_args());
     }
 }
-if (!function_exists("trackbarnode")) {
-    /**
-    * auto generate doc.
-    */
-    function trackbarnode()
-    {
-        return igk_html_node_trackbarnode(...func_get_args());
-    }
-}
+ 
 if (!function_exists("transitionblock")) {
     /**
     * auto generate doc.

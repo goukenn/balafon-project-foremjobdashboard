@@ -44,9 +44,11 @@ function viewAuth()
         $link->Content = __('logout');
         $link->setClass('block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700');
         $box->add($link);
-
         $wrap->add($box);
         return $wrap;
+    } else if (igk_environment()->isDev()){
+        $auth = igk_create_node('div.autolog');
+        $auth->a('@/autolog')->content = 'AutoLog';
     }
 }
 function themeToggleButton()
@@ -59,12 +61,15 @@ function themeToggleButton()
     $btn->Content = '🌙';
     return $btn;
 }
-$nav = _h('nav.flex.flex-row', themeToggleButton(), viewAuth());
-$menu = _h('nav.menu-host', $menu_l = _h('ul.menu.dispflex.flex-row.alignm'));
+$menu = _h('div.menu-host', $menu_l = _h('ul.menu.dispflex.flex-row.alignm'));
+$nav = _h('nav.flex.flex-row', $menu, themeToggleButton(), viewAuth());
 $t->add(_h(
     'header.dispflex.flex-row.flex-justify-sb',
-    $h,
-    $menu,
-    $nav
+     $h,    
+     $nav
 ));
-$ctrl->setEnvParam('header', (object)['top' => $menu_l]);
+$ctrl->setEnvParam('header', (object)[
+    'top' => $menu_l,
+    'nav'=> $nav
+]);
+ 

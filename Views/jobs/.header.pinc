@@ -4,3 +4,6 @@
 // @date: 20260328 06:59:36
 // @desc: 
 
+include __DIR__.'/../.header.pinc';
+
+$def['li a > span'] = '{sys:no-wrap}';

@@ -10,6 +10,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobUsers;
 use IGK\Actions\ActionBase;
 use IGK\Models\Users;
 use IGK\System\Http\Request;
+use IGK\System\Http\RequestResponseCode;
 
 /**
 * view action
@@ -34,63 +35,64 @@ class SettingsAction extends ActionBase{
     }
 
     /**
-     * security settings — two-factor authentication enroll/disable
+     * security settings — two-factor authentication enroll/disable. Re-derives the pending
+     * enrollment state (QR/secret) from the session on every load, since twofa_generate_post
+     * only stashes the secret and redirects back here (POST/redirect/GET).
      * @return array
      */
     public function security(){
-        return $this->_securityPayload();
+        $user = $this->_currentUser();
+        $extra = [];
+        if (!TwoFactorAuth::IsEnabled($user) && ($secret = igk_app()->session->fjd_pending_2fa_secret ?? null)) {
+            $extra = $this->_pendingTwofaPayload($user, $secret);
+        }
+        return $this->_securityPayload($extra);
     }
 
     /**
-     * generate a pending TOTP secret and show it (with QR code) for enrollment
-     * @return array
+     * generate a pending TOTP secret, stashed in session for the confirmation step. Called
+     * from Views/settings/security.phtml via igk_view_handle_actions(), not URL dispatch —
+     * see that view's header comment.
+     * @return void
      */
     public function twofa_generate_post(){
-        $user = $this->_currentUser();
-        $secret = TwoFactorAuth::GenerateSecret();
-        igk_app()->session->fjd_pending_2fa_secret = $secret;
-        return $this->_securityPayload($this->_pendingTwofaPayload($user, $secret));
+        $this->_currentUser();
+        igk_app()->session->fjd_pending_2fa_secret = TwoFactorAuth::GenerateSecret();
     }
 
     /**
-     * verify the pending secret's code and, on success, persist it as the account's 2FA key
+     * verify the pending secret's code and, on success, persist it as the account's 2FA key.
+     * Called from Views/settings/security.phtml via igk_view_handle_actions().
      * @param Request $request
-     * @return array
+     * @return void
      */
     public function twofa_enable_post(Request $request){
         $user = $this->_currentUser();
         $secret = igk_app()->session->fjd_pending_2fa_secret ?? null;
         $code = (string)$request->get('code');
 
-        if (!$secret){
-            return $this->_securityPayload(['error' => __('Generate a secret first.')]);
+        if ($secret && TwoFactorAuth::Verify($secret, $code)) {
+            $user->update(['auth_2fa_key' => $secret]);
+            igk_app()->session->fjd_pending_2fa_secret = null;
         }
-        if (!TwoFactorAuth::Verify($secret, $code)){
-            return $this->_securityPayload(array_merge(
-                ['error' => __('Invalid code. Please try again.')],
-                $this->_pendingTwofaPayload($user, $secret)
-            ));
-        }
-
-        $user->update(['auth_2fa_key' => $secret]);
-        igk_app()->session->fjd_pending_2fa_secret = null;
-
-        return $this->_securityPayload(['success' => __('Two-factor authentication enabled.')]);
     }
 
     /**
-     * disable two-factor authentication for the current account
-     * @return array
+     * disable two-factor authentication for the current account. Called from
+     * Views/settings/security.phtml via igk_view_handle_actions().
+     * @return void
      */
     public function twofa_disable_post(){
         $user = $this->_currentUser();
         $user->update(['auth_2fa_key' => null]);
-        return $this->_securityPayload(['success' => __('Two-factor authentication disabled.')]);
     }
 
     private function _currentUser(): Users
     {
-        return $this->getController()->getUserProfile()->user();
+        // NB: getUserProfile()->user() returns this module's own JobUsers profile, not the
+        // framework's session Users — auth_2fa_key lives on the latter (see DocsAction::drop_post
+        // for the same distinction: $ctrl->getUser() vs JobUsers::GetCache(...)).
+        return $this->getUser() ?? igk_die('missing user', true, RequestResponseCode::Forbiden);
     }
 
     private function _pendingTwofaPayload(Users $user, string $secret): array

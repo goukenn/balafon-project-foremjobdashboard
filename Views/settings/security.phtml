@@ -1,9 +1,16 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: settings/security.phtml
-// @desc: two-factor authentication (TOTP) enrollment/disable, styled with Tailwind CSS
+// @desc: two-factor authentication (TOTP) enrollment/disable, styled with Tailwind CSS.
+//        POST sub-actions (twofa_generate/twofa_enable/twofa_disable) are dispatched here via
+//        igk_view_handle_actions(), not via SettingsAction's own *_post() URL-naming convention
+//        — see CLAUDE.md ("Route:: gotchas for non-MiddlewireActionBase actions") for why plain
+//        ActionBase POST dispatch on nested paths isn't reliable in this framework and this is
+//        the pattern the rest of the module (Views/jobs/edit.phtml, add.phtml) already uses.
 // @view: settings/security
 // @date: 20260825 00:00:00
+use com\igkdev\projects\ForemJobDashboard\Actions\SettingsAction;
+use IGK\System\Http\Request;
 use function igk_html_host as _h;
 use function igk_resources_gets as __;
 
@@ -11,7 +18,24 @@ use function igk_resources_gets as __;
  * @var mixed $t
  * @var mixed $ctrl
  * @var mixed $data
+ * @var string $fname
+ * @var mixed $params
  */
+
+igk_view_handle_actions($fname, [
+    'twofa_generate' => function () use ($ctrl, $fname) {
+        SettingsAction::CreateInstance($ctrl)->twofa_generate_post();
+        igk_navto($ctrl::uri($fname));
+    },
+    'twofa_enable' => function () use ($ctrl, $fname) {
+        SettingsAction::CreateInstance($ctrl)->twofa_enable_post(Request::getInstance());
+        igk_navto($ctrl::uri($fname));
+    },
+    'twofa_disable' => function () use ($ctrl, $fname) {
+        SettingsAction::CreateInstance($ctrl)->twofa_disable_post();
+        igk_navto($ctrl::uri($fname));
+    },
+], $params);
 
 $doc->title = sprintf('%s - %s', __('Security'), $ctrl->getAppTitle());
 
@@ -30,20 +54,20 @@ if (!empty($data->success)) {
 if ($data->twofa_enabled) {
     $wrap->p()->setClass('text-gray-600 dark:text-gray-300 mb-4')->Content = __('Two-factor authentication is enabled on your account.');
     $form = $wrap->form();
-    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri('@/settings/twofa_disable')]);
+    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri($fname . '/twofa_disable')]);
     $form->button()->setAttributes(['type' => 'submit'])
         ->setClass('bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition')
         ->Content = __('Disable two-factor authentication');
 } elseif ($data->twofa_pending_secret) {
     $wrap->p()->setClass('text-gray-600 dark:text-gray-300 mb-4')->Content = __('Scan this QR code with your authenticator app, then enter the 6-digit code to confirm.');
     if ($data->twofa_pending_qr) {
-        $wrap->img([$data->twofa_pending_qr])->setClass('mb-4');
+        $wrap->img()->setAttribute('src', $data->twofa_pending_qr)->setClass('mb-4');
     } else {
         $wrap->p()->setClass('font-mono text-sm break-all mb-4')->Content = $data->twofa_pending_uri;
     }
     $wrap->p()->setClass('font-mono text-sm mb-4')->Content = $data->twofa_pending_secret;
     $form = $wrap->form();
-    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri('@/settings/twofa_enable')]);
+    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri($fname . '/twofa_enable')]);
     $form->setClass('space-y-4');
     $field = $form->div();
     $field->label()->setClass('block text-sm font-medium mb-1')->Content = __('6-digit code');
@@ -62,7 +86,7 @@ if ($data->twofa_enabled) {
 } else {
     $wrap->p()->setClass('text-gray-600 dark:text-gray-300 mb-4')->Content = __('Two-factor authentication is not enabled on your account.');
     $form = $wrap->form();
-    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri('@/settings/twofa_generate')]);
+    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri($fname . '/twofa_generate')]);
     $form->button()->setAttributes(['type' => 'submit'])
         ->setClass('bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition')
         ->Content = __('Enable two-factor authentication');

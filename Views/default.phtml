@@ -12,28 +12,13 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\IO\Path;
+use com\igkdev\projects\ForemJobDashboard\System\WinUI\PageContainer;
 use function igk_html_host as _h;
+use function igk_resources_gets as __;
 
 /* */
 
-class PageContainer extends HtmlNode
-{
-    private $container;
-    public function __construct()
-    {
-        parent::__construct();
-        $this->container = igk_create_node('container');
-        parent::_add($this->container);
-    }
-    public function _add($n, bool $force = false): bool
-    {
-        return $this->container->_add(...func_get_args());
-    }
-    public function __invoke($p)
-    {
-        $p->add($this);
-    }
-}
+
 
 /**
  * @var mixed $ctrl
@@ -42,21 +27,23 @@ class PageContainer extends HtmlNode
  */
 $this->checkUser(false);
 $pagecontainer = new PageContainer;
-$pagecontainer->panel()->setContent('Dashboard list');
+$pagecontainer->panel()->setContent(__('Dashboard list'));
+
 function get_pageview($ctrl)
 {
     $tab = [];
     return $tab;
 }
 _h(
-    $t->div(),
+    $ctrl->getEnvParam('header')->top,
     function ($n) {
-        $n->container()->row()->col()->h2()->content = 'Forem Search Job Dashboard';
+        $n->h2()->content = __($this->getConfigs()->clTitle ?? '');
     },
     $pagecontainer,
     ...get_pageview($ctrl)
 );
-$def = $doc->getTheme();
+// $layout->import('#.menu.pinc');
+
 $menus = include(ViewHelper::Dir() . '/.menu.pinc');
 if (!($profile = $ctrl->getUserProfile())) {
 }
@@ -65,14 +52,14 @@ foreach ($menus as $k => $v) {
     $a = $list->li()->a($ctrl::uri($v));
     $a->setContent($k);
 }
+_h($ctrl->getEnvParam('header')->top, $list);
 $t['class'] = '+dispflex +flex-column -fit';
 $t['style'] = 'min-height:100%;';
 _h(
     $t->section()->container()->nav()
         ->setStyle('height: 2em')
-        ->setClass('menu dispflex flex-row no-wrap gap-10 flex-end flex-cross-start'),
-    $list,
-    $profile ? null :
+        ->setClass('menu dispflex flex-row no-wrap gap-10 flex-end flex-cross-start'),        
+        $profile ? null :
         _h(
             'div.sign-or-register.dispflex.flex-row.flex-item-start',
             _h('abtn.sign', [$ctrl::uri('@/login')], 'SignIn'),

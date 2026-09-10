@@ -4,6 +4,7 @@
 // @desc: view action Enterprise
 // @date: 20250123 21:54:09
 namespace com\igkdev\projects\ForemJobDashboard\Actions;
+
 use com\igkdev\projects\ForemJobDashboard\JobEnterpriseInfo;
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
@@ -13,6 +14,7 @@ use IGK\Database\DbConstants;
 use IGK\Helper\Activator;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Http\Request;
 use ReflectionException;
 
 /**
@@ -30,15 +32,15 @@ class EnterpriseAction extends ApiActionBase
      */
     protected function _handleResponse($response): bool
     {
-        if (igk_is_ajx_demand()){
+        if (igk_is_ajx_demand()) {
             return true;
         }
         return !is_array($response);
     }
     /**
-    * auto generate doc.
-    * @return array
-    */
+     * auto generate doc.
+     * @return array
+     */
     function index_post($name = null)
     {
         $n = $name ?? igk_getr('enterprise');
@@ -53,7 +55,7 @@ class EnterpriseAction extends ApiActionBase
                     Jobs::table(),
                     Jobs::FN_ENTERPRISE_ID() . '=' . JobEnterprises::FN_ID()
                 )
-                ->columns([ 
+                ->columns([
                     JobEnterprises::table() . '.*',
                     Jobs::FN_ID()
                 ])
@@ -75,7 +77,7 @@ class EnterpriseAction extends ApiActionBase
                 if ($j)
                     $c->jobs[] = $j;
                 return null;
-            }]); 
+            }]);
             $response['enterprises'] = $r;
             $response['search'] = $n;
         }
@@ -85,19 +87,39 @@ class EnterpriseAction extends ApiActionBase
      * default index
      * @return void|mixed|IResponse|null 
      */
-    public function index(){
-        $cond = [];  
-        return ['enterprise_count'=>JobEnterprises::count($cond)];
+    public function index()
+    {
+        $cond = [];
+        return ['enterprise_count' => JobEnterprises::count($cond)];
     }
     /**
      * handle enterprise detail
      * @param JobEnterprises $enterprise 
      * @return array{enterprise: \com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises} 
      */
-    public function details(JobEnterprises $enterprise){
-        if ($i = $enterprise->info){
+    public function details(JobEnterprises $enterprise)
+    {
+        if ($i = $enterprise->info) {
             $enterprise->info = Activator::CreateNewInstance(JobEnterpriseInfo::class, $i);
         }
-        return ['enterprise'=>$enterprise];
+        return ['enterprise' => $enterprise];
+    }
+    /**
+     * get list of job for 
+     * @param JobEnterprises $enterprise 
+     * @return array|array<string|int, Jobs>|null|mixed 
+     */
+    public function jobs_get(JobEnterprises $enterprise, Request $request)
+    {
+        $qinfo = $request->getQueryInfo();
+        $limit = igk_getv($qinfo->query_options, 'limit');
+        $conditions = [
+            Jobs::FD_ENTERPRISE_ID => $enterprise->id
+        ];
+        return [
+            'enterprise'=>$enterprise,
+            'jobs' => Jobs::select_all($conditions, ['Limit' => $limit]),
+            'total' => Jobs::count($conditions),
+        ];
     }
 }
