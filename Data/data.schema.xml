@@ -46,6 +46,8 @@
 		<Column clLinkColumn="id" clLinkType="%prefix%job_enterprises" clName="enterprise_id"></Column>
 		<Column clDefault="1" clName="printable" clType="Int"></Column>
 		<Column clDefault="0" clName="is_important" clType="Int" clDescription="mark job as important"></Column>
+		<Column clName="identify" clType="VarChar" clTypeLength="20" clIsUnique="true"
+			clDescription="unique job identifier - Helper\JobUtility::CreateJobIdentify()"></Column>
 		<Column clLinkColumn="id" clLinkType="%prefix%job_users" clName="user_id" clNotNull="true"
 			clType="Int"></Column>
 		<Column clName="description" clType="varchar(2500)"></Column>
@@ -401,6 +403,12 @@
 		<Migration comment="append column" date="2026-09-10">
 			<addColumn table="%prefix%jobs" after="printable" >
 				<Column clDefault="0" clName="is_important" clType="Int" clDescription="mark job as important"></Column>
+			</addColumn>
+		</Migration>
+		<Migration comment="append column" date="2026-09-10">
+			<addColumn table="%prefix%jobs" after="is_important" >
+				<Column clName="identify" clType="VarChar" clTypeLength="20" clIsUnique="true"
+					clDescription="unique job identifier - Helper\JobUtility::CreateJobIdentify()"></Column>
 			</addColumn>
 		</Migration>
 
