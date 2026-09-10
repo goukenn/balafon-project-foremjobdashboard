@@ -27,14 +27,17 @@ use function igk_html_host as _h;
 
 /**
  * @var mixed $t
+ * @var mixed $ctrl
+ * @var mixed $modules
+ * @var mixed $modules
+ * @var mixed $params
+ * @var mixed $data
+ * @var mixed $request
  */
 $modules->require(Modules::igk_ios_SfSymbols());
-/**
- * @type IJobPostData
- * @property string $title
- * @property string $desc
- */
+ 
 include_once $ctrl::getViewDir() . '/.auth.pinc';
+
 if (igk_server()->method('POST') &&  igk_getr("btn-delete")) {
     $id = igk_getv($params, 0);
     if ($job = Jobs::GetCache(Jobs::FD_ID, $id)) {
@@ -203,7 +206,8 @@ $form->fields([
     ],
     $p,
     'file' => ['type' => 'file'],
-    'msg' => ['type' => 'textarea', 'value' => $response]
+    'msg' => ['type' => 'textarea', 'value' => $response],
+    ['type' => 'efieldset'],
 ]);
 $form->actionbar()->host(function ($a) {
     $a->submit('', __('update'))->setClass('dispib');

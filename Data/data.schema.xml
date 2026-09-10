@@ -45,6 +45,7 @@
 			clName="status_id" clNotNull="true"></Column>
 		<Column clLinkColumn="id" clLinkType="%prefix%job_enterprises" clName="enterprise_id"></Column>
 		<Column clDefault="1" clName="printable" clType="Int"></Column>
+		<Column clDefault="0" clName="is_important" clType="Int" clDescription="mark job as important"></Column>
 		<Column clLinkColumn="id" clLinkType="%prefix%job_users" clName="user_id" clNotNull="true"
 			clType="Int"></Column>
 		<Column clName="description" clType="varchar(2500)"></Column>
@@ -395,6 +396,11 @@
 		<Migration comment="append column" date="2026-03-27">
 			<addColumn table="%prefix%job_doctypes" after="name" >
 				<Column clName="cardinality" clType="int" clDefault="0" clNotNull clDescription="store enterprise's doc type cardinality. 0 means infinite. >0 will count before add"></Column>
+			</addColumn>
+		</Migration>
+		<Migration comment="append column" date="2026-09-10">
+			<addColumn table="%prefix%jobs" after="printable" >
+				<Column clDefault="0" clName="is_important" clType="Int" clDescription="mark job as important"></Column>
 			</addColumn>
 		</Migration>
 

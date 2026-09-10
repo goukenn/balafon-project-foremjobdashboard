@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: JobRegisterTypes.php
-// @date: 20260824 18:09:05
+// @date: 20260910 10:46:57
 namespace com\igkdev\projects\ForemJobDashboard\Models;
 
 

@@ -8,6 +8,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use ForemJobDashboardController;
 use IGK\Helper\IO;
+use IGK\Helper\StringUtility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 
@@ -117,5 +118,17 @@ class JobUtility
             Logger::info('unlink: ' . $f);
             @unlink($f);
         }
+    }
+    /**
+     * 
+     * @param string $title 
+     * @param string $company 
+     * @param null|string $references 
+     * @return string 
+     */
+    public static function CreateJobIdentify(string $title, string $company, ?string $references= null){
+        $p = implode(':', array_filter([$title, $company, $references]));
+        $p = hash('crc32b', StringUtility::Slugify($p));
+        return $p;
     }
 }

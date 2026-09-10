@@ -1,0 +1,27 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: settings/default.phtml
+// @desc: settings landing page. Also serves as the fallback view target for POST requests
+//        under @/settings/* that don't have their own dedicated view — without a default.phtml
+//        here, such a POST silently falls through to the controller's global default view
+//        instead of dispatching to the intended SettingsAction sub-action. See CLAUDE.md
+//        ("Login / 2FA / WebAuthn" section) for the full explanation.
+// @view: settings
+// @date: 20260825 00:00:00
+use function igk_html_host as _h;
+use function igk_resources_gets as __;
+
+include_once $ctrl::getViewDir() . '/.auth.pinc';
+
+$doc->title = sprintf('%s - %s', __('Settings'), $ctrl->getAppTitle());
+
+$wrap = $t->div()->setClass('max-w-lg mx-auto p-6');
+$wrap->h2()->setClass('text-xl font-bold mb-4')->Content = __('Settings');
+
+$list = $wrap->ul()->setClass('space-y-2');
+$list->li()->a()->setAttributes(['href' => $ctrl::uri('@/settings/security')])
+    ->setClass('text-blue-600 dark:text-blue-400 hover:underline')
+    ->Content = __('Security (two-factor authentication)');
+$list->li()->a()->setAttributes(['href' => $ctrl::uri('@/settings/joblist')])
+    ->setClass('text-blue-600 dark:text-blue-400 hover:underline')
+    ->Content = __('Job list');

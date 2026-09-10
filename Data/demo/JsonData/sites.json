@@ -144,6 +144,26 @@
             ]
         },
         {
+            "site": "https://anthropic.skilljar.com/",
+            "name": "claude.killjar",
+            "primaryCategory": [
+                "AI*",
+                "Antropic",
+                "Claude",
+                "Learning"
+            ]
+        },
+        {
+            "site": "https://academy.claude.com/courses/claude-101",
+            "name": "claude.killjar",
+            "primaryCategory": [
+                "AI*",
+                "Antropic",
+                "Claude",
+                "Learning"
+            ]
+        },
+        {
             "site": "https://agilemanifest.be",
             "name": "agile",
             "primaryCategory": [

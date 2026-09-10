@@ -2,7 +2,10 @@
 <?php
 /**
  * script that will run after sync-deployment
+ * @var mixed $installer
  */
+
+
 
 $installer->rmFiles('/Data/swagger');
 $extra_arg = implode(' ', ['--wdir:'.$installer->siteRootDir]);

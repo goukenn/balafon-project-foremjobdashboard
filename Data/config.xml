@@ -1,10 +1,11 @@
 <config>
-	<clAppName>Onem job dashboard</clAppName>
+	<clAppName>com.igkdev.forem.job.dashboard</clAppName>
 	<clAppNotActive>0</clAppNotActive>
 	<clBasicUriPattern>^/forem</clBasicUriPattern>
 	<clDataSchema>1</clDataSchema>
 	<clDataTablePrefix>tbigk_foremjobs_</clDataTablePrefix>
-	<clTitle>Forem Jobs</clTitle>
+	<clTitle>Forem Jobs Dashboard</clTitle>
+	<appIcon>briefcase.fill</appIcon>
 	<app.default-user>cbondje@igkdev.com</app.default-user>
 	<forem.offer-search.endpoint>https://www.leforem.be/recherche-offres/offre-detail</forem.offer-search.endpoint>
 	<env.dev>

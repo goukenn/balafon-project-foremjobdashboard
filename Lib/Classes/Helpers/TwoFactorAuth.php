@@ -1,8 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: TwoFactorAuth.php
-// @desc: dependency-free TOTP (RFC 6238, HMAC-SHA1, 30s step, 6 digits) helper.
-//        Ported from the AssimilTraining project's TwoFactorAuth class. Relies on the
+// @desc: dependency-free TOTP (RFC 6238, HMAC-SHA1, 30s step, 6 digits) helper. Relies on the
 //        `auth_2fa_key` column on the shared users table, provided by the
 //        igk/authentications/googleAuth2FA module (declared in balafon.config.json), and
 //        renders the enrollment QR code via the core's igk/QrCode module.

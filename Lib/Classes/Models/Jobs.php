@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Jobs.php
-// @date: 20260824 18:09:05
+// @date: 20260910 10:46:57
 namespace com\igkdev\projects\ForemJobDashboard\Models;
 
 
@@ -23,6 +23,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @property int|?\com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises $enterprise_id
 * @property int|?\com\igkdev\projects\ForemJobDashboard\Models\JobContacts $contact_id
 * @property int $printable ="1"
+* @property int $is_important mark job as important
 * @property int|\com\igkdev\projects\ForemJobDashboard\Models\JobUsers $user_id
 * @property string $description global job description
 * @property string $follow date to flow. example: +1 week
@@ -43,6 +44,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static string FN_ENTERPRISE_ID() - `enterprise_id` full column name 
 * @method static string FN_CONTACT_ID() - `contact_id` full column name 
 * @method static string FN_PRINTABLE() - `printable` full column name 
+* @method static string FN_IS_IMPORTANT() - `is_important` full column name 
 * @method static string FN_USER_ID() - `user_id` full column name 
 * @method static string FN_DESCRIPTION() - `description` full column name 
 * @method static string FN_FOLLOW() - `follow` full column name 
@@ -53,8 +55,8 @@ use com\igkdev\projects\ForemJobDashboard\Models\ModelBase;
 * @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnJbsId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnJbsId() - macros function
-* @method static ?self Add(string $guid, string $title, int|\com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes $from_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobContractTypes $contract_id, int $treated, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobCategories $category_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobRegisterTypes $type_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes $status_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises $enterprise_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobContacts $contact_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobUsers $user_id, string $description, string $follow, string $summary, float $salary, string $path, int $printable ="1", string $Create_At ="Now()", string $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string $guid, string $title, int|\com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes $from_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobContractTypes $contract_id, int $treated, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobCategories $category_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobRegisterTypes $type_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes $status_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises $enterprise_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobContacts $contact_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobUsers $user_id, string $description, string $follow, string $summary, float $salary, string $path, int $printable ="1", string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string $guid, string $title, int|\com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes $from_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobContractTypes $contract_id, int $treated, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobCategories $category_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobRegisterTypes $type_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes $status_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises $enterprise_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobContacts $contact_id, int $is_important, int|\com\igkdev\projects\ForemJobDashboard\Models\JobUsers $user_id, string $description, string $follow, string $summary, float $salary, string $path, int $printable ="1", string $Create_At ="Now()", string $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string $guid, string $title, int|\com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes $from_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobContractTypes $contract_id, int $treated, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobCategories $category_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobRegisterTypes $type_id, int|\com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes $status_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises $enterprise_id, int|?\com\igkdev\projects\ForemJobDashboard\Models\JobContacts $contact_id, int $is_important, int|\com\igkdev\projects\ForemJobDashboard\Models\JobUsers $user_id, string $description, string $follow, string $summary, float $salary, string $path, int $printable ="1", string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
 * @method static mixed attachForemReference($ref_id) macros function definition 
 * @method static ?string foremReference() macros function definition
 * */
@@ -71,6 +73,7 @@ class Jobs extends ModelBase{
 	const FD_ENTERPRISE_ID="jbs_enterprise_id";
 	const FD_CONTACT_ID="jbs_contact_id";
 	const FD_PRINTABLE="jbs_printable";
+	const FD_IS_IMPORTANT="jbs_is_important";
 	const FD_USER_ID="jbs_user_id";
 	const FD_DESCRIPTION="jbs_description";
 	const FD_FOLLOW="jbs_follow";
