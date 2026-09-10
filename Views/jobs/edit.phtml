@@ -18,6 +18,7 @@ use com\igkdev\projects\ForemJobDashboard\System\IO\Storage;
 use IGK\Helper\Activator;
 use IGK\Helper\JSon;
 use IGK\Models\Authorizations;
+use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\HtmlAutocompleteValues;
 use IGK\System\Http\Request;
 use IGK\System\IO\Path;
@@ -29,14 +30,16 @@ use function igk_html_host as _h;
  * @var mixed $t
  * @var mixed $ctrl
  * @var mixed $modules
- * @var mixed $modules
  * @var mixed $params
  * @var mixed $data
  * @var mixed $request
+ * @var mixed $fname
+ * @var HtmlDocTheme $def
  */
-$modules->require(Modules::igk_ios_SfSymbols());
- 
 include_once $ctrl::getViewDir() . '/.auth.pinc';
+$modules->require(Modules::igk_ios_SfSymbols());
+$doc->noCoreCss = true;
+
 
 if (igk_server()->method('POST') &&  igk_getr("btn-delete")) {
     $id = igk_getv($params, 0);
@@ -45,79 +48,78 @@ if (igk_server()->method('POST') &&  igk_getr("btn-delete")) {
         igk_navto($ctrl::uri('@/jobs'));
     }
 }
-igk_view_handle_actions($fname, [
-    'docs' => function (Jobs $job, $type=null, ?Request $request=null) use (&$params, $ctrl, $fname) {
-        if ($request->method('POST')){
-            DocsAction::CreateInstance($ctrl)->index_post($job, $type);        
-        }
-        igk_navto($ctrl::uri($fname . '/' . $job->{Jobs::FD_ID}));
-    },
-    'contact' => function (Jobs $job, ?Request $request = null)  use (&$params, $ctrl, $fname) {
-        if (!$request->method('POST')) {
-            return;
-        }
-        $data = $request->getFormData();
-        $obj = igk_extract_obj($data, 'name|email|phone|address');
-        $l = Activator::CreateNewInstance(ContactDataInfo::class,$obj);
-        $r = JobContacts::Add('-', $obj->name, null, null, JSon::EncodeWithNoEmpty($l)); 
-        if ($r) {
-            $job->{JOBS::FD_CONTACT_ID} = $r->{JobContacts::FD_ID};
-            $job->save();
-        }
-        igk_navto($ctrl::uri($fname . '/' . $job->{Jobs::FD_ID}));
-    }
-], $params);
+
 if (!$params) {
     $t->div()->panel()->danger()->Content = __('Not allowed');
     return;
 }
 $id = igk_getv($params, 0);
 $row = Jobs::GetCache(Jobs::FD_ID, $id);
-if ($request->method('POST')) {
-    /**
-     * @var IJobPostData 
-     */
-    $obj = $request->getFormData(); 
-    if ($obj->title) {
-        $desc = $obj->description;
-        $desc = str_replace("\r", "", $desc);
-        $obj->description = substr(preg_replace("/\n+/", "\n", $desc), 0, 2500);   
-        $obj->summary = substr($obj->summary ?? $obj->description, 0, 2500);     
-        $e_utility = $ctrl->modelUtility('enterprise');
-        $row->{Jobs::FD_TITLE} = $obj->title;
-        $row->{Jobs::FD_DESCRIPTION} = $obj->description;
-        $row->{Jobs::FD_SUMMARY} = $obj->summary;
-        $row->{Jobs::FD_FROM_ID} = $obj->from ?? JobSourceTypes::GetCacheColumn(
-            JobSourceTypes::FD_ID,
-            ForemJobDashboardSourceTypes::WEB
-        );
-        $row->{Jobs::FD_STATUS_ID} = $obj->status ?? $row->{Jobs::FD_STATUS_ID};
-        $e = $obj->enterprise;
-        $c_eid = Jobs::FD_ENTERPRISE_ID;
-        $row->{$c_eid} = $e ? $e_utility->registerEnterprise($e) : null;
-        $row->{Jobs::FD_CATEGORY_ID} = $obj->category; 
-        $row->{Jobs::FD_TYPE_ID} = $obj->regtype;
-        $row->save();
-        if ($obj->forem_ref){
-            $row->attachForemReference($obj->forem_ref);
-        }
-    }
-}
 if (!$row) {
     $t->div()->panel()->content = __('Missing Entries');
     return;
-} 
-$forem_ref = $row->foremReference(); 
+}
+$forem_ref = $row->foremReference();
 if ($header = $ctrl->getEnvParam('header')) {
     _h($header->top, _h('li > a', [$ctrl::uri('@/jobs/add')], __('add')),);
 }
+
+// + | ------------------------------------------------
+// + | theme: dark/light contrast, rounded inputs, tabs
+// + |
 $def = $doc->getTheme();
 $def['.min-h-1'] = 'min-height:100%;';
+$def['*'] = 'border-box:content;';
+$def['.fjd-edit label'] = 'display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem;';
+$def['.fjd-edit fieldset'] = 'border:0;padding:0;margin:0 0 1rem 0;';
+$def['.fjd-edit legend'] = 'font-weight:600;font-size:0.95rem;margin-bottom:0.5rem;padding:0;';
+$def['.fjd-edit .igk-action-bar'] = 'display:flex;gap:0.5rem;margin-top:1rem;';
+$def['.fjd-tab-panel.hidden'] = 'display:none;';
+
 $doc->title = 'edit - ' . htmlentities($row->title);
 $t['class'] = '+min-h-1 -fit';
-$head = $t->div()->container();
-$head->h2()->Content = __('Edit');
-$b = $t->div()->container();
+
+$page = $t->div()->setClass('fjd-edit min-h-1 tw-bg-gray-50 dark:tw-bg-gray-900 tw-transition-colors tw-duration-300 tw-px-4 tw-py-6');
+
+$inputCls = 'tw-w-full tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-600 tw-bg-white dark:tw-bg-gray-700 tw-text-gray-900 dark:tw-text-white tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-600 tw-transition-colors';
+$readonlyCls = 'tw-w-full tw-rounded-lg tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-bg-gray-100 dark:tw-bg-gray-800 tw-text-gray-500 dark:tw-text-gray-400 tw-px-3 tw-py-2 tw-cursor-not-allowed';
+$taCls = $inputCls . ' tw-resize-y';
+$checkCls = 'tw-rounded tw-border-gray-300 dark:tw-border-gray-600 tw-text-blue-600 focus:tw-ring-2 focus:tw-ring-blue-600';
+$primaryBtnCls = 'dispib tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-semibold tw-px-4 tw-py-2 tw-rounded-lg tw-transition';
+$dangerBtnCls = 'dispib tw-bg-red-600 hover:tw-bg-red-700 tw-text-white tw-font-semibold tw-px-4 tw-py-2 tw-rounded-lg tw-transition';
+$cardCls = 'tw-bg-white dark:tw-bg-gray-800 tw-rounded-lg tw-shadow tw-p-6 tw-transition-colors tw-duration-300';
+
+$head = $page->div()->setClass('tw-max-w-5xl tw-mx-auto tw-mb-4');
+$head->h2()->setClass('tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-white')->Content = __('Edit');
+
+$wrap = $page->div()->setClass('tw-max-w-5xl tw-mx-auto');
+
+// + | ------------------------------------------------
+// + | tab control (Details / Documents / Contact)
+// + |
+$fjd_tabs = [
+    'details' => __('details'),
+    'docs' => __('documents'),
+    'contact' => __('contact'),
+];
+$tabNav = $wrap->div()->setClass('tw-flex tw-flex-row tw-gap-2 tw-mb-4 tw-border-b tw-border-gray-200 dark:tw-border-gray-700');
+$fjd_tab_first = true;
+foreach ($fjd_tabs as $fjd_tab_key => $fjd_tab_label) {
+    $tabBtn = $tabNav->button();
+    $tabBtn['type'] = 'button';
+    $tabBtn->setAttribute('data-fjd-tab', $fjd_tab_key);
+    $tabBtn->setClass('fjd-tab-btn tw-px-4 tw-py-2 -tw-mb-px tw-border-b-2 tw-font-medium tw-text-sm tw-transition-colors ' . ($fjd_tab_first
+        ? 'tw-border-blue-600 tw-text-blue-600'
+        : 'tw-border-transparent tw-text-gray-500 dark:tw-text-gray-400 hover:tw-text-gray-700 dark:hover:tw-text-gray-200 hover:tw-border-gray-300 dark:hover:tw-border-gray-600'));
+    $tabBtn->Content = $fjd_tab_label;
+    $fjd_tab_first = false;
+}
+
+$panelDetails = $wrap->div()->setAttribute('data-fjd-panel', 'details')->setClass('fjd-tab-panel');
+$panelDocs = $wrap->div()->setAttribute('data-fjd-panel', 'docs')->setClass('fjd-tab-panel hidden');
+$panelContact = $wrap->div()->setAttribute('data-fjd-panel', 'contact')->setClass('fjd-tab-panel hidden');
+
+$b = $panelDetails->div()->setClass($cardCls);
 $sdata = JobStatusTypes::formSelectData();
 $edid = $row->{Jobs::FD_ENTERPRISE_ID};
 $e = (function ($edid) {
@@ -125,22 +127,25 @@ $e = (function ($edid) {
         return JobEnterprises::Get(JobEnterprises::FD_ID, $edid);
     }
 })($edid);
-$frow = $b->row();
-$form = $frow->col()->div()->form();
+$form = $b->form();
+$form->setClass('tw-space-y-4');
 $form['action'] = $ctrl::uri($fname . '/' . $id);
 $form['enctype'] = 'multipart/form-data';
-$form->label()->content = $row->{Jobs::FD_CREATE_AT};
-$fforem_attribs = [];
+$form->label()->setClass('tw-block tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mb-2')->content = $row->{Jobs::FD_CREATE_AT};
+$fforem_attribs = [
+    'class' => $inputCls
+];
 if ($forem_ref && !$ctrl::isUserAllowedTo(EnumAuthorizations::update_forem_reference)){
     $fforem_attribs = [
         'readonly',
-        'class'=>'readonly'
+        'class'=> $readonlyCls
     ];
 }
 $form->fields([
-    'title' => ['value' => $row->{Jobs::FD_TITLE}],
+    'title' => ['value' => $row->{Jobs::FD_TITLE}, 'attribs' => ['class' => $inputCls]],
     'enterprise' => [
-        'value' => $e ? $e->{JobEnterprises::FD_NAME} : null
+        'value' => $e ? $e->{JobEnterprises::FD_NAME} : null,
+        'attribs' => ['class' => $inputCls]
     ],
     'forem_ref' => [
         'value' => $forem_ref,
@@ -149,40 +154,55 @@ $form->fields([
         'autocomplete' => HtmlAutocompleteValues::NOPE,
         'attribs'=>$fforem_attribs
     ],
-    'description' => ['type' => 'textarea', "attribs"=>["maxlength" => 2500], 'value' => $row->{Jobs::FD_DESCRIPTION}],
-    'summary' => ['type' => 'textarea', "attribs"=>["maxlength" => 2500], 'value' => $row->{Jobs::FD_SUMMARY}],
+    'description' => ['type' => 'textarea', "attribs"=>["maxlength" => 2500, 'class' => $taCls . ' tw-min-h-[8rem]'], 'value' => $row->{Jobs::FD_DESCRIPTION}],
+    'summary' => ['type' => 'textarea', "attribs"=>["maxlength" => 2500, 'class' => $taCls . ' tw-min-h-[5rem]'], 'value' => $row->{Jobs::FD_SUMMARY}],
     'from' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_FROM_ID},
-        'data' => array_merge(JobSourceTypes::formSelectData(), [])
+        'data' => array_merge(JobSourceTypes::formSelectData(), []),
+        'attribs' => ['class' => $inputCls]
     ],
     'status' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_STATUS_ID},
-        'data' => array_merge($sdata, [])
+        'data' => array_merge($sdata, []),
+        'attribs' => ['class' => $inputCls]
     ],
     'regtype' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_TYPE_ID},
-        'data' => JobRegisterTypes::formSelectData()
+        'data' => JobRegisterTypes::formSelectData(),
+        'attribs' => ['class' => $inputCls]
     ],
     'category' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_CATEGORY_ID},
-        'data' => ModelsJobCategories::formSelectData()
+        'data' => ModelsJobCategories::formSelectData(),
+        'attribs' => ['class' => $inputCls]
+    ],
+    'is_important' => [
+        'type' => 'checkbox',
+        'value' => '1',
+        'checked' => (bool)$row->{Jobs::FD_IS_IMPORTANT},
+        'attribs' => ['class' => $checkCls]
+    ],
+    'identify' => [
+        'value' => $row->{Jobs::FD_IDENTIFY},
+        'attribs' => ['readonly', 'class' => $readonlyCls]
     ]
 ]);
-$form->actionbar()->host(function ($a) {
-    $a->submit('', __('update'))->setClass('dispib');
-    $a->submit('btn-delete', __('delete'))->setClass('dispib');
+$form->actionbar()->host(function ($a) use ($primaryBtnCls, $dangerBtnCls) {
+    $a->submit('', __('update'))->setClass($primaryBtnCls);
+    $a->submit('btn-delete', __('delete'))->setClass($dangerBtnCls);
 });
-$col = $frow->col();
-$col['class'] = 'dispflex.flex-column';
-$form = $col->div()->form();
+
+$colDocs = $panelDocs->div()->setClass($cardCls);
+$form = $colDocs->form();
+$form->setClass('tw-space-y-4');
 $form['action'] = $ctrl::uri($fname . '/docs/' . $id);
 $form['enctype'] = 'multipart/form-data';
 // + | ------------------------------------------------
-// + | get document 
+// + | get document
 // + |
 $docs = JobDocs::select_all([JobDocs::FD_JOB_ID => $id]);
 $p = $form->panel();
@@ -197,34 +217,37 @@ if ($rp = JobDocs::select_row([JobDocs::FD_JOB_ID => $id, JobDocs::FD_JOB_DOC_TY
     }
 }
 $form->fields([
-    ['type' => 'fieldset', 'legend' => 'docs'],
+    ['type' => 'fieldset', 'legend' => __('docs')],
     'jid' => ['type' => 'hidden', 'value' => $id],
     'type' => [
         'type' => 'select',
         'data' => JobDoctypes::formSelectData(),
-        'value'=> $default_response ? $default_response->id : null
+        'value'=> $default_response ? $default_response->id : null,
+        'attribs' => ['class' => $inputCls]
     ],
     $p,
-    'file' => ['type' => 'file'],
-    'msg' => ['type' => 'textarea', 'value' => $response],
+    'file' => ['type' => 'file', 'attribs' => ['class' => 'tw-block tw-w-full tw-text-sm tw-text-gray-700 dark:tw-text-gray-300 file:tw-mr-4 file:tw-py-2 file:tw-px-4 file:tw-rounded-lg file:tw-border-0 file:tw-bg-blue-50 dark:file:tw-bg-blue-900/40 file:tw-text-blue-700 dark:file:tw-text-blue-300 hover:file:tw-bg-blue-100 dark:hover:file:tw-bg-blue-900/60']],
+    'msg' => ['type' => 'textarea', 'value' => $response, 'attribs' => ['class' => $taCls . ' tw-min-h-[6rem]']],
     ['type' => 'efieldset'],
 ]);
-$form->actionbar()->host(function ($a) {
-    $a->submit('', __('update'))->setClass('dispib');
+$form->actionbar()->host(function ($a) use ($primaryBtnCls) {
+    $a->submit('', __('update'))->setClass($primaryBtnCls);
 });
-// + | count njumber of columnet 
-$form->add(_h('div.counter', sprintf(__('documents: %s'), count($data->docs ?? []))));
+// + | count njumber of columnet
+$form->add(_h('div.counter', sprintf(__('documents: %s'), count($data->docs ?? [])))->setClass('tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mt-2'));
 _h(
-    $col->div(),
-    _h('ul', _h(
+    $colDocs->div()->setClass('tw-mt-4 tw-flex tw-items-center tw-gap-4'),
+    _h('ul.dispib', _h(
         'li > a.btn[href:'.$ctrl::uri('@/docs/').$id.']', __('view documents')
-    )),
-    _h('ajxa.clear-docs', [$ctrl::uri('@/jobs/edit/clear-docs/' . $id)], __('clear document'))->setAttribute('method', 'post')
+    )->setClass('tw-text-sm tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline')),
+    _h('ajxa.clear-docs', [$ctrl::uri('@/jobs/edit/clear-docs/' . $id)], __('clear document'))->setAttribute('method', 'post')->setClass('tw-text-sm tw-text-red-600 dark:tw-text-red-400 hover:tw-underline')
 );
-$form = $frow->col()->div()->form();
+
+$form = $panelContact->div()->setClass($cardCls)->form();
+$form->setClass('tw-space-y-4');
 $form['action'] = $ctrl::uri($fname . '/contact/' . $id);
 $m = $row->{Jobs::FD_CONTACT_ID};
-(function($form, $m, $id){
+(function($form, $m, $id) use ($inputCls){
     $d = [];
     if ($m){
         $r = JobContacts::GetCache(JobContacts::FD_ID, $m);
@@ -238,39 +261,66 @@ $m = $row->{Jobs::FD_CONTACT_ID};
     }
 $form->fields([
     ['type' => 'fieldset', 'legend' => __('contact')],
-        'name' => igk_getv($d, 'name', ''),
-        'email' => igk_getv($d, 'email', ''),
-        'phone' => igk_getv($d, 'phone', ''),
-        'address' => igk_getv($d, 'address', ''),
+        'name' => ['value' => igk_getv($d, 'name', ''), 'attribs' => ['class' => $inputCls]],
+        'email' => ['value' => igk_getv($d, 'email', ''), 'attribs' => ['class' => $inputCls]],
+        'phone' => ['value' => igk_getv($d, 'phone', ''), 'attribs' => ['class' => $inputCls]],
+        'address' => ['value' => igk_getv($d, 'address', ''), 'attribs' => ['class' => $inputCls]],
         'contact_id'=>['type'=>'hidden', 'value'=>$m ? $m : null],
     ['type' => 'efieldset'],
     'jid' => ['type' => 'hidden', 'value' => $id]
 ]);
 })($form, $m, $id);
-$form->actionbar()->host(function ($a) {
-    $a->submit('', __('update2'))->setClass('dispib');
+$form->actionbar()->host(function ($a) use ($primaryBtnCls) {
+    $a->submit('', __('update2'))->setClass($primaryBtnCls);
 });
-$t->section()->container()->col()->row()->actionbar()->host(function ($a, $ctrl, $id, $fname) {
-    $a->a()->setAttributes([
-        'class' => 'igk-btn',
+
+$footerBar = $wrap->div()->setClass('tw-flex tw-flex-row tw-gap-3 tw-mt-6');
+_h($footerBar, function($fb) use ($ctrl, $id, $fname) {
+    $fb->a()->setAttributes([
+        'class' => 'igk-btn tw-px-4 tw-py-2 tw-rounded-lg tw-bg-gray-200 dark:tw-bg-gray-700 tw-text-gray-800 dark:tw-text-gray-100 hover:tw-bg-gray-300 dark:hover:tw-bg-gray-600 tw-transition',
         'href' => $ctrl::uri(dirname($fname))
     ])->Content = __('home');
-    $a->a()->setAttributes([
-        'class' => 'igk-btn',
+    $fb->a()->setAttributes([
+        'class' => 'igk-btn tw-px-4 tw-py-2 tw-rounded-lg tw-bg-gray-200 dark:tw-bg-gray-700 tw-text-gray-800 dark:tw-text-gray-100 hover:tw-bg-gray-300 dark:hover:tw-bg-gray-600 tw-transition',
         'href' => $ctrl::uri(dirname($fname) . '/edit/' . ($id + 1))
     ])->Content = __('next');
-}, $ctrl, $id, $fname);
-$footer = $t->div()->container();
+});
+
+$footer = $wrap->div()->setClass('tw-mt-4 tw-text-sm tw-text-gray-500 dark:tw-text-gray-400');
 _h(
-    $t->container()->col()->div(),
+    $footer,
     'Follow: ' . $row->follow,
     function ($n) {
         $n->add(
             _h(
                 'span.shared',
-                igk_html_node_usesvg('square.and.arrow.up.circle.fill'),
-                _h('label', [''], ':>presentation<:')
+                //igk_html_node_usesvg('square.and.arrow.up.circle.fill'),
+                _h('label', ['basic'], ':>presentation<:')
             )
         );
     }
 );
+
+$t->script()->Content = <<<'JS'
+(function(){
+    var btns = document.querySelectorAll('.fjd-tab-btn');
+    var panels = document.querySelectorAll('.fjd-tab-panel');
+    btns.forEach(function(btn){
+        btn.addEventListener('click', function(){
+            var target = btn.getAttribute('data-fjd-tab');
+            btns.forEach(function(b){
+                b.classList.remove('tw-border-blue-600', 'tw-text-blue-600');
+                b.classList.add('tw-border-transparent', 'tw-text-gray-500', 'dark:tw-text-gray-400');
+            });
+            btn.classList.remove('tw-border-transparent', 'tw-text-gray-500', 'dark:tw-text-gray-400');
+            btn.classList.add('tw-border-blue-600', 'tw-text-blue-600');
+            panels.forEach(function(p){
+                p.classList.toggle('hidden', p.getAttribute('data-fjd-panel') !== target);
+            });
+        });
+    });
+})();
+JS;
+
+
+$def->resetAll();

@@ -15,13 +15,13 @@ include_once $ctrl::getViewDir() . '/.auth.pinc';
 
 $doc->title = sprintf('%s - %s', __('Settings'), $ctrl->getAppTitle());
 
-$wrap = $t->div()->setClass('max-w-lg mx-auto p-6');
-$wrap->h2()->setClass('text-xl font-bold mb-4')->Content = __('Settings');
+$wrap = $t->div()->setClass('tw-max-w-lg tw-mx-auto tw-p-6');
+$wrap->h2()->setClass('tw-text-xl tw-font-bold tw-mb-4')->Content = __('Settings');
 
-$list = $wrap->ul()->setClass('space-y-2');
+$list = $wrap->ul()->setClass('tw-space-y-2');
 $list->li()->a()->setAttributes(['href' => $ctrl::uri('@/settings/security')])
-    ->setClass('text-blue-600 dark:text-blue-400 hover:underline')
+    ->setClass('tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline')
     ->Content = __('Security (two-factor authentication)');
 $list->li()->a()->setAttributes(['href' => $ctrl::uri('@/settings/joblist')])
-    ->setClass('text-blue-600 dark:text-blue-400 hover:underline')
+    ->setClass('tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline')
     ->Content = __('Job list');
