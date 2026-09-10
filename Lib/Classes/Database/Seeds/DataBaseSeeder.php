@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @desc: database seeder
-// @date: 20260910 10:46:57
+// @date: 20260910 10:56:30
 namespace com\igkdev\projects\ForemJobDashboard\Database\Seeds;
 
 use ForemJobDashboardController;
