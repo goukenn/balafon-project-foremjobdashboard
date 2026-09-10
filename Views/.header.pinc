@@ -27,22 +27,22 @@ $img = _h('img', [$ctrl->getDataDir() . '/assets/img/logo.jpg'])->setSize(64, 64
 if ($fname == 'default') {
     $h = $img;
 } else {
-    $h = _h('a.dispflex.cursor-pointer', [$ctrl::uri('@/')], $img);
+    $h = _h('a.dispflex.tw-cursor-pointer', [$ctrl::uri('@/')], $img);
 }
 function viewAuth()
 {
     $ctrl = ViewHelper::CurrentCtrl();
     if ($user = $ctrl->getUser()) {
         $wrap = igk_create_node('div');
-        $wrap->setClass('relative group pad4 cursor-pointer');
+        $wrap->setClass('tw-relative group pad4 tw-cursor-pointer');
         $wrap->add(_h('span', $user->model()->clLogin));
 
         $box = igk_create_node('div');
-        $box->setClass('box hidden group-hover:block absolute right-0 top-full min-w-[8rem] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow z-10');
+        $box->setClass('box tw-hidden group-hover:tw-block tw-absolute tw-right-0 tw-top-full tw-min-w-[8rem] tw-bg-white dark:tw-bg-gray-800 tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-rounded-lg tw-shadow tw-z-10');
         $link = igk_create_node('a');
         $link['href'] = $ctrl::uri('@/logout');
         $link->Content = __('logout');
-        $link->setClass('block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700');
+        $link->setClass('tw-block tw-px-4 tw-py-2 tw-text-sm tw-text-gray-700 dark:tw-text-gray-200 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700');
         $box->add($link);
         $wrap->add($box);
         return $wrap;
@@ -54,7 +54,7 @@ function viewAuth()
 function themeToggleButton()
 {
     $btn = igk_create_node('button');
-    $btn->setClass('igk-winui-toggle-theme px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition text-sm font-medium');
+    $btn->setClass('igk-winui-toggle-theme tw-px-3 tw-py-2 tw-rounded-lg tw-bg-gray-200 dark:tw-bg-gray-700 hover:tw-bg-gray-300 dark:hover:tw-bg-gray-600 tw-transition tw-text-sm tw-font-medium');
     $btn->id = 'theme-toggle';
     $btn->type = 'button';
     $btn->setAttribute('aria-label', 'Toggle dark mode');

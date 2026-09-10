@@ -14,13 +14,13 @@ $job_tabs = [
     'add' => ['label' => __('add'), 'href' => $ctrl::uri('@/jobs/add')],
 ];
 $job_tabs_nav = $t->nav();
-$job_tabs_nav->setClass('flex flex-row gap-2 mb-4 border-b border-gray-200 dark:border-gray-700');
+$job_tabs_nav->setClass('tw-flex tw-flex-row tw-gap-2 tw-mb-4 tw-border-b tw-border-gray-200 dark:tw-border-gray-700');
 foreach ($job_tabs as $job_tab_key => $job_tab) {
     $job_tab_active = $job_tab_key === ($active_job_tab ?? 'list');
     $job_tab_a = $job_tabs_nav->a();
     $job_tab_a['href'] = $job_tab['href'];
     $job_tab_a->Content = $job_tab['label'];
-    $job_tab_a->setClass('px-4 py-2 -mb-px border-b-2 font-medium text-sm ' . ($job_tab_active
-        ? 'border-blue-600 text-blue-600'
-        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'));
+    $job_tab_a->setClass('tw-px-4 tw-py-2 -tw-mb-px tw-border-b-2 tw-font-medium tw-text-sm ' . ($job_tab_active
+        ? 'tw-border-blue-600 tw-text-blue-600'
+        : 'tw-border-transparent tw-text-gray-500 hover:tw-text-gray-700 hover:tw-border-gray-300'));
 }
