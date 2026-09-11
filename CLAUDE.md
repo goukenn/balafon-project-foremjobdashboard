@@ -85,3 +85,8 @@ Things that looked plausible but **do not work** for a plain `ActionBase` (verif
 - A `Views/settings/default.phtml` was still worth adding independent of all this — without *some* default view under the action's base, a POST to a path with no more specific matching view falls through to the controller's own global default instead of even reaching the action's base view. It didn't fix the dispatch problem above, but is a real fix in its own right and doubles as the `@/settings` landing page.
 
 **Bottom line:** when a POST to an `ActionBase` action goes silently missing (200 response, but it's clearly the wrong page, no exception, no log), don't chase routing config — check whether the target method is written to be hit directly at all, or whether it needs to move behind `igk_view_handle_actions()` in the corresponding view instead.
+
+
+## TESTING
+- use `https://local.com:8085/forem` as endpoint for browser view
+- create with `balafon --make:class --test ClassNamePath` a class for testing with phpunit some behaviour

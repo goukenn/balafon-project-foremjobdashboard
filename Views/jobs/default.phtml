@@ -1,30 +1,39 @@
 <?php
+
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\StatusTypes;
 use IGK\Database\DbQueryCondition;
 use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGK\System\Html\SVG\SvgRenderer;
 use function igk_resources_gets as __;
 use function igk_html_host as _h;
 
+/**
+ * @var mixed $ctrl
+ * @var mixed $t
+ * @var mixed $data
+ * @var mixed $fname
+ * @var mixed $params
+ * @var mixed $entry_uri
+ * @var mixed $data
+ */
+
 $bg_color = '#040809';
-if (!$ctrl->checkUser(false)) {
+if (!$ctrl->checkUser(false) && igk_environment()->isDev()) {
     if ($ulogin = $ctrl->getConfigs()->{'app.default-user'}) {
         $tuser = igk_get_user_bylogin($ulogin);
         $ctrl::login($tuser, null, null);
         $user = $ctrl->getUser();
     }
 }
-$create_at = igk_getv($params, 0, date("Y-m"));
 if (!$user) {
     igk_die('missing user');
 }
+$create_at = $data->create_at;
 include_once $ctrl::getViewDir() . '/.auth.pinc';
-igk_view_handle_actions($fname, [
-    'search' => function () use (&$create_at) {
-        $create_at = igk_getr('search', $create_at);
-    }
-], $params);
+ 
 $doc->title = sprintf('Job - %s', $ctrl->getAppTitle());
 $doc->getMetas()->lastUpdate =  'Wed, 01 Oct 2025 12:00:00 GMT';
 $doc->setHeaderColor($bg_color);
@@ -40,7 +49,7 @@ if ($header = $ctrl->getEnvParam('header')) {
     $r = _h(
         $header->top,
         _h('li > span',  igk_svg_use('forem.jobs')),
-        _h('li > a', [$ctrl::uri('@/jobs/add')], __('add')),
+        _h('li > a', [$ctrl::uri('@/jobs/add'), 'content'=> __('add')]),
     );
 }
 $active_job_tab = 'list';
@@ -54,40 +63,21 @@ _h(
     _h('h2', __('searching data')),
     $form
 );
-$ad = Jobs::model()->getDataAdapter();
-// + | search for job only 
-$r = Jobs::select_all(
-    [
-        DbQueryCondition::Create([
-            '@@' . Jobs::FD_CREATE_AT => $ad->escape_string($create_at) . '%',
-            '@@' . Jobs::FD_TITLE => '%' . $ad->escape_string($create_at) . '%',
-        ], DbQueryCondition::OP_OR),
-        'jbs_user_id' => $user->jbu_id
-    ]
-);
-// + | search for job with enterprise 
-$find = SQLQueryFieldPrefixOperators::FIND;
-$r = Jobs::prepare()
-    ->with(JobEnterprises::table(), 'enterprise')
-    ->join_left(JobEnterprises::table(), sprintf('%s=%s', $fn = JobEnterprises::FN_ID(), Jobs::FD_ENTERPRISE_ID))
-    ->conditions(
-        [
-            DbQueryCondition::Create([
-                '@@' . Jobs::FN_CREATE_AT() => $ad->escape_string($create_at) . '%',
-                '@@' . Jobs::FN_TITLE() => '%' . $ad->escape_string($create_at) . '%',
-                '@@' . JobEnterprises::FN_NAME() => '%' . $ad->escape_string($create_at) . '%',
-            ], DbQueryCondition::OP_OR),
-            'jbs_user_id' => $user->jbu_id
-        ]
-    )->execute()->to_array();
-$t->div()->container()->row()->col()->div()->host(function ($n, $uri) use ($r) {
-    $ul = $n->ul();
-    foreach ($r as $row) {
-        $li = $ul->li()->a();
-        $li['class'] = 'dispflex flex-row gap-4';
-        $li['href'] = $uri . '/edit/' . $row->{Jobs::FD_ID};
-        $li->span($row->{Jobs::FD_CREATE_AT});
-        $li->span($row->{Jobs::FD_TITLE});
-        $li->span(isset($row->enterprise->name) ? '- ['.$row->enterprise->name.']' : '-');
-    }
-}, $ctrl::uri($fname));
+
+if ($r = $data->result) {
+    $t->div()->container()->row()->col()->div()->host(function ($n, $uri) use ($data) {
+        $r = $data->result;
+        $ul = $n->ul();
+        foreach ($r as $row) {
+            $is_closed = isset($row->status->{JobStatusTypes::FD_NAME}) && $row->status->{JobStatusTypes::FD_NAME} == StatusTypes::CLOSED;
+            $li = $ul->li()->a();
+            $li['class'] = 'dispflex flex-row gap-4' . ($is_closed
+                ? ' tw-text-red-600 dark:tw-text-red-400'
+                : '');
+            $li['href'] = $uri . '/edit/' . $row->{Jobs::FD_ID};
+            $li->span($row->{Jobs::FD_CREATE_AT});
+            $li->span($row->{Jobs::FD_TITLE});
+            $li->span(isset($row->enterprise->name) ? '- [' . $row->enterprise->name . ']' : '-');
+        }
+    }, $ctrl::uri($fname));
+}
