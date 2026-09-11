@@ -88,7 +88,7 @@
 			clType="GUID"></Column>
 		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
-	<DataDefinition Prefix="jbs_" TableName="%prefix%job_status_types">
+	<DataDefinition Prefix="jbs_st_" TableName="%prefix%job_status_types">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 		<Column clIsUnique="true" clName="name" clNotNull="true" clType="VarChar" clTypeLength="30"></Column>
 		<GenColumn name="updateTime"></GenColumn>

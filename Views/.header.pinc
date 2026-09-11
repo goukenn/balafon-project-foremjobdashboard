@@ -28,7 +28,7 @@ $img = _h('img', [$ctrl->getDataDir() . '/assets/img/logo.jpg'])->setSize(64, 64
 if ($fname == 'default') {
     $h = $img;
 } else {
-    $h = _h('a.dispflex.tw-cursor-pointer', [$ctrl::uri('@/')], $img);
+    $h = _h('a.dispflex.tw-cursor-pointer', [$ctrl::uri('@/'), 'content'=>null], $img);
 }
 function viewAuth()
 {
