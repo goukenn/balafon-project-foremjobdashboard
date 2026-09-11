@@ -18,6 +18,12 @@ use IGK\System\Http\Request;
 use IGK\System\Http\StatusCode;
 use IGK\System\Modules;
 
+/**
+ * @var mixed $fname
+ * @var mixed $params
+ * @var mixed $t
+ * @var mixed $ctrl
+ */
 igk_require_module(Modules::igk_docs_swagger());
 igk_view_handle_actions($fname, [
     'swagger.refresh-token' => function () {

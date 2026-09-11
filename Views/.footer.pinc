@@ -3,4 +3,20 @@
 // @file: .footer.pinc
 // @date: 20240904 08:59:55
 
+use IGK\System\Html\Css\CssUtils;
+use IGK\System\Html\Dom\HtmlDocTheme;
+/**
+ * footer 
+ * @var mixed $t
+ * @var HtmlDocTheme $def
+ */
+
+
 $t->footer()->container()->igkcopyright(); 
+
+
+$def['.dispsticky'] = '{sys:dispsticky}';
+$def['.dispb'] = '{sys:dispb}';
+$def['.dispn'] = '{sys:dispn}';
+
+$def::ImportSystemDefinition($def, ['igk-container']);

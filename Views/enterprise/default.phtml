@@ -8,6 +8,11 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use function igk_html_host as _h;
 use function igk_resources_gets as __;
 
+/**
+ * @var mixed $ctrl
+ * @var mixed $t
+ * @var mixed $data
+ */
 $form = _h('form#search-form');
 $result = (function ($s)use($ctrl) {
     if ($o =  $s ? _h('p.result') : null) {
@@ -24,5 +29,6 @@ $form->fields([
 _h($t, _h(
     'main',
     _h('container > row', $form),
+    _h('container > row', _h('a', [$ctrl::uri('@/enterprise/add')], __('Add enterprise'))),
     _h('container > row', $result ?: __('No result found'))
 ));

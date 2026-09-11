@@ -35,6 +35,21 @@ class EditAction extends ActionBase
         if ($job) {
             $response['docs'] = JobDocs::select_all([JobDocs::FD_JOB_ID => $job->id]);
             $response['job'] = $job;
+
+            if ($m = $job->{Jobs::FD_CONTACT_ID}) {
+                $d = [];
+                if ($m) {
+                    $r = JobContacts::GetCache(JobContacts::FD_ID, $m);
+                    $info = Activator::CreateNewInstance(ContactDataInfo::class, json_decode($r->{$r::FD_DATA}));
+                    if ($info instanceof ContactDataInfo) {
+                        $d['name'] = $info->name;
+                        $d['email'] = $info->email;
+                        $d['phone'] = $info->phone;
+                        $d['address'] = $info->address;
+                    }
+                }
+                $response['contact'] = $d;
+            }
         }
         return $response;
     }

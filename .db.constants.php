@@ -1,6 +1,6 @@
 <?php
 // @description: generated db constants file
-// @date: 2026-09-08 20:29:59
+// @date: 2026-09-10 18:30:48
 abstract class ForemJobDashboardControllerDbConstants{
 	const TB_JOB_CATEGORIES = "tbigk_foremjobs_job_categories";
 	const TB_JOB_CONTACTS = "tbigk_foremjobs_job_contacts";

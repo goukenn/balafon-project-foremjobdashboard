@@ -11,6 +11,7 @@ use function igk_html_host as _h;
  * @var mixed $ctrl
  * @var mixed $t
  * @var mixed $modules
+ * @var mixed $fname
  */
 $resolver = IGKResourceUriResolver::getInstance();
 $asset_dir = $ctrl->getDataDir() . '/assets';

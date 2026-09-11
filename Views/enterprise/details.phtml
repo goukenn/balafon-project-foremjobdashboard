@@ -1,9 +1,41 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: enterprise/details.phtml
-// @desc: 
+// @desc:
 // @view: enterprise/details
 // @date: 20260314 18:04:02
+use function igk_resources_gets as __;
 
-$doc->title = sprintf('%s - details', $data->enterprise->name);
-$t->div()->Content = $data->enterprise->name;
+$enterprise = $data->enterprise;
+$doc->title = sprintf('%s - details', $enterprise->name);
+$row = $t->main()->container()->row();
+$col = $row->col();
+$col->div('h3')->Content = $enterprise->name;
+if ($enterprise->title) {
+    $col->div()->Content = $enterprise->title;
+}
+$dl = $col->dl();
+if ($enterprise->vat) {
+    $dl->dt()->Content = ucfirst(__('vat'));
+    $dl->dd()->Content = $enterprise->vat;
+}
+if ($enterprise->address) {
+    $dl->dt()->Content = ucfirst(__('address'));
+    $dl->dd()->Content = $enterprise->address;
+}
+if ($enterprise->locality) {
+    $dl->dt()->Content = ucfirst(__('locality'));
+    $dl->dd()->Content = $enterprise->locality;
+}
+if ($enterprise->share_capital !== null) {
+    $dl->dt()->Content = ucfirst(__('share_capital'));
+    $dl->dd()->Content = $enterprise->share_capital;
+}
+if ($enterprise->turnover !== null) {
+    $dl->dt()->Content = ucfirst(__('turnover'));
+    $dl->dd()->Content = $enterprise->turnover;
+}
+if ($enterprise->description) {
+    $col->div()->Content = $enterprise->description;
+}
+$col->div()->a($ctrl::uri('@/enterprise/edit/' . $enterprise->id))->Content = __('edit');

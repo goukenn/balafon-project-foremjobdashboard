@@ -107,6 +107,10 @@
 		<Column clIsUnique="true" clIsUniqueColumnMember="true" clName="vat" clType="VarChar(20)"></Column>
 		<Column clName="title" clType="varchar(150)" clDescription="denomination"></Column>
 		<Column clName="description" clType="VarChar(255)"></Column>
+		<Column clName="address" clType="VarChar(255)" clDescription="street address"></Column>
+		<Column clName="locality" clType="VarChar(150)" clDescription="city/locality"></Column>
+		<Column clDefaultNull="true" clName="share_capital" clType="float" clDescription="share capital"></Column>
+		<Column clDefaultNull="true" clName="turnover" clType="float" clDescription="annual turnover (chiffre d'affaires)"></Column>
 		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_enterprise_value_types" Description="store enterprises's known values">
@@ -409,6 +413,20 @@
 			<addColumn table="%prefix%jobs" after="is_important" >
 				<Column clName="identify" clType="VarChar" clTypeLength="20" clIsUnique="true"
 					clDescription="unique job identifier - Helper\JobUtility::CreateJobIdentify()"></Column>
+			</addColumn>
+		</Migration>
+		<Migration comment="append Belgian enterprise identification fields" date="2026-09-10">
+			<addColumn table="%prefix%job_enterprises" after="vat">
+				<Column clName="address" clType="VarChar(255)" clDescription="street address"></Column>
+			</addColumn>
+			<addColumn table="%prefix%job_enterprises" after="address">
+				<Column clName="locality" clType="VarChar(150)" clDescription="city/locality"></Column>
+			</addColumn>
+			<addColumn table="%prefix%job_enterprises" after="locality">
+				<Column clDefaultNull="true" clName="share_capital" clType="float" clDescription="share capital"></Column>
+			</addColumn>
+			<addColumn table="%prefix%job_enterprises" after="share_capital">
+				<Column clDefaultNull="true" clName="turnover" clType="float" clDescription="annual turnover (chiffre d'affaires)"></Column>
 			</addColumn>
 		</Migration>
 
