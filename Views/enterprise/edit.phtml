@@ -1,0 +1,29 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: enterprise/edit.phtml
+// @desc: edit enterprise form
+// @view: enterprise/edit
+use function igk_html_host as _h;
+use function igk_resources_gets as __;
+
+$enterprise = $data->enterprise;
+$doc->title = sprintf('%s - %s', $enterprise->name, __('edit'));
+$row = $t->main()->container()->row();
+if ($data->vat_warning ?? null) {
+    $row->col()->div('alert.alert-warning')->Content = __('VAT number format looks invalid, please check it (BE followed by 9-10 digits).');
+}
+$frm = $row->col()->div()->form();
+$frm['action'] = $ctrl::uri($fname);
+$frm->fields([
+    'name' => ['value' => $enterprise->name],
+    'vat' => ['value' => $enterprise->vat],
+    'title' => ['value' => $enterprise->title],
+    'address' => ['value' => $enterprise->address],
+    'locality' => ['value' => $enterprise->locality],
+    'share_capital' => ['type' => 'number', 'value' => $enterprise->share_capital, 'attribs' => ['step' => '0.01']],
+    'turnover' => ['type' => 'number', 'value' => $enterprise->turnover, 'attribs' => ['step' => '0.01']],
+    'description' => ['type' => 'textarea', 'maxlength' => 255, 'value' => $enterprise->description],
+]);
+$frm->actionbar()->host(function ($a) {
+    $a->submit('btn.save', __('save'))->setClass('dispib');
+});

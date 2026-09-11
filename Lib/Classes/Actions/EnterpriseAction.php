@@ -14,6 +14,7 @@ use IGK\Database\DbConstants;
 use IGK\Helper\Activator;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Http\IResponse;
 use IGK\System\Http\Request;
 use ReflectionException;
 
@@ -25,7 +26,7 @@ use ReflectionException;
 class EnterpriseAction extends ApiActionBase
 {
     /**
-     * override handle reponse
+     * override handle response
      * @param mixed $response 
      * @return bool 
      * @throws Exception 
@@ -90,12 +91,17 @@ class EnterpriseAction extends ApiActionBase
     public function index()
     {
         $cond = [];
-        return ['enterprise_count' => JobEnterprises::count($cond)];
+        return [
+            'enteprises' => JobEnterprises::select_all($cond, [
+                'Limit' => 10
+            ]),
+            'enterprise_count' => JobEnterprises::count($cond)
+        ];
     }
     /**
      * handle enterprise detail
-     * @param JobEnterprises $enterprise 
-     * @return array{enterprise: \com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises} 
+     * @param JobEnterprises $enterprise
+     * @return array{enterprise: \com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises}
      */
     public function details(JobEnterprises $enterprise)
     {
@@ -103,6 +109,73 @@ class EnterpriseAction extends ApiActionBase
             $enterprise->info = Activator::CreateNewInstance(JobEnterpriseInfo::class, $i);
         }
         return ['enterprise' => $enterprise];
+    }
+    /**
+     * show add enterprise form
+     * @return array
+     */
+    public function add()
+    {
+        return [];
+    }
+    /**
+     * handle add enterprise form submit
+     * @return mixed
+     */
+    public function add_post(Request $request)
+    {
+        $obj = $request->getFormData();
+        if (!$obj->name) {
+            return ['errors' => true] + $this->add();
+        }
+        $c = JobEnterprises::GetCache(JobEnterprises::FD_NAME, $obj->name, true);
+        if ($c) {
+            $c->{JobEnterprises::FD_VAT} = $obj->vat ?: null;
+            $c->{JobEnterprises::FD_TITLE} = $obj->title;
+            $c->{JobEnterprises::FD_DESCRIPTION} = $obj->description;
+            $c->{JobEnterprises::FD_ADDRESS} = $obj->address;
+            $c->{JobEnterprises::FD_LOCALITY} = $obj->locality;
+            $c->{JobEnterprises::FD_SHARE_CAPITAL} = $obj->share_capital !== '' ? $obj->share_capital : null;
+            $c->{JobEnterprises::FD_TURNOVER} = $obj->turnover !== '' ? $obj->turnover : null;
+            $c->save();
+            igk_navto($this->getController()::uri('@/enterprise/details/' . $c->id));
+        }
+        return ['errors' => true] + $this->add();
+    }
+    /**
+     * show edit enterprise form
+     * @param JobEnterprises $enterprise
+     * @return array
+     */
+    public function edit(JobEnterprises $enterprise)
+    {
+        return ['enterprise' => $enterprise];
+    }
+    /**
+     * handle edit enterprise form submit
+     * @param JobEnterprises $enterprise
+     * @return mixed
+     */
+    public function edit_post(JobEnterprises $enterprise, Request $request)
+    {
+        $obj = $request->getFormData();
+        $enterprise->{JobEnterprises::FD_NAME} = $obj->name ?: $enterprise->name;
+        $enterprise->{JobEnterprises::FD_VAT} = $obj->vat ?: null;
+        $enterprise->{JobEnterprises::FD_TITLE} = $obj->title;
+        $enterprise->{JobEnterprises::FD_DESCRIPTION} = $obj->description;
+        $enterprise->{JobEnterprises::FD_ADDRESS} = $obj->address;
+        $enterprise->{JobEnterprises::FD_LOCALITY} = $obj->locality;
+        $enterprise->{JobEnterprises::FD_SHARE_CAPITAL} = $obj->share_capital !== '' ? $obj->share_capital : null;
+        $enterprise->{JobEnterprises::FD_TURNOVER} = $obj->turnover !== '' ? $obj->turnover : null;
+        $vat_warning = false;
+        if ($obj->vat && !preg_match('/^BE0?\d{9,10}$/', str_replace([' ', '.'], '', strtoupper(trim($obj->vat))))) {
+            $vat_warning = true;
+        }
+        $enterprise->save();
+        if (!$vat_warning) {
+            igk_navto($this->getController()::uri('@/enterprise/details/' . $enterprise->id));
+        }
+        return ['enterprise' => $enterprise, 'vat_warning' => $vat_warning];
     }
     /**
      * get list of job for 
@@ -117,7 +190,7 @@ class EnterpriseAction extends ApiActionBase
             Jobs::FD_ENTERPRISE_ID => $enterprise->id
         ];
         return [
-            'enterprise'=>$enterprise,
+            'enterprise' => $enterprise,
             'jobs' => Jobs::select_all($conditions, ['Limit' => $limit]),
             'total' => Jobs::count($conditions),
         ];

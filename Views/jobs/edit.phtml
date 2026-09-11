@@ -53,13 +53,15 @@ if (!$params) {
     $t->div()->panel()->danger()->Content = __('Not allowed');
     return;
 }
-$id = igk_getv($params, 0);
-$row = Jobs::GetCache(Jobs::FD_ID, $id);
+$row = $data->job;
 if (!$row) {
     $t->div()->panel()->content = __('Missing Entries');
     return;
-}
+    }
+$id = $row->id; 
 $forem_ref = $row->foremReference();
+
+
 if ($header = $ctrl->getEnvParam('header')) {
     _h($header->top, _h('li > a', [$ctrl::uri('@/jobs/add')], __('add')),);
 }
@@ -88,7 +90,7 @@ $checkCls = 'tw-rounded tw-border-gray-300 dark:tw-border-gray-600 tw-text-blue-
 $primaryBtnCls = 'dispib tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-semibold tw-px-4 tw-py-2 tw-rounded-lg tw-transition';
 $dangerBtnCls = 'dispib tw-bg-red-600 hover:tw-bg-red-700 tw-text-white tw-font-semibold tw-px-4 tw-py-2 tw-rounded-lg tw-transition';
 $cardCls = 'tw-bg-white dark:tw-bg-gray-800 tw-rounded-lg tw-shadow tw-p-6 tw-transition-colors tw-duration-300';
-
+$v_attribs = ['class' => $inputCls, 'autocomplete'=>'off'];
 $head = $page->div()->setClass('tw-max-w-5xl tw-mx-auto tw-mb-4');
 $head->h2()->setClass('tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-white')->Content = __('Edit');
 
@@ -131,21 +133,23 @@ $form = $b->form();
 $form->setClass('tw-space-y-4');
 $form['action'] = $ctrl::uri($fname . '/' . $id);
 $form['enctype'] = 'multipart/form-data';
-$form->label()->setClass('tw-block tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mb-2')->content = $row->{Jobs::FD_CREATE_AT};
+$form->p()->setClass('tw-block tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mb-2')->content = $row->{Jobs::FD_CREATE_AT};
 $fforem_attribs = [
-    'class' => $inputCls
+    'class' => $inputCls,
+    'autocomplete'=>'off'
 ];
 if ($forem_ref && !$ctrl::isUserAllowedTo(EnumAuthorizations::update_forem_reference)){
     $fforem_attribs = [
         'readonly',
-        'class'=> $readonlyCls
+        'class'=> $readonlyCls,
+        'attribs'=>['autocomplete'=>'off']
     ];
 }
 $form->fields([
-    'title' => ['value' => $row->{Jobs::FD_TITLE}, 'attribs' => ['class' => $inputCls]],
+    'title' => ['value' => $row->{Jobs::FD_TITLE}, 'attribs' => ['class' => $inputCls, 'autocomplete'=>'off']],
     'enterprise' => [
         'value' => $e ? $e->{JobEnterprises::FD_NAME} : null,
-        'attribs' => ['class' => $inputCls]
+        'attribs' => $v_attribs
     ],
     'forem_ref' => [
         'value' => $forem_ref,
@@ -160,25 +164,25 @@ $form->fields([
         'type' => 'select',
         'selected' => $row->{Jobs::FD_FROM_ID},
         'data' => array_merge(JobSourceTypes::formSelectData(), []),
-        'attribs' => ['class' => $inputCls]
+        'attribs' => ['class' => $inputCls, 'autocomplete'=>'off']
     ],
     'status' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_STATUS_ID},
         'data' => array_merge($sdata, []),
-        'attribs' => ['class' => $inputCls]
+        'attribs' => $v_attribs
     ],
     'regtype' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_TYPE_ID},
         'data' => JobRegisterTypes::formSelectData(),
-        'attribs' => ['class' => $inputCls]
+        'attribs' => $v_attribs
     ],
     'category' => [
         'type' => 'select',
         'selected' => $row->{Jobs::FD_CATEGORY_ID},
         'data' => ModelsJobCategories::formSelectData(),
-        'attribs' => ['class' => $inputCls]
+        'attribs' => $v_attribs
     ],
     'is_important' => [
         'type' => 'checkbox',
@@ -223,7 +227,7 @@ $form->fields([
         'type' => 'select',
         'data' => JobDoctypes::formSelectData(),
         'value'=> $default_response ? $default_response->id : null,
-        'attribs' => ['class' => $inputCls]
+        'attribs' => $v_attribs
     ],
     $p,
     'file' => ['type' => 'file', 'attribs' => ['class' => 'tw-block tw-w-full tw-text-sm tw-text-gray-700 dark:tw-text-gray-300 file:tw-mr-4 file:tw-py-2 file:tw-px-4 file:tw-rounded-lg file:tw-border-0 file:tw-bg-blue-50 dark:file:tw-bg-blue-900/40 file:tw-text-blue-700 dark:file:tw-text-blue-300 hover:file:tw-bg-blue-100 dark:hover:file:tw-bg-blue-900/60']],
@@ -247,29 +251,24 @@ $form = $panelContact->div()->setClass($cardCls)->form();
 $form->setClass('tw-space-y-4');
 $form['action'] = $ctrl::uri($fname . '/contact/' . $id);
 $m = $row->{Jobs::FD_CONTACT_ID};
-(function($form, $m, $id) use ($inputCls){
-    $d = [];
-    if ($m){
-        $r = JobContacts::GetCache(JobContacts::FD_ID, $m);
-        $info = Activator::CreateNewInstance(ContactDataInfo::class, json_decode($r->{$r::FD_DATA}));
-        if ($info instanceof ContactDataInfo){
-            $d['name'] = $info->name;
-            $d['email'] = $info->email;
-            $d['phone'] = $info->phone;
-            $d['address'] = $info->address;
-        }
-    }
+
+
+(function($form, $m, $id) use ($inputCls, $v_attribs){
+    $d = $m ?? [];
+
+  
 $form->fields([
     ['type' => 'fieldset', 'legend' => __('contact')],
-        'name' => ['value' => igk_getv($d, 'name', ''), 'attribs' => ['class' => $inputCls]],
-        'email' => ['value' => igk_getv($d, 'email', ''), 'attribs' => ['class' => $inputCls]],
-        'phone' => ['value' => igk_getv($d, 'phone', ''), 'attribs' => ['class' => $inputCls]],
-        'address' => ['value' => igk_getv($d, 'address', ''), 'attribs' => ['class' => $inputCls]],
+        'name' => ['value' => igk_getv($d, 'name', ''), 'attribs' => $v_attribs],
+        'email' => ['value' => igk_getv($d, 'email', ''), 'attribs' => $v_attribs],
+        'phone' => ['value' => igk_getv($d, 'phone', ''), 'attribs' => $v_attribs],
+        'address' => ['value' => igk_getv($d, 'address', ''), 'attribs' => $v_attribs],
         'contact_id'=>['type'=>'hidden', 'value'=>$m ? $m : null],
     ['type' => 'efieldset'],
     'jid' => ['type' => 'hidden', 'value' => $id]
 ]);
-})($form, $m, $id);
+})($form, $data->contact, $id);
+
 $form->actionbar()->host(function ($a) use ($primaryBtnCls) {
     $a->submit('', __('update2'))->setClass($primaryBtnCls);
 });
@@ -293,9 +292,9 @@ _h(
     function ($n) {
         $n->add(
             _h(
-                'span.shared',
+                //'span.shared',
                 //igk_html_node_usesvg('square.and.arrow.up.circle.fill'),
-                _h('label', ['basic'], ':>presentation<:')
+                _h('span', ['basic'], ':>presentation<:')
             )
         );
     }
@@ -322,5 +321,6 @@ $t->script()->Content = <<<'JS'
 })();
 JS;
 
-
-$def->resetAll();
+$def['html[data-theme="dark"] .igk-form-label'] = 
+$def['html[data-theme="dark"] fieldset'] = 
+'color: #fefefe';

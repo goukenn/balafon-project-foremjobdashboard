@@ -77,12 +77,11 @@ class JobDocTypes{
     const MAIL = 'MAIL';
     /**
     * auto generate doc.
-    * @param mixed $d
-    * @return
+    * @param mixed $d    
     */
     protected static function InsertExtraFields($d) {
         $l = igk_getv($d->fields, self::$field_name);
-        if (in_array($l, explode('|', 'CV|MOTIVATION|OFFER|MAIL'))){            
+        if (in_array($l, explode('|', 'CV|MOTIVATION|OFFER'))){            
             $d->fields['cardinality'] = 1;            
         }
     }

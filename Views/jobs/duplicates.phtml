@@ -1,0 +1,59 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: jobs/duplicates.phtml
+// @desc: list jobs that look like duplicates (same normalized title + same enterprise)
+// @view: jobs/duplicates
+use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use IGK\Helper\StringUtility;
+use function igk_resources_gets as __;
+
+$bg_color = '#040809';
+if (!$ctrl->checkUser(false)) {
+    if ($ulogin = $ctrl->getConfigs()->{'app.default-user'}) {
+        $tuser = igk_get_user_bylogin($ulogin);
+        $ctrl::login($tuser, null, null);
+        $user = $ctrl->getUser();
+    }
+}
+if (!$user) {
+    igk_die('missing user');
+}
+include_once $ctrl::getViewDir() . '/.auth.pinc';
+$doc->title = sprintf('Job - %s - %s', __('duplicates'), $ctrl->getAppTitle());
+$doc->setHeaderColor($bg_color);
+$doc->getbody()->setStyle('background-color: ' . $bg_color);
+$active_job_tab = 'duplicates';
+include $ctrl::getViewDir() . '/jobs/.tabs.pinc';
+
+$rows = Jobs::prepare()
+    ->with(JobEnterprises::table(), 'enterprise')
+    ->join_left(JobEnterprises::table(), sprintf('%s=%s', JobEnterprises::FN_ID(), Jobs::FD_ENTERPRISE_ID))
+    ->conditions(['jbs_user_id' => $user->jbu_id])
+    ->execute()->to_array();
+
+$groups = [];
+foreach ($rows as $row) {
+    $key = StringUtility::Slugify($row->{Jobs::FD_TITLE}) . '|' . ($row->{Jobs::FD_ENTERPRISE_ID} ?: '0');
+    $groups[$key][] = $row;
+}
+$duplicates = array_filter($groups, function ($g) {
+    return count($g) > 1;
+});
+
+$col = $t->section()->container()->row()->col();
+$col->h2()->Content = __('duplicates');
+if (!$duplicates) {
+    $col->div()->Content = __('No result found');
+}
+foreach ($duplicates as $group) {
+    $ul = $col->div('duplicate-group')->ul();
+    foreach ($group as $row) {
+        $li = $ul->li()->a();
+        $li['class'] = 'dispflex flex-row gap-4';
+        $li['href'] = $ctrl::uri('@/jobs/edit/' . $row->{Jobs::FD_ID});
+        $li->span($row->{Jobs::FD_CREATE_AT});
+        $li->span($row->{Jobs::FD_TITLE});
+        $li->span(isset($row->enterprise->name) ? '- [' . $row->enterprise->name . ']' : '-');
+    }
+}

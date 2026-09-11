@@ -1,0 +1,25 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: enterprise/add.phtml
+// @desc: add enterprise form
+// @view: enterprise/add
+use function igk_html_host as _h;
+use function igk_resources_gets as __;
+
+$doc->title = __('Add enterprise');
+$row = $t->main()->container()->row();
+$frm = $row->col()->div()->form();
+$frm['action'] = $ctrl::uri($fname);
+$frm->fields([
+    'name',
+    'vat',
+    'title',
+    'address',
+    'locality',
+    'share_capital' => ['type' => 'number', 'attribs' => ['step' => '0.01']],
+    'turnover' => ['type' => 'number', 'attribs' => ['step' => '0.01']],
+    'description' => ['type' => 'textarea', 'maxlength' => 255],
+]);
+$frm->actionbar()->host(function ($a) {
+    $a->submit('btn.add', __('add'))->setClass('dispib');
+});
