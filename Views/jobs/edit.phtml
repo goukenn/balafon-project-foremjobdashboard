@@ -38,7 +38,7 @@ use function igk_html_host as _h;
  */
 include_once $ctrl::getViewDir() . '/.auth.pinc';
 $modules->require(Modules::igk_ios_SfSymbols());
-$doc->noCoreCss = true;
+// $doc->noCoreCss = true;
 
 
 if (igk_server()->method('POST') &&  igk_getr("btn-delete")) {
@@ -104,7 +104,7 @@ $fjd_tabs = [
     'docs' => __('documents'),
     'contact' => __('contact'),
 ];
-$tabNav = $wrap->div()->setClass('tw-flex tw-flex-row tw-gap-2 tw-mb-4 tw-border-b tw-border-gray-200 dark:tw-border-gray-700');
+$tabNav = $wrap->div()->setClass('fbj-edit-tabcontrol tw-flex tw-flex-row tw-gap-2 tw-mb-4 tw-border-b tw-border-gray-200 dark:tw-border-gray-700');
 $fjd_tab_first = true;
 foreach ($fjd_tabs as $fjd_tab_key => $fjd_tab_label) {
     $tabBtn = $tabNav->button();

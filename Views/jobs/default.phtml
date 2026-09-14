@@ -70,10 +70,11 @@ if ($r = $data->result) {
         $ul = $n->ul();
         foreach ($r as $row) {
             $is_closed = isset($row->status->{JobStatusTypes::FD_NAME}) && $row->status->{JobStatusTypes::FD_NAME} == StatusTypes::CLOSED;
+            $needs_action = !$is_closed && !empty($row->{Jobs::FD_FOLLOW});
             $li = $ul->li()->a();
             $li['class'] = 'dispflex flex-row gap-4' . ($is_closed
                 ? ' tw-text-red-600 dark:tw-text-red-400'
-                : '');
+                : ($needs_action ? ' tw-text-yellow-600 dark:tw-text-yellow-400' : ''));
             $li['href'] = $uri . '/edit/' . $row->{Jobs::FD_ID};
             $li->span($row->{Jobs::FD_CREATE_AT});
             $li->span($row->{Jobs::FD_TITLE});

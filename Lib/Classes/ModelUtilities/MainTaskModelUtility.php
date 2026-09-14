@@ -6,6 +6,7 @@
 namespace com\igkdev\projects\ForemJobDashboard\ModelUtilities;
 use com\igkdev\projects\ForemJobDashboard\ContactDataInfo;
 use com\igkdev\projects\ForemJobDashboard\ContractTypes;
+use com\igkdev\projects\ForemJobDashboard\Helpers\JobUtility;
 use com\igkdev\projects\ForemJobDashboard\Models\JobContacts;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDoctypes;
@@ -76,7 +77,8 @@ class MainTaskModelUtility extends IGKDbModelUtility
     * auto generate doc.
     * @return object|null|void
     */
-    public function addJob(string $title, JobUsers $user, ?int $timespan = null, ?string $description = null, string $type=RegisterType::REAL)
+    public function addJob(string $title, JobUsers $user, ?int $timespan = null, ?string $description = null, 
+        string $type=RegisterType::REAL)
     {
         $date = !is_null($timespan) && ($timespan > 0) ? date('Y-m-d', $timespan) : JobUsers::FC_NOW;
         $d = [
@@ -87,6 +89,7 @@ class MainTaskModelUtility extends IGKDbModelUtility
             Jobs::FD_CONTRACT_ID => ContractTypes::GetCacheData(ContractTypes::EMPOYEE),
             Jobs::FD_STATUS_ID => StatusTypes::GetCacheData(StatusTypes::OPENED),
             Jobs::FD_USER_ID => $user->id,
+            Jobs::FD_IDENTIFY => JobUtility::CreateJobIdentify($title, '', null),
             Jobs::FD_DESCRIPTION => $description,
             Jobs::FD_SUMMARY => null,
             Jobs::FD_PATH => '',
