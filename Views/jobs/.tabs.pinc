@@ -1,12 +1,16 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: jobs/.tabs.pinc
-// @desc: shared tab control for the jobs section (List / Add), Tailwind-styled
+// @desc: shared tab control for the jobs section (List / Add), Tailwind-styled.
+//        The "duplicates" count badge is fetched async from @/api/jobs/duplicates
+//        instead of computed synchronously here — that query is a full table scan +
+//        grouping and was making every jobs page load slow.
 use function igk_resources_gets as __;
 
 /**
  * @var mixed $t
  * @var mixed $ctrl
+ * @var mixed $user
  * @var string $active_job_tab 'list'|'add'|'duplicates'
  */
 $job_tabs = [
@@ -24,4 +28,23 @@ foreach ($job_tabs as $job_tab_key => $job_tab) {
     $job_tab_a->setClass('tw-px-4 tw-py-2 -tw-mb-px tw-border-b-2 tw-font-medium tw-text-sm ' . ($job_tab_active
         ? 'tw-border-blue-600 tw-text-blue-600'
         : 'tw-border-transparent tw-text-gray-500 hover:tw-text-gray-700 hover:tw-border-gray-300'));
+    if ($job_tab_key === 'duplicates') {
+        $job_tab_a->span()->setAttribute('id', 'fjd-duplicate-count')->setClass('tw-ml-1');
+    }
+}
+
+if (isset($user)) {
+    $t->script()->Content = 'var FJD_DUP_API = ' . json_encode($ctrl::uri('@/api/jobs/duplicates')) . ';';
+    $t->script()->Content = <<<'JS'
+(function(){
+    var el = document.getElementById('fjd-duplicate-count');
+    if (!el) { return; }
+    fetch(FJD_DUP_API, {credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+            if (data && data.count) { el.textContent = '(' + data.count + ')'; }
+        })
+        .catch(function(){});
+})();
+JS;
 }

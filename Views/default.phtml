@@ -35,10 +35,7 @@ function get_pageview($ctrl)
     return $tab;
 }
 _h(
-    $ctrl->getEnvParam('header')->top,
-    function ($n) {
-        $n->h2()->content = __($this->getConfigs()->clTitle ?? '');
-    },
+    $ctrl->getEnvParam('header')->top,    
     $pagecontainer,
     ...get_pageview($ctrl)
 );

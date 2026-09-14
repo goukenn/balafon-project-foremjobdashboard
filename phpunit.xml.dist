@@ -7,6 +7,6 @@
 	<php>
 		<env name="IGK_BASE_DIR" value="/Volumes/Data/Dev/PHP/balafon_site_dev/src/public"></env>
 		<env name="IGK_APP_DIR" value="/Volumes/Data/Dev/PHP/balafon_site_dev/src/application"></env>
-		<env name="IGK_TEST_CONTROLER" value="comigkdevprojectsForemJobDashboardForemJobDashboardController"></env>
+		<env name="IGK_TEST_CONTROLER" value="com\\igkdev\\projects\\ForemJobDashboard\\ForemJobDashboardController"></env>
 	</php>
 </phpunit>

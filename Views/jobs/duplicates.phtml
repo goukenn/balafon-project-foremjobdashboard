@@ -1,12 +1,24 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: jobs/duplicates.phtml
-// @desc: list jobs that look like duplicates (same normalized title + same enterprise)
+// @desc: list jobs that look like duplicates (same normalized title + same enterprise),
+//        with per-group "merge" (keep the nearest/latest date, drop the rest) and
+//        "delete all" actions. The listing itself is fetched async from
+//        @/api/jobs/duplicates (see Lib/Classes/Actions/Api/JobsAction) instead of computed
+//        synchronously on page load — that query is a full table scan + grouping and was
+//        making this page slow. POST sub-actions (merge/delete_all) are still dispatched via
+//        igk_view_handle_actions() — see CLAUDE.md ("POST sub-actions on a plain ActionBase").
 // @view: jobs/duplicates
-use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
-use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
-use IGK\Helper\StringUtility;
+use com\igkdev\projects\ForemJobDashboard\Actions\Jobs\DefaultAction;
+use IGK\System\Http\Request;
 use function igk_resources_gets as __;
+
+/**
+ * @var mixed $t
+ * @var mixed $ctrl
+ * @var string $fname
+ * @var mixed $params
+ */
 
 $bg_color = '#040809';
 if (!$ctrl->checkUser(false)) {
@@ -20,40 +32,84 @@ if (!$user) {
     igk_die('missing user');
 }
 include_once $ctrl::getViewDir() . '/.auth.pinc';
+
+igk_view_handle_actions($fname, [
+    'merge' => function () use ($ctrl, $fname) {
+        $group = Request::getInstance()->get('group');
+        DefaultAction::CreateInstance($ctrl)->merge_post($group);
+        igk_navto($ctrl::uri($fname));
+    },
+    'delete_all' => function () use ($ctrl, $fname) {
+        $group = Request::getInstance()->get('group');
+        DefaultAction::CreateInstance($ctrl)->delete_all_post($group);
+        igk_navto($ctrl::uri($fname));
+    },
+], $params);
+
 $doc->title = sprintf('Job - %s - %s', __('duplicates'), $ctrl->getAppTitle());
 $doc->setHeaderColor($bg_color);
 $doc->getbody()->setStyle('background-color: ' . $bg_color);
 $active_job_tab = 'duplicates';
 include $ctrl::getViewDir() . '/jobs/.tabs.pinc';
 
-$rows = Jobs::prepare()
-    ->with(JobEnterprises::table(), 'enterprise')
-    ->join_left(JobEnterprises::table(), sprintf('%s=%s', JobEnterprises::FN_ID(), Jobs::FD_ENTERPRISE_ID))
-    ->conditions(['jbs_user_id' => $user->jbu_id])
-    ->execute()->to_array();
-
-$groups = [];
-foreach ($rows as $row) {
-    $key = StringUtility::Slugify($row->{Jobs::FD_TITLE}) . '|' . ($row->{Jobs::FD_ENTERPRISE_ID} ?: '0');
-    $groups[$key][] = $row;
-}
-$duplicates = array_filter($groups, function ($g) {
-    return count($g) > 1;
-});
-
 $col = $t->section()->container()->row()->col();
 $col->h2()->Content = __('duplicates');
-if (!$duplicates) {
-    $col->div()->Content = __('No result found');
-}
-foreach ($duplicates as $group) {
-    $ul = $col->div('duplicate-group')->ul();
-    foreach ($group as $row) {
-        $li = $ul->li()->a();
-        $li['class'] = 'dispflex flex-row gap-4';
-        $li['href'] = $ctrl::uri('@/jobs/edit/' . $row->{Jobs::FD_ID});
-        $li->span($row->{Jobs::FD_CREATE_AT});
-        $li->span($row->{Jobs::FD_TITLE});
-        $li->span(isset($row->enterprise->name) ? '- [' . $row->enterprise->name . ']' : '-');
+$col->div()->setAttribute('id', 'fjd-duplicates-list')->Content = __('Loading...');
+
+$fjd_dup_cfg = [
+    'apiUrl' => $ctrl::uri('@/api/jobs/duplicates'),
+    'mergeUrl' => $ctrl::uri($fname . '/merge'),
+    'deleteUrl' => $ctrl::uri($fname . '/delete_all'),
+    'editBase' => $ctrl::uri('@/jobs/edit/'),
+    'noResult' => __('No result found'),
+    'mergeLabel' => __('merge'),
+    'deleteLabel' => __('delete all'),
+];
+$t->script()->Content = 'var FJD_DUP = ' . str_replace('</', '<\\/', json_encode($fjd_dup_cfg)) . ';';
+$t->script()->Content = <<<'JS'
+(function(){
+    var cfg = FJD_DUP;
+    var listEl = document.getElementById('fjd-duplicates-list');
+    function esc(s){
+        var d = document.createElement('div');
+        d.textContent = (s == null) ? '' : String(s);
+        return d.innerHTML;
     }
-}
+    fetch(cfg.apiUrl, {credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+            var groups = (data && data.groups) || [];
+            if (!groups.length) {
+                listEl.textContent = cfg.noResult;
+                return;
+            }
+            var html = '';
+            groups.forEach(function(g){
+                html += '<div class="duplicate-group"><ul>';
+                (g.items || []).forEach(function(it){
+                    var cls = 'dispflex flex-row gap-4' + (it.follow ? ' tw-text-yellow-600 dark:tw-text-yellow-400' : '');
+                    html += '<li><a class="' + cls + '" href="' + cfg.editBase + it.id + '">'
+                        + '<span>' + esc(it.create_at) + '</span>'
+                        + '<span>' + esc(it.title) + '</span>'
+                        + '<span>' + (it.enterprise ? '- [' + esc(it.enterprise) + ']' : '-') + '</span>'
+                        + '</a></li>';
+                });
+                html += '</ul>';
+                html += '<div class="tw-flex tw-gap-2 tw-mb-6">'
+                    + '<form method="POST" action="' + cfg.mergeUrl + '">'
+                    + '<input type="hidden" name="group" value="' + esc(g.key) + '">'
+                    + '<button type="submit" class="tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-semibold tw-px-3 tw-py-1.5 tw-rounded-lg tw-text-sm tw-transition">' + esc(cfg.mergeLabel) + '</button>'
+                    + '</form>'
+                    + '<form method="POST" action="' + cfg.deleteUrl + '">'
+                    + '<input type="hidden" name="group" value="' + esc(g.key) + '">'
+                    + '<button type="submit" class="tw-bg-red-600 hover:tw-bg-red-700 tw-text-white tw-font-semibold tw-px-3 tw-py-1.5 tw-rounded-lg tw-text-sm tw-transition">' + esc(cfg.deleteLabel) + '</button>'
+                    + '</form>'
+                    + '</div></div>';
+            });
+            listEl.innerHTML = html;
+        })
+        .catch(function(){
+            listEl.textContent = 'Error';
+        });
+})();
+JS;

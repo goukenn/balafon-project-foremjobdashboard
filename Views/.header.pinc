@@ -62,11 +62,14 @@ function themeToggleButton()
     $btn->Content = '🌙';
     return $btn;
 }
-$menu = _h('div.menu-host', $menu_l = _h('ul.menu.dispflex.flex-row.alignm'));
-$nav = _h('nav.flex.flex-row', $menu, themeToggleButton(), viewAuth());
+$menu = _h('div.menu-host', $menu_l = _h('ul.menu.dispflex.flex-row.alignc'));
+$nav = _h('nav.flex.flex-row.flex-alignc', $menu, themeToggleButton(), viewAuth());
 $t->add(_h(
     'header.dispflex.flex-row.flex-justify-sb',
-     $h,    
+     _h('div.flex.flex-row.flex-alignc.gap-10.no-shrink',
+        $h,    
+        _h('h2.no-wrap.no-shrink', $this->getConfigs()->clTitle ?? '')
+     ),
      $nav
 ));
 $ctrl->setEnvParam('header', (object)[

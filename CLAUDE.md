@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`ForemJobDashboard` is a **project module** for the IGK/"balafon" PHP application framework (`igk-php`), not a standalone app. It has no `composer.json`/`vendor` of its own — it is loaded and autoloaded by a host framework installation living outside this repo (referenced via `IGK_BASE_DIR` / `IGK_APP_DIR`, typically pointing at a `balafon_site_dev` checkout). All routing, ORM, views, hooks, and CLI (`balafon`) tooling come from that framework; this repo only supplies the module's controller, actions, models, views, and config.
+`ForemJobDashboardController` is a BALAFON (PHP framework) **project** — a lightweight mini-app plugged into a host Balafon. It has no `composer.json`/`vendor` of its own — it is loaded and autoloaded by a host framework installation living outside this repo (referenced via `IGK_BASE_DIR` / `IGK_APP_DIR`, typically pointing at a `balafon_site_dev` checkout). All routing, ORM, views, hooks, and CLI (`balafon`) tooling come from that framework; this repo only supplies the module's controller, actions, models, views, and config.
 
 The module manages job-search workflow: tracking job offers, applications (candidatures), enterprises/contacts, documents (CV/motivation letters), and imports from external job sites (e.g. FOREM).
 
@@ -87,6 +87,25 @@ Things that looked plausible but **do not work** for a plain `ActionBase` (verif
 **Bottom line:** when a POST to an `ActionBase` action goes silently missing (200 response, but it's clearly the wrong page, no exception, no log), don't chase routing config — check whether the target method is written to be hit directly at all, or whether it needs to move behind `igk_view_handle_actions()` in the corresponding view instead.
 
 
+## Styling
+
+Each project provides a dark/light theme via `/Styles/themes/theme.{dark|light}.pcss`, overriding colors:
+
+```php
+$cl["accentColor"] = "red";
+$cl["primararyColor"] = "gray";
+$cl["--var-color"] = "red";
+```
+
+`Styles/default.pcss` loads automatically. See `%Lib%\Styles\igk_css_template.pcss` for `.pcss` conventions.
+
+## Localisation
+
+Default language is English (`en`). Translations at `/Configs/Lang/lang.{lang-code}.presx`. Wrap English
+keys with `igk_resources_gets` (aliased `__`): `$t->div(__('Welcome to balafon'));`. Translate every key
+into all supported languages.
+
+
 ## TESTING
 - use `https://local.com:8085/forem` as endpoint for browser view
-- create with `balafon --make:class --test ClassNamePath` a class for testing with phpunit some behaviour
+- create a test class with CLI command `balafon --make:class --test ClassNamePath` testing with phpunit some behaviour
