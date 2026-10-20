@@ -4,3 +4,5 @@
 // @date: 20240904 08:59:55
 $l["title.default"] = "Home";
 $l["title.offer"] = "Offer";
+
+$l['Download file'] = 'Download file';

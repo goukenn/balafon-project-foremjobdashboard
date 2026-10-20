@@ -25,12 +25,12 @@ class ApplicationPDFViewer extends FileViewer{
         $fsize = filesize($fs);
         extract(igk_extract_assoc($content?:[], 'remark'));
         $max_view_filesize = $ctrl->getConfigs()->max_view_filesize ??  10 * 1024 * 1024;
+        $node->div()->a()->setAttributes([
+            'href'=>$ctrl::uri('@/storage/'.base64_encode($d.'/'.$content->path)),
+            'download'=>basename($content->path)
+        ])->content = __("Download file");
         if ($fsize > $max_view_filesize){
             $node->div()->addClass('igk-alert igk-alert-warning')->content = __("File too large to be displayed");
-            $node->div()->a()->setAttributes([
-                'href'=>$ctrl::uri('@/storage/'.base64_encode($d.'/'.$content->path)),
-                'download'=>'download'
-            ])->content = "Download File";
             return;
         }
         $pdf = file_get_contents($fs);
@@ -42,7 +42,7 @@ class ApplicationPDFViewer extends FileViewer{
             ]
         );
         if ($remark){            
-            $node->div()->text($remark."<script >alert('ok'); </script>");            
+            $node->div()->text($remark);
         }
     }
 }

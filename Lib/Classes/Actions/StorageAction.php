@@ -20,8 +20,18 @@ class StorageAction extends ActionBase{
     */
     public function index_get(string $path_encoded){
         if (igk_valid_cref(false) || $this->getUser()){
-            $storage = new Storage(base64_decode($path_encoded), $this->getController());  
-            igk_download_file('document.pdf',$storage->getFile());  
+            $ctrl = $this->getController();
+            $rel = str_replace('\\', '/', base64_decode($path_encoded));
+            $base = $ctrl->currentLoginPath();
+            if (strpos($rel, '..') !== false || strpos($rel, $base . '/') !== 0){
+                igk_die('not allowed', true, 403);
+            }
+            $storage = new Storage($rel, $ctrl);
+            $file = $storage->getFile();
+            if (!is_file($file)){
+                igk_die('file not found', true, 404);
+            }
+            igk_download_file(basename($file), $file);
             igk_exit(); 
         }
         igk_die('not allowed', true, 403);
