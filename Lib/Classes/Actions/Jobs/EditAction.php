@@ -9,6 +9,7 @@ use com\igkdev\projects\ForemJobDashboard\Actions\DocsAction;
 use com\igkdev\projects\ForemJobDashboard\ContactDataInfo;
 use com\igkdev\projects\ForemJobDashboard\Models\JobContacts;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
+use com\igkdev\projects\ForemJobDashboard\Models\JobExternalForms;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use IGK\Actions\ActionBase;
@@ -125,6 +126,41 @@ class EditAction extends ActionBase
         if ($r) {
             $job->{JOBS::FD_CONTACT_ID} = $r->{JobContacts::FD_ID};
             $job->save();
+        }
+        igk_navto($ctrl::uri($fname . '/' . $job->{Jobs::FD_ID}));
+    }
+    /**
+     * add or remove an external site's form attached to the job
+     * @param Jobs $job 
+     * @param null|Request $request 
+     * @return void 
+     */
+    public function external_form(Jobs $job, ?Request $request = null)
+    {
+        if (!$request->method('POST')) {
+            return;
+        }
+        $ctrl = $this->getController();
+        $fname = ViewHelper::GetViewArgs('fname');
+        $data = $request->getFormData();
+        if ($did = $data->delete_id) {
+            JobExternalForms::delete([
+                JobExternalForms::FD_ID => $did,
+                JobExternalForms::FD_JOB_ID => $job->id,
+            ]);
+        } else {
+            $url = trim((string)$data->url);
+            $host = parse_url($url, PHP_URL_HOST);
+            if ($host && preg_match('/^https?:\/\//i', $url)) {
+                $domain = trim((string)$data->domain) ?: preg_replace('/^www\./i', '', strtolower($host));
+                JobExternalForms::insert([
+                    'job_id' => $job->id,
+                    'domain' => substr($domain, 0, 150),
+                    'reference' => substr(trim((string)$data->reference), 0, 100) ?: null,
+                    'url' => substr($url, 0, 500),
+                    'notes' => trim((string)$data->notes) ?: null,
+                ]);
+            }
         }
         igk_navto($ctrl::uri($fname . '/' . $job->{Jobs::FD_ID}));
     }
