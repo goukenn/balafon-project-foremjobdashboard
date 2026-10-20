@@ -51,3 +51,36 @@ $def['.igk-btn'] = 'border-width: 0px; border-radius: 0;';
 
 
 $def['.fs-\[8pt\]'] = 'font-size: 12pt;';
+// + | landing page (Views/default.phtml). colors derive from currentColor to follow dark/light themes
+$def['.fjd-home'] = 'padding: 2rem 1rem 3rem;';
+$def['.fjd-wrap'] = 'max-width: 1080px; margin: 0 auto;';
+$def['.fjd-hero'] = 'padding: 2.5rem 0 1.5rem;';
+$def['.fjd-hero h1'] = 'font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; margin: 0 0 .75rem;';
+$def['.fjd-eyebrow'] = 'text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; font-weight: 600; color: var(--igk-link-color); margin: 0 0 .5rem;';
+$def['.fjd-lead'] = 'font-size: 1.1rem; max-width: 40rem; opacity: .75; margin: 0 0 1.5rem;';
+$def['.fjd-cta'] = 'display: flex; flex-wrap: wrap; gap: .75rem;';
+$def['.fjd-btn'] = 'display: inline-block; padding: .6rem 1.1rem; border-radius: .6rem; text-decoration: none; font-weight: 600; color: inherit; border: 1px solid color-mix(in srgb, currentColor 25%, transparent); transition: background .15s, transform .15s;';
+$def['.fjd-btn:hover'] = 'background: color-mix(in srgb, currentColor 10%, transparent);';
+$def['.fjd-btn-primary, .fjd-btn-primary:visited'] = 'background: var(--igk-link-color); border-color: var(--igk-link-color); color: #fff;';
+$def['.fjd-btn-primary:hover'] = 'background: var(--igk-link-color); filter: brightness(1.1);';
+$def['.fjd-btn-small'] = 'padding: .35rem .75rem; font-size: .85rem; margin-top: auto; align-self: flex-start;';
+$def['.fjd-stats'] = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1rem 0 2rem;';
+$def['.fjd-stat'] = 'display: flex; flex-direction: column; padding: 1rem 1.25rem; border-radius: .9rem; background: color-mix(in srgb, currentColor 6%, transparent); border: 1px solid color-mix(in srgb, currentColor 12%, transparent);';
+$def['.fjd-stat-value'] = 'font-size: 2rem; font-weight: 700; line-height: 1.1;';
+$def['.fjd-stat-label'] = 'font-size: .85rem; opacity: .7;';
+$def['.fjd-block'] = 'margin: 2.5rem 0;';
+$def['.fjd-block h2'] = 'font-size: 1.3rem; margin: 0 0 .5rem; padding-bottom: .4rem; border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent);';
+$def['.fjd-muted'] = 'opacity: .7; margin: 0 0 .75rem; font-size: .95rem;';
+$def['.fjd-grid'] = 'display: grid; gap: 1rem; margin-top: 1rem;';
+$def['.fjd-grid-menu'] = 'grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));';
+$def['.fjd-grid-interims'] = 'grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));';
+$def['.fjd-grid-tools'] = 'grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));';
+$def['.fjd-card'] = 'display: flex; flex-direction: column; gap: .5rem; padding: 1rem 1.1rem; border-radius: .9rem; text-decoration: none; color: inherit; background: color-mix(in srgb, currentColor 5%, transparent); border: 1px solid color-mix(in srgb, currentColor 12%, transparent); transition: transform .15s, border-color .15s;';
+$def['.fjd-card-link:hover'] = 'transform: translateY(-2px); border-color: var(--igk-link-color);';
+$def['.fjd-card-title'] = 'font-size: 1rem; font-weight: 600; margin: 0; text-transform: capitalize;';
+$def['.fjd-icon'] = 'font-size: 1.5rem; line-height: 1;';
+$def['.fjd-interim'] = 'flex-direction: row; align-items: center; gap: .75rem;';
+$def['.fjd-interim img'] = 'width: 32px; height: 32px; object-fit: contain; border-radius: .4rem; flex: none;';
+$def['.fjd-chips'] = 'display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem;';
+$def['.fjd-chip'] = 'padding: .35rem .85rem; border-radius: 999px; text-decoration: none; color: inherit; font-size: .9rem; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); transition: background .15s, border-color .15s;';
+$def['.fjd-chip:hover'] = 'border-color: var(--igk-link-color); background: color-mix(in srgb, var(--igk-link-color) 15%, transparent);';

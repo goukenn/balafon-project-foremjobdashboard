@@ -7,3 +7,5 @@ $l["title.offer"] = "Offer";
 
 $l['Download file'] = 'Download file';
 $l['external forms'] = 'External forms';
+$l['Job search workflow'] = 'Job search workflow';
+$l['Quick access'] = 'Quick access';
