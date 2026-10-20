@@ -8,6 +8,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobContacts;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDoctypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use com\igkdev\projects\ForemJobDashboard\Models\JobExternalForms;
 use com\igkdev\projects\ForemJobDashboard\Models\JobForemJobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobRegisterTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
@@ -198,6 +199,42 @@ $form->fields([
 $form->actionbar()->host(function ($a) use ($primaryBtnCls, $dangerBtnCls) {
     $a->submit('', __('update'))->setClass($primaryBtnCls);
     $a->submit('btn-delete', __('delete'))->setClass($dangerBtnCls);
+});
+
+// + | ------------------------------------------------
+// + | external site's forms (site domain + reference + url)
+// + |
+$colForms = $panelDetails->div()->setClass($cardCls . ' tw-mt-4');
+$colForms->h3()->setClass('tw-font-semibold tw-mb-2')->Content = __('external forms');
+foreach (JobExternalForms::select_all([JobExternalForms::FD_JOB_ID => $id]) ?: [] as $ef) {
+    $li = $colForms->div()->setClass('tw-flex tw-items-center tw-gap-3 tw-text-sm tw-mb-2');
+    $li->a()->setAttributes([
+        'href' => $ef->{JobExternalForms::FD_URL},
+        'target' => '_blank',
+        'rel' => 'noopener noreferrer',
+        'class' => 'tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline'
+    ])->Content = $ef->{JobExternalForms::FD_DOMAIN} . ($ef->{JobExternalForms::FD_REFERENCE} ? ' - ' . $ef->{JobExternalForms::FD_REFERENCE} : '');
+    if ($ef->{JobExternalForms::FD_NOTES}) {
+        $li->span()->setClass('tw-text-gray-500 dark:tw-text-gray-400')->Content = $ef->{JobExternalForms::FD_NOTES};
+    }
+    $df = $li->form();
+    $df['method'] = 'post';
+    $df['action'] = $ctrl::uri($fname . '/external_form/' . $id);
+    $df->input('hidden', 'delete_id', $ef->{JobExternalForms::FD_ID});
+    $df->submit('', __('delete'))->setClass('tw-text-red-600 dark:tw-text-red-400 hover:tw-underline');
+}
+$form = $colForms->form();
+$form->setClass('tw-space-y-4');
+$form['method'] = 'post';
+$form['action'] = $ctrl::uri($fname . '/external_form/' . $id);
+$form->fields([
+    'url' => ['type' => 'url', 'attribs' => $v_attribs],
+    'domain' => ['attribs' => $v_attribs],
+    'reference' => ['attribs' => $v_attribs],
+    'notes' => ['type' => 'textarea', 'attribs' => ['class' => $taCls . ' tw-min-h-[4rem]']],
+]);
+$form->actionbar()->host(function ($a) use ($primaryBtnCls) {
+    $a->submit('', __('add'))->setClass($primaryBtnCls);
 });
 
 $colDocs = $panelDocs->div()->setClass($cardCls);

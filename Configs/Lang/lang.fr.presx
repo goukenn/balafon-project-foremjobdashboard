@@ -35,3 +35,7 @@ $l['Generate one PDF containing every offer of the selected period.'] = 'Génèr
 $l['period.from'] = 'Du';
 $l['period.to'] = 'Au';
 $l['Generate PDF'] = 'Générer le PDF';
+
+$l['external forms'] = 'Formulaires externes';
+$l['url'] = 'URL du formulaire';
+$l['domain'] = 'Nom de domaine';

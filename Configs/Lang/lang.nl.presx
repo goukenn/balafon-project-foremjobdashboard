@@ -13,3 +13,7 @@ $l['period.from'] = 'Van';
 $l['period.to'] = 'Tot';
 $l['Generate PDF'] = 'PDF genereren';
 $l['No result found'] = 'Geen resultaat gevonden';
+
+$l['external forms'] = 'Externe formulieren';
+$l['url'] = 'Formulier-URL';
+$l['domain'] = 'Domeinnaam';

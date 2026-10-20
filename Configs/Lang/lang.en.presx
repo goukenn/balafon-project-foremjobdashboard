@@ -6,3 +6,4 @@ $l["title.default"] = "Home";
 $l["title.offer"] = "Offer";
 
 $l['Download file'] = 'Download file';
+$l['external forms'] = 'External forms';

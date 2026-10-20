@@ -191,6 +191,19 @@
 		<Column clName="value" clType="text" clDescription="message"></Column>
 		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
+	<DataDefinition TableName="%prefix%job_external_forms" Description="external site's form to fill for a job" Prefix="jef_">
+		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+		<Column clName="job_id" clType="Int" clNotNull="true"
+			clLinkType="%prefix%jobs" clLinkColumn="id" clDescription="job's reference id."></Column>
+		<Column clName="domain" clType="VarChar" clTypeLength="150" clNotNull="true"
+			clDescription="site's domain name (ex: linkedin.com)"></Column>
+		<Column clName="reference" clType="VarChar" clTypeLength="100"
+			clDescription="job's reference on the external site"></Column>
+		<Column clName="url" clType="VarChar" clTypeLength="500" clNotNull="true"
+			clDescription="form's url"></Column>
+		<Column clName="notes" clType="text" clDescription="free notes"></Column>
+		<GenColumn name="updateTime"></GenColumn>
+	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_doctypes" Description="Job's type of extra document"
 		Prefix="jdt_">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
