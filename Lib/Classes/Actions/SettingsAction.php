@@ -92,7 +92,7 @@ class SettingsAction extends ActionBase{
         // NB: getUserProfile()->user() returns this module's own JobUsers profile, not the
         // framework's session Users — auth_2fa_key lives on the latter (see DocsAction::drop_post
         // for the same distinction: $ctrl->getUser() vs JobUsers::GetCache(...)).
-        return $this->getUser() ?? igk_die('missing user', true, RequestResponseCode::Forbiden);
+        return $this->getUser() ?? igk_die('missing user', true, RequestResponseCode::Forbidden);
     }
 
     private function _pendingTwofaPayload(Users $user, string $secret): array

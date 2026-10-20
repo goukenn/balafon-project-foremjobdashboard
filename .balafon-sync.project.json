@@ -1,1 +1,7 @@
-{"ignoredirs":null,"leavedirs":null,"cleardirs":null}
+{"ignoredirs":
+    [
+        ".tests",
+        ".balafon",
+        "Data/store"
+    ],
+    "leavedirs":null,"cleardirs":null}

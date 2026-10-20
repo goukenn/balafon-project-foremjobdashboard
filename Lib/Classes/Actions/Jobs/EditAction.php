@@ -60,6 +60,10 @@ class EditAction extends ActionBase
     public function clear_docs_post(Jobs $job)
     {
         JobDocs::delete([JobDocs::FD_JOB_ID => $job->id]);
+        return $this->index($job);
+    }
+    public function clear_docs_get(){
+        igk_wln_e("clearing document.....");
     }
     /**
      * handle post index 
@@ -96,7 +100,7 @@ class EditAction extends ActionBase
             }
         }
 
-        return $this->index();
+        return $this->index($job);
     }
     public function docs(Jobs $job, $type = null, ?Request $request = null)
     {
