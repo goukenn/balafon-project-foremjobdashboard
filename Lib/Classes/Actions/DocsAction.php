@@ -56,7 +56,7 @@ class DocsAction extends MiddlewireActionBase
     public function drop_post(JobDocs $doc, ?Request $request = null)
     {
         $ctrl = $this->getController();
-        $user = $ctrl->getUser() ?? igk_die('missing user', true, RequestResponseCode::Forbiden);
+        $user = $ctrl->getUser() ?? igk_die('missing user', true, RequestResponseCode::Forbidden);
         $job_id = $doc->{JobDocs::FD_JOB_ID};
         $job = Jobs::GetCache(Jobs::FD_ID, $job_id);
         $can_drop = true;
@@ -94,7 +94,7 @@ class DocsAction extends MiddlewireActionBase
     {
         $ctrl = $this->getController();
         $type = $type ?? igk_getr('type') ?? $this->die(500, 'missing require document type');
-        $user = $this->currentUser() ?? $this->die(RequestResponseCode::Forbiden, 'current user is missing');
+        $user = $this->currentUser() ?? $this->die(RequestResponseCode::Forbidden, 'current user is missing');
         $fc_store = function ($job, $s, $responseType, $force_insert = false) {
             $cond = [
                 JobDocs::FD_JOB_ID => $job->id,

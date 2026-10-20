@@ -12,7 +12,7 @@ $def[':root']=[
 $def[$css_m.""] = "(:.google-Roboto) [bgcl:primary-bg-color] color: [cl:primary-color];"; 
 $def[$css_m." iframe"] = "color: orangered; border:none;"; 
 // + | selection color definition 
-$def[$css_m." ::selection"] = "[fcl:selector-color,white] [bgcl:selectio-bg-color, red]";
+$def[$css_m." ::selection"] = "[fcl:selector-color,white] [bgcl:selection-bg-color, red]";
 $key = $css_m.implode(','.$css_m, array_map(function($i){ return ' h'.$i;}, range(1,6)));
 $def[$key] = "(:.primary-header-font)";
 $def['.primary-header-font'] = 'font-family: arial, sans-serif';
@@ -48,3 +48,6 @@ $def['.menu li > a'] = '{sys:no-wrap ellipsis}';
 
 // $def['.fbj-edit-tabcontrol .igk-btn'] = 'border:initial; border-radius:initial;';
 $def['.igk-btn'] = 'border-width: 0px; border-radius: 0;';
+
+
+$def['.fs-\[8pt\]'] = 'font-size: 12pt;';

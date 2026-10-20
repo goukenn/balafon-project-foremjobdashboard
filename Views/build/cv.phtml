@@ -8,6 +8,11 @@ use com\igkdev\projects\ForemJobDashboard\UserConfigSetting;
 use function igk_resources_gets as __;
 use function igk_html_host as _h;
 
+/**
+ * @var mixed $ctrl
+ * @var mixed $t
+ */
+
 $this->checkUser(false);
 $user = $ctrl->getUserProfile();
 $tr = UserConfigSetting::DbUserSetting($user);
@@ -32,3 +37,10 @@ _h(
         _h('p', 'use %__word__% as placeholder')
     ),
 );
+
+$t->div()->setClass("text-red-200")->content = "Red Color";
+$t->div()->setClass("fs-12")->content = "Red Color";
+$t->div()->setClass("fs-[12pt] trans-all trans-2s")
+// ->on('click', ' this.addClass("fs:hover-[48pt]") ') // hover style 
+->on('click', ' this.addClass("fs:hover-[48pt]") ')
+->content = "click me";

@@ -67,7 +67,7 @@ _h(
 if ($r = $data->result) {
     $t->div()->container()->row()->col()->div()->host(function ($n, $uri) use ($data) {
         $r = $data->result;
-        $ul = $n->ul();
+        $ul = $n->ul()->setClass('gap-10 flex flex-column');
         foreach ($r as $row) {
             $is_closed = isset($row->status->{JobStatusTypes::FD_NAME}) && $row->status->{JobStatusTypes::FD_NAME} == StatusTypes::CLOSED;
             $needs_action = !$is_closed && !empty($row->{Jobs::FD_FOLLOW});
@@ -76,9 +76,14 @@ if ($r = $data->result) {
                 ? ' tw-text-red-600 dark:tw-text-red-400'
                 : ($needs_action ? ' tw-text-yellow-600 dark:tw-text-yellow-400' : ''));
             $li['href'] = $uri . '/edit/' . $row->{Jobs::FD_ID};
-            $li->span($row->{Jobs::FD_CREATE_AT});
-            $li->span($row->{Jobs::FD_TITLE});
-            $li->span(isset($row->enterprise->name) ? '- [' . $row->enterprise->name . ']' : '-');
+            $b = $li->span()->setClass('flex flex-column');
+            $_top = $b->div()->setClass('flex flex-row');
+            $_top->span($row->{Jobs::FD_CREATE_AT});
+            $_top->span($row->{Jobs::FD_TITLE});
+            $_top->span(isset($row->enterprise->name) ? '- [' . $row->enterprise->name . ']' : '-');
+            if ($_summary = $row->{Jobs::FD_SUMMARY}){
+                $b->div($_summary)->setClass('summary wrap fs-[8pt]');
+            }
         }
     }, $ctrl::uri($fname));
 }

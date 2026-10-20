@@ -11,12 +11,13 @@ use function igk_resources_gets as __;
  * @var mixed $t
  * @var mixed $ctrl
  * @var mixed $user
- * @var string $active_job_tab 'list'|'add'|'duplicates'
+ * @var string $active_job_tab 'list'|'add'|'duplicates'|'merge'
  */
 $job_tabs = [
     'list' => ['label' => __('list'), 'href' => $ctrl::uri('@/jobs')],
     'add' => ['label' => __('add'), 'href' => $ctrl::uri('@/jobs/add')],
     'duplicates' => ['label' => __('duplicates'), 'href' => $ctrl::uri('@/jobs/duplicates')],
+    'merge' => ['label' => __('merged PDF'), 'href' => $ctrl::uri('@/jobs/merge')],
 ];
 $job_tabs_nav = $t->nav();
 $job_tabs_nav->setClass('tw-flex tw-flex-row tw-gap-2 tw-mb-4 tw-border-b tw-border-gray-200 dark:tw-border-gray-700');

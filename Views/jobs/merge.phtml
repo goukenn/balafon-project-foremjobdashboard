@@ -1,0 +1,71 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: jobs/merge.phtml
+// @desc: choose a period and download one merged PDF of the offers.
+//        POST sub-action (build) dispatched with igk_view_handle_actions() - see CLAUDE.md
+//        ("POST sub-actions on a plain ActionBase").
+// @view: jobs/merge
+// @date: 20261020
+use com\igkdev\projects\ForemJobDashboard\Actions\Jobs\MergeAction;
+use IGK\System\Http\Request;
+use function igk_resources_gets as __;
+
+/**
+ * @var mixed $t
+ * @var mixed $ctrl
+ * @var string $fname
+ * @var mixed $params
+ */
+
+$bg_color = '#040809';
+if (!$ctrl->checkUser(false)) {
+    if ($ulogin = $ctrl->getConfigs()->{'app.default-user'}) {
+        $tuser = igk_get_user_bylogin($ulogin);
+        $ctrl::login($tuser, null, null);
+        $user = $ctrl->getUser();
+    }
+}
+if (!$user) {
+    igk_die('missing user');
+}
+include_once $ctrl::getViewDir() . '/.auth.pinc';
+
+igk_view_handle_actions($fname, [
+    'build' => function () use ($ctrl, $fname) {
+        $ok = MergeAction::CreateInstance($ctrl)->build_post(Request::getInstance());
+        if (!$ok) {
+            igk_navto($ctrl::uri($fname) . '?empty=1');
+        }
+    },
+], $params);
+
+$doc->title = sprintf('Job - %s - %s', __('merged PDF'), $ctrl->getAppTitle());
+$doc->setHeaderColor($bg_color);
+$doc->getbody()->setStyle('background-color: ' . $bg_color);
+$active_job_tab = 'merge';
+include $ctrl::getViewDir() . '/jobs/.tabs.pinc';
+
+$wrap = $t->section()->container()->row()->col()->div()->setClass('tw-max-w-lg');
+$wrap->h2()->setClass('tw-text-xl tw-font-bold tw-mb-2')->Content = __('merged PDF');
+$wrap->p()->setClass('tw-text-gray-600 dark:tw-text-gray-300 tw-mb-4')->Content =
+    __('Generate one PDF containing every offer of the selected period.');
+if (!empty($_GET['empty']) || Request::getInstance()->get('empty')) {
+    $wrap->div()->setClass('tw-bg-red-50 tw-border tw-border-red-200 tw-text-red-700 tw-text-sm tw-rounded-lg tw-px-4 tw-py-3 tw-mb-4')
+        ->Content = __('No result found');
+}
+$form = $wrap->form();
+$form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri($fname . '/build')]);
+$form->setClass('tw-space-y-4');
+foreach (['from' => date('Y-m-d', strtotime('-3 months')), 'to' => date('Y-m-d')] as $name => $default) {
+    $field = $form->div();
+    $field->label()->setClass('tw-block tw-text-sm tw-font-medium tw-mb-1')->Content = __('period.' . $name);
+    $field->input()->setAttributes([
+        'type' => 'date',
+        'name' => $name,
+        'value' => $default,
+        'required' => 'required',
+    ])->setClass('tw-w-full tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-600 tw-bg-white dark:tw-bg-gray-700 tw-px-3 tw-py-2');
+}
+$form->button()->setAttributes(['type' => 'submit'])
+    ->setClass('tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-semibold tw-px-4 tw-py-2 tw-rounded-lg tw-transition')
+    ->Content = __('Generate PDF');
