@@ -5,3 +5,11 @@
 
 $l["title.default"] = "Home";
 
+
+$l['Download file'] = 'Bestand downloaden';
+$l['merged PDF'] = 'Samengevoegde PDF';
+$l['Generate one PDF containing every offer of the selected period.'] = 'Genereert één PDF met alle aanbiedingen van de gekozen periode.';
+$l['period.from'] = 'Van';
+$l['period.to'] = 'Tot';
+$l['Generate PDF'] = 'PDF genereren';
+$l['No result found'] = 'Geen resultaat gevonden';
