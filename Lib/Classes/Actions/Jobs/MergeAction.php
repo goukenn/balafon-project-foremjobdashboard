@@ -10,6 +10,7 @@ use com\igkdev\projects\ForemJobDashboard\IO\OfferArchivePDF;
 use com\igkdev\projects\ForemJobDashboard\JobDocTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use com\igkdev\projects\ForemJobDashboard\Models\JobExternalForms;
 use com\igkdev\projects\ForemJobDashboard\Models\JobForemJobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes;
@@ -132,6 +133,15 @@ class MergeAction extends ActionBase
                     $docs_info[] = sprintf('Document réponse : %s (non intégré)', basename($r->path));
                 }
             }
+            $forms = [];
+            foreach (JobExternalForms::select_all([JobExternalForms::FD_JOB_ID => $row->id]) ?: [] as $ef) {
+                $forms[] = sprintf(
+                    '%s%s : %s',
+                    $ef->{JobExternalForms::FD_DOMAIN},
+                    $ef->{JobExternalForms::FD_REFERENCE} ? ' (ref. ' . $ef->{JobExternalForms::FD_REFERENCE} . ')' : '',
+                    $ef->{JobExternalForms::FD_URL}
+                );
+            }
             $pdf->addOffer([
                 'id' => $row->id,
                 'ref' => $fref ? $fref->reference : null,
@@ -142,6 +152,7 @@ class MergeAction extends ActionBase
                 'status' => $st ? (string)$st->{JobStatusTypes::FD_NAME} : '-',
                 'docs' => $docs,
                 'docs_info' => $docs_info,
+                'forms' => $forms,
                 'description' => (string)$row->description,
                 'response' => $response,
             ]);

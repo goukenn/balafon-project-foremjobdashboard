@@ -80,6 +80,7 @@ class OfferArchivePDF extends \FPDF
             'Source (De)' => $o['from'],
             'Statut' => $o['status'],
             'Documents sur la fiche' => $o['docs'] ? implode(' + ', $o['docs']) : 'aucun',
+            'Formulaire externe' => !empty($o['forms']) ? 'Oui' : 'Non',
         ];
         $w = $this->GetPageWidth() - 2 * self::MARGIN - self::LABEL_WIDTH;
         foreach ($rows as $k => $v) {
@@ -92,6 +93,12 @@ class OfferArchivePDF extends \FPDF
         }
         $this->heading("Description de l'offre");
         $this->body($o['description'] ?: "(description non disponible sur la fiche)");
+        if (!empty($o['forms'])) {
+            $this->heading('Formulaires externes');
+            foreach ($o['forms'] as $line) {
+                $this->body($line);
+            }
+        }
         if ($o['docs'] || $o['response']) {
             $this->heading('Documents liés à la candidature');
             foreach ($o['docs_info'] as $line) {
