@@ -7,7 +7,6 @@
 /**
  * @var mixed $t
  */
-use Faker\Provider\Lorem;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNode;
@@ -59,69 +58,104 @@ _h(
             _h('abtn.register', [$ctrl::uri('@/sign/register')], 'Register')
         )
 );
-$section = $t->add(_h('section[style:"min-height:520px;"]',));
-if ($r = $data->job_search_engines ?? []) {
-    $engines = [];
-    foreach ($r as $e) {
-        $engines[] = _h('div > a.pad-4', [$e->url, '__blank'], $e->name);
+// + | ------------------------------------------------
+// + | landing page: hero, quick access, search engines, interims, tools
+// + |
+$home = $t->add(_h('section.fjd-home'));
+$wrap = $home->div()->setClass('fjd-wrap');
+
+$hero = $wrap->div()->setClass('fjd-hero');
+$hero->p()->setClass('fjd-eyebrow')->Content = __('Job search workflow');
+$hero->h1()->Content = $ctrl->getConfigs()->clTitle ?? 'Forem Jobs Dashboard';
+$hero->p()->setClass('fjd-lead')->Content = __('Track offers, applications, enterprises and documents in one place.');
+$cta = $hero->div()->setClass('fjd-cta');
+if ($profile) {
+    $cta->a()->setAttributes(['href' => $ctrl::uri('@/jobs'), 'class' => 'fjd-btn fjd-btn-primary'])->Content = __('jobs');
+    $cta->a()->setAttributes(['href' => $ctrl::uri('@/jobs/add'), 'class' => 'fjd-btn'])->Content = __('add');
+} else {
+    $cta->a()->setAttributes(['href' => $ctrl::uri('@/login'), 'class' => 'fjd-btn fjd-btn-primary'])->Content = __('SignIn');
+}
+
+if (!empty($data->stats)) {
+    $stats = $wrap->div()->setClass('fjd-stats');
+    foreach ($data->stats as $label => $value) {
+        $st = $stats->div()->setClass('fjd-stat');
+        $st->span()->setClass('fjd-stat-value')->Content = (string)$value;
+        $st->span()->setClass('fjd-stat-label')->Content = __($label);
     }
-    $section->add(_h(
-        'container[style:"margin-bottom:2em"]',
-        _h('h2', __('Jobs search Engines')),
-        _h(
-            'div.dispflex.flex-row',
-            ...$engines
-        )
-    ));
 }
-$interims = [];
-$r = $data->interims ?? [];
-foreach ($r as $e) {
-    $img = new HtmlNode('img');
-    $img['src'] = $e->picture ?? Path::Combine($e->url, "favicon.ico");
-    $img['alt'] = '';
-    $img['height'] =
-        $img['width'] = '32';
-    $interims[] = _h('div > a.pad-4', [$e->url, '__blank'], _h('span',  $e->name, $img));
+
+$icons = [
+    'jobs' => '💼', 'update' => '🔄', 'exports' => '📤', 'zip' => '🗜️', 'motivation' => '✉️',
+    'cv' => '📄', 'enterprises' => '🏢', 'print-report' => '🖨️', 'about' => 'ℹ️',
+];
+$block = $wrap->div()->setClass('fjd-block');
+$block->h2()->Content = __('Quick access');
+$grid = $block->div()->setClass('fjd-grid fjd-grid-menu');
+foreach ($menus as $k => $v) {
+    if ($k == 'home') {
+        continue;
+    }
+    $card = $grid->a()->setAttributes(['href' => $ctrl::uri($v), 'class' => 'fjd-card fjd-card-link']);
+    $card->span()->setClass('fjd-icon')->Content = $icons[$k] ?? '•';
+    $card->span()->setClass('fjd-card-title')->Content = __($k);
 }
-$section->add(_h(
-    'container[style:"margin-bottom:2em"]',
-    _h('h2', 'interims'),
-    _h('p', 'retrieve all available interims at ', _h('a', ['https://federgon.be'], 'federgon')),
-    _h(
-        'div.dispflex.flex-row',
-        ...$interims
-    )
-));
-$v_rtools = $data->job_tools ??  [
+
+if ($r = $data->job_search_engines ?? []) {
+    $block = $wrap->div()->setClass('fjd-block');
+    $block->h2()->Content = __('Jobs search Engines');
+    $chips = $block->div()->setClass('fjd-chips');
+    foreach ($r as $e) {
+        $chips->a()->setAttributes([
+            'href' => $e->url, 'target' => '_blank', 'rel' => 'noopener noreferrer', 'class' => 'fjd-chip'
+        ])->Content = $e->name;
+    }
+}
+
+if ($r = $data->interims ?? []) {
+    $block = $wrap->div()->setClass('fjd-block');
+    $block->h2()->Content = __('interims');
+    $p = $block->p()->setClass('fjd-muted');
+    $p->Content = __('retrieve all available interims at ');
+    $p->a()->setAttributes(['href' => 'https://federgon.be', 'target' => '_blank', 'rel' => 'noopener noreferrer'])->Content = 'federgon';
+    $grid = $block->div()->setClass('fjd-grid fjd-grid-interims');
+    foreach ($r as $e) {
+        $card = $grid->a()->setAttributes([
+            'href' => $e->url, 'target' => '_blank', 'rel' => 'noopener noreferrer', 'class' => 'fjd-card fjd-card-link fjd-interim'
+        ]);
+        $img = $card->img();
+        $img['src'] = $e->picture ?? Path::Combine($e->url, "favicon.ico");
+        $img['alt'] = '';
+        $img['width'] = $img['height'] = '32';
+        $img['loading'] = 'lazy';
+        $img['onerror'] = "this.style.visibility='hidden'";
+        $card->span()->setClass('fjd-card-title')->Content = $e->name;
+    }
+}
+
+$v_rtools = $data->job_tools ?? [
     (object)[
         'title' => 'CV Maker',
         'desc' => 'Online CV Maker descriptions',
         'uri' => 'https://cv.adecco.be/fr/generator?utm_source=MyAdecco&utm_medium=Page4',
     ],
-     (object)[
+    (object)[
         'title' => 'ChatGPT-AI',
         'desc' => 'AI chat GPTss',
         'uri' => 'https://chatgpt.com',
     ],
 ];
-$tools = [];
+$block = $wrap->div()->setClass('fjd-block');
+$block->h2()->Content = __('Tools');
+$block->p()->setClass('fjd-muted')->Content = __('Tools In Used');
+$grid = $block->div()->setClass('fjd-grid fjd-grid-tools');
 foreach ($v_rtools as $row) {
-    $tools[] = _h(
-        'article',
-        _h('h2', $row->title),
-        _h('p', $row->desc),
-        isset($row->uri) ? _h('div.location', _h('a.link', [$row->uri, '__blank'], $row->uri)) : null
-    );
+    $card = $grid->div()->setClass('fjd-card');
+    $card->h3()->setClass('fjd-card-title')->Content = $row->title;
+    $card->p()->setClass('fjd-muted')->Content = $row->desc;
+    if (isset($row->uri)) {
+        $card->a()->setAttributes([
+            'href' => $row->uri, 'target' => '_blank', 'rel' => 'noopener noreferrer', 'class' => 'fjd-btn fjd-btn-small'
+        ])->Content = __('Open') . ' · ' . preg_replace('/^www\./i', '', (string)parse_url($row->uri, PHP_URL_HOST));
+    }
 }
-$section->add(
-    _h(
-        'container[style:"margin-bottom:2em"]',
-        _h('h2', __('Tools')),
-        _h('p', __('Tools In Used')),
-        _h(
-        'div.dispflex.flex-row.gap-10',
-        ...$tools
-        )
-    )
-);
