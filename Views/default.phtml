@@ -123,12 +123,12 @@ if ($r = $data->interims ?? []) {
         $card = $grid->a()->setAttributes([
             'href' => $e->url, 'target' => '_blank', 'rel' => 'noopener noreferrer', 'class' => 'fjd-card fjd-card-link fjd-interim'
         ]);
-        $img = $card->img();
+        $img = $card->img();//addNode('img');//img();
         $img['src'] = $e->picture ?? Path::Combine($e->url, "favicon.ico");
         $img['alt'] = '';
         $img['width'] = $img['height'] = '32';
-        $img['loading'] = 'lazy';
-        $img['onerror'] = "this.style.visibility='hidden'";
+        $img['loading'] = 'lazy'; 
+        $img['onerror'] = "this.style.visibility='hidden';";
         $card->span()->setClass('fjd-card-title')->Content = $e->name;
     }
 }

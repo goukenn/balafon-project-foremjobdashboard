@@ -4,12 +4,17 @@
 /**
  * @var mixed $css_m
  * @var mixed $def
+ * @var mixed $xsm_screen
+ * @var mixed $sm_screen
+ * @var mixed $lg_screen
+ * @var mixed $xlg_screen
+ * @var mixed $xxlg_screen
  */
 $def[':root']=[
     '--igk-link-visited-color'=> '#32760F',
     '--igk-link-color'=> '#4C9129',  
 ];
-$def[$css_m.""] = "(:.google-Roboto) [bgcl:primary-bg-color] color: [cl:primary-color];"; 
+$def[$css_m.""] = "{sys:fith} (:.google-Roboto) [bgcl:primary-bg-color] color: [cl:primary-color];"; 
 $def[$css_m." iframe"] = "color: orangered; border:none;"; 
 // + | selection color definition 
 $def[$css_m." ::selection"] = "[fcl:selector-color,white] [bgcl:selection-bg-color, red]";
@@ -170,7 +175,7 @@ unset($_scr);
 
 // + | header layout, wide screens: [ title | main menu | language + theme | connection ]
 // fixed bar height and one font size (.75rem) for every element, whatever the screen size
-$def['header'] = 'display:grid; grid-template-columns:minmax(0,max-content) minmax(0,1fr); align-items:center; column-gap:1.5rem; height:3.75rem; min-height:3.75rem; max-height:3.75rem; padding-top:0; padding-bottom:0; overflow:visible; font-size:.75rem; line-height:1;';
+$def['header'] = '{sys:possticky} display:grid; grid-template-columns:minmax(0,max-content) minmax(0,1fr); align-items:center; column-gap:1.5rem; height:3.75rem; min-height:3.75rem; max-height:3.75rem; padding-top:0; padding-bottom:0; overflow:visible; font-size:.75rem; line-height:1;';
 $def['header *'] = 'font-size:.75rem; line-height:1; box-sizing:border-box;';
 $def['header > div:first-child'] = 'display:flex; align-items:center; gap:.6rem; min-width:0; max-width:30vw; overflow:hidden;';
 $def['header img, header igk-img'] = 'width:2.5rem; height:2.5rem; flex:none;';
