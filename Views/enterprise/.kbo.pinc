@@ -1,0 +1,43 @@
+<?php
+// @desc: "Fetch from KBO" button for belgian enterprises (add/edit forms). expects $frm, $ctrl
+use function igk_resources_gets as __;
+
+$kbo = $frm->div()->setClass('kbo-lookup tw-my-3');
+$kbo->button()->setAttributes([
+    'type' => 'button',
+    'class' => 'igk-btn kbo-fetch tw-px-4 tw-py-2 tw-rounded-lg tw-bg-gray-200 dark:tw-bg-gray-700',
+    'data-uri' => $ctrl::uri('@/enterprise/kbo'),
+])->Content = __('Fetch from KBO');
+$kbo->span()->setClass('kbo-msg tw-ml-3 tw-text-sm')->setAttribute('role', 'status');
+$kbo->p()->setClass('tw-text-xs tw-text-gray-500 dark:tw-text-gray-400')->Content = __('Source: BCE/KBO public search (SPF Economie). Belgian enterprises only.');
+$msgs = json_encode([
+    'invalid' => __('Invalid Belgian enterprise number (VAT field).'),
+    'not_found' => __('Enterprise not found in the KBO.'),
+    'error' => __('KBO lookup failed, try again later.'),
+    'filled' => __('Fields filled from the KBO. Review then save.'),
+    'overwrite' => __('Fields already filled differ from the KBO. Click again to overwrite them.'),
+], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);
+$frm->script()->Content = <<<JS
+(function(){
+  var f = document.currentScript.closest('form'), btn = f.querySelector('.kbo-fetch'), msg = f.querySelector('.kbo-msg'), M = $msgs, pending = false;
+  var map = {title:'name', address:'address', locality:'locality', legal_form:'legal_form', phone:'phone', email:'email', website:'website', start_date:'start_date', kbo_status:'status', vat:'number'};
+  function field(n){ return f.querySelector('[name="'+n+'"]'); }
+  btn.addEventListener('click', function(){
+    var vat = field('vat'); msg.textContent = '';
+    var body = new FormData(); body.append('vat', vat.value);
+    btn.disabled = true;
+    fetch(btn.getAttribute('data-uri'), {method:'POST', body: body, credentials:'same-origin', headers:{'X-Requested-With':'XMLHttpRequest'}})
+      .then(function(r){ return r.json(); })
+      .then(function(r){
+        if (!r || !r.found){ msg.textContent = M[(r && r.error) || 'error'] || M.error; pending = false; return; }
+        var conflict = false;
+        Object.keys(map).forEach(function(k){ var e = field(k), v = r.data[map[k]]; if (e && v && e.value && e.value !== v) conflict = true; });
+        if (conflict && !pending){ pending = true; msg.textContent = M.overwrite; return; }
+        Object.keys(map).forEach(function(k){ var e = field(k), v = r.data[map[k]]; if (e && v && (!e.value || pending)) e.value = v; });
+        pending = false; msg.textContent = M.filled;
+      })
+      .catch(function(){ msg.textContent = M.error; })
+      .then(function(){ btn.disabled = false; });
+  });
+})();
+JS;

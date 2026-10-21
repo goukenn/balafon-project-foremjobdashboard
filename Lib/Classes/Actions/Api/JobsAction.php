@@ -44,7 +44,7 @@ class JobsAction extends ApiActionBase
                         'title' => $row->{Jobs::FD_TITLE},
                         'create_at' => $row->{Jobs::FD_CREATE_AT},
                         'enterprise' => $row->enterprise->name ?? null,
-                        'follow' => !empty($row->{Jobs::FD_FOLLOW}),
+                        'follow_at' => $row->{Jobs::FD_FOLLOW_AT},
                     ];
                 }, $rows)),
             ];

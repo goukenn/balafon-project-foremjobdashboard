@@ -18,8 +18,15 @@ $frm->fields([
     'locality',
     'share_capital' => ['type' => 'number', 'attribs' => ['step' => '0.01']],
     'turnover' => ['type' => 'number', 'attribs' => ['step' => '0.01']],
+    'legal_form',
+    'phone',
+    'email',
+    'website',
+    'start_date' => ['type' => 'date'],
+    'kbo_status' => ['attribs' => ['readonly' => 'readonly']],
     'description' => ['type' => 'textarea', 'maxlength' => 255],
 ]);
+include __DIR__ . '/.kbo.pinc';
 $frm->actionbar()->host(function ($a) {
     $a->submit('btn.add', __('add'))->setClass('dispib');
 });

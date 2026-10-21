@@ -440,8 +440,34 @@
 				<Column clDefaultNull="true" clName="turnover" clType="float" clDescription="annual turnover (chiffre d'affaires)"></Column>
 			</addColumn>
 		</Migration>
-
-
+		<Migration comment="next follow-up date of a job" date="2026-10-21">
+			<addColumn table="%prefix%jobs" after="follow">
+				<Column clName="follow_at" clType="Date" clDescription="next follow-up date. default +1 week"></Column>
+			</addColumn>
+		</Migration>
+		<Migration comment="enterprise's public registry (KBO/BCE) info" date="2026-10-21">
+			<addColumn table="%prefix%job_enterprises" after="turnover">
+				<Column clName="legal_form" clType="VarChar(100)" clDescription="legal form"></Column>
+			</addColumn>
+			<addColumn table="%prefix%job_enterprises" after="legal_form">
+				<Column clName="phone" clType="VarChar(50)"></Column>
+			</addColumn>
+			<addColumn table="%prefix%job_enterprises" after="phone">
+				<Column clName="email" clType="VarChar(150)"></Column>
+			</addColumn>
+			<addColumn table="%prefix%job_enterprises" after="email">
+				<Column clName="website" clType="VarChar(255)"></Column>
+			</addColumn>
+			<addColumn table="%prefix%job_enterprises" after="website">
+				<Column clName="start_date" clType="Date" clDescription="start date of the enterprise"></Column>
+			</addColumn>
+			<addColumn table="%prefix%job_enterprises" after="start_date">
+				<Column clName="kbo_status" clType="VarChar(30)" clDescription="status in the KBO/BCE"></Column>
+			</addColumn>
+			<addColumn table="%prefix%job_enterprises" after="kbo_status">
+				<Column clName="kbo_fetched_at" clType="DateTime" clDescription="last KBO/BCE import"></Column>
+			</addColumn>
+		</Migration>
 
 	</Migrations>
 

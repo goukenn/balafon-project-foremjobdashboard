@@ -9,6 +9,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\StatusTypes;
 use IGK\Actions\ActionBase;
 use IGK\Database\DbQueryCondition;
 use IGK\Helper\StringUtility;
@@ -65,6 +66,24 @@ class DefaultAction extends ActionBase
             ->conditions(
                 $cond
             )->execute()->to_array();
+        // + | jobs to follow up first (oldest follow-up date first), stable for the rest
+        $today = date('Y-m-d');
+        $due = function ($row) use ($today) {
+            $f = $row->{Jobs::FD_FOLLOW_AT};
+            $closed = isset($row->status->{JobStatusTypes::FD_NAME}) && $row->status->{JobStatusTypes::FD_NAME} == StatusTypes::CLOSED;
+            return (!$closed && $f && substr($f, 0, 10) <= $today) ? substr($f, 0, 10) : null;
+        };
+        $index = 0;
+        $keyed = array_map(function ($row) use ($due, &$index) {
+            return [$due($row), $index++, $row];
+        }, $r);
+        usort($keyed, function ($a, $b) {
+            if (($a[0] === null) !== ($b[0] === null)) {
+                return $a[0] === null ? 1 : -1;
+            }
+            return [$a[0], $a[1]] <=> [$b[0], $b[1]];
+        });
+        $r = array_column($keyed, 2);
         return [
             'create_at' => $create_at,
             'result' => $r,

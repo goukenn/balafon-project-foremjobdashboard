@@ -8,6 +8,7 @@ namespace com\igkdev\projects\ForemJobDashboard\Actions;
 use com\igkdev\projects\ForemJobDashboard\JobEnterpriseInfo;
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\Services\KboService;
 use Exception;
 use IGK\Actions\ApiActionBase;
 use IGK\Database\DbConstants;
@@ -111,6 +112,43 @@ class EnterpriseAction extends ApiActionBase
         return ['enterprise' => $enterprise];
     }
     /**
+     * look up a belgian enterprise in the public KBO/BCE registry. Nothing is stored here:
+     * the form is filled client side and saved by the user.
+     * @return mixed json {found: bool, error?: string, data?: array}
+     */
+    public function kbo_post(Request $request)
+    {
+        $ctrl = $this->getController();
+        if (!$ctrl->checkUser(false)) {
+            return $this->_json(['found' => false, 'error' => 'unauthorized'], 401);
+        }
+        $number = KboService::Normalize($request->getFormData()->vat);
+        if (!$number) {
+            return $this->_json(['found' => false, 'error' => 'invalid']);
+        }
+        $data = KboService::Fetch($number);
+        return $this->_json($data ? ['found' => true, 'data' => $data] : ['found' => false, 'error' => 'not_found']);
+    }
+    /**
+     * copy the KBO/BCE fields of a submitted form to the model
+     */
+    protected function _bindKbo(JobEnterprises $enterprise, $obj): void
+    {
+        $v = function ($k) use ($obj) {
+            $s = trim((string)$obj->$k);
+            return $s === '' ? null : $s;
+        };
+        $enterprise->{JobEnterprises::FD_LEGAL_FORM} = $v('legal_form');
+        $enterprise->{JobEnterprises::FD_PHONE} = $v('phone');
+        $enterprise->{JobEnterprises::FD_EMAIL} = $v('email');
+        $enterprise->{JobEnterprises::FD_WEBSITE} = $v('website');
+        $enterprise->{JobEnterprises::FD_START_DATE} = ($d = $v('start_date')) && strtotime($d) ? date('Y-m-d', strtotime($d)) : null;
+        $enterprise->{JobEnterprises::FD_KBO_STATUS} = $v('kbo_status');
+        if ($v('kbo_status') || $v('legal_form')) {
+            $enterprise->{JobEnterprises::FD_KBO_FETCHED_AT} = $v('kbo_fetched_at') ?: date('Y-m-d H:i:s');
+        }
+    }
+    /**
      * show add enterprise form
      * @return array
      */
@@ -137,6 +175,7 @@ class EnterpriseAction extends ApiActionBase
             $c->{JobEnterprises::FD_LOCALITY} = $obj->locality;
             $c->{JobEnterprises::FD_SHARE_CAPITAL} = $obj->share_capital !== '' ? $obj->share_capital : null;
             $c->{JobEnterprises::FD_TURNOVER} = $obj->turnover !== '' ? $obj->turnover : null;
+            $this->_bindKbo($c, $obj);
             $c->save();
             igk_navto($this->getController()::uri('@/enterprise/details/' . $c->id));
         }
@@ -167,6 +206,7 @@ class EnterpriseAction extends ApiActionBase
         $enterprise->{JobEnterprises::FD_LOCALITY} = $obj->locality;
         $enterprise->{JobEnterprises::FD_SHARE_CAPITAL} = $obj->share_capital !== '' ? $obj->share_capital : null;
         $enterprise->{JobEnterprises::FD_TURNOVER} = $obj->turnover !== '' ? $obj->turnover : null;
+        $this->_bindKbo($enterprise, $obj);
         $vat_warning = false;
         if ($obj->vat && !preg_match('/^BE0?\d{9,10}$/', str_replace([' ', '.'], '', strtoupper(trim($obj->vat))))) {
             $vat_warning = true;

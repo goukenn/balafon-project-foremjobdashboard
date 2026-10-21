@@ -23,6 +23,21 @@ use IGK\System\IO\Path;
  */
 class JobUtility
 {
+    const DEFAULT_FOLLOW_INTERVAL = '+1 week';
+    /**
+     * next follow-up date (Y-m-d): $from (default today) + interval
+     * @param null|string $interval strtotime relative format, invalid or empty falls back to +1 week
+     * @param null|string $from base date
+     */
+    public static function DefaultFollowAt(?string $interval = null, ?string $from = null): string
+    {
+        $base = ($from ? strtotime($from) : false) ?: time();
+        $t = $interval ? strtotime($interval, $base) : false;
+        if ($t === false || $t <= $base) {
+            $t = strtotime(self::DEFAULT_FOLLOW_INTERVAL, $base);
+        }
+        return date('Y-m-d', $t);
+    }
     /**
      * auto generate doc.
      * @param Jobs $job

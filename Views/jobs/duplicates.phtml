@@ -87,7 +87,7 @@ $t->script()->Content = <<<'JS'
             groups.forEach(function(g){
                 html += '<div class="duplicate-group"><ul>';
                 (g.items || []).forEach(function(it){
-                    var cls = 'dispflex flex-row gap-4' + (it.follow ? ' tw-text-yellow-600 dark:tw-text-yellow-400' : '');
+                    var cls = 'dispflex flex-row gap-4' + (it.follow_at && it.follow_at.substr(0, 10) <= new Date().toISOString().substr(0, 10) ? ' tw-text-yellow-600 dark:tw-text-yellow-400' : '');
                     html += '<li><a class="' + cls + '" href="' + cfg.editBase + it.id + '">'
                         + '<span>' + esc(it.create_at) + '</span>'
                         + '<span>' + esc(it.title) + '</span>'

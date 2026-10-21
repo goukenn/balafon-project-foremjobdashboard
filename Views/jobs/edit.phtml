@@ -191,6 +191,12 @@ $form->fields([
         'checked' => (bool)$row->{Jobs::FD_IS_IMPORTANT},
         'attribs' => ['class' => $checkCls]
     ],
+    'follow_at' => [
+        'type' => 'date',
+        'value' => $row->{Jobs::FD_FOLLOW_AT},
+        'label_text' => __('Follow-up date'),
+        'attribs' => $v_attribs
+    ],
     'identify' => [
         'value' => $row->{Jobs::FD_IDENTIFY},
         'attribs' => ['readonly', 'class' => $readonlyCls]
@@ -200,6 +206,11 @@ $form->actionbar()->host(function ($a) use ($primaryBtnCls, $dangerBtnCls) {
     $a->submit('', __('update'))->setClass($primaryBtnCls);
     $a->submit('btn-delete', __('delete'))->setClass($dangerBtnCls);
 });
+
+$snooze = $b->form();
+$snooze['method'] = 'post';
+$snooze['action'] = $ctrl::uri($fname . '/snooze/' . $id);
+$snooze->submit('', __('Snooze +1 week'))->setClass('tw-text-sm tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline');
 
 // + | ------------------------------------------------
 // + | external site's forms (site domain + reference + url)
