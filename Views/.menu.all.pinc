@@ -1,0 +1,22 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: .menu.all.pinc
+// @desc: every entry, used by the landing page 'Quick access'
+// @date: 20240904 08:59:55
+/**
+ * @var mixed $ctrl
+ */
+$default_ctrl = igk_get_defaultwebpagectrl();
+$is_default = $ctrl === $default_ctrl;
+return array_filter([
+        'home'=>$is_default ? null: igk_io_baseuri(),
+        'jobs' => '@/jobs',
+        'update' => '@/update',
+        'exports' => '@/jobs/exports',
+        'zip' => '/jobs/archive',
+        'motivation' => '@/build/motivation',
+        'cv' => '@/build/cv',
+        'enterprises' => '@/enterprise',
+        'print-report'=>'@/capsulate',
+        'about' => '@/about' 
+    ]);

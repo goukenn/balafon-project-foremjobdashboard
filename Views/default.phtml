@@ -92,7 +92,7 @@ $icons = [
 $block = $wrap->div()->setClass('fjd-block');
 $block->h2()->Content = __('Quick access');
 $grid = $block->div()->setClass('fjd-grid fjd-grid-menu');
-foreach ($menus as $k => $v) {
+foreach (include(ViewHelper::Dir() . '/.menu.all.pinc') as $k => $v) {
     if ($k == 'home') {
         continue;
     }

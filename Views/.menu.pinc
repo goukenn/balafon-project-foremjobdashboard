@@ -1,21 +1,13 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: .menu.pinc
+// @desc: header menu only: entries already reachable from 'Quick access' (see .menu.all.pinc) are left out
 // @date: 20240904 08:59:55
 /**
  * @var mixed $ctrl
  */
 $default_ctrl = igk_get_defaultwebpagectrl();
 $is_default = $ctrl === $default_ctrl;
-return array_filter([
-        'home'=>$is_default ? null: igk_io_baseuri(),
-        'jobs' => '@/jobs',
-        'update' => '@/update',
-        'exports' => '@/jobs/exports',
-        'zip' => '/jobs/archive',
-        'motivation' => '@/build/motivation',
-        'cv' => '@/build/cv',
-        'enterprises' => '@/enterprise',
-        'print-report'=>'@/capsulate',
-        'about' => '@/about' 
-    ]);
+$all = include __DIR__ . '/.menu.all.pinc';
+// + | kept in the header: home, about and the main pages
+return array_intersect_key($all, array_flip(['home', 'jobs', 'enterprises', 'cv', 'about']));
