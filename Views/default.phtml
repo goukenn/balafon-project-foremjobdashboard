@@ -39,7 +39,7 @@ _h(
 $menus = include(ViewHelper::Dir() . '/.menu.pinc');
 if (!($profile = $ctrl->getUserProfile())) {
 }
-$list = igk_create_node_arg("ul.dispflex.flex-row.gap-4.alignr");
+$list = igk_create_node_arg("ul.dispflex.flex-row.gap-4.alignr.no-wrap.ellipsis.no-shrink");
 foreach ($menus as $k => $v) {
     $a = $list->li()->a($ctrl::uri($v));
     $a->setContent($k);
