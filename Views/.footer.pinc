@@ -25,4 +25,4 @@ $def['.dispsticky'] = '{sys:dispsticky}';
 $def['.dispb'] = '{sys:dispb}';
 $def['.dispn'] = '{sys:dispn}';
 
-$def::ImportSystemDefinition($def, ['igk-container']);
+$def::ImportSystemDefinition($def, ['igk-container', 'no-wrap','no-shrink', 'ellipsis', 'no-overflow']);

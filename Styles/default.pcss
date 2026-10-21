@@ -120,7 +120,7 @@ $def['.fjd-burger span'] = 'display:block; width:22px; height:2px; background:cu
 $def['.fjd-menu-check:checked ~ .fjd-burger span:nth-child(1)'] = 'transform:translateY(6px) rotate(45deg);';
 $def['.fjd-menu-check:checked ~ .fjd-burger span:nth-child(2)'] = 'opacity:0;';
 $def['.fjd-menu-check:checked ~ .fjd-burger span:nth-child(3)'] = 'transform:translateY(-6px) rotate(-45deg);';
-foreach ([&$xsm_screen, &$sm_screen] as &$_scr) {
+foreach ([&$xsm_screen, &$sm_screen, &$lg_screen] as &$_scr) {
     $_scr['header'] = 'position:relative; flex-wrap:nowrap;';
     $_scr['header > div:first-child'] = 'min-width:0; flex:1 1 auto; gap:.5rem;';
     $_scr['header h2'] = 'display:block; flex-shrink:1; min-width:0; margin:0; font-size:1rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
@@ -160,7 +160,7 @@ $def['header .fjd-lang select:hover, header .fjd-lang select:focus'] = 'outline:
 $def['header .igk-winui-toggle-theme'] = 'background:rgba(0,216,255,.1); border:1px solid rgba(0,216,255,.4); border-radius:.5rem; color:#dbe7ff; transition:box-shadow .2s;';
 $def['header .igk-winui-toggle-theme:hover'] = 'box-shadow:0 0 14px rgba(0,216,255,.45);';
 $def['.fjd-burger span'] = 'background:#00d8ff; box-shadow:0 0 6px rgba(0,216,255,.7);';
-foreach ([&$xsm_screen, &$sm_screen] as &$_scr) {
+foreach ([&$xsm_screen, &$sm_screen, &$lg_screen] as &$_scr) {
     $_scr['header nav .menu-host'] = 'display:none; position:absolute; left:0; right:0; top:100%; z-index:20; flex:none; padding:.5rem clamp(1rem, 3vw, 2.5rem) 1rem; background:linear-gradient(180deg, rgba(8,14,32,.97), rgba(18,28,64,.97)); backdrop-filter:blur(14px); border-bottom:1px solid rgba(0,200,255,.35); box-shadow:0 12px 24px rgba(0,0,0,.4);';
     $_scr['header nav .menu-host li'] = 'border-top:1px solid rgba(0,216,255,.12);';
     $_scr['header nav .menu-host li > a'] = 'display:block; padding:.85rem .5rem; font-size:.85rem; border-radius:0;';
@@ -168,22 +168,33 @@ foreach ([&$xsm_screen, &$sm_screen] as &$_scr) {
 }
 unset($_scr);
 
-// + | header layout, wide screens: 4 zones  [ title | main menu | language + theme | connection ]
-$def['header'] = 'display:grid; grid-template-columns:auto minmax(0,1fr) auto auto; align-items:center; column-gap:clamp(.75rem, 2vw, 2rem);';
-$def['header > nav, header .menu-host, header .fjd-nav-tools'] = 'display:contents;';
+// + | header layout, wide screens: [ title | main menu | language + theme | connection ]
+// fixed bar height and one font size (.75rem) for every element, whatever the screen size
+$def['header'] = 'display:grid; grid-template-columns:minmax(0,max-content) minmax(0,1fr); align-items:center; column-gap:1.5rem; height:3.75rem; min-height:3.75rem; max-height:3.75rem; padding-top:0; padding-bottom:0; overflow:visible; font-size:.75rem; line-height:1;';
+$def['header *'] = 'font-size:.75rem; line-height:1; box-sizing:border-box;';
+$def['header > div:first-child'] = 'display:flex; align-items:center; gap:.6rem; min-width:0; max-width:30vw; overflow:hidden;';
+$def['header img, header igk-img'] = 'width:2.5rem; height:2.5rem; flex:none;';
+$def['header h2'] = 'margin:0; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex-shrink:1; letter-spacing:.12em;';
+$def['header > nav'] = 'display:flex; align-items:center; min-width:0; height:100%;';
+$def['header .menu-host'] = 'display:grid; grid-template-columns:minmax(0,1fr) max-content max-content; align-items:center; column-gap:.75rem; width:100%; min-width:0; height:100%;';
 $def['header .fjd-burger'] = 'display:none;';
-$def['header .menu-host > ul.menu'] = 'grid-column:2; justify-content:center; flex-wrap:wrap;';
-$def['header .fjd-nav-prefs'] = 'display:flex; grid-column:3; align-items:center; gap:.5rem; padding:0 1rem; border-left:1px solid rgba(0,216,255,.25); border-right:1px solid rgba(0,216,255,.25);';
-$def['header .fjd-nav-auth'] = 'display:flex; grid-column:4; align-items:center; justify-content:flex-end; min-width:6rem;';
-foreach ([&$xsm_screen, &$sm_screen] as &$_scr) {
+$def['header .menu-host ul'] = 'display:flex; flex-wrap:nowrap; align-items:center; justify-content:center; gap:.1rem; margin:0; padding:0; min-width:0; overflow:hidden;';
+$def['header .menu li'] = 'flex:0 0 auto; white-space:nowrap;';
+$def['header .menu li > a, header nav .menu li a, header nav.menu li > a'] = 'display:inline-block; padding:.5rem .6rem; letter-spacing:.1em; white-space:nowrap;';
+$def['header .fjd-nav-prefs'] = 'display:flex; align-items:center; gap:.4rem; padding:0 .75rem; border-left:1px solid rgba(0,216,255,.25); border-right:1px solid rgba(0,216,255,.25); height:2rem;';
+$def['header .fjd-nav-prefs select, header .fjd-nav-prefs button'] = 'height:2rem; padding:0 .5rem; margin:0; display:inline-flex; align-items:center;';
+$def['header .fjd-nav-auth'] = 'display:flex; align-items:center; justify-content:flex-end; min-width:0; white-space:nowrap;';
+$def['header .fjd-nav-auth span, header .fjd-nav-auth a, header .fjd-nav-auth div'] = 'max-width:11rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
+foreach ([&$xsm_screen, &$sm_screen, &$lg_screen] as &$_scr) {
     $_scr['header'] = 'display:flex; flex-wrap:nowrap; justify-content:space-between;';
-    $_scr['header > nav'] = 'display:flex;';
-    $_scr['header .menu-host'] = 'display:none;';
-    $_scr['.fjd-menu-check:checked ~ .menu-host'] = 'display:block;';
-    $_scr['header .fjd-nav-tools'] = 'display:flex; flex-direction:column; align-items:stretch; gap:.75rem;';
-    $_scr['header .menu-host > ul.menu'] = 'grid-column:auto;';
+    $_scr['header > div:first-child'] = 'flex:1 1 auto; max-width:none;';
+    $_scr['header > nav'] = 'flex:0 0 auto;';
+    $_scr['header .menu-host'] = 'display:none; grid-template-columns:none; height:auto;';
+    $_scr['.fjd-menu-check:checked ~ .menu-host'] = 'display:flex; flex-direction:column; align-items:stretch; gap:.75rem;';
+    $_scr['header .menu-host ul'] = 'flex-direction:column; align-items:stretch; overflow:visible;';
     $_scr['header .fjd-burger'] = 'display:flex;';
-    $_scr['header .fjd-nav-prefs'] = 'grid-column:auto; padding:0; border:0; justify-content:space-between;';
-    $_scr['header .fjd-nav-auth'] = 'grid-column:auto; justify-content:flex-start;';
+    $_scr['header .fjd-nav-prefs'] = 'padding:.75rem 0 0; border:0; border-top:1px solid rgba(0,216,255,.15); justify-content:space-between; height:auto;';
+    $_scr['header .fjd-nav-auth'] = 'justify-content:flex-start;';
+    $_scr['header .fjd-nav-auth .box'] = 'position:static; display:block; box-shadow:none; border:0; background:transparent;';
 }
 unset($_scr);
