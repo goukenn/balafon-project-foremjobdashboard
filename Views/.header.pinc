@@ -12,6 +12,7 @@ use function igk_html_host as _h;
  * @var mixed $t
  * @var mixed $modules
  * @var mixed $fname
+ * @var mixed $layout
  */
 $resolver = IGKResourceUriResolver::getInstance();
 $asset_dir = $ctrl->getDataDir() . '/assets';
@@ -101,3 +102,5 @@ $ctrl->setEnvParam('header', (object)[
     'nav'=> $nav
 ]);
  
+// igk_wln_e((new ReflectionClass(get_class($layout)))->getFileName());
+$layout->attachScrollTo($doc, $t);
