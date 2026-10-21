@@ -84,3 +84,10 @@ $def['.fjd-interim img'] = 'width: 32px; height: 32px; object-fit: contain; bord
 $def['.fjd-chips'] = 'display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem;';
 $def['.fjd-chip'] = 'padding: .35rem .85rem; border-radius: 999px; text-decoration: none; color: inherit; font-size: .9rem; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); transition: background .15s, border-color .15s;';
 $def['.fjd-chip:hover'] = 'border-color: var(--igk-link-color); background: color-mix(in srgb, var(--igk-link-color) 15%, transparent);';
+
+// + | header: let the menu wrap instead of overflowing horizontally
+$def['header.dispflex'] = 'flex-wrap: wrap; row-gap: .5rem;';
+$def['header > nav'] = 'flex: 1 1 0; min-width: 0; flex-wrap: wrap; justify-content: flex-end;';
+$def['header nav.menu-host, header .menu-host'] = 'min-width: 0; flex: 1 1 0;';
+$def['header ul.menu, header .dispflex.flex-row.alignr'] = 'flex-wrap: wrap; justify-content: flex-end; min-width: 0;';
+$def['header .menu li > a'] = 'white-space: nowrap;';
