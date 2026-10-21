@@ -22,8 +22,15 @@ $frm->fields([
     'locality' => ['value' => $enterprise->locality],
     'share_capital' => ['type' => 'number', 'value' => $enterprise->share_capital, 'attribs' => ['step' => '0.01']],
     'turnover' => ['type' => 'number', 'value' => $enterprise->turnover, 'attribs' => ['step' => '0.01']],
+    'legal_form' => ['value' => $enterprise->legal_form],
+    'phone' => ['value' => $enterprise->phone],
+    'email' => ['value' => $enterprise->email],
+    'website' => ['value' => $enterprise->website],
+    'start_date' => ['type' => 'date', 'value' => $enterprise->start_date],
+    'kbo_status' => ['value' => $enterprise->kbo_status, 'attribs' => ['readonly' => 'readonly']],
     'description' => ['type' => 'textarea', 'maxlength' => 255, 'value' => $enterprise->description],
 ]);
+include __DIR__ . '/.kbo.pinc';
 $frm->actionbar()->host(function ($a) {
     $a->submit('btn.save', __('save'))->setClass('dispib');
 });

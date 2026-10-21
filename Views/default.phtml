@@ -85,6 +85,30 @@ if (!empty($data->stats)) {
     }
 }
 
+if (!empty($data->sources)) {
+    $palette = ['#4f8ef7', '#f7a44f', '#4fc98a', '#e05d8c', '#9b6ef3', '#e5c84a', '#4fc3d9', '#8a8f98'];
+    $total = array_sum($data->sources);
+    $acc = 0;
+    $stops = [];
+    $i = 0;
+    $block = $wrap->div()->setClass('fjd-block');
+    $block->h2()->Content = __('Offers by source');
+    $chart = $block->div()->setClass('fjd-pie-wrap');
+    $legend = $chart->ul()->setClass('fjd-legend');
+    foreach ($data->sources as $name => $count) {
+        $color = $palette[$i++ % count($palette)];
+        $from = $acc / $total * 100;
+        $acc += $count;
+        $stops[] = sprintf('%s %s%% %s%%', $color, round($from, 2), round($acc / $total * 100, 2));
+        $li = $legend->li();
+        $li->span()->setClass('fjd-dot')->setStyle('background:' . $color);
+        $li->span()->Content = __($name) . ' — ' . $count . ' (' . round($count / $total * 100) . '%)';
+    }
+    $pie = $chart->div()->setClass('fjd-pie')->setStyle('background: conic-gradient(' . implode(', ', $stops) . ')');
+    $pie['role'] = 'img';
+    $pie['aria-label'] = __('Offers by source');
+}
+
 $icons = [
     'jobs' => '💼', 'update' => '🔄', 'exports' => '📤', 'zip' => '🗜️', 'motivation' => '✉️',
     'cv' => '📄', 'enterprises' => '🏢', 'print-report' => '🖨️', 'about' => 'ℹ️',

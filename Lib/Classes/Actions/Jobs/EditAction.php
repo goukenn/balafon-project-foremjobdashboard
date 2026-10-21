@@ -7,6 +7,7 @@ namespace com\igkdev\projects\ForemJobDashboard\Actions\Jobs;
 
 use com\igkdev\projects\ForemJobDashboard\Actions\DocsAction;
 use com\igkdev\projects\ForemJobDashboard\ContactDataInfo;
+use com\igkdev\projects\ForemJobDashboard\Helpers\JobUtility;
 use com\igkdev\projects\ForemJobDashboard\Models\JobContacts;
 use com\igkdev\projects\ForemJobDashboard\Models\JobDocs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobExternalForms;
@@ -95,6 +96,10 @@ class EditAction extends ActionBase
             $row->{Jobs::FD_CATEGORY_ID} = $obj->category;
             $row->{Jobs::FD_TYPE_ID} = $obj->regtype;
             $row->{Jobs::FD_IS_IMPORTANT} = $obj->is_important ? 1 : 0;
+            if ($obj->follow_at !== null) {
+                $f = trim((string)$obj->follow_at);
+                $row->{Jobs::FD_FOLLOW_AT} = ($f !== '' && strtotime($f)) ? date('Y-m-d', strtotime($f)) : null;
+            }
             $row->save();
             if ($obj->forem_ref) {
                 $row->attachForemReference($obj->forem_ref);
@@ -102,6 +107,20 @@ class EditAction extends ActionBase
         }
 
         return $this->index($job);
+    }
+    /**
+     * push the follow-up date back by the default interval (from today)
+     */
+    public function snooze(Jobs $job, ?Request $request = null)
+    {
+        if (!$request->method('POST')) {
+            return;
+        }
+        $ctrl = $this->getController();
+        $fname = ViewHelper::GetViewArgs('fname');
+        $job->{Jobs::FD_FOLLOW_AT} = JobUtility::DefaultFollowAt();
+        $job->save();
+        igk_navto($ctrl::uri($fname . '/' . $job->{Jobs::FD_ID}));
     }
     public function docs(Jobs $job, $type = null, ?Request $request = null)
     {

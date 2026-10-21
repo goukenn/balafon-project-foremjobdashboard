@@ -65,22 +65,29 @@ _h(
 );
 
 if ($r = $data->result) {
-    $t->div()->container()->row()->col()->div()->host(function ($n, $uri) use ($data) {
+    $today = date('Y-m-d');
+    $t->div()->container()->row()->col()->div()->host(function ($n, $uri) use ($data, $today) {
         $r = $data->result;
         $ul = $n->ul()->setClass('gap-10 flex flex-column');
         foreach ($r as $row) {
             $is_closed = isset($row->status->{JobStatusTypes::FD_NAME}) && $row->status->{JobStatusTypes::FD_NAME} == StatusTypes::CLOSED;
-            $needs_action = !$is_closed && !empty($row->{Jobs::FD_FOLLOW});
+            $follow_at = $row->{Jobs::FD_FOLLOW_AT} ? substr($row->{Jobs::FD_FOLLOW_AT}, 0, 10) : null;
+            $needs_action = !$is_closed && $follow_at && $follow_at <= $today;
+            $overdue = $needs_action && $follow_at < $today;
             $li = $ul->li()->a();
             $li['class'] = 'dispflex flex-row gap-4' . ($is_closed
                 ? ' tw-text-red-600 dark:tw-text-red-400'
-                : ($needs_action ? ' tw-text-yellow-600 dark:tw-text-yellow-400' : ''));
+                : ($overdue ? ' tw-text-orange-600 dark:tw-text-orange-400 tw-font-semibold'
+                    : ($needs_action ? ' tw-text-yellow-600 dark:tw-text-yellow-400 tw-font-semibold' : '')));
             $li['href'] = $uri . '/edit/' . $row->{Jobs::FD_ID};
             $b = $li->span()->setClass('flex flex-column');
             $_top = $b->div()->setClass('flex flex-row');
             $_top->span($row->{Jobs::FD_CREATE_AT});
             $_top->span($row->{Jobs::FD_TITLE});
             $_top->span(isset($row->enterprise->name) ? '- [' . $row->enterprise->name . ']' : '-');
+            if ($needs_action) {
+                $_top->span('⏰ ' . __('Follow up') . ' ' . $follow_at)->setClass('tw-text-xs');
+            }
             if ($_summary = $row->{Jobs::FD_SUMMARY}){
                 $b->div($_summary)->setClass('summary wrap fs-[8pt]');
             }

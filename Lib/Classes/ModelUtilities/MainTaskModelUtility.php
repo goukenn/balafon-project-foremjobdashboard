@@ -94,6 +94,7 @@ class MainTaskModelUtility extends IGKDbModelUtility
             Jobs::FD_SUMMARY => null,
             Jobs::FD_PATH => '',
             Jobs::FD_PRINTABLE => 1,
+            Jobs::FD_FOLLOW_AT => JobUtility::DefaultFollowAt(),
             Jobs::FD_CREATE_AT => $date,
             Jobs::FD_UPDATE_AT => $date
         ];

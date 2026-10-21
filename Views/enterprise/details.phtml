@@ -35,6 +35,16 @@ if ($enterprise->turnover !== null) {
     $dl->dt()->Content = ucfirst(__('turnover'));
     $dl->dd()->Content = $enterprise->turnover;
 }
+foreach (['legal_form', 'phone', 'email', 'website', 'start_date', 'kbo_status'] as $k) {
+    if ($enterprise->$k) {
+        $dl->dt()->Content = ucfirst(__($k));
+        $dl->dd()->Content = $enterprise->$k;
+    }
+}
+if ($enterprise->kbo_fetched_at) {
+    $col->div()->setClass('tw-text-xs tw-text-gray-500 dark:tw-text-gray-400')->Content =
+        __('Source: BCE/KBO public search (SPF Economie)') . ' - ' . $enterprise->kbo_fetched_at;
+}
 if ($enterprise->description) {
     $col->div()->Content = $enterprise->description;
 }
