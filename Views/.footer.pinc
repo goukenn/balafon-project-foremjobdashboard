@@ -3,16 +3,22 @@
 // @file: .footer.pinc
 // @date: 20240904 08:59:55
 
+use function igk_resources_gets as __;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocTheme;
 /**
  * footer 
  * @var mixed $t
  * @var HtmlDocTheme $def
+ * @var ForemDashboadController $ctrl
  */
 
 
-$t->footer()->container()->igkcopyright(); 
+$footer = $t->footer()->container()->row();
+$footer->col()->igkcopyright();
+$legal = $footer->col()->nav()->setClass('legal-links');
+$legal->a()->setAttributes(['href' => $ctrl::uri('@/terms')])->Content = __('Terms of use');
+$legal->a()->setAttributes(['href' => $ctrl::uri('@/privacy')])->Content = __('Privacy');
 
 
 $def['.dispsticky'] = '{sys:dispsticky}';

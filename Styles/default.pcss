@@ -20,7 +20,6 @@ $def['.primary-header-font'] = 'font-family: arial, sans-serif';
 $def['.igk-winui-breadcrumb'] = '{sys:dispib, no-wrap}';
 $def['.igk-winui-breadcrumb li'] = '{sys:dispib,alignt} ';
 $def['.igk-winui-breadcrumb li:not(:last-child):after'] = 'content: "/";padding:8px 5px;';
-$def['footer'] = '{sys:loc_b fitw} margin-top: 2em;';
 $def['a'] = 'color: var(--igk-link-color);';
 $def['a:visited'] = ''; //color: var(--igk-link-color);';
 
@@ -90,4 +89,101 @@ $def['header.dispflex'] = 'flex-wrap: wrap; row-gap: .5rem;';
 $def['header > nav'] = 'flex: 1 1 0; min-width: 0; flex-wrap: wrap; justify-content: flex-end;';
 $def['header nav.menu-host, header .menu-host'] = 'min-width: 0; flex: 1 1 0;';
 $def['header ul.menu, header .dispflex.flex-row.alignr'] = 'flex-wrap: wrap; justify-content: flex-end; min-width: 0;';
-$def['header .menu li > a'] = 'white-space: nowrap;';
+$def['header .menu li'] = 'white-space: nowrap; flex: 0 0 auto;';
+$def['header .menu li > a, header nav .menu li a, header nav.menu li > a'] = 'white-space: nowrap; font-size: .85rem; padding: 8px 8px;';
+
+$def['footer'] = '{sys:loc_b fitw} margin-top: 2em; font-size:.75rem; line-height:1.4; opacity:.85;';
+$def['footer .igk-row'] = '{sys:dispflex} flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5em 1.5em; padding:.75em 0; border-top:1px solid rgba(128,128,128,.25);';
+$def['footer .igk-col'] = 'width:auto; flex:0 0 auto; padding:0; margin:0;';
+$def['footer .igk-copyright'] = 'font-size:inherit; margin:0; padding:0;';
+$def['footer .legal-links'] = '{sys:dispflex} align-items:center; gap:1.25em; font-size:inherit;';
+$def['footer .legal-links a'] = 'font-size:inherit; padding:0; margin:0; color:inherit; text-decoration:none;';
+$def['footer .legal-links a:hover'] = 'text-decoration:underline; color:var(--igk-link-color);';
+
+// + | legal pages (terms / privacy), newsletter style
+$def['.legal-page'] = 'max-width:42rem; margin:0 auto; padding:2.5rem 1.25rem 1rem; line-height:1.7; font-size:1.05rem;';
+$def['.legal-head'] = 'text-align:center; padding-bottom:1.75rem; margin-bottom:2rem; border-bottom:3px double rgba(128,128,128,.4);';
+$def['.legal-eyebrow'] = 'text-transform:uppercase; letter-spacing:.18em; font-size:.75rem; opacity:.65; margin-bottom:.75rem;';
+$def['.legal-head h1'] = 'font-family:Georgia,"Times New Roman",serif; font-size:2.4rem; line-height:1.15; margin:0 0 .6rem;';
+$def['.legal-date'] = 'font-size:.85rem; opacity:.65; font-style:italic;';
+$def['.legal-body'] = 'counter-reset:legal;';
+$def['.legal-body .legal-lead'] = 'font-size:1.2rem; font-family:Georgia,serif; opacity:.9; margin-bottom:2rem;';
+$def['.legal-body h3'] = 'counter-increment:legal; font-family:Georgia,serif; font-size:1.25rem; margin:2rem 0 .5rem; padding-top:1rem; border-top:1px solid rgba(128,128,128,.25);';
+$def['.legal-body h3:before'] = 'content:counter(legal, decimal-leading-zero); margin-right:.75rem; font-size:.8rem; letter-spacing:.1em; color:var(--igk-link-color); font-family:arial,sans-serif;';
+$def['.legal-body h3:last-of-type + p'] = 'padding:1rem 1.25rem; border-left:4px solid var(--igk-link-color); background:rgba(128,128,128,.1); border-radius:0 6px 6px 0;';
+$def['.legal-back'] = 'text-align:center; margin-top:2.5rem; font-size:.9rem;';
+
+// + | mobile menu: burger hidden on wide screens
+$def['.fjd-menu-check'] = 'position:absolute; opacity:0; pointer-events:none; width:0; height:0;';
+$def['.fjd-burger'] = 'display:none; cursor:pointer; padding:10px; flex-direction:column; gap:4px; order:3;';
+$def['.fjd-burger span'] = 'display:block; width:22px; height:2px; background:currentColor; border-radius:2px; transition:transform .2s, opacity .2s;';
+$def['.fjd-menu-check:checked ~ .fjd-burger span:nth-child(1)'] = 'transform:translateY(6px) rotate(45deg);';
+$def['.fjd-menu-check:checked ~ .fjd-burger span:nth-child(2)'] = 'opacity:0;';
+$def['.fjd-menu-check:checked ~ .fjd-burger span:nth-child(3)'] = 'transform:translateY(-6px) rotate(-45deg);';
+foreach ([&$xsm_screen, &$sm_screen] as &$_scr) {
+    $_scr['header'] = 'position:relative; flex-wrap:nowrap;';
+    $_scr['header > div:first-child'] = 'min-width:0; flex:1 1 auto; gap:.5rem;';
+    $_scr['header h2'] = 'display:block; flex-shrink:1; min-width:0; margin:0; font-size:1rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
+    $_scr['header img, header igk-img'] = 'width:40px; height:40px; flex:none;';
+    $_scr['header nav .fjd-nav-tools'] = 'flex-direction:column; align-items:stretch; gap:.75rem; padding:.75rem 0 .25rem; border-top:1px solid rgba(128,128,128,.2);';
+    $_scr['header nav .fjd-nav-tools .box'] = 'position:static; display:block; box-shadow:none; border:0; background:transparent;';
+    $_scr['header nav .fjd-nav-tools .fjd-lang select'] = 'width:100%; font-size:1rem; padding:.5rem;';
+    $_scr['.fjd-burger'] = 'display:flex;';
+    $_scr['header nav'] = 'flex:0 0 auto; flex-wrap:nowrap; justify-content:flex-end; gap:.25rem;';
+    $_scr['header nav .menu-host'] = 'display:none; position:absolute; left:0; right:0; top:100%; z-index:20; flex:none; padding:.5rem 1rem; background:var(--igk-bg-color, Canvas); border-bottom:1px solid rgba(128,128,128,.3); box-shadow:0 8px 16px rgba(0,0,0,.15);';
+    $_scr['.fjd-menu-check:checked ~ .menu-host'] = 'display:block;';
+    $_scr['header nav .menu-host ul'] = 'flex-direction:column; align-items:stretch; gap:0; margin:0; padding:0; list-style:none;';
+    $_scr['header nav .menu-host li'] = 'border-top:1px solid rgba(128,128,128,.2);';
+    $_scr['header nav .menu-host li > a'] = 'display:block; padding:12px 8px; font-size:1rem;';
+}
+unset($_scr);
+
+// + | header tools (language / theme / user): inline on wide screens
+$def['header .menu-host'] = '{sys:dispflex} align-items:center; gap:.5rem;';
+$def['.fjd-nav-tools'] = '{sys:dispflex} align-items:center; gap:.5rem; flex:none;';
+$def['.fjd-lang'] = '{sys:dispflex} gap:.25rem; font-size:.75rem;';
+$def['.fjd-lang select'] = 'font-size:.75rem; padding:.3rem .5rem; border-radius:.4rem; color:inherit; background:transparent; border:1px solid rgba(128,128,128,.4); cursor:pointer;';
+$def['.fjd-lang select option'] = 'color:initial;';
+
+// + | header: futuristic, full width
+$def['header'] = 'position:sticky; top:0; z-index:50; width:100%; box-sizing:border-box; margin:0; padding:.6rem clamp(1rem, 3vw, 2.5rem); align-items:center; background:linear-gradient(135deg, rgba(8,14,32,.92), rgba(18,28,64,.88)); backdrop-filter:blur(14px) saturate(160%); border-bottom:1px solid rgba(0,200,255,.35); box-shadow:0 0 24px rgba(0,160,255,.18), inset 0 -1px 0 rgba(255,255,255,.05); color:#dbe7ff;';
+$def['header:after'] = 'content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:linear-gradient(90deg, transparent, #00d8ff, #7a5cff, #ff3cac, transparent); opacity:.85; pointer-events:none;';
+$def['header img, header igk-img'] = 'border-radius:12px; box-shadow:0 0 0 1px rgba(0,216,255,.5), 0 0 14px rgba(0,216,255,.45); width:44px; height:44px; object-fit:cover;';
+$def['header h2'] = 'margin:0; font-family:"Orbitron","Rajdhani","Segoe UI",system-ui,sans-serif; font-size:1.05rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; background:linear-gradient(90deg, #00d8ff, #a58bff); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 18px rgba(0,216,255,.35);';
+$def['header ul'] = 'list-style:none; margin:0; padding:0; gap:.25rem;';
+$def['header .menu li > a, header nav .menu li a, header nav.menu li > a'] = 'position:relative; font-size:.75rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; padding:.55rem .85rem; color:#b9c8ee; text-decoration:none; border-radius:.5rem; transition:color .2s, background .2s, box-shadow .2s;';
+$def['header .menu li > a:after'] = 'content:""; position:absolute; left:.85rem; right:.85rem; bottom:.2rem; height:2px; background:linear-gradient(90deg,#00d8ff,#a58bff); transform:scaleX(0); transform-origin:left; transition:transform .25s;';
+$def['header .menu li > a:hover'] = 'color:#fff; background:rgba(0,216,255,.1); box-shadow:0 0 14px rgba(0,216,255,.25);';
+$def['header .menu li > a:hover:after'] = 'transform:scaleX(1);';
+$def['header .fjd-lang select'] = 'background:rgba(0,216,255,.08); color:#dbe7ff; border:1px solid rgba(0,216,255,.4); border-radius:.5rem; font-size:.7rem; letter-spacing:.1em; padding:.35rem .55rem;';
+$def['header .fjd-lang select:hover, header .fjd-lang select:focus'] = 'outline:none; box-shadow:0 0 12px rgba(0,216,255,.4);';
+$def['header .igk-winui-toggle-theme'] = 'background:rgba(0,216,255,.1); border:1px solid rgba(0,216,255,.4); border-radius:.5rem; color:#dbe7ff; transition:box-shadow .2s;';
+$def['header .igk-winui-toggle-theme:hover'] = 'box-shadow:0 0 14px rgba(0,216,255,.45);';
+$def['.fjd-burger span'] = 'background:#00d8ff; box-shadow:0 0 6px rgba(0,216,255,.7);';
+foreach ([&$xsm_screen, &$sm_screen] as &$_scr) {
+    $_scr['header nav .menu-host'] = 'display:none; position:absolute; left:0; right:0; top:100%; z-index:20; flex:none; padding:.5rem clamp(1rem, 3vw, 2.5rem) 1rem; background:linear-gradient(180deg, rgba(8,14,32,.97), rgba(18,28,64,.97)); backdrop-filter:blur(14px); border-bottom:1px solid rgba(0,200,255,.35); box-shadow:0 12px 24px rgba(0,0,0,.4);';
+    $_scr['header nav .menu-host li'] = 'border-top:1px solid rgba(0,216,255,.12);';
+    $_scr['header nav .menu-host li > a'] = 'display:block; padding:.85rem .5rem; font-size:.85rem; border-radius:0;';
+    $_scr['.fjd-menu-check:checked ~ .menu-host'] = 'display:block;';
+}
+unset($_scr);
+
+// + | header layout, wide screens: 4 zones  [ title | main menu | language + theme | connection ]
+$def['header'] = 'display:grid; grid-template-columns:auto minmax(0,1fr) auto auto; align-items:center; column-gap:clamp(.75rem, 2vw, 2rem);';
+$def['header > nav, header .menu-host, header .fjd-nav-tools'] = 'display:contents;';
+$def['header .fjd-burger'] = 'display:none;';
+$def['header .menu-host > ul.menu'] = 'grid-column:2; justify-content:center; flex-wrap:wrap;';
+$def['header .fjd-nav-prefs'] = 'display:flex; grid-column:3; align-items:center; gap:.5rem; padding:0 1rem; border-left:1px solid rgba(0,216,255,.25); border-right:1px solid rgba(0,216,255,.25);';
+$def['header .fjd-nav-auth'] = 'display:flex; grid-column:4; align-items:center; justify-content:flex-end; min-width:6rem;';
+foreach ([&$xsm_screen, &$sm_screen] as &$_scr) {
+    $_scr['header'] = 'display:flex; flex-wrap:nowrap; justify-content:space-between;';
+    $_scr['header > nav'] = 'display:flex;';
+    $_scr['header .menu-host'] = 'display:none;';
+    $_scr['.fjd-menu-check:checked ~ .menu-host'] = 'display:block;';
+    $_scr['header .fjd-nav-tools'] = 'display:flex; flex-direction:column; align-items:stretch; gap:.75rem;';
+    $_scr['header .menu-host > ul.menu'] = 'grid-column:auto;';
+    $_scr['header .fjd-burger'] = 'display:flex;';
+    $_scr['header .fjd-nav-prefs'] = 'grid-column:auto; padding:0; border:0; justify-content:space-between;';
+    $_scr['header .fjd-nav-auth'] = 'grid-column:auto; justify-content:flex-start;';
+}
+unset($_scr);

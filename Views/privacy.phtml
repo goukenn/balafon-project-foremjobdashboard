@@ -1,0 +1,17 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: privacy.phtml
+// @desc: public privacy page, newsletter-style layout (content from Articles/confidentiality.{lang}.phtml)
+// @date: 20261021 00:00:00
+use function igk_resources_gets as __;
+
+$title = __('Privacy');
+$doc->title = sprintf('%s - %s', $title, $ctrl->getAppTitle());
+
+$page = $t->div()->setClass('legal-page');
+$head = $page->header()->setClass('legal-head');
+$head->div()->setClass('legal-eyebrow')->Content = $ctrl->getAppTitle();
+$head->h1()->Content = $title;
+$head->div()->setClass('legal-date')->Content = sprintf('%s : %s', __('Last updated'), '2026-10-21');
+$page->article()->setClass('legal-body')->Content = $ctrl::article('confidentiality');
+$page->div()->setClass('legal-back')->a()->setAttributes(['href' => $ctrl::uri('@/')])->Content = '← ' . __('Back to home');

@@ -63,10 +63,35 @@ function themeToggleButton()
     return $btn;
 }
 $menu = _h('div.menu-host', $menu_l = _h('ul.menu.dispflex.flex-row.alignc'));
-$nav = _h('nav.flex.flex-row.flex-alignc', $menu, themeToggleButton(), viewAuth());
+// + | tools (language, theme, user) live inside the menu host: inline on wide screens, in the mobile menu otherwise
+$tools = $menu->div()->setClass('fjd-nav-tools');
+$prefs = $tools->div()->setClass('fjd-nav-prefs');
+// + | language selector (same approach as igk_html_node_igk_choose_lang_selector): ajax post on <base>/<lang>, then reload
+$supported = \IGK\Resources\R::GetSupportedLangs();
+$langs = $prefs->div()->setClass('fjd-lang');
+$select = $langs->select();
+$select->setAttributes(['aria-label' => __('Language')]);
+foreach ($supported as $lg) {
+    $opt = $select->option()->setAttributes(['value' => $lg]);
+    $opt->Content = strtoupper($lg);
+    if (strtolower(\IGK\Resources\R::GetCurrentLang()) === strtolower($lg)) {
+        $opt['selected'] = 'selected';
+    }
+}
+$select['onchange'] = "javascript:(function(p){fetch('" . rtrim(igk_io_baseuri(), '/') . "/'+p.value+'/?view=1',{method:'POST',credentials:'same-origin',headers:{'X-Requested-With':'XMLHttpRequest'}});});})(this);";
+$prefs->add(themeToggleButton());
+if ($auth_node = viewAuth()) {
+    $tools->div()->setClass('fjd-nav-auth')->add($auth_node);
+}
+// + | mobile (xsm, sm): the menu is collapsed behind a burger, toggled with a css-only checkbox
+$burger = _h('input#fjd-menu-toggle.fjd-menu-check');
+$burger->setAttributes(['type' => 'checkbox', 'aria-label' => __('Menu')]);
+$burger_label = _h('label.fjd-burger', _h('span'), _h('span'), _h('span'));
+$burger_label->setAttributes(['for' => 'fjd-menu-toggle', 'aria-label' => __('Menu')]);
+$nav = _h('nav.flex.flex-row.flex-alignc', $burger, $burger_label, $menu);
 $t->add(_h(
     'header.dispflex.flex-row.flex-justify-sb',
-     _h('div.flex.flex-row.flex-alignc.gap-10.no-shrink',
+     _h('div.flex.flex-row.flex-alignc.gap-10px.no-shrink',
         $h,    
         _h('h2.no-wrap.no-shrink', $this->getConfigs()->clTitle ?? '')
      ),
