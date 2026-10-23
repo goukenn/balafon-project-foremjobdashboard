@@ -1,0 +1,12 @@
+<?php
+
+if (!$ctrl->checkUser(false) && igk_environment()->isDev()) {
+    if ($ulogin = $ctrl->getConfigs()->{'app.default-user'}) {
+        $tuser = igk_get_user_bylogin($ulogin);
+        $ctrl::login($tuser, null, null);
+        $user = $ctrl->getUser();
+    }
+}
+if (!$user) {
+    igk_navto($ctrl::uri('login'));    
+}
