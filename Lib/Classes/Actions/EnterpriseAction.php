@@ -68,8 +68,8 @@ class EnterpriseAction extends ApiActionBase
                 ->orderBy([JobEnterprises::FN_NAME() . '|ASC'])
                 ->limit(100);
             $query_result = $query_result->execute(true, [DbConstants::CALLBACK_OPTS => function (DbQueryRowObj $row) use (&$jobs, &$r) {
-                $j_id = $row->{Jobs::FD_ID};
-                $j = null;
+                $j_id = $row->{JobEnterprises::FD_ID};
+                $j = null;                
                 if (!($j = igk_getv($jobs, $j_id))) {
                     $j = Jobs::GetCache(Jobs::FD_ID, $j_id);
                     $jobs[$j_id] = $j;

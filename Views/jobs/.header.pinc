@@ -3,7 +3,10 @@
 // @filename: .header_.pinc
 // @date: 20260328 06:59:36
 // @desc: 
+/**
+ * @var string $view_dir
+ */
+include $view_dir.'/.header.pinc';
+ 
 
-include __DIR__.'/../.header.pinc';
-
-$def['li a > span'] = '{sys:no-wrap}';
+// $def['li a > span'] = '{sys:no-wrap}';

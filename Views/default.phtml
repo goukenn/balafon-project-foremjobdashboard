@@ -47,17 +47,16 @@ foreach ($menus as $k => $v) {
 _h($ctrl->getEnvParam('header')->top, $list);
 $t['class'] = '+dispflex +flex-column -fit';
 $t['style'] = 'min-height:100%;';
-_h(
-    $t->section()->container()->nav()
-        ->setStyle('height: 2em')
-        ->setClass('menu dispflex flex-row no-wrap gap-10 flex-end flex-cross-start'),        
-        $profile ? null :
-        _h(
-            'div.sign-or-register.dispflex.flex-row.flex-item-start',
-            _h('abtn.sign', [$ctrl::uri('@/login')], 'SignIn'),
-            _h('abtn.register', [$ctrl::uri('@/sign/register')], 'Register')
-        )
-);
+if(!$profile){
+    _h(
+        $t->section()->container(),                  
+            _h(
+                'nav.sign-or-register.dispflex.flex-row.flex-item-start',
+                _h('abtn.sign', [$ctrl::uri('@/login')], 'SignIn'),
+                _h('abtn.register', [$ctrl::uri('@/sign/register')], 'Register')
+            )
+    );
+}
 // + | ------------------------------------------------
 // + | landing page: hero, quick access, search engines, interims, tools
 // + |
@@ -189,4 +188,4 @@ foreach ($v_rtools as $row) {
     }
 }
 
-$doc->title = 'FOREM JOBS DASHBOARD';
+$doc->title = $ctrl->getConfigs()->get('clTitle'); 

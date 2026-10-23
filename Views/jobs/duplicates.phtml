@@ -69,8 +69,7 @@ $t->script()->Content = 'var FJD_DUP = ' . str_replace('</', '<\\/', json_encode
 $t->script()->Content = <<<'JS'
 (function(){
     var cfg = FJD_DUP;
-    var listEl = document.getElementById('fjd-duplicates-list');
-   alert('init ....');
+    var listEl = document.getElementById('fjd-duplicates-list'); 
     function esc(s){
         var d = document.createElement('div');
         d.textContent = (s == null) ? '' : String(s);
