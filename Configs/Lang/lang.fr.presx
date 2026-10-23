@@ -216,3 +216,6 @@ $l['calendar.month.12'] = 'Décembre';
 $l['Open the calendar after saving'] = 'Ouvrir le calendrier après l\'enregistrement';
 $l['Appointment added.'] = 'Rendez-vous ajouté.';
 $l['View in calendar'] = 'Voir dans le calendrier';
+$l['The enterprise name is required.'] = 'Le nom de l\'entreprise est requis.';
+$l['Offer'] = 'Offre';
+$l['Source and dates'] = 'Source et dates';

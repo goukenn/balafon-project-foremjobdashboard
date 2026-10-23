@@ -178,3 +178,6 @@ $l['calendar.month.12'] = 'December';
 $l['Open the calendar after saving'] = 'Open the calendar after saving';
 $l['Appointment added.'] = 'Appointment added.';
 $l['View in calendar'] = 'View in calendar';
+$l['The enterprise name is required.'] = 'The enterprise name is required.';
+$l['Offer'] = 'Offer';
+$l['Source and dates'] = 'Source and dates';

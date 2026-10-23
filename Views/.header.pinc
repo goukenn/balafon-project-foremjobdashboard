@@ -115,7 +115,9 @@ foreach ($supported as $lg) {
 }
 list($uri, $query) = igk_html_lang_uri();
 //$select['onchange'] = "javascript:(function(p){fetch('" . rtrim(igk_io_baseuri(), '/') . "/'+p.value+'/?view=1',{method:'POST',credentials:'same-origin',headers:{'X-Requested-With':'XMLHttpRequest'}});});})(this);";
-$select["onchange"] = "javascript: (function(p){window.igk.ajx.post('" . $uri . "/'+p.value+'" . $query . "', null);})(this);";
+// the ajax post only stores the language; the page is then reloaded with a GET: re-rendering the current view from
+// the post response shows it without its action data (empty jobs / enterprise lists)
+$select["onchange"] = "javascript: (function(p){fetch('" . $uri . "/'+p.value+'" . $query . "',{method:'POST',credentials:'same-origin',headers:{'X-Requested-With':'XMLHttpRequest'}}).then(function(){window.location.reload();});})(this);";
        
 
 $prefs->add(themeToggleButton());
