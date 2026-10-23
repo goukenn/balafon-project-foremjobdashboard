@@ -17,6 +17,7 @@ use IGK\System\Regex\RegexHelper;
  */
 class ForemJobDashboardController extends ApplicationController
 {
+    const version = '0.1.a';
     /**
      * get file service in used 
      * @return FileService 
