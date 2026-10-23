@@ -12,6 +12,7 @@ use com\igkdev\projects\ForemJobDashboard\Services\KboService;
 use Exception;
 use IGK\Actions\ApiActionBase;
 use IGK\Database\DbConstants;
+use IGK\Database\DbQueryRowObj;
 use IGK\Helper\Activator;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -64,18 +65,18 @@ class EnterpriseAction extends ApiActionBase
                 ->where(['@@' . $nfield => '%' . $n . '%'])
                 ->orderBy([JobEnterprises::FN_NAME() . '|ASC'])
                 ->limit(100);
-            $query_result = $query_result->execute(true, [DbConstants::CALLBACK_OPTS => function ($row) use (&$jobs, &$r) {
+            $query_result = $query_result->execute(true, [DbConstants::CALLBACK_OPTS => function (DbQueryRowObj $row) use (&$jobs, &$r) {
                 $j_id = $row->{Jobs::FD_ID};
                 $j = null;
                 if (!($j = igk_getv($jobs, $j_id))) {
                     $j = Jobs::GetCache(Jobs::FD_ID, $j_id);
                     $jobs[$j_id] = $j;
-                }
-                if (!isset($r[$row->id])) {
-                    $r[$row->id] = (object)igk_array_exclude($row->to_array(), 'jbs_id');
+                } 
+                if (!isset($r[ $j_id])) {
+                    $r[$j_id] = (object)igk_array_exclude($row->to_array(), 'jbs_id');
                     $row->jobs = [];
                 }
-                $c = $r[$row->id];
+                $c = $r[ $j_id];
                 if ($j)
                     $c->jobs[] = $j;
                 return null;

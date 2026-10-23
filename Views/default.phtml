@@ -168,6 +168,11 @@ $v_rtools = $data->job_tools ?? [
         'desc' => 'AI chat GPTss',
         'uri' => 'https://chatgpt.com',
     ],
+    (object)[
+        'title' => 'Claude',
+        'desc' => 'Claude',
+        'uri' => 'https://claude.com',
+    ],
 ];
 $block = $wrap->div()->setClass('fjd-block');
 $block->h2()->Content = __('Tools');
@@ -183,3 +188,5 @@ foreach ($v_rtools as $row) {
         ])->Content = __('Open') . ' · ' . preg_replace('/^www\./i', '', (string)parse_url($row->uri, PHP_URL_HOST));
     }
 }
+
+$doc->title = 'FOREM JOBS DASHBOARD';

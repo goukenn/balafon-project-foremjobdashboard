@@ -156,7 +156,7 @@ $def['.fjd-lang select'] = 'font-size:.75rem; padding:.3rem .5rem; border-radius
 $def['.fjd-lang select option'] = 'color:initial;';
 
 // + | header: futuristic, full width
-$def['header'] = 'position:sticky; top:0; z-index:50; width:100%; box-sizing:border-box; margin:0; padding:.6rem clamp(1rem, 3vw, 2.5rem); align-items:center; background:linear-gradient(135deg, rgba(8,14,32,.92), rgba(18,28,64,.88)); backdrop-filter:blur(14px) saturate(160%); border-bottom:1px solid rgba(0,200,255,.35); box-shadow:0 0 24px rgba(0,160,255,.18), inset 0 -1px 0 rgba(255,255,255,.05); color:#dbe7ff;';
+$def['header'] = 'top:0; z-index:50; width:100%; box-sizing:border-box; margin:0; padding:.6rem clamp(1rem, 3vw, 2.5rem); align-items:center; background:linear-gradient(135deg, rgba(8,14,32,.92), rgba(18,28,64,.88)); backdrop-filter:blur(14px) saturate(160%); border-bottom:1px solid rgba(0,200,255,.35); box-shadow:0 0 24px rgba(0,160,255,.18), inset 0 -1px 0 rgba(255,255,255,.05); color:#dbe7ff;';
 $def['header:after'] = 'content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:linear-gradient(90deg, transparent, #00d8ff, #7a5cff, #ff3cac, transparent); opacity:.85; pointer-events:none;';
 $def['header img, header igk-img'] = 'border-radius:12px; box-shadow:0 0 0 1px rgba(0,216,255,.5), 0 0 14px rgba(0,216,255,.45); width:44px; height:44px; object-fit:cover;';
 $def['header h2'] = 'margin:0; font-family:"Orbitron","Rajdhani","Segoe UI",system-ui,sans-serif; font-size:1.05rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; background:linear-gradient(90deg, #00d8ff, #a58bff); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 18px rgba(0,216,255,.35);';
@@ -180,7 +180,7 @@ unset($_scr);
 
 // + | header layout, wide screens: [ title | main menu | language + theme | connection ]
 // fixed bar height and one font size (.75rem) for every element, whatever the screen size
-$def['header'] = '{sys:possticky} display:grid; grid-template-columns:minmax(0,max-content) minmax(0,1fr); align-items:center; column-gap:1.5rem; height:3.75rem; min-height:3.75rem; max-height:3.75rem; padding-top:0; padding-bottom:0; overflow:visible; font-size:.75rem; line-height:1;';
+$def['header'] = 'display:grid; grid-template-columns:minmax(0,max-content) minmax(0,1fr); align-items:center; column-gap:1.5rem; height:3.75rem; min-height:3.75rem; max-height:3.75rem; padding-top:0; padding-bottom:0; overflow:visible; font-size:.75rem; line-height:1;';
 $def['header *'] = 'font-size:.75rem; line-height:1; box-sizing:border-box;';
 $def['header > div:first-child'] = 'display:flex; align-items:center; gap:.6rem; min-width:0; max-width:30vw; overflow:hidden;';
 $def['header img, header igk-img'] = 'width:2.5rem; height:2.5rem; flex:none;';

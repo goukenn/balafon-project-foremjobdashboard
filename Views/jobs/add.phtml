@@ -2,6 +2,7 @@
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\Models\JobSourceTypes;
+use com\igkdev\projects\ForemJobDashboard\Helpers\JobUtility;
 use com\igkdev\projects\ForemJobDashboard\ModelUtilities\MainTaskModelUtility;
 use function igk_html_host as _h;
 use function igk_resources_gets as __;
@@ -27,6 +28,9 @@ igk_view_handle_actions($fname, [
                 $c->summary = $summary;
                 $c->from_id = igk_getr('from');
                 $c->category_id = igk_getr('category') ?? $c->category_id;
+                if (($follow = igk_getr('follow_at')) && strtotime($follow)) {
+                    $c->follow_at = date('Y-m-d', strtotime($follow));
+                }
                 if ($create_at = igk_getr('date')){
                     $c->Create_At = igk_date_display_date($create_at, 'Y-m-d H:i:s');
                 }
@@ -43,25 +47,92 @@ if ($header = $ctrl->getEnvParam('header')) {
     );
 }
 $active_job_tab = 'add';
+
+// + | ------------------------------------------------
+// + | layout: same visual language as jobs/edit (Tailwind cards, dark/light)
+// + |
+$def = $doc->getTheme();
+$def['.fjd-add label'] = 'display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem;';
+$def['.fjd-add fieldset'] = 'border:0;padding:0;margin:0 0 1rem 0;';
+$def['.fjd-add .igk-action-bar'] = 'display:flex;gap:0.75rem;margin-top:1rem;';
+$def['.fjd-add .fjd-hint'] = 'font-size:0.75rem;opacity:.7;margin-top:0.25rem;';
+$doc->title = __('add') . ' - ' . $ctrl->getAppTitle();
+$t['class'] = '+min-h-1 -fit';
+
+$inputCls = 'tw-w-full tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-600 tw-bg-white dark:tw-bg-gray-700 tw-text-gray-900 dark:tw-text-white tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-600 tw-transition-colors';
+$taCls = $inputCls . ' tw-resize-y';
+$cardCls = 'tw-bg-white dark:tw-bg-gray-800 tw-rounded-lg tw-shadow tw-p-6 tw-transition-colors tw-duration-300';
+$primaryBtnCls = 'dispib tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-semibold tw-px-5 tw-py-2 tw-rounded-lg tw-transition';
+$secondaryBtnCls = 'dispib tw-bg-gray-200 dark:tw-bg-gray-700 hover:tw-bg-gray-300 dark:hover:tw-bg-gray-600 tw-text-gray-800 dark:tw-text-gray-100 tw-px-5 tw-py-2 tw-rounded-lg tw-transition';
+
+// the shared jobs tab control spans the full width, like on @/jobs
 include $ctrl::getViewDir() . '/jobs/.tabs.pinc';
-$row = $t->main()->container()->row();
-if ($j = $ctrl->getEnvParam('job')){
-    $row->col('fitw')->div()->a($ctrl::uri('@/jobs/edit/'.$j->id))->content = 'edit : '.$j->id;
+$page = $t->div()->setClass('fjd-add min-h-1 tw-bg-gray-50 dark:tw-bg-gray-900 tw-transition-colors tw-duration-300 tw-px-4 tw-py-6');
+$wrap = $page->div()->setClass('tw-max-w-5xl tw-mx-auto');
+
+$wrap->h2()->setClass('tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-white tw-mb-1')->Content = __('Add a job offer');
+$wrap->p()->setClass('tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mb-4')->Content = __('Archive an offer found online. You can complete it later from the edit page.');
+
+if ($j = $ctrl->getEnvParam('job')) {
+    $ok = $wrap->div()->setAttribute('role', 'status')->setClass('tw-flex tw-items-center tw-justify-between tw-gap-3 tw-rounded-lg tw-border tw-border-green-300 dark:tw-border-green-700 tw-bg-green-50 dark:tw-bg-green-900/30 tw-text-green-800 dark:tw-text-green-200 tw-px-4 tw-py-3 tw-mb-4');
+    $ok->span()->Content = __('Job offer added.') . ' ' . $j->title;
+    $ok->a()->setAttribute('href', $ctrl::uri('@/jobs/edit/' . $j->id))->setClass('tw-font-semibold hover:tw-underline')->Content = __('edit') . ' →';
 }
-$frm = $row->col()->div()->form();
-$frm['action'] = $ctrl::uri($fname.'/store');
-$frm->fields([
-    'title',
-    'enterprise',
-    'description'=>['type'=>'textarea', 'maxlength'=>2500],
-    'summary'=>['type'=>'textarea','className'=>'small', 'attribs'=>['class'=>'small height-3em', 'maxlength'=>300]],
-    'from'=>[
-        'type' => 'select',
-        'selected' => JobSourceTypes::GetCache(JobSourceTypes::FD_NAME, 'WEB')->id,
-        'data' => array_merge(JobSourceTypes::formSelectData(), [])
-    ],
-    'date'
+
+$enterprises = [];
+foreach (JobEnterprises::select_all([], ['Limit' => 300]) ?: [] as $e) {
+    $enterprises[] = $e->{JobEnterprises::FD_NAME};
+}
+sort($enterprises, SORT_NATURAL | SORT_FLAG_CASE);
+
+$frm = $wrap->form();
+$frm['method'] = 'post';
+$frm['action'] = $ctrl::uri($fname . '/store');
+$frm->setClass('tw-grid tw-grid-cols-1 lg:tw-grid-cols-3 tw-gap-4');
+
+// main card: what the offer is
+$main = $frm->div()->setClass($cardCls . ' lg:tw-col-span-2 tw-space-y-4');
+$main->fields([
+    'title' => ['label_text' => __('title'), 'attribs' => ['class' => $inputCls, 'required' => 'required', 'autofocus' => 'autofocus', 'autocomplete' => 'off', 'maxlength' => 150]],
+    'enterprise' => ['label_text' => __('enterprise'), 'attribs' => ['class' => $inputCls, 'list' => 'fjd-enterprises', 'autocomplete' => 'off', 'maxlength' => 100]],
+    'description' => ['type' => 'textarea', 'label_text' => __('description'), 'attribs' => ['class' => $taCls . ' tw-min-h-[10rem]', 'maxlength' => 2500, 'data-fjd-count' => 2500]],
+    'summary' => ['type' => 'textarea', 'label_text' => __('summary'), 'attribs' => ['class' => $taCls . ' tw-min-h-[5rem]', 'maxlength' => 300, 'data-fjd-count' => 300]],
 ]);
-$frm->actionbar()->host(function($a){
-    $a->submit('btn.add', __('add'))->setClass('dispib');
-});
+$dl = $main->add('datalist');
+$dl['id'] = 'fjd-enterprises';
+foreach ($enterprises as $name) {
+    $dl->add('option')->setAttribute('value', $name);
+}
+
+// side card: where / when
+$side = $frm->div()->setClass('tw-space-y-4');
+$meta = $side->div()->setClass($cardCls . ' tw-space-y-4');
+$meta->fields([
+    'from' => [
+        'type' => 'select',
+        'label_text' => __('from'),
+        'selected' => JobSourceTypes::GetCache(JobSourceTypes::FD_NAME, 'WEB')->id,
+        'data' => JobSourceTypes::formSelectData(),
+        'attribs' => ['class' => $inputCls],
+    ],
+    'date' => ['type' => 'date', 'label_text' => __('date'), 'value' => date('Y-m-d'), 'attribs' => ['class' => $inputCls]],
+    'follow_at' => ['type' => 'date', 'label_text' => __('Follow-up date'), 'value' => JobUtility::DefaultFollowAt(), 'attribs' => ['class' => $inputCls]],
+]);
+$meta->p()->setClass('fjd-hint')->Content = __('Default follow-up: one week after today.');
+
+$bar = $side->div()->setClass('tw-flex tw-gap-3');
+$bar->submit('btn.add', __('add'))->setClass($primaryBtnCls);
+$bar->a()->setAttributes(['href' => $ctrl::uri('@/jobs'), 'class' => $secondaryBtnCls])->Content = __('cancel');
+
+// live character counters for the limited fields
+$t->script()->Content = <<<'JS'
+(function(){
+  document.querySelectorAll('.fjd-add [data-fjd-count]').forEach(function(f){
+    var max = +f.getAttribute('data-fjd-count'), c = document.createElement('div');
+    c.className = 'fjd-hint tw-text-right';
+    f.insertAdjacentElement('afterend', c);
+    function u(){ c.textContent = f.value.length + ' / ' + max; }
+    f.addEventListener('input', u); u();
+  });
+})();
+JS;

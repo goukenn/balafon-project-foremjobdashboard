@@ -246,6 +246,17 @@
 	</DataDefinition>
 
 
+	<DataDefinition TableName="%prefix%job_cv_models" Description="user's saved cv models (sanitized html)"
+		Prefix="jcv_">
+		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+		<Column clName="guid" clType="guid" clNotNull="true" clIsUnique></Column>
+		<Column clName="user_id" clType="Int" clLinkType="%prefix%job_users" clLinkColumn="id"
+			clNotNull="true" clIsUniqueColumnMember="true"></Column>
+		<Column clName="name" clType="VarChar(100)" clNotNull="true" clIsUniqueColumnMember="true"></Column>
+		<Column clName="content" clType="text" clCharset="utf8mb4" clDescription="sanitized html, placeholders as %__key__%"></Column>
+		<Column clName="is_default" clType="Int" clDefault="0" clDescription="1 for the model loaded first"></Column>
+		<GenColumn name="updateTime"></GenColumn>
+	</DataDefinition>
 	<DataDefinition TableName="%prefix%job_enterprise_categories"
 		Description="Job's enterprise categories"
 		Prefix="jec_" Display="name">

@@ -4,7 +4,10 @@
 // @desc: 
 // @view: build/cv
 // @date: 20250822 15:33:54
+use com\igkdev\projects\ForemJobDashboard\Models\JobCvModels;
+use com\igkdev\projects\ForemJobDashboard\Services\CvModelService;
 use com\igkdev\projects\ForemJobDashboard\UserConfigSetting;
+use IGK\Controllers\ControllerExtension;
 use function igk_resources_gets as __;
 use function igk_html_host as _h;
 
@@ -13,30 +16,129 @@ use function igk_html_host as _h;
  * @var mixed $t
  */
 
-$this->checkUser(false);
+$this->checkUser(true);
 $user = $ctrl->getUserProfile();
 $tr = UserConfigSetting::DbUserSetting($user);
-$form = _h('form');
+$uid = (int)$user->user()->jbu_id;
+
+// + | POST sub-actions (see CLAUDE.md: igk_view_handle_actions pattern), then redirect (PRG)
+igk_view_handle_actions($fname, [
+    'save' => function () use ($ctrl, $fname, $uid) {
+        igk_server()->method('POST') || igk_die('post is required');
+        $id = (int)igk_getr('id') ?: null;
+        if (igk_getr('as_new')) {
+            $id = null;
+        }
+        $r = CvModelService::Save($uid, $id, (string)igk_getr('name'), (string)igk_getr('cv'), (bool)igk_getr('is_default'));
+        $q = $r instanceof JobCvModels ? '?m=' . $r->{JobCvModels::FD_ID} . '&ok=1' : '?err=' . $r . ($id ? '&m=' . $id : '');
+        igk_navto($ctrl::uri($fname) . $q);
+    },
+    'delete' => function () use ($ctrl, $fname, $uid) {
+        igk_server()->method('POST') || igk_die('post is required');
+        CvModelService::Delete($uid, (int)igk_getr('id'));
+        igk_navto($ctrl::uri($fname) . '?deleted=1');
+    },
+], $params);
+$models = CvModelService::All($uid);
+$current = null;
+if ($mid = (int)igk_getr('m')) {
+    $current = CvModelService::Get($uid, $mid);
+}
+$current = igk_getr('new') ? null : ($current ?? ($models ? $models[0] : null));
+$can_add = count($models) < CvModelService::MAX_MODELS;
+// + | rich text editor for the cv (Scripts/cvbuilder.js): %__key__% placeholders use the user's settings
+ControllerExtension::js($ctrl, 'cvbuilder', $doc);
+$placeholders = [];
+foreach (['display', 'firstName', 'lastName', 'title', 'email', 'phone', 'address', 'license', 'linkedin'] as $k) {
+    $placeholders[$k] = (string)($tr->$k ?? '');
+}
+$cv_cfg = [
+    'placeholders' => $placeholders,
+    'labels' => [
+        'bold' => __('Bold'), 'italic' => __('Italic'), 'underline' => __('Underline'),
+        'h2' => __('Title'), 'h3' => __('Subtitle'), 'ul' => __('Bulleted list'), 'ol' => __('Numbered list'),
+        'link' => __('Link'), 'undo' => __('Undo'), 'redo' => __('Redo'), 'clear' => __('Clear format'),
+        'insert' => __('Insert field'), 'sections' => __('Sections'), 'preview' => __('Preview'),
+        'linkPrompt' => __('Link address (https://…)'),
+    ],
+    'sections' => [
+        'experience' => ['title' => __('Experience'), 'html' => '<h2>' . htmlspecialchars(__('Experience')) . '</h2><ul><li>' . htmlspecialchars(__('Role - Company (dates)')) . '</li></ul>'],
+        'education' => ['title' => __('Education'), 'html' => '<h2>' . htmlspecialchars(__('Education')) . '</h2><ul><li>' . htmlspecialchars(__('Degree - School (dates)')) . '</li></ul>'],
+        'skills' => ['title' => __('Skills'), 'html' => '<h2>' . htmlspecialchars(__('Skills')) . '</h2><ul><li>' . htmlspecialchars(__('Skill')) . '</li></ul>'],
+        'languages' => ['title' => __('Languages'), 'html' => '<h2>' . htmlspecialchars(__('Languages')) . '</h2><ul><li>' . htmlspecialchars(__('Language - level')) . '</li></ul>'],
+    ],
+];
+$form = _h('form.tw-space-y-4');
+$form['method'] = 'post';
+$form['action'] = $ctrl::uri($fname . '/save');
+$form->input('hidden', 'id', $current ? $current->{JobCvModels::FD_ID} : '');
 $form->fields([
+    'name' => ['value' => $current ? $current->{JobCvModels::FD_NAME} : '', 'label_text' => __('Model name'), 'attribs' => ['maxlength' => CvModelService::MAX_NAME, 'required' => 'required']],
     'cv' => [
-        'type' => 'textarea'
+        'type' => 'textarea',
+        'value' => $current ? $current->{JobCvModels::FD_CONTENT} : ($tr->defaultCVTemplate ?? ''),
+        'attribs' => [
+            'class' => 'igk-winui-cv-textwyswyg',
+            'igk:data' => json_encode($cv_cfg, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT),
+        ],
     ]
 ]);
-$form->actionbar()->submit('btn.save' , 
-__('save'));
+$form->fields([
+    'is_default' => ['type' => 'checkbox', 'value' => '1', 'checked' => $current && $current->{JobCvModels::FD_IS_DEFAULT}, 'label_text' => __('Default model')],
+]);
+$bar = $form->actionbar();
+if ($current) {
+    $bar->submit('btn.save', __('save'))->setClass('text-primary');
+}
+if ($can_add) {
+    $bar->submit('as_new', $current ? __('Save as new model') : __('save'))->setAttribute('value', '1');
+}
+
+// + | list of the saved models
+$list = _h('div.cv-models.tw-mb-4');
+$list->h2()->setClass('tw-text-lg tw-font-semibold')->Content = __('My CV models') . ' (' . count($models) . '/' . CvModelService::MAX_MODELS . ')';
+$err = igk_getr('err');
+if ($err) {
+    $list->p()->setAttribute('role', 'alert')->setClass('tw-text-red-600 dark:tw-text-red-400')->Content = __('cv.model.error.' . preg_replace('/\W/', '', $err));
+} elseif (igk_getr('ok') || igk_getr('deleted')) {
+    $list->p()->setAttribute('role', 'status')->setClass('tw-text-green-600 dark:tw-text-green-400')->Content = igk_getr('ok') ? __('CV model saved.') : __('CV model deleted.');
+}
+if (!$can_add) {
+    $list->p()->setClass('tw-text-sm tw-text-gray-500 dark:tw-text-gray-400')->Content = sprintf(__('Limit of %d models reached. Delete one to add another.'), CvModelService::MAX_MODELS);
+}
+$ul = $list->ul()->setClass('tw-space-y-2');
+foreach ($models as $m) {
+    $mid = $m->{JobCvModels::FD_ID};
+    $li = $ul->li()->setClass('tw-flex tw-items-center tw-gap-3');
+    $a = $li->a()->setAttribute('href', $ctrl::uri($fname) . '?m=' . $mid);
+    $a->setClass($current && $current->{JobCvModels::FD_ID} == $mid ? 'tw-font-semibold' : '');
+    $a->Content = $m->{JobCvModels::FD_NAME};
+    if ($m->{JobCvModels::FD_IS_DEFAULT}) {
+        $li->span()->setClass('tw-text-xs tw-px-2 tw-rounded-full tw-bg-gray-200 dark:tw-bg-gray-700')->Content = __('Default model');
+    }
+    $df = $li->form();
+    $df['method'] = 'post';
+    $df['action'] = $ctrl::uri($fname . '/delete');
+    $df->input('hidden', 'id', $mid);
+    $df->submit('', __('delete'))->setClass('tw-text-sm tw-text-red-600 dark:tw-text-red-400 hover:tw-underline');
+}
+if ($current && $can_add) {
+    $list->a()->setAttribute('href', $ctrl::uri($fname) . '?m=0&new=1')->setClass('tw-text-sm')->Content = __('New model');
+}
 $t->main()->add(_h(
     'container > row > col',
     _h('h1', 'CV Builder'),
+    $list,
     $form
 ));
-_h(
-    $t->section(),
-    _h(
-        'container > row > col',
-        _h('p > a', ['https://www.livecareer.co.uk', '_blank'], 'livecareer'),
-        _h('p', 'use %__word__% as placeholder')
-    ),
-);
+// _h(
+//     $t->section(),
+//     _h(
+//         'container > row > col',
+//         _h('p > a', ['https://www.livecareer.co.uk', '_blank'], 'livecareer'),
+//         _h('p', __('Use the "Insert field" menu to add placeholders such as %__firstName__%.'))
+//     ),
+// );
 
 // $t->div()->setClass("text-red-200")->content = "Red Color";
 // $t->div()->setClass("fs-12")->content = "Red Color";

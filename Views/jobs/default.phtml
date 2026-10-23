@@ -5,6 +5,7 @@ use com\igkdev\projects\ForemJobDashboard\Models\JobStatusTypes;
 use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 use com\igkdev\projects\ForemJobDashboard\StatusTypes;
 use IGK\Database\DbQueryCondition;
+use IGK\Helper\ViewHelper;
 use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGK\System\Html\SVG\SvgRenderer;
 use function igk_resources_gets as __;
@@ -18,21 +19,14 @@ use function igk_html_host as _h;
  * @var mixed $params
  * @var mixed $entry_uri
  * @var mixed $data
+ * @var mixed $view_dir
  */
 
-$bg_color = '#040809';
-if (!$ctrl->checkUser(false) && igk_environment()->isDev()) {
-    if ($ulogin = $ctrl->getConfigs()->{'app.default-user'}) {
-        $tuser = igk_get_user_bylogin($ulogin);
-        $ctrl::login($tuser, null, null);
-        $user = $ctrl->getUser();
-    }
-}
-if (!$user) {
-    igk_die('missing user');
-}
+$bg_color = '#040809'; 
+include $view_dir.'/.autoload.user.pinc';
 $create_at = $data->create_at;
-include_once $ctrl::getViewDir() . '/.auth.pinc';
+
+include_once $view_dir . '/.auth.pinc';
  
 $doc->title = sprintf('Job - %s', $ctrl->getAppTitle());
 $doc->getMetas()->lastUpdate =  'Wed, 01 Oct 2025 12:00:00 GMT';
@@ -54,43 +48,140 @@ if ($header = $ctrl->getEnvParam('header')) {
 }
 $active_job_tab = 'list';
 include $ctrl::getViewDir() . '/jobs/.tabs.pinc';
-$form = _h('form.search');
-$form['action'] = $entry_uri . '/search';
-$form->fields(['search' => ['value' => $create_at, 'attribs' => ['autocomplete' => 'off']]]);
-$form->actionbar()->submit()->setClass('dispib')->setAttribute('value', __('search'));
-_h(
-    $t->section()->container()->row()->col(),
-    _h('h2', __('searching data')),
-    $form
-);
 
-if ($r = $data->result) {
-    $today = date('Y-m-d');
-    $t->div()->container()->row()->col()->div()->host(function ($n, $uri) use ($data, $today) {
-        $r = $data->result;
-        $ul = $n->ul()->setClass('gap-10 flex flex-column');
-        foreach ($r as $row) {
-            $is_closed = isset($row->status->{JobStatusTypes::FD_NAME}) && $row->status->{JobStatusTypes::FD_NAME} == StatusTypes::CLOSED;
-            $follow_at = $row->{Jobs::FD_FOLLOW_AT} ? substr($row->{Jobs::FD_FOLLOW_AT}, 0, 10) : null;
-            $needs_action = !$is_closed && $follow_at && $follow_at <= $today;
-            $overdue = $needs_action && $follow_at < $today;
-            $li = $ul->li()->a();
-            $li['class'] = 'dispflex flex-row gap-4' . ($is_closed
-                ? ' tw-text-red-600 dark:tw-text-red-400'
-                : ($overdue ? ' tw-text-orange-600 dark:tw-text-orange-400 tw-font-semibold'
-                    : ($needs_action ? ' tw-text-yellow-600 dark:tw-text-yellow-400 tw-font-semibold' : '')));
-            $li['href'] = $uri . '/edit/' . $row->{Jobs::FD_ID};
-            $b = $li->span()->setClass('flex flex-column');
-            $_top = $b->div()->setClass('flex flex-row');
-            $_top->span($row->{Jobs::FD_CREATE_AT});
-            $_top->span($row->{Jobs::FD_TITLE});
-            $_top->span(isset($row->enterprise->name) ? '- [' . $row->enterprise->name . ']' : '-');
-            if ($needs_action) {
-                $_top->span('⏰ ' . __('Follow up') . ' ' . $follow_at)->setClass('tw-text-xs');
-            }
-            if ($_summary = $row->{Jobs::FD_SUMMARY}){
-                $b->div($_summary)->setClass('summary wrap fs-[8pt]');
-            }
-        }
-    }, $ctrl::uri($fname));
+// setClass() mangles '/' and ':' in class names (tw-bg-red-500/15, dark:...), so set the attribute directly
+$tw = function ($node, string $classes) {
+    $node['class'] = $classes;
+    return $node;
+};
+$today = date('Y-m-d');
+$rows = $data->result ?: [];
+$state = function ($row) use ($today) {
+    $is_closed = isset($row->status->{JobStatusTypes::FD_NAME}) && $row->status->{JobStatusTypes::FD_NAME} == StatusTypes::CLOSED;
+    $follow_at = $row->{Jobs::FD_FOLLOW_AT} ? substr($row->{Jobs::FD_FOLLOW_AT}, 0, 10) : null;
+    $needs_action = !$is_closed && $follow_at && $follow_at <= $today;
+    return [$is_closed, $follow_at, $needs_action, $needs_action && $follow_at < $today];
+};
+$count_due = $count_overdue = $count_closed = 0;
+foreach ($rows as $row) {
+    [$c, , $n, $o] = $state($row);
+    $count_closed += $c ? 1 : 0;
+    $count_due += ($n && !$o) ? 1 : 0;
+    $count_overdue += $o ? 1 : 0;
 }
+
+$page = $t->div();
+$tw($page, 'tw-flex tw-flex-col tw-gap-4 tw-pb-8 tw-w-full tw-max-w-6xl tw-mx-auto tw-px-4');
+
+// + | header: title, total, add button
+$tw($head = $page->div(), 'tw-flex tw-flex-row tw-items-center tw-justify-between tw-gap-3');
+$tw($title = $head->h2(), 'tw-text-2xl tw-font-bold tw-flex tw-items-center tw-gap-3');
+$title->span(__('Jobs'));
+$tw($title->span((int)$data->total), 'tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded-full job-count');
+$add = $head->a();
+$add['href'] = $ctrl::uri('@/jobs/add');
+$add->Content = __('add');
+$tw($add, 'tw-px-4 tw-py-2 tw-rounded-lg tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-text-sm tw-font-medium');
+
+// + | search pill
+$form = $page->form();
+$form['action'] = $entry_uri . '/search';
+$form['method'] = 'post';
+$tw($form, 'tw-block');
+$bar = $form->div();
+$tw($bar, 'tw-flex tw-flex-row tw-flex-nowrap tw-gap-2 tw-items-center tw-rounded-full tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-pl-4 tw-pr-1 tw-py-1');
+$tw($bar->span('🔍'), 'tw-opacity-60');
+$inp = $bar->input();
+$inp['type'] = 'text';
+$inp->setAttributes(['name' => 'search', 'value' => $create_at, 'autocomplete' => 'off', 'placeholder' => __('searching data')]);
+$tw($inp, 'tw-flex-1 tw-min-w-0 tw-w-auto tw-bg-transparent tw-border-0 tw-outline-none tw-text-base tw-text-gray-900 dark:tw-text-gray-100');
+$btn = $bar->input();
+$btn['type'] = 'submit';
+$btn->setAttribute('value', __('search'));
+$tw($btn, 'tw-w-auto tw-px-4 tw-py-1.5 tw-rounded-full tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-text-sm tw-font-medium tw-cursor-pointer tw-border-0');
+
+// + | summary chips
+$tw($chips = $page->div(), 'tw-flex tw-flex-row tw-flex-wrap tw-gap-2 tw-text-xs tw-font-medium');
+foreach ([
+    ['all', __('All'), count($rows), 'job-chip-all'],
+    ['overdue', __('Overdue'), $count_overdue, 'job-chip-overdue'],
+    ['due', __('Follow up'), $count_due, 'job-chip-due'],
+    ['closed', __('Closed'), $count_closed, 'job-chip-closed'],
+] as [$key, $label, $n, $cls]) {
+    $chip = $chips->button();
+    $chip['type'] = 'button';
+    $chip['data-filter'] = $key;
+    $chip->Content = $label . ' · ' . $n;
+    $tw($chip, 'job-chip tw-px-3 tw-py-1 tw-rounded-full tw-border-0 tw-cursor-pointer tw-text-xs tw-font-medium ' . $cls);
+}
+
+// + | cards
+if (!$rows) {
+    $tw($empty = $page->div(), 'tw-text-center tw-py-16 tw-rounded-xl tw-border tw-border-dashed tw-border-gray-300 dark:tw-border-gray-700');
+    $tw($empty->div(__('No jobs found')), 'tw-text-lg tw-mb-3');
+    $ea = $empty->a();
+    $ea['href'] = $ctrl::uri('@/jobs/add');
+    $ea->Content = __('add');
+    $tw($ea, 'tw-text-blue-600 dark:tw-text-blue-400 tw-underline');
+} else {
+    $tw($none = $page->div(__('No jobs found')), 'job-none tw-hidden tw-text-center tw-py-10 tw-opacity-70');
+    $tw($grid = $page->div(), 'job-grid tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-3');
+    $uri = $ctrl::uri($fname);
+    foreach ($rows as $row) {
+        [$is_closed, $follow_at, $needs_action, $overdue] = $state($row);
+        $tone = 'job-card-' . ($is_closed ? 'closed' : ($overdue ? 'overdue' : ($needs_action ? 'due' : 'open')));
+        $card = $grid->a();
+        $card['data-state'] = $is_closed ? 'closed' : ($overdue ? 'overdue' : ($needs_action ? 'due' : 'open'));
+        $card['href'] = $uri . '/edit/' . $row->{Jobs::FD_ID};
+        $tw($card, 'tw-flex tw-flex-col tw-gap-2 tw-p-4 tw-rounded-xl tw-border tw-border-l-4 tw-no-underline '
+            . 'tw-border-gray-200 dark:tw-border-gray-800 '
+            . 'tw-text-gray-900 dark:tw-text-gray-100 job-card ' . $tone);
+        $tw($top = $card->div(), 'tw-flex tw-flex-row tw-justify-between tw-items-start tw-gap-3');
+        $tw($titles = $top->div(), 'tw-flex tw-flex-col tw-min-w-0');
+        $tw($titles->span($row->{Jobs::FD_TITLE}), 'tw-font-semibold tw-text-base');
+        if (isset($row->enterprise->name)) {
+            $tw($titles->span($row->enterprise->name), 'tw-text-sm tw-text-gray-500 dark:tw-text-gray-400');
+        }
+        $tw($top->span(substr((string)$row->{Jobs::FD_CREATE_AT}, 0, 10)), 'tw-text-xs tw-text-gray-500 dark:tw-text-gray-400 tw-whitespace-nowrap');
+        if ($_summary = $row->{Jobs::FD_SUMMARY}) {
+            $tw($card->div($_summary), 'tw-text-sm tw-text-gray-600 dark:tw-text-gray-300 tw-line-clamp-2');
+        }
+        $tw($foot = $card->div(), 'tw-flex tw-flex-row tw-flex-wrap tw-gap-2 tw-text-xs');
+        if (isset($row->status->{JobStatusTypes::FD_NAME})) {
+            $tw($foot->span($row->status->{JobStatusTypes::FD_NAME}), 'job-tag');
+        }
+        if ($needs_action) {
+            $tw($foot->span('⏰ ' . __('Follow up') . ' ' . $follow_at), 'job-tag tw-font-semibold job-tag-' . ($overdue ? 'overdue' : 'due'));
+        }
+    }
+}
+
+// + | chips act as filters (click again, or "All", to reset)
+$js = <<<'JS'
+(function () {
+    var chips = document.querySelectorAll('.job-chip'), cards = document.querySelectorAll('.job-grid > a'),
+        none = document.querySelector('.job-none'), on = ['tw-ring-2', 'tw-ring-current', 'tw-font-bold'];
+    function apply(f) {
+        var shown = 0;
+        cards.forEach(function (c) {
+            var ok = f === 'all' || c.getAttribute('data-state') === f;
+            c.classList.toggle('tw-hidden', !ok);
+            shown += ok ? 1 : 0;
+        });
+        chips.forEach(function (b) {
+            var a = b.getAttribute('data-filter') === f;
+            on.forEach(function (k) { b.classList.toggle(k, a); });
+        });
+        if (none) { none.classList.toggle('tw-hidden', shown > 0); }
+        try { history.replaceState(null, '', location.pathname + location.search + (f === 'all' ? '' : '#' + f)); } catch (e) { }
+    }
+    chips.forEach(function (b) {
+        b.addEventListener('click', function () {
+            var f = b.getAttribute('data-filter');
+            apply(b.classList.contains('tw-ring-2') ? 'all' : f);
+        });
+    });
+    apply((location.hash || '#all').slice(1).replace(/[^a-z]/g, '') || 'all');
+})();
+JS;
+$t->script()->Content = $js;
