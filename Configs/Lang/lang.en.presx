@@ -88,3 +88,8 @@ $l['Overdue'] = 'Overdue';
 $l['Closed'] = 'Closed';
 $l['No jobs found'] = 'No jobs found';
 $l['All'] = 'All';
+
+$l['%s enterprises'] = '%s enterprises';
+$l['Enterprises'] = 'Enterprises';
+$l['With KBO info'] = 'With KBO info';
+$l['To complete'] = 'To complete';

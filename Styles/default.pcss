@@ -194,7 +194,13 @@ $def['header .menu li > a, header nav .menu li a, header nav.menu li > a'] = 'di
 $def['header .fjd-nav-prefs'] = 'display:flex; align-items:center; gap:.4rem; padding:0 .75rem; border-left:1px solid rgba(0,216,255,.25); border-right:1px solid rgba(0,216,255,.25); height:2rem;';
 $def['header .fjd-nav-prefs select, header .fjd-nav-prefs button'] = 'height:2rem; padding:0 .5rem; margin:0; display:inline-flex; align-items:center;';
 $def['header .fjd-nav-auth'] = 'display:flex; align-items:center; justify-content:flex-end; min-width:0; white-space:nowrap;';
-$def['header .fjd-nav-auth span, header .fjd-nav-auth a, header .fjd-nav-auth div'] = 'max-width:11rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
+// ellipsis only on the login text: the wrapper and the dropdown (.box) must stay overflow:visible
+$def['header .fjd-nav-auth .fjd-user-login'] = 'max-width:11rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
+$def['header .fjd-nav-auth, header .fjd-nav-auth > div'] = 'overflow:visible;';
+$def['header .fjd-nav-auth .box'] = 'max-width:16rem; white-space:nowrap;';
+$def['header .fjd-user'] = 'display:flex; align-items:center; gap:.5rem; max-width:none;';
+$def['header .fjd-avatar'] = 'width:2rem; height:2rem; flex:none; border-radius:50%; object-fit:cover; display:inline-block;';
+$def['header .fjd-avatar-initial'] = 'display:inline-flex; align-items:center; justify-content:center; background:rgba(0,216,255,.25); font-weight:600; font-size:.875rem;';
 foreach ([&$xsm_screen, &$sm_screen, &$lg_screen] as &$_scr) {
     $_scr['header'] = 'display:flex; flex-wrap:nowrap; justify-content:space-between;';
     $_scr['header > div:first-child'] = 'flex:1 1 auto; max-width:none;';

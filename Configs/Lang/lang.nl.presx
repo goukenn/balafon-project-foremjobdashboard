@@ -96,3 +96,8 @@ $l['Overdue'] = 'Te laat';
 $l['Closed'] = 'Gesloten';
 $l['No jobs found'] = 'Geen vacatures gevonden';
 $l['All'] = 'Alle';
+
+$l['%s enterprises'] = '%s bedrijven';
+$l['Enterprises'] = 'Bedrijven';
+$l['With KBO info'] = 'Met KBO-info';
+$l['To complete'] = 'Aan te vullen';

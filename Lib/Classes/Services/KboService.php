@@ -60,6 +60,64 @@ class KboService
         $html = self::Download(sprintf(self::URL, $n));
         return $html ? self::Parse($html) : null;
     }
+    const SEARCH_URL = 'https://kbopub.economie.fgov.be/kbopub/zoeknaamfonetischform.html?lang=fr&_oudeBenaming=on&_ondNP=on&ondNP=true&_ondRP=on&ondRP=true&_vest=on&_filterEnkelActieve=on&filterEnkelActieve=true&actionNPRP=Rechercher&searchWord=%s';
+
+    /**
+     * search active enterprises by name in the public registry.
+     * @return array<int,array{number:string,name:string}> candidates (first rows of the result page)
+     */
+    public static function Search(string $name): array
+    {
+        $html = trim($name) !== '' ? self::Download(sprintf(self::SEARCH_URL, rawurlencode(trim($name)))) : null;
+        return $html ? self::ParseSearch($html) : [];
+    }
+    public static function ParseSearch(string $html): array
+    {
+        $dom = new DOMDocument();
+        $prev = libxml_use_internal_errors(true);
+        $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html);
+        libxml_clear_errors();
+        libxml_use_internal_errors($prev);
+        $xp = new DOMXPath($dom);
+        $r = [];
+        // a result row: the number is the first link ("toonondernemingps...") and the denomination is the td.benaming cell
+        foreach ($xp->query('//tr[td[@class="benaming"]]') as $tr) {
+            $a = $xp->query('td/a[contains(@href,"toonondernemingps")]', $tr)->item(0);
+            $name = self::Clean($xp->query('td[@class="benaming"]', $tr)->item(0)->textContent);
+            if ($a && $name !== '' && ($n = self::Normalize($a->textContent))) {
+                $r[] = ['number' => $n, 'name' => $name];
+            }
+        }
+        return $r;
+    }
+    /**
+     * strip legal-form words and punctuation to compare enterprise names
+     */
+    public static function CompareName(string $name): string
+    {
+        $s = mb_strtolower($name);
+        $s = preg_replace('/[^\p{L}\p{N}\s]+/u', ' ', $s);
+        $s = preg_replace('/\b(sa|nv|bv|bvba|sprl|srl|sc|scrl|cv|vzw|asbl|sas|gmbh|ltd|inc|llc|group|groupe|belgium|belgique|belgie|belgië|europe|international)\b/u', ' ', $s);
+        return trim(preg_replace('/\s+/u', ' ', $s));
+    }
+    /**
+     * pick the registry number only when exactly one candidate has the same comparable name.
+     * returns null when none or ambiguous (left for manual review)
+     */
+    public static function PickBest(string $name, array $candidates): ?string
+    {
+        $key = self::CompareName($name);
+        if ($key === '') {
+            return null;
+        }
+        $found = [];
+        foreach ($candidates as $c) {
+            if (self::CompareName($c['name']) === $key) {
+                $found[$c['number']] = true;
+            }
+        }
+        return count($found) === 1 ? array_key_first($found) : null;
+    }
     protected static function Download(string $url): ?string
     {
         if (!function_exists('curl_init')) {
@@ -77,7 +135,6 @@ class KboService
         ]);
         $r = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
         return ($r === false || $code != 200) ? null : $r;
     }
     /**
