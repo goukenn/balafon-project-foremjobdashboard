@@ -7,7 +7,7 @@ namespace com\igkdev\projects\ForemJobDashboard\Actions;
 
 use com\igkdev\projects\ForemJobDashboard\Helpers\TwoFactorAuth;
 use IGK\Actions\ActionBase;
-use IGK\Actions\Traits\AuthenticatorWith2faActionTrait;
+use igk\authentications\WebAuthn\Actions\Traits\AuthenticatorWith2faActionTrait;
 use igk\authentications\WebAuthn\Database\WebAuthnDbUtility;
 use IGK\Helper\JSon;
 use IGK\System\Http\Request;

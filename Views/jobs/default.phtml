@@ -38,7 +38,7 @@ $def['.svg.sfsymbol'] =
     'display:inline-block; width:32px; height:32px; color:var(--igk-link-color);';
 if ($header = $ctrl->getEnvParam('header')) {
     $header->top->div()->host(function ($t) use ($ctrl) {
-        $t->a($ctrl::uri('@/'), 'home')->svguse('house.fill');
+        $t->a($ctrl::uri('@/'))->svguse('house.fill');
     });
     $r = _h(
         $header->top,
@@ -70,8 +70,8 @@ foreach ($rows as $row) {
     $count_overdue += $o ? 1 : 0;
 }
 
-$page = $t->div();
-$tw($page, 'tw-flex tw-flex-col tw-gap-4 tw-pb-8 tw-w-full tw-max-w-6xl tw-mx-auto tw-px-4');
+$page = $t->main();
+$tw($page, 'tw-flex tw-flex-col tw-gap-4 tw-pb-8 tw-w-full tw-max-w-6xl tw-mx-auto tw-px-4 grow-1');
 
 // + | header: title, total, add button
 $tw($head = $page->div(), 'tw-flex tw-flex-row tw-items-center tw-justify-between tw-gap-3');

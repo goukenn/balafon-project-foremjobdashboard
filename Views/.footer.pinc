@@ -24,5 +24,7 @@ $legal->a()->setAttributes(['href' => $ctrl::uri('@/privacy')])->Content = __('P
 $def['.dispsticky'] = '{sys:dispsticky}';
 $def['.dispb'] = '{sys:dispb}';
 $def['.dispn'] = '{sys:dispn}';
+$def['main'] = 'flex-grow: 1;';
+$t['class']='+fit flex flex-column';
 
-$def::ImportSystemDefinition($def, ['igk-container', 'no-wrap','no-shrink', 'ellipsis', 'no-overflow']);
+$def::ImportSystemDefinition($def, ['igk-container', 'no-wrap','no-shrink', 'ellipsis', 'no-overflow', 'grow-1']);
