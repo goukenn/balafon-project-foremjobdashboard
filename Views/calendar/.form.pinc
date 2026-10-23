@@ -1,0 +1,99 @@
+<?php
+// @desc: add / edit appointment popup (a <dialog>), shared by calendar/default.phtml and jobs/edit.phtml
+// expects: $form_parent (node), $ctrl, $tw, $btn, $btn_main, $input, $dlg_cls, $local, $edit (?model), $job_titles,
+//          $sel_job (string), $open (bool), $back_job (?int: offer page to return to after saving)
+use com\igkdev\projects\ForemJobDashboard\Models\JobAppointments as A;
+use com\igkdev\projects\ForemJobDashboard\Services\CalendarService as Cal;
+
+use function igk_resources_gets as __;
+
+// + | add / edit form: popup, opened by the add button, a day of the grid, ?e=<id> (edit) or after an error
+$det = $tw($form_parent->add('dialog'), $dlg_cls);
+$det['id'] = 'form';
+if ($open) {
+    $det['data-autoopen'] = '1';
+}
+$x = $tw($det->button(), '!tw-absolute tw-z-10 tw-top-2 tw-right-2 tw-bg-transparent tw-border-0 tw-text-xl tw-cursor-pointer tw-text-gray-500 dark:tw-text-gray-400');
+$x['type'] = 'button';
+$x['data-close'] = '1';
+$x['aria-label'] = __('Cancel');
+$x->Content = '✕';
+$box = $tw($det->div(), 'tw-p-5');
+$tw($box->h3($edit ? __('Edit appointment') : __('Add appointment')), 'tw-text-lg tw-font-semibold tw-m-0');
+$form = $tw($box->form(), 'tw-mt-3');
+$form['method'] = 'post';
+$form['action'] = $ctrl::uri('@/calendar/save');
+$form->input('id', 'hidden', (string)($edit ? $edit->{A::FD_ID} : ''));
+if ($back_job) {
+    $form->input('back_job', 'hidden', (string)$back_job);
+}
+$fields = $tw($form->div(), 'tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-3');
+$v = function (string $c) use ($edit) {
+    return $edit ? (string)$edit->$c : '';
+};
+$field = function (string $label, $control_fn, bool $wide = false) use ($fields, $tw) {
+    $l = $tw($fields->label(), 'tw-flex tw-flex-col tw-gap-1 tw-text-sm tw-font-medium tw-text-gray-700 dark:tw-text-gray-300' . ($wide ? ' md:tw-col-span-2' : ''));
+    $l->span(__($label));
+    $control_fn($l);
+};
+$text = function (string $type, string $name, string $value, array $attr = []) use ($tw, $input) {
+    return function ($l) use ($type, $name, $value, $attr, $tw, $input) {
+        $i = $tw($l->input($name, $type, $value), $input);
+        foreach ($attr as $k => $a) {
+            $i[$k] = $a;
+        }
+    };
+};
+$field('Title', $text('text', 'title', $v(A::FD_TITLE), ['required' => 'required', 'maxlength' => 150]), true);
+$field('Type', function ($l) use ($tw, $input, $v) {
+    $s = $tw($l->select(), $input);
+    $s['name'] = 'kind';
+    foreach (Cal::KINDS as $k) {
+        $o = $s->option();
+        $o['value'] = $k;
+        if ($v(A::FD_KIND) === $k) {
+            $o['selected'] = 'selected';
+        }
+        $o->Content = __('calendar.kind.' . $k);
+    }
+});
+$field('Related offer', function ($l) use ($tw, $input, $sel_job, $job_titles) {
+    $s = $tw($l->select(), $input);
+    $s['name'] = 'job_id';
+    $s->option()->setAttribute('value', '')->Content = '-';
+    foreach ($job_titles as $jid => $jtitle) {
+        $o = $s->option();
+        $o['value'] = $jid;
+        if ($sel_job === (string)$jid) {
+            $o['selected'] = 'selected';
+        }
+        $o->Content = $jtitle;
+    }
+});
+$field('Start', $text('datetime-local', 'start_at', $local($v(A::FD_START_AT)), ['required' => 'required']));
+$field('End', $text('datetime-local', 'end_at', $local($v(A::FD_END_AT))));
+$field('Recall on', $text('datetime-local', 'remind_at', $local($v(A::FD_REMIND_AT))));
+$field('Contact email', $text('email', 'contact_email', $v(A::FD_CONTACT_EMAIL), ['maxlength' => 150]));
+$field('Location', $text('text', 'location', $v(A::FD_LOCATION), ['maxlength' => 250]), true);
+$field('Notes', function ($l) use ($tw, $input, $v) {
+    $ta = $tw($l->textarea(), $input);
+    $ta['name'] = 'notes';
+    $ta['rows'] = 3;
+    $ta['style'] = 'height:6rem;resize:vertical';
+    $ta->Content = $v(A::FD_NOTES);
+}, true);
+if ($back_job) {
+    // saved from an offer page: stay there unless the user asks for the calendar
+    $l = $tw($fields->label(), 'md:tw-col-span-2 tw-flex tw-items-center tw-gap-2 tw-text-sm tw-text-gray-700 dark:tw-text-gray-300');
+    $l->input('to_calendar', 'checkbox', '1');
+    $l->span(__('Open the calendar after saving'));
+}
+$bar = $tw($fields->div(), 'md:tw-col-span-2 tw-flex tw-gap-2');
+$b = $tw($bar->button(), $btn_main);
+$b['type'] = 'submit';
+$b->Content = __('save');
+$a = $tw($bar->a(), $btn . ' tw-px-4 tw-py-2 tw-text-sm');
+$a['href'] = $ctrl::uri('@/calendar');
+$a['data-close'] = '1';
+$a->Content = __('Cancel');
+

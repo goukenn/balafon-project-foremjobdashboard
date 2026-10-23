@@ -1,36 +1,103 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: enterprise/edit.phtml
-// @desc: edit enterprise form
+// @desc: edit enterprise form, same charter as enterprise/default.phtml (Tailwind cards, dark/light)
 // @view: enterprise/edit
-use function igk_html_host as _h;
 use function igk_resources_gets as __;
 
+/**
+ * @var mixed $ctrl
+ * @var mixed $t
+ * @var mixed $data
+ */
 $enterprise = $data->enterprise;
 $doc->title = sprintf('%s - %s', $enterprise->name, __('edit'));
-$row = $t->main()->container()->row();
+
+// setClass() mangles '/' and ':' in class names (tw-bg-red-500/15, dark:...), so set the attribute directly
+$tw = function ($node, string $classes) {
+    $node['class'] = $classes;
+    return $node;
+};
+$btn = 'tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm tw-font-medium tw-no-underline tw-cursor-pointer tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-800 dark:tw-text-gray-200 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-800';
+$btn_main = 'tw-px-4 tw-py-2 tw-rounded-lg tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-text-sm tw-font-medium tw-no-underline tw-cursor-pointer tw-border-0';
+$input = 'tw-w-full tw-px-3 tw-py-2 tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-900 dark:tw-text-gray-100';
+$card_cls = 'tw-flex tw-flex-col tw-gap-3 tw-p-4 tw-rounded-xl tw-border tw-border-gray-200 dark:tw-border-gray-800 tw-bg-white dark:tw-bg-gray-900';
+
+$page = $tw($t->div(), 'tw-flex tw-flex-col tw-gap-4 tw-pb-8 tw-w-full tw-max-w-4xl tw-mx-auto tw-px-4');
+
+// + | header: title, back to details
+$tw($head = $page->div(), 'tw-flex tw-flex-row tw-items-center tw-justify-between tw-gap-3');
+$tw($h = $head->h2(), 'tw-text-2xl tw-font-bold tw-m-0');
+$h->span(__('Edit enterprise') . ' · ' . $enterprise->name);
+$back = $tw($head->a(), $btn);
+$back['href'] = $ctrl::uri('@/enterprise/details/' . $enterprise->id);
+$back->Content = __('Cancel');
+
 if ($data->vat_warning ?? null) {
-    $row->col()->div('alert.alert-warning')->Content = __('VAT number format looks invalid, please check it (BE followed by 9-10 digits).');
+    $w = $tw($page->div(), 'tw-p-3 tw-rounded-lg tw-border tw-border-yellow-400 tw-bg-yellow-50 dark:tw-bg-yellow-900 tw-text-yellow-900 dark:tw-text-yellow-100 tw-text-sm');
+    $w['role'] = 'alert';
+    $w->Content = __('VAT number format looks invalid, please check it (BE followed by 9-10 digits).');
 }
-$frm = $row->col()->div()->form();
-$frm['action'] = $ctrl::uri($fname);
-$frm->fields([
-    'name' => ['value' => $enterprise->name],
-    'vat' => ['value' => $enterprise->vat],
-    'title' => ['value' => $enterprise->title],
-    'address' => ['value' => $enterprise->address],
-    'locality' => ['value' => $enterprise->locality],
-    'share_capital' => ['type' => 'number', 'value' => $enterprise->share_capital, 'attribs' => ['step' => '0.01']],
-    'turnover' => ['type' => 'number', 'value' => $enterprise->turnover, 'attribs' => ['step' => '0.01']],
-    'legal_form' => ['value' => $enterprise->legal_form],
-    'phone' => ['value' => $enterprise->phone],
-    'email' => ['value' => $enterprise->email],
-    'website' => ['value' => $enterprise->website],
-    'start_date' => ['type' => 'date', 'value' => $enterprise->start_date],
-    'kbo_status' => ['value' => $enterprise->kbo_status, 'attribs' => ['readonly' => 'readonly']],
-    'description' => ['type' => 'textarea', 'maxlength' => 255, 'value' => $enterprise->description],
-]);
+
+$form = $tw($page->form(), 'tw-flex tw-flex-col tw-gap-4');
+$form['method'] = 'post';
+$form['action'] = $ctrl::uri($fname);
+
+// one labelled control; $attr are extra input attributes
+$field = function ($parent, string $name, string $type = 'text', array $attr = [], bool $wide = false) use ($tw, $input, $enterprise) {
+    $l = $tw($parent->label(), 'tw-flex tw-flex-col tw-gap-1 tw-text-sm tw-font-medium tw-text-gray-700 dark:tw-text-gray-300' . ($wide ? ' md:tw-col-span-2' : ''));
+    $l->span(__('enterprise.field.' . $name));
+    $value = (string)($enterprise->$name ?? '');
+    if ($type === 'textarea') {
+        $c = $tw($l->textarea(), $input);
+        $c['name'] = $name;
+        $c['rows'] = 3;
+        $c['style'] = 'height:6rem;resize:vertical';
+        $c->Content = $value;
+    } else {
+        $c = $tw($l->input($name, $type, $value), $input);
+    }
+    foreach ($attr as $k => $a) {
+        $c[$k] = $a;
+    }
+    return $c;
+};
+$section = function (string $label) use ($form, $tw, $card_cls) {
+    $card = $tw($form->div(), $card_cls);
+    $tw($card->h3(), 'tw-text-lg tw-font-semibold tw-m-0')->Content = $label;
+    return $tw($card->div(), 'tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-3');
+};
+
+// + | identity (the KBO button fills these fields)
+$g = $section(__('enterprise.section.identity'));
+$field($g, 'name', 'text', ['required' => 'required']);
+$field($g, 'vat');
+$field($g, 'title', 'text', [], true);
+$field($g, 'description', 'textarea', ['maxlength' => 255], true);
+$frm = $tw($g->div(), 'md:tw-col-span-2');
 include __DIR__ . '/.kbo.pinc';
-$frm->actionbar()->host(function ($a) {
-    $a->submit('btn.save', __('save'))->setClass('dispib');
-});
+
+// + | contact
+$g = $section(__('enterprise.section.contact'));
+$field($g, 'address', 'text', [], true);
+$field($g, 'locality');
+$field($g, 'phone');
+$field($g, 'email', 'email');
+$field($g, 'website');
+
+// + | company
+$g = $section(__('enterprise.section.company'));
+$field($g, 'legal_form');
+$field($g, 'start_date', 'date');
+$field($g, 'share_capital', 'number', ['step' => '0.01']);
+$field($g, 'turnover', 'number', ['step' => '0.01']);
+$field($g, 'kbo_status', 'text', ['readonly' => 'readonly', 'class' => $input . ' tw-opacity-70']);
+
+// + | actions
+$tw($bar = $form->div(), 'tw-flex tw-gap-2');
+$b = $tw($bar->button(), $btn_main);
+$b['type'] = 'submit';
+$b->Content = __('save');
+$c = $tw($bar->a(), $btn);
+$c['href'] = $back['href'];
+$c->Content = __('Cancel');

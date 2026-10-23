@@ -57,7 +57,12 @@ class CalendarAction extends ActionBase
             'start_at' => igk_getr('start_at'), 'end_at' => igk_getr('end_at'), 'remind_at' => igk_getr('remind_at'),
             'location' => igk_getr('location'), 'contact_email' => igk_getr('contact_email'), 'notes' => igk_getr('notes'),
         ]);
-        $this->back($r instanceof JobAppointments ? '?ok=1' : '?err=' . $r . ($id ? '&e=' . $id : ''));
+        // saved from an offer page: go back to it unless the user asked for the calendar
+        $job = (int)igk_getr('back_job');
+        if ($r instanceof JobAppointments && $job && !igk_getr('to_calendar')) {
+            igk_navto($this->getController()::uri('@/jobs/edit/' . $job) . '?appt=1');
+        }
+        $this->back($r instanceof JobAppointments ? '?ok=1' : '?err=' . $r . ($id ? '&e=' . $id : ($job ? '&new=1&job=' . $job : '')));
     }
     public function status_post()
     {
