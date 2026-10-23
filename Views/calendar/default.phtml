@@ -1,0 +1,331 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: calendar/default.phtml
+// @desc: user's appointment calendar: due recalls, planned appointments, ICS subscription (Calendar.app / Google Calendar)
+// @view: calendar/default
+// @date: 20261023 00:00:00
+use com\igkdev\projects\ForemJobDashboard\Models\JobAppointments as A;
+use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+use com\igkdev\projects\ForemJobDashboard\Services\CalendarService as Cal;
+
+use function igk_html_host as _h;
+use function igk_resources_gets as __;
+
+/**
+ * @var mixed $ctrl
+ * @var mixed $t
+ * @var mixed $data
+ */
+// mutations are POSTs handled by CalendarAction::<name>_post (save, status, snooze, delete, token)
+$this->checkUser(true);
+
+$doc->title = sprintf('%s - %s', __('Calendar'), $ctrl->getAppTitle());
+$tw = function ($node, string $classes) {
+    $node['class'] = $classes;
+    return $node;
+};
+$btn = 'tw-px-3 tw-py-1 tw-rounded-lg tw-text-xs tw-font-medium tw-no-underline tw-cursor-pointer tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-800 dark:tw-text-gray-200 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-800';
+$btn_main = 'tw-px-4 tw-py-2 tw-rounded-lg tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-text-sm tw-font-medium tw-no-underline tw-cursor-pointer tw-border-0';
+$btn_ok = 'tw-px-3 tw-py-1 tw-rounded-lg tw-text-xs tw-font-medium tw-cursor-pointer tw-border-0 tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white';
+$input = 'tw-w-full tw-px-3 tw-py-2 tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-900 dark:tw-text-gray-100';
+
+$events = $data->events ?: [];
+$due = $data->due ?: [];
+$edit = null;
+if ($eid = (int)igk_getr('e')) {
+    $edit = Cal::Get((int)$ctrl->getUserProfile()->user()->jbu_id, $eid);
+}
+$job_titles = [];
+foreach ($data->jobs ?: [] as $j) {
+    $job_titles[$j->{Jobs::FD_ID}] = $j->{Jobs::FD_TITLE};
+}
+$fmt = function (?string $d) {
+    return $d ? __('calendar.day.' . date('w', strtotime($d))) . ' ' . date('d/m/Y H:i', strtotime($d)) : '';
+};
+$local = function (?string $d) {
+    return $d ? date('Y-m-d\TH:i', strtotime($d)) : '';
+};
+$post_form = function ($parent, string $sub, array $hidden, string $label, string $cls) use ($ctrl) {
+    $f = $parent->form();
+    $f['method'] = 'post';
+    $f['action'] = $ctrl::uri('@/calendar/' . $sub);
+    $f['class'] = 'tw-inline';
+    foreach ($hidden as $k => $v) {
+        $f->input($k, 'hidden', (string)$v);
+    }
+    $b = $f->button();
+    $b['type'] = 'submit';
+    $b['class'] = $cls;
+    $b->Content = $label;
+    return $f;
+};
+
+// + | state of each appointment drives its card colour (same charter as jobs/enterprise cards)
+$due_ids = [];
+foreach ($due as $e) {
+    $due_ids[$e->{A::FD_ID}] = true;
+}
+$state_of = function ($e) use ($due_ids) {
+    $st = $e->{A::FD_STATUS};
+    if ($st !== Cal::STATUS_PLANNED) {
+        return $st;
+    }
+    return isset($due_ids[$e->{A::FD_ID}]) ? 'due' : 'upcoming';
+};
+$rank = ['due' => 0, 'upcoming' => 1, Cal::STATUS_DONE => 2, Cal::STATUS_CANCELLED => 3];
+$rows = $events;
+usort($rows, function ($a, $b) use ($state_of, $rank) {
+    $ra = $rank[$state_of($a)];
+    $rb = $rank[$state_of($b)];
+    if ($ra !== $rb) {
+        return $ra <=> $rb;
+    }
+    // planned: soonest first; closed: latest first
+    return $ra < 2 ? strcmp($a->{A::FD_START_AT}, $b->{A::FD_START_AT}) : strcmp($b->{A::FD_START_AT}, $a->{A::FD_START_AT});
+});
+$counts = ['due' => 0, 'upcoming' => 0, Cal::STATUS_DONE => 0, Cal::STATUS_CANCELLED => 0];
+foreach ($rows as $e) {
+    $counts[$state_of($e)]++;
+}
+$card_class = [
+    'due' => 'job-card-due',
+    'upcoming' => 'job-card-open',
+    Cal::STATUS_DONE => 'job-card-open tw-opacity-70',
+    Cal::STATUS_CANCELLED => 'job-card-closed',
+];
+
+$page = $tw($t->div(), 'page tw-flex tw-flex-col tw-gap-4 tw-pb-8 tw-w-full tw-max-w-6xl tw-mx-auto tw-px-4 pad-t-2em');
+
+// + | header: title, total, add button
+$tw($head = $page->div(), 'tw-flex tw-flex-row tw-items-center tw-justify-between tw-gap-3');
+$tw($title = $head->h2(), 'tw-text-2xl tw-font-bold tw-flex tw-items-center tw-gap-3');
+$title->span(__('Calendar'));
+$tw($title->span(count($rows)), 'tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded-full job-count');
+$add = $head->a();
+$add['href'] = $ctrl::uri('@/calendar') . '?new=1#form';
+$add->Content = __('Add appointment');
+$tw($add, $btn_main);
+
+if ($err = igk_getr('err')) {
+    $p = $tw($page->p(), 'tw-px-4 tw-py-2 tw-rounded-lg tw-bg-red-500/15 tw-text-red-700 dark:tw-text-red-400');
+    $p['role'] = 'alert';
+    $p->Content = __('calendar.error.' . preg_replace('/\W/', '', $err));
+} elseif (igk_getr('ok') || igk_getr('deleted')) {
+    $p = $tw($page->p(), 'tw-px-4 tw-py-2 tw-rounded-lg tw-bg-green-500/15 tw-text-green-700 dark:tw-text-green-400');
+    $p['role'] = 'status';
+    $p->Content = igk_getr('ok') ? __('Calendar updated.') : __('Appointment deleted.');
+}
+
+// + | filter chips (client side)
+$tw($chips = $page->div(), 'tw-flex tw-flex-row tw-flex-wrap tw-gap-2 tw-text-xs tw-font-medium');
+foreach ([
+    ['all', __('All'), count($rows), 'job-chip-all'],
+    ['due', __('To recall'), $counts['due'], 'job-chip-due'],
+    ['upcoming', __('Upcoming'), $counts['upcoming'], 'job-chip-all'],
+    [Cal::STATUS_DONE, __('calendar.status.done'), $counts[Cal::STATUS_DONE], 'job-chip-all'],
+    [Cal::STATUS_CANCELLED, __('calendar.status.cancelled'), $counts[Cal::STATUS_CANCELLED], 'job-chip-closed'],
+] as [$key, $label, $n, $cls]) {
+    $chip = $chips->button();
+    $chip['type'] = 'button';
+    $chip['data-filter'] = $key;
+    $chip->Content = $label . ' · ' . $n;
+    $tw($chip, 'job-chip tw-px-3 tw-py-1 tw-rounded-full tw-border-0 tw-cursor-pointer tw-text-xs tw-font-medium ' . $cls);
+}
+
+// + | cards
+if (!$rows) {
+    $tw($empty = $page->div(), 'tw-text-center tw-py-16 tw-rounded-xl tw-border tw-border-dashed tw-border-gray-300 dark:tw-border-gray-700');
+    $tw($empty->div(__('Nothing here.')), 'tw-text-lg tw-mb-3');
+    $ea = $empty->a();
+    $ea['href'] = $ctrl::uri('@/calendar') . '?new=1#form';
+    $ea->Content = __('Add appointment');
+    $tw($ea, 'tw-text-blue-600 dark:tw-text-blue-400 tw-underline');
+} else {
+    $tw($none = $page->div(__('Nothing here.')), 'job-none tw-hidden tw-text-center tw-py-10 tw-opacity-70');
+    $tw($grid = $page->div(), 'job-grid tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-3');
+    foreach ($rows as $e) {
+        $id = $e->{A::FD_ID};
+        $state = $state_of($e);
+        $card = $grid->div();
+        $card['data-state'] = $state;
+        $tw($card, 'job-card ' . $card_class[$state] . ' tw-flex tw-flex-col tw-gap-2 tw-p-4 tw-rounded-xl tw-border tw-border-l-4 tw-border-gray-200 dark:tw-border-gray-800 tw-text-gray-900 dark:tw-text-gray-100');
+        // title + date
+        $tw($titles = $card->div(), 'tw-flex tw-flex-col tw-min-w-0');
+        $tw($titles->span($e->{A::FD_TITLE}), 'tw-font-semibold tw-text-base' . ($state === Cal::STATUS_CANCELLED ? ' tw-line-through' : ''));
+        $tw($titles->span('🗓 ' . $fmt($e->{A::FD_START_AT})), 'tw-text-sm tw-text-gray-600 dark:tw-text-gray-300');
+        if ($e->{A::FD_LOCATION}) {
+            $tw($card->div('📍 ' . $e->{A::FD_LOCATION}), 'tw-text-sm tw-text-gray-600 dark:tw-text-gray-300');
+        }
+        // tags: kind, state, recall, offer
+        $tw($tags = $card->div(), 'tw-flex tw-flex-row tw-flex-wrap tw-gap-2 tw-text-xs');
+        $tw($tags->span(__('calendar.kind.' . $e->{A::FD_KIND})), 'job-tag');
+        if ($state === 'due') {
+            $tw($tags->span(__('To recall')), 'job-tag job-tag-due');
+        } elseif ($state === Cal::STATUS_DONE || $state === Cal::STATUS_CANCELLED) {
+            $tw($tags->span(__('calendar.status.' . $state)), 'job-tag');
+        }
+        if ($e->{A::FD_REMIND_AT} && $state !== Cal::STATUS_DONE && $state !== Cal::STATUS_CANCELLED) {
+            $tw($tags->span('⏰ ' . $fmt($e->{A::FD_REMIND_AT})), 'job-tag');
+        }
+        if (($jid = $e->{A::FD_JOB_ID}) && isset($job_titles[$jid])) {
+            $tw($tags->span($job_titles[$jid]), 'job-tag tw-max-w-full tw-truncate');
+        }
+        if ($e->{A::FD_NOTES}) {
+            $tw($card->p($e->{A::FD_NOTES}), 'tw-text-sm tw-text-gray-600 dark:tw-text-gray-300 tw-whitespace-pre-line tw-m-0');
+        }
+        // actions
+        $tw($row = $card->div(), 'tw-flex tw-flex-row tw-flex-wrap tw-gap-2 tw-mt-1');
+        if ($state === 'due' || $state === 'upcoming') {
+            $post_form($row, 'status', ['id' => $id, 'status' => Cal::STATUS_DONE], __('Done'), $btn_ok);
+            $post_form($row, 'snooze', ['id' => $id, 'days' => 1], __('Snooze +1 day'), $btn);
+        } else {
+            $post_form($row, 'status', ['id' => $id, 'status' => Cal::STATUS_PLANNED], __('Reopen'), $btn);
+        }
+        if ($mail = Cal::MailtoUrl($e)) {
+            $a = $tw($row->a(), $btn);
+            $a['href'] = $mail;
+            $a->Content = __('Resend mail');
+        }
+        $a = $tw($row->a(), $btn);
+        $a['href'] = Cal::GoogleUrl($e);
+        $a['target'] = '_blank';
+        $a['rel'] = 'noopener';
+        $a->Content = __('Google Calendar');
+        $a = $tw($row->a(), $btn);
+        $a['href'] = $ctrl::uri('@/calendar/ics') . '?id=' . $id;
+        $a->Content = __('Calendar.app (.ics)');
+        $a = $tw($row->a(), $btn);
+        $a['href'] = $ctrl::uri('@/calendar') . '?e=' . $id . '#form';
+        $a->Content = __('edit');
+        if ($state === 'due' || $state === 'upcoming') {
+            $post_form($row, 'status', ['id' => $id, 'status' => Cal::STATUS_CANCELLED], __('Cancel'), $btn);
+        }
+        $post_form($row, 'delete', ['id' => $id], __('delete'), $btn . ' tw-text-red-600 dark:tw-text-red-400');
+    }
+}
+
+// + | add / edit form: collapsed card, open when editing, creating or after an error
+$open = $edit || igk_getr('new') || $err;
+$det = $tw($page->details(), 'tw-rounded-xl tw-border tw-border-gray-200 dark:tw-border-gray-800 tw-bg-white dark:tw-bg-gray-900 tw-p-4');
+$det['id'] = 'form';
+if ($open) {
+    $det['open'] = 'open';
+}
+$tw($det->summary($edit ? __('Edit appointment') : __('Add appointment')), 'tw-cursor-pointer tw-text-lg tw-font-semibold');
+$form = $tw($det->form(), 'tw-mt-3');
+$form['method'] = 'post';
+$form['action'] = $ctrl::uri('@/calendar/save');
+$form->input('id', 'hidden', (string)($edit ? $edit->{A::FD_ID} : ''));
+$fields = $tw($form->div(), 'tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-3');
+$v = function (string $c) use ($edit) {
+    return $edit ? (string)$edit->$c : '';
+};
+$field = function (string $label, $control_fn, bool $wide = false) use ($fields, $tw) {
+    $l = $tw($fields->label(), 'tw-flex tw-flex-col tw-gap-1 tw-text-sm tw-font-medium tw-text-gray-700 dark:tw-text-gray-300' . ($wide ? ' md:tw-col-span-2' : ''));
+    $l->span(__($label));
+    $control_fn($l);
+};
+$text = function (string $type, string $name, string $value, array $attr = []) use ($tw, $input) {
+    return function ($l) use ($type, $name, $value, $attr, $tw, $input) {
+        $i = $tw($l->input($name, $type, $value), $input);
+        foreach ($attr as $k => $a) {
+            $i[$k] = $a;
+        }
+    };
+};
+$field('Title', $text('text', 'title', $v(A::FD_TITLE), ['required' => 'required', 'maxlength' => 150]), true);
+$field('Type', function ($l) use ($tw, $input, $v) {
+    $s = $tw($l->select(), $input);
+    $s['name'] = 'kind';
+    foreach (Cal::KINDS as $k) {
+        $o = $s->option();
+        $o['value'] = $k;
+        if ($v(A::FD_KIND) === $k) {
+            $o['selected'] = 'selected';
+        }
+        $o->Content = __('calendar.kind.' . $k);
+    }
+});
+$field('Related offer', function ($l) use ($tw, $input, $v, $job_titles) {
+    $s = $tw($l->select(), $input);
+    $s['name'] = 'job_id';
+    $s->option()->setAttribute('value', '')->Content = '-';
+    foreach ($job_titles as $jid => $jtitle) {
+        $o = $s->option();
+        $o['value'] = $jid;
+        if ((string)$v(A::FD_JOB_ID) === (string)$jid) {
+            $o['selected'] = 'selected';
+        }
+        $o->Content = $jtitle;
+    }
+});
+$field('Start', $text('datetime-local', 'start_at', $local($v(A::FD_START_AT)), ['required' => 'required']));
+$field('End', $text('datetime-local', 'end_at', $local($v(A::FD_END_AT))));
+$field('Recall on', $text('datetime-local', 'remind_at', $local($v(A::FD_REMIND_AT))));
+$field('Contact email', $text('email', 'contact_email', $v(A::FD_CONTACT_EMAIL), ['maxlength' => 150]));
+$field('Location', $text('text', 'location', $v(A::FD_LOCATION), ['maxlength' => 250]), true);
+$field('Notes', function ($l) use ($tw, $input, $v) {
+    $ta = $tw($l->textarea(), $input);
+    $ta['name'] = 'notes';
+    $ta['rows'] = 3;
+    $ta['style'] = 'height:6rem;resize:vertical';
+    $ta->Content = $v(A::FD_NOTES);
+}, true);
+$bar = $tw($fields->div(), 'md:tw-col-span-2 tw-flex tw-gap-2');
+$b = $tw($bar->button(), $btn_main);
+$b['type'] = 'submit';
+$b->Content = __('save');
+if ($edit || $open) {
+    $a = $tw($bar->a(), $btn . ' tw-px-4 tw-py-2 tw-text-sm');
+    $a['href'] = $ctrl::uri('@/calendar');
+    $a->Content = __('Cancel');
+}
+
+// + | sharing: the subscription url is secret, anyone holding it can read the calendar
+$feed = $ctrl::uri('@/calendar/feed') . '?t=' . $data->token;
+$feed_abs = preg_match('#^https?://#', $feed) ? $feed : rtrim(igk_io_baseuri(), '/') . '/' . ltrim($feed, '/');
+$sec = $tw($page->section(), 'tw-flex tw-flex-col tw-gap-2 tw-p-4 tw-rounded-xl tw-border tw-border-l-4 tw-border-gray-200 dark:tw-border-gray-800 job-card-open');
+$tw($sec->h3(), 'tw-text-lg tw-font-semibold tw-m-0')->Content = __('Share with your calendar app');
+$tw($sec->p(), 'tw-text-sm tw-text-gray-600 dark:tw-text-gray-300 tw-m-0')->Content = __('Subscribe to this address in Calendar.app (File > New Calendar Subscription) or Google Calendar (Other calendars > From URL). Keep it private: anyone with the address can read your calendar.');
+$i = $tw($sec->input('feed', 'text', $feed_abs), $input . ' tw-text-sm !tw-bg-white dark:!tw-bg-gray-900');
+$i['readonly'] = 'readonly';
+$i['onclick'] = 'this.select()';
+$webcal = preg_replace('#^https?://#', 'webcal://', $feed_abs);
+$row = $tw($sec->div(), 'tw-flex tw-flex-wrap tw-gap-2');
+$a = $tw($row->a(), $btn_main);
+$a['href'] = $webcal;
+$a->Content = __('Open in Calendar.app');
+$a = $tw($row->a(), $btn . ' tw-px-4 tw-py-2 tw-text-sm');
+$a['href'] = 'https://calendar.google.com/calendar/render?cid=' . rawurlencode($feed_abs);
+$a['target'] = '_blank';
+$a['rel'] = 'noopener';
+$a->Content = __('Add to Google Calendar');
+$post_form($row, 'token', [], __('Regenerate address'), $btn . ' tw-px-4 tw-py-2 tw-text-sm');
+
+// + | chips act as filters (click again, or "All", to reset)
+$js = <<<'JS'
+(function () {
+    var chips = document.querySelectorAll('.job-chip'), cards = document.querySelectorAll('.job-grid > div'),
+        none = document.querySelector('.job-none'), on = ['tw-ring-2', 'tw-ring-current', 'tw-font-bold'];
+    function apply(f) {
+        var shown = 0;
+        cards.forEach(function (c) {
+            var ok = f === 'all' || c.getAttribute('data-state') === f;
+            c.classList.toggle('tw-hidden', !ok);
+            shown += ok ? 1 : 0;
+        });
+        chips.forEach(function (b) {
+            var a = b.getAttribute('data-filter') === f;
+            on.forEach(function (k) { b.classList.toggle(k, a); });
+        });
+        if (none) { none.classList.toggle('tw-hidden', shown > 0); }
+    }
+    chips.forEach(function (b) {
+        b.addEventListener('click', function () {
+            apply(b.classList.contains('tw-ring-2') ? 'all' : b.getAttribute('data-filter'));
+        });
+    });
+    apply('all');
+})();
+JS;
+$t->script()->Content = $js;

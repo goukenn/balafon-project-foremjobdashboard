@@ -20,3 +20,7 @@ ici seront marquer les évolutions du cahier de charge du Project
 - global hooks that manage some functionnality shared globally should start with 'com.igkdev.sys://[filter|hook]/[action-type-path]'  
 example: com.igkdev.sys://filter/account/current-plan, so the const helper shoul be `const FILTER_ACCOUNT_PLAN= 'com.igkdev.sys://filter/accouncurrent-plan'` some project expose
 hooks that can be regististered to it must past as args ['ctrl'=>project, 'filter'=>..., for filter, '...' exposed params for definitionn
+
+## 2026-10-23
+
+- calendar: a user manages an appointment calendar and recalls/resends email/recontacts; the calendar can be shared with Calendar.app or Google Calendar (ICS subscription feed + per-event export).

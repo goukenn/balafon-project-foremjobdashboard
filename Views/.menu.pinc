@@ -10,4 +10,4 @@ $default_ctrl = igk_get_defaultwebpagectrl();
 $is_default = $ctrl === $default_ctrl;
 $all = include __DIR__ . '/.menu.all.pinc';
 // + | kept in the header: home, about and the main pages
-return array_intersect_key($all, array_flip(['home', 'jobs', 'enterprises', 'cv', 'about']));
+return array_intersect_key($all, array_flip(['home', 'jobs', 'enterprises', 'calendar', 'cv', 'about']));

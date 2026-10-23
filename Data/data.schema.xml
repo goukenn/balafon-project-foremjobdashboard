@@ -285,6 +285,30 @@
 		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
 
+	<DataDefinition TableName="%prefix%job_appointments" Description="user's calendar: appointments, recalls, recontacts"
+		Prefix="jap_">
+		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+		<Column clName="guid" clType="guid" clNotNull="true" clIsUnique></Column>
+		<Column clName="user_id" clType="Int" clLinkType="%prefix%job_users" clLinkColumn="id" clNotNull="true"></Column>
+		<Column clName="job_id" clType="Int" clLinkType="%prefix%jobs" clLinkColumn="id" clDescription="related offer"></Column>
+		<Column clName="title" clType="VarChar" clTypeLength="150" clNotNull="true"></Column>
+		<Column clName="kind" clType="VarChar" clTypeLength="20" clDefault="interview" clNotNull="true" clDescription="interview|call|followup|recontact|other"></Column>
+		<Column clName="start_at" clType="DateTime" clNotNull="true"></Column>
+		<Column clName="end_at" clType="DateTime"></Column>
+		<Column clName="location" clType="VarChar" clTypeLength="250"></Column>
+		<Column clName="contact_email" clType="VarChar" clTypeLength="150" clDescription="address used to resend a mail / recontact"></Column>
+		<Column clName="notes" clType="text"></Column>
+		<Column clName="remind_at" clType="DateTime" clDescription="when to recall this appointment (shown as due)"></Column>
+		<Column clName="status" clType="VarChar" clTypeLength="12" clDefault="planned" clNotNull="true" clDescription="planned|done|cancelled"></Column>
+		<GenColumn name="updateTime"></GenColumn>
+	</DataDefinition>
+	<DataDefinition TableName="%prefix%job_calendar_feeds" Description="secret token of a user's subscribable ICS feed"
+		Prefix="jcf_">
+		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+		<Column clName="user_id" clType="Int" clLinkType="%prefix%job_users" clLinkColumn="id" clNotNull="true" clIsUnique></Column>
+		<Column clName="token" clType="VarChar" clTypeLength="64" clNotNull="true" clIsUnique></Column>
+		<GenColumn name="updateTime"></GenColumn>
+	</DataDefinition>
 
 	<DataDefinition TableName="%prefix%job_experiences" Description="user's experiences categories"
 		Prefix="job_exp_">

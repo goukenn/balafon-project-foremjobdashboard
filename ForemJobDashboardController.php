@@ -107,7 +107,7 @@ class ForemJobDashboardController extends ApplicationController
             // public legal pages
             function ($d) {
                 $l = RegexHelper::Escape($this->uriPath('/'));
-                return preg_match('/' . $l . '\/?(terms|privacy)\/?$/', $d);
+                return preg_match('/' . $l . '\/?(terms|privacy|calendar\/feed)\/?$/', $d);
             }
         ];
     }
