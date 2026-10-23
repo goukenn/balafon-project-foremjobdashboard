@@ -212,6 +212,50 @@ $snooze['method'] = 'post';
 $snooze['action'] = $ctrl::uri($fname . '/snooze/' . $id);
 $snooze->submit('', __('Snooze +1 week'))->setClass('tw-text-sm tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline');
 
+// + | add appointment: popup on this page, related offer preselected; the user chooses to stay or open the calendar
+if (igk_getr('appt')) {
+    $ok = $b->p();
+    $ok['role'] = 'status';
+    $ok['class'] = 'tw-text-sm tw-text-center tw-text-green-700 dark:tw-text-green-400 tw-mt-2 tw-mb-0';
+    $ok->Content = __('Appointment added.');
+    $cal = $ok->a();
+    $cal['href'] = $ctrl::uri('@/calendar');
+    $cal['class'] = 'tw-ml-2 tw-text-blue-600 dark:tw-text-blue-400';
+    $cal->Content = __('View in calendar');
+}
+$appt = $b->button();
+$appt['type'] = 'button';
+$appt['data-open-form'] = '1';
+$appt['class'] = 'tw-block tw-mx-auto tw-mt-2 tw-text-sm tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline tw-bg-transparent tw-border-0 tw-cursor-pointer';
+$appt->Content = '🗓 ' . __('Add appointment');
+(function ($form_parent, $ctrl, $job_id, $job_title) {
+    $tw = function ($node, string $classes) {
+        $node['class'] = $classes;
+        return $node;
+    };
+    $btn = 'tw-px-3 tw-py-1 tw-rounded-lg tw-text-xs tw-font-medium tw-no-underline tw-cursor-pointer tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-800 dark:tw-text-gray-200 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-800';
+    $btn_main = 'tw-px-4 tw-py-2 tw-rounded-lg tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-text-sm tw-font-medium tw-no-underline tw-cursor-pointer tw-border-0';
+    $input = 'tw-w-full tw-px-3 tw-py-2 tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-900 dark:tw-text-gray-100';
+    $dlg_cls = 'cal-dialog tw-rounded-xl tw-p-0 tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-900 dark:tw-text-gray-100 tw-m-auto tw-w-[calc(100%-2rem)] tw-max-w-xl tw-max-h-[90vh] tw-overflow-y-auto backdrop:tw-bg-black/60';
+    $local = function (?string $d) {
+        return $d ? date('Y-m-d\TH:i', strtotime($d)) : '';
+    };
+    $edit = null;
+    $job_titles = [$job_id => $job_title];
+    $sel_job = (string)$job_id;
+    $open = false;
+    $back_job = $job_id;
+    include dirname(__DIR__) . '/calendar/.form.pinc';
+    $form_parent->script()->Content = <<<'JS'
+(function () {
+    var d = document.getElementById('form');
+    document.querySelectorAll('[data-open-form]').forEach(function (b) { b.addEventListener('click', function () { d.showModal(); }); });
+    d.addEventListener('click', function (e) { if (e.target === d) { d.close(); } });
+    d.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', function (e) { e.preventDefault(); d.close(); }); });
+})();
+JS;
+})($t, $ctrl, $id, $row->{Jobs::FD_TITLE});
+
 // + | ------------------------------------------------
 // + | external site's forms (site domain + reference + url)
 // + |
