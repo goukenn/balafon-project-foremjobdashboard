@@ -125,3 +125,8 @@ $l['Overdue'] = 'En retard';
 $l['Closed'] = 'Clôturées';
 $l['No jobs found'] = 'Aucune offre trouvée';
 $l['All'] = 'Tous';
+
+$l['%s enterprises'] = '%s entreprises';
+$l['Enterprises'] = 'Entreprises';
+$l['With KBO info'] = 'Avec infos BCE';
+$l['To complete'] = 'À compléter';

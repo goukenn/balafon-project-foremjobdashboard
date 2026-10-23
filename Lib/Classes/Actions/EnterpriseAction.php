@@ -27,6 +27,8 @@ use ReflectionException;
  */
 class EnterpriseAction extends ApiActionBase
 {
+    const PAGE_SIZE = 50;
+
     /**
      * override handle response
      * @param mixed $response 
@@ -92,12 +94,16 @@ class EnterpriseAction extends ApiActionBase
      */
     public function index()
     {
-        $cond = [];
+        $all = JobEnterprises::select_all([], ['OrderBy' => [JobEnterprises::FD_NAME . '|ASC']]) ?: [];
+        $total = count($all);
+        $page = max(1, (int)igk_getr('page', 1));
+        $pages = max(1, (int)ceil($total / self::PAGE_SIZE));
+        $page = min($page, $pages);
         return [
-            'enteprises' => JobEnterprises::select_all($cond, [
-                'Limit' => 10
-            ]),
-            'enterprise_count' => JobEnterprises::count($cond)
+            'enterprises' => array_slice($all, ($page - 1) * self::PAGE_SIZE, self::PAGE_SIZE),
+            'enterprise_count' => $total,
+            'page' => $page,
+            'pages' => $pages,
         ];
     }
     /**

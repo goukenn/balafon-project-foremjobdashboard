@@ -1,51 +1,103 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: enterprise/details.phtml
-// @desc:
+// @desc: enterprise card, same charter as jobs/default.phtml (Tailwind cards, dark/light)
 // @view: enterprise/details
 // @date: 20260314 18:04:02
+use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+
 use function igk_resources_gets as __;
 
+/**
+ * @var mixed $ctrl
+ * @var mixed $t
+ * @var mixed $data
+ */
 $enterprise = $data->enterprise;
-$doc->title = sprintf('%s - details', $enterprise->name);
-$row = $t->main()->container()->row();
-$col = $row->col();
-$col->div('h3')->Content = $enterprise->name;
+$doc->title = sprintf('%s - %s', $enterprise->name, $ctrl->getAppTitle());
+
+// setClass() mangles '/' and ':' in class names (tw-bg-red-500/15, dark:...), so set the attribute directly
+$tw = function ($node, string $classes) {
+    $node['class'] = $classes;
+    return $node;
+};
+$btn_cl = 'tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm tw-font-medium tw-no-underline ';
+
+$page = $t->div();
+$tw($page, 'tw-flex tw-flex-col tw-gap-4 tw-pb-8 tw-w-full tw-max-w-4xl tw-mx-auto tw-px-4');
+
+// + | header: back link, name, denomination, actions
+$back = $page->a();
+$back['href'] = $ctrl::uri('@/enterprise');
+$back->Content = '← ' . __('Enterprises');
+$tw($back, 'tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-no-underline');
+$tw($head = $page->div(), 'tw-flex tw-flex-row tw-items-start tw-justify-between tw-gap-3');
+$tw($titles = $head->div(), 'tw-flex tw-flex-col tw-min-w-0');
+$tw($titles->h2($enterprise->name), 'tw-text-2xl tw-font-bold');
 if ($enterprise->title) {
-    $col->div()->Content = $enterprise->title;
+    $tw($titles->span($enterprise->title), 'tw-text-sm tw-text-gray-500 dark:tw-text-gray-400');
 }
-$dl = $col->dl();
-if ($enterprise->vat) {
-    $dl->dt()->Content = ucfirst(__('vat'));
-    $dl->dd()->Content = $enterprise->vat;
-}
-if ($enterprise->address) {
-    $dl->dt()->Content = ucfirst(__('address'));
-    $dl->dd()->Content = $enterprise->address;
-}
-if ($enterprise->locality) {
-    $dl->dt()->Content = ucfirst(__('locality'));
-    $dl->dd()->Content = $enterprise->locality;
-}
-if ($enterprise->share_capital !== null) {
-    $dl->dt()->Content = ucfirst(__('share_capital'));
-    $dl->dd()->Content = $enterprise->share_capital;
-}
-if ($enterprise->turnover !== null) {
-    $dl->dt()->Content = ucfirst(__('turnover'));
-    $dl->dd()->Content = $enterprise->turnover;
-}
-foreach (['legal_form', 'phone', 'email', 'website', 'start_date', 'kbo_status'] as $k) {
-    if ($enterprise->$k) {
-        $dl->dt()->Content = ucfirst(__($k));
-        $dl->dd()->Content = $enterprise->$k;
+$tw($actions = $head->div(), 'tw-flex tw-flex-row tw-gap-2 tw-flex-none');
+$jobs = $actions->a();
+$jobs['href'] = $ctrl::uri('@/enterprise/jobs/' . $enterprise->id);
+$jobs->Content = __('Jobs') . ' · ' . (int)Jobs::count([Jobs::FD_ENTERPRISE_ID => $enterprise->id]);
+$tw($jobs, $btn_cl . 'job-chip-all');
+$edit = $actions->a();
+$edit['href'] = $ctrl::uri('@/enterprise/edit/' . $enterprise->id);
+$edit->Content = __('edit');
+$tw($edit, $btn_cl . 'tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white');
+
+// + | tags: legal form, registry status
+$tags = array_filter([$enterprise->legal_form, $enterprise->kbo_status]);
+if ($tags) {
+    $tw($row = $page->div(), 'tw-flex tw-flex-row tw-flex-wrap tw-gap-2 tw-text-xs');
+    foreach ($tags as $tag) {
+        $tw($row->span($tag), 'job-tag');
     }
 }
-if ($enterprise->kbo_fetched_at) {
-    $col->div()->setClass('tw-text-xs tw-text-gray-500 dark:tw-text-gray-400')->Content =
-        __('Source: BCE/KBO public search (SPF Economie)') . ' - ' . $enterprise->kbo_fetched_at;
+
+// + | information card
+$fields = [
+    'vat' => $enterprise->vat,
+    'address' => $enterprise->address,
+    'locality' => $enterprise->locality,
+    'start_date' => $enterprise->start_date,
+    'phone' => $enterprise->phone ? ['tel:' . preg_replace('/[^\d+]/', '', $enterprise->phone), $enterprise->phone] : null,
+    'email' => $enterprise->email ? ['mailto:' . $enterprise->email, $enterprise->email] : null,
+    'website' => $enterprise->website ? [preg_match('#^https?://#i', $enterprise->website) ? $enterprise->website : 'https://' . $enterprise->website, $enterprise->website] : null,
+    'share_capital' => $enterprise->share_capital,
+    'turnover' => $enterprise->turnover,
+];
+$fields = array_filter($fields, function ($v) {
+    return $v !== null && $v !== '';
+});
+$tw($card = $page->div(), 'job-card job-card-open tw-flex tw-flex-col tw-gap-3 tw-p-4 tw-rounded-xl tw-border tw-border-l-4 tw-border-gray-200 dark:tw-border-gray-800');
+if ($fields) {
+    $tw($dl = $card->dl(), 'tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 tw-gap-x-6 tw-gap-y-3 tw-m-0');
+    foreach ($fields as $k => $v) {
+        $tw($item = $dl->div(), 'tw-flex tw-flex-col');
+        $tw($item->dt(ucfirst(__($k))), 'tw-text-xs tw-uppercase tw-tracking-wide tw-text-gray-500 dark:tw-text-gray-400');
+        $dd = $item->dd();
+        $tw($dd, 'tw-m-0 tw-text-base tw-break-words');
+        if (is_array($v)) {
+            $a = $dd->a();
+            $a['href'] = $v[0];
+            if ($k == 'website') {
+                $a['target'] = '_blank';
+                $a['rel'] = 'noopener noreferrer';
+            }
+            $a->Content = $v[1];
+            $tw($a, 'tw-text-blue-600 dark:tw-text-blue-400');
+        } else {
+            $dd->Content = $v;
+        }
+    }
+} else {
+    $tw($card->div(__('To complete')), 'tw-opacity-70');
 }
 if ($enterprise->description) {
-    $col->div()->Content = $enterprise->description;
+    $tw($card->p($enterprise->description), 'tw-text-sm tw-text-gray-600 dark:tw-text-gray-300 tw-m-0');
 }
-$col->div()->a($ctrl::uri('@/enterprise/edit/' . $enterprise->id))->Content = __('edit');
+if ($enterprise->kbo_fetched_at) {
+    $tw($card->div(__('Source: BCE/KBO public search (SPF Economie)') . ' - ' . $enterprise->kbo_fetched_at), 'tw-text-xs tw-text-gray-500 dark:tw-text-gray-400');
+}

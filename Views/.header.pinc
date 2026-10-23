@@ -36,15 +36,48 @@ function viewAuth()
     $ctrl = ViewHelper::CurrentCtrl();
     if ($user = $ctrl->getUser()) {
         $wrap = igk_create_node('div');
-        $wrap->setClass('tw-relative group pad4 tw-cursor-pointer');
-        $wrap->add(_h('span', $user->model()->clLogin));
+        $wrap->setClass('tw-relative tw-group pad4 tw-cursor-pointer');
+        $wrap['tabindex'] = 0;
+        $wrap['aria-haspopup'] = 'menu';
+        $model = $user->model();
+        $login = (string)$model->clLogin;
+        $who = $wrap->div()->setClass('fjd-user');
+        if ($picture = trim((string)($model->clPicture ?? ''))) {
+            $who->img()->setClass('fjd-avatar')->setAttributes(['src' => $picture, 'alt' => $login, 'width' => 32, 'height' => 32, 'loading' => 'lazy']);
+        } else {
+            $who->span()->setClass('fjd-avatar fjd-avatar-initial')->Content = strtoupper(mb_substr($login, 0, 1));
+        }
+        $who->span()->setClass('fjd-user-login')->Content = $login;
 
         $box = igk_create_node('div');
-        $box->setClass('box tw-hidden group-hover:tw-block tw-absolute tw-right-0 tw-top-full tw-min-w-[8rem] tw-bg-white dark:tw-bg-gray-800 tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-rounded-lg tw-shadow tw-z-10');
+        $box->setClass('box tw-hidden group-hover:tw-block group-focus-within:tw-block tw-absolute tw-right-0 tw-top-full tw-min-w-[8rem] tw-bg-white dark:tw-bg-gray-800 tw-border tw-border-gray-200 dark:tw-border-gray-700 tw-rounded-lg tw-shadow tw-z-10');
+        $box['role'] = 'menu';
+        // + | other items come from the filter; each item: ['label'=>..., 'href'=>..., 'icon'=>?]
+        $items = igk_hook(
+            \com\igkdev\projects\ForemJobDashboard\FJDHooks::FILTER_USER_CONTEXT_MENU,
+            ['ctrl' => $ctrl, 'filter' => [], 'user' => $user],
+            ['output' => []]
+        );
+        $v_sep = false;
+        foreach (is_array($items) ? $items : [] as $item) {
+            if (!is_array($item) || empty($item['label']) || empty($item['href'])) {
+                continue;
+            }
+            $a = $box->a($item['href']);
+            $a['role'] = 'menuitem';
+            $a->setClass('tw-block tw-px-4 tw-py-2 tw-text-sm tw-text-gray-700 dark:tw-text-gray-200 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700');
+            $a->Content = $item['label'];
+            $v_sep = true;
+        }
+        // + | logout is always the last action
         $link = igk_create_node('a');
+        $link['role'] = 'menuitem';
         $link['href'] = $ctrl::uri('@/logout');
         $link->Content = __('logout');
         $link->setClass('tw-block tw-px-4 tw-py-2 tw-text-sm tw-text-gray-700 dark:tw-text-gray-200 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700');
+        if ($v_sep){
+            $box->hsep(); // add()
+        }
         $box->add($link);
         $wrap->add($box);
         return $wrap;

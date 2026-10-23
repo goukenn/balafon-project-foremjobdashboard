@@ -1,11 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: enterprise/default.phtml
-// @desc: enterprise manipulation 
+// @desc: enterprise list / search, same charter as jobs/default.phtml (Tailwind cards, dark/light)
 // @view: enterprise/default
 // @date: 20260314 08:11:56
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
-use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
 
 use function igk_html_host as _h;
 use function igk_resources_gets as __;
@@ -15,22 +14,152 @@ use function igk_resources_gets as __;
  * @var mixed $t
  * @var mixed $data
  */
-$form = _h('form#search-form');
-$result = (function ($s)use($ctrl) {
-    if ($o =  $s ? _h('p.result') : null) {
-        foreach ($s as $p) {
-            $o->li()->span()->a($ctrl::uri('@/enterprise/details/'.$p->{JobEnterprises::FD_ID}))->content = $p->{JobEnterprises::FD_NAME};
+$doc->title = sprintf('%s - %s', __('Enterprises'), $ctrl->getAppTitle());
+
+// setClass() mangles '/' and ':' in class names (tw-bg-red-500/15, dark:...), so set the attribute directly
+$tw = function ($node, string $classes) {
+    $node['class'] = $classes;
+    return $node;
+};
+// search result rows are plain objects, list rows are models: both expose the prefixed fields
+$val = function ($row, string $field) {
+    $v = trim((string)($row->$field ?? ''));
+    return $v === '' ? null : $v;
+};
+$rows = $data->enterprises ?: [];
+$searching = isset($data->search);
+$total = (int)($data->enterprise_count ?? count($rows));
+$count_info = 0;
+foreach ($rows as $row) {
+    $count_info += $val($row, JobEnterprises::FD_VAT) ? 1 : 0;
+}
+
+$page = $t->div();
+$tw($page, 'tw-flex tw-flex-col tw-gap-4 tw-pb-8 tw-w-full tw-max-w-6xl tw-mx-auto tw-px-4');
+
+// + | header: title, total, add button
+$tw($head = $page->div(), 'tw-flex tw-flex-row tw-items-center tw-justify-between tw-gap-3');
+$tw($title = $head->h2(), 'tw-text-2xl tw-font-bold tw-flex tw-items-center tw-gap-3');
+$title->span(__('Enterprises'));
+$tw($title->span($searching ? count($rows) : $total), 'tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded-full job-count');
+$add = $head->a();
+$add['href'] = $ctrl::uri('@/enterprise/add');
+$add->Content = __('Add enterprise');
+$tw($add, 'tw-px-4 tw-py-2 tw-rounded-lg tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-text-sm tw-font-medium');
+
+// + | search pill (posts to the current uri, handled by EnterpriseAction::index_post)
+$form = $page->form();
+$form['id'] = 'search-form';
+$form['method'] = 'post';
+$tw($form, 'tw-block');
+$bar = $form->div();
+$tw($bar, 'tw-flex tw-flex-row tw-flex-nowrap tw-gap-2 tw-items-center tw-rounded-full tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-pl-4 tw-pr-1 tw-py-1');
+$tw($bar->span('🔍'), 'tw-opacity-60');
+$inp = $bar->input();
+$inp['type'] = 'text';
+$inp->setAttributes(['name' => 'enterprise', 'value' => $data->search ?? '', 'autocomplete' => 'off', 'placeholder' => __('searching data')]);
+$tw($inp, 'tw-flex-1 tw-min-w-0 tw-w-auto tw-bg-transparent tw-border-0 tw-outline-none tw-text-base tw-text-gray-900 dark:tw-text-gray-100');
+$btn = $bar->input();
+$btn['type'] = 'submit';
+$btn->setAttribute('value', __('search'));
+$tw($btn, 'tw-w-auto tw-px-4 tw-py-1.5 tw-rounded-full tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-text-sm tw-font-medium tw-cursor-pointer tw-border-0');
+
+// + | filter chips (client side, on the cards of the current page)
+$tw($chips = $page->div(), 'tw-flex tw-flex-row tw-flex-wrap tw-gap-2 tw-text-xs tw-font-medium');
+foreach ([
+    ['all', __('All'), count($rows), 'job-chip-all'],
+    ['known', __('With KBO info'), $count_info, 'job-chip-due'],
+    ['todo', __('To complete'), count($rows) - $count_info, 'job-chip-overdue'],
+] as [$key, $label, $n, $cls]) {
+    $chip = $chips->button();
+    $chip['type'] = 'button';
+    $chip['data-filter'] = $key;
+    $chip->Content = $label . ' · ' . $n;
+    $tw($chip, 'job-chip tw-px-3 tw-py-1 tw-rounded-full tw-border-0 tw-cursor-pointer tw-text-xs tw-font-medium ' . $cls);
+}
+
+// + | cards
+if (!$rows) {
+    $tw($empty = $page->div(), 'tw-text-center tw-py-16 tw-rounded-xl tw-border tw-border-dashed tw-border-gray-300 dark:tw-border-gray-700');
+    $tw($empty->div(__('No result found')), 'tw-text-lg tw-mb-3');
+    $ea = $empty->a();
+    $ea['href'] = $ctrl::uri('@/enterprise/add');
+    $ea->Content = __('Add enterprise');
+    $tw($ea, 'tw-text-blue-600 dark:tw-text-blue-400 tw-underline');
+} else {
+    $tw($none = $page->div(__('No result found')), 'job-none tw-hidden tw-text-center tw-py-10 tw-opacity-70');
+    $tw($grid = $page->div(), 'job-grid tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-3');
+    foreach ($rows as $row) {
+        $vat = $val($row, JobEnterprises::FD_VAT);
+        $locality = $val($row, JobEnterprises::FD_LOCALITY);
+        $legal = $val($row, JobEnterprises::FD_LEGAL_FORM);
+        $status = $val($row, JobEnterprises::FD_KBO_STATUS);
+        $website = $val($row, JobEnterprises::FD_WEBSITE);
+        $card = $grid->a();
+        $card['data-state'] = $vat ? 'known' : 'todo';
+        $card['href'] = $ctrl::uri('@/enterprise/details/' . $row->{JobEnterprises::FD_ID});
+        $tw($card, 'job-card job-card-open tw-flex tw-flex-col tw-gap-2 tw-p-4 tw-rounded-xl tw-border tw-border-l-4 tw-no-underline '
+            . 'tw-border-gray-200 dark:tw-border-gray-800 tw-text-gray-900 dark:tw-text-gray-100');
+        $tw($titles = $card->div(), 'tw-flex tw-flex-col tw-min-w-0');
+        $tw($titles->span($val($row, JobEnterprises::FD_NAME)), 'tw-font-semibold tw-text-base');
+        if ($t_ = $val($row, JobEnterprises::FD_TITLE)) {
+            $tw($titles->span($t_), 'tw-text-sm tw-text-gray-500 dark:tw-text-gray-400');
+        }
+        if ($locality) {
+            $tw($card->div('📍 ' . $locality), 'tw-text-sm tw-text-gray-600 dark:tw-text-gray-300');
+        }
+        $tw($foot = $card->div(), 'tw-flex tw-flex-row tw-flex-wrap tw-gap-2 tw-text-xs');
+        foreach (array_filter([$vat, $legal, $status, $website ? preg_replace('#^https?://(www\.)?#i', '', rtrim($website, '/')) : null]) as $tag) {
+            $tw($foot->span($tag), 'job-tag');
+        }
+        if (!$vat) {
+            $tw($foot->span(__('To complete')), 'job-tag job-tag-overdue');
         }
     }
-    return $o;
-})($data->enterprises);
-$form->fields([
-    'enterprise' => '',
-    '-'
-]);
-_h($t, _h(
-    'main',
-    _h('container > row', $form),
-    _h('container > row', _h('a', [$ctrl::uri('@/enterprise/add')], __('Add enterprise'))),
-    $result ? _h('container > row', $result ?: __('No result found')) : null
-));
+}
+
+// + | pager (default list only; a search result is not paginated)
+if (!$searching && ($data->pages ?? 1) > 1) {
+    $tw($pager = $page->nav(), 'tw-flex tw-flex-row tw-justify-center tw-items-center tw-gap-3 tw-text-sm');
+    $link = function ($label, $n) use ($pager, $tw, $ctrl) {
+        $a = $pager->a();
+        $a['href'] = $ctrl::uri('@/enterprise?page=' . $n);
+        $a->Content = $label;
+        $tw($a, 'tw-px-3 tw-py-1 tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-no-underline');
+    };
+    if ($data->page > 1) {
+        $link('«', $data->page - 1);
+    }
+    $pager->span($data->page . ' / ' . $data->pages);
+    if ($data->page < $data->pages) {
+        $link('»', $data->page + 1);
+    }
+}
+
+// + | chips act as filters (click again, or "All", to reset)
+$js = <<<'JS'
+(function () {
+    var chips = document.querySelectorAll('.job-chip'), cards = document.querySelectorAll('.job-grid > a'),
+        none = document.querySelector('.job-none'), on = ['tw-ring-2', 'tw-ring-current', 'tw-font-bold'];
+    function apply(f) {
+        var shown = 0;
+        cards.forEach(function (c) {
+            var ok = f === 'all' || c.getAttribute('data-state') === f;
+            c.classList.toggle('tw-hidden', !ok);
+            shown += ok ? 1 : 0;
+        });
+        chips.forEach(function (b) {
+            var a = b.getAttribute('data-filter') === f;
+            on.forEach(function (k) { b.classList.toggle(k, a); });
+        });
+        if (none) { none.classList.toggle('tw-hidden', shown > 0); }
+    }
+    chips.forEach(function (b) {
+        b.addEventListener('click', function () {
+            apply(b.classList.contains('tw-ring-2') ? 'all' : b.getAttribute('data-filter'));
+        });
+    });
+    apply('all');
+})();
+JS;
+$t->script()->Content = $js;
