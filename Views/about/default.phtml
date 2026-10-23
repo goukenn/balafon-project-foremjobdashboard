@@ -1,2 +1,67 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @file: about/default.phtml
+// @desc: about page: what the app does, how to use it, and who builds Balafon (charter cards, dark/light, en/fr/nl)
+// @view: about/default
+use function igk_resources_gets as __;
 
+/**
+ * @var mixed $ctrl
+ * @var mixed $t
+ */
+$doc->title = sprintf('%s - %s', __('about.title'), $ctrl->getAppTitle());
+
+// setClass() mangles '/' and ':' in class names, so set the attribute directly
+$tw = function ($node, string $classes) {
+    $node['class'] = $classes;
+    return $node;
+};
+$card_cls = 'tw-flex tw-flex-col tw-gap-2 tw-p-4 tw-rounded-xl tw-border tw-border-gray-200 dark:tw-border-gray-800 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-900 dark:tw-text-gray-100';
+$muted = 'tw-text-sm tw-text-gray-600 dark:tw-text-gray-300 tw-m-0';
+
+$page = $tw($t->main(), 'tw-flex tw-flex-col tw-gap-6 tw-pb-8 tw-w-full tw-max-w-4xl tw-mx-auto tw-px-4 tw-pt-6 grow-1');
+
+// + | intro
+$tw($intro = $page->div(), 'tw-flex tw-flex-col tw-gap-2');
+$tw($intro->h2(), 'tw-text-2xl tw-font-bold tw-m-0')->Content = __('about.title');
+$tw($intro->p(), 'tw-text-base tw-text-gray-700 dark:tw-text-gray-200 tw-m-0')->Content = __('about.intro');
+
+// + | what the app does: one card per area, linking to the page
+$tw($page->h3(), 'tw-text-lg tw-font-semibold tw-m-0')->Content = __('about.features');
+$tw($grid = $page->div(), 'tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-3');
+foreach ([
+    ['jobs', '@/jobs', '📄'],
+    ['enterprises', '@/enterprise', '🏢'],
+    ['followup', '@/jobs', '⏰'],
+    ['calendar', '@/calendar', '🗓'],
+    ['cv', '@/build/cv', '📝'],
+    ['documents', '@/jobs/merge', '🗂'],
+] as [$key, $uri, $icon]) {
+    $card = $tw($grid->a(), $card_cls . ' job-card job-card-open tw-border-l-4 tw-no-underline');
+    $card['href'] = $ctrl::uri($uri);
+    $tw($card->span($icon . ' ' . __('about.feature.' . $key . '.title')), 'tw-font-semibold tw-text-base');
+    $tw($card->span(__('about.feature.' . $key . '.text')), $muted);
+}
+
+// + | how to use it
+$tw($page->h3(), 'tw-text-lg tw-font-semibold tw-m-0')->Content = __('about.usage');
+$tw($steps = $page->div(), 'tw-flex tw-flex-col tw-gap-2');
+foreach (['1', '2', '3', '4'] as $n) {
+    $tw($step = $steps->div(), 'tw-flex tw-flex-row tw-items-start tw-gap-3 tw-text-sm tw-text-gray-700 dark:tw-text-gray-200');
+    $tw($step->span($n), 'tw-flex-none tw-w-6 tw-h-6 tw-flex tw-items-center tw-justify-center tw-rounded-full tw-bg-blue-600 tw-text-white tw-text-xs tw-font-bold');
+    $step->span(__('about.step.' . $n));
+}
+
+// + | Balafon and its author
+$tw($who = $page->section(), $card_cls . ' job-card job-card-open tw-border-l-4');
+$tw($who->h3(), 'tw-text-lg tw-font-semibold tw-m-0')->Content = __('about.author.title');
+$tw($who->p(), $muted)->Content = __('about.author.text');
+$tw($who->p(), $muted)->Content = __('about.author.project');
+$tw($row = $who->div(), 'tw-flex tw-flex-row tw-flex-wrap tw-gap-2 tw-mt-1');
+$a = $tw($row->a(), 'tw-px-4 tw-py-2 tw-rounded-lg tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-text-sm tw-font-medium tw-no-underline');
+$a['href'] = 'https://x.com/IGKDEV';
+$a['target'] = '_blank';
+$a['rel'] = 'noopener';
+$a->Content = __('about.author.follow');
+
+$tw($page->p(), 'tw-text-xs tw-text-gray-500 dark:tw-text-gray-400 tw-m-0')->Content = sprintf('%s · v%s', $ctrl->getAppTitle(), $ctrl::version);
