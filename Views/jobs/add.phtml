@@ -49,34 +49,40 @@ if ($header = $ctrl->getEnvParam('header')) {
 $active_job_tab = 'add';
 
 // + | ------------------------------------------------
-// + | layout: same visual language as jobs/edit (Tailwind cards, dark/light)
+// + | layout: same charter as enterprise/add and jobs/default (Tailwind cards, dark/light)
 // + |
-$def = $doc->getTheme();
-$def['.fjd-add label'] = 'display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem;';
-$def['.fjd-add fieldset'] = 'border:0;padding:0;margin:0 0 1rem 0;';
-$def['.fjd-add .igk-action-bar'] = 'display:flex;gap:0.75rem;margin-top:1rem;';
-$def['.fjd-add .fjd-hint'] = 'font-size:0.75rem;opacity:.7;margin-top:0.25rem;';
 $doc->title = __('add') . ' - ' . $ctrl->getAppTitle();
-$t['class'] = '+min-h-1 -fit';
+// setClass() mangles '/' and ':' in class names (tw-bg-red-500/15, dark:...), so set the attribute directly
+$tw = function ($node, string $classes) {
+    $node['class'] = $classes;
+    return $node;
+};
+$btn = 'tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm tw-font-medium tw-no-underline tw-cursor-pointer tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-800 dark:tw-text-gray-200 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-800';
+$btn_main = 'tw-px-4 tw-py-2 tw-rounded-lg tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-text-sm tw-font-medium tw-no-underline tw-cursor-pointer tw-border-0';
+$input = 'tw-w-full tw-px-3 tw-py-2 tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-gray-900 dark:tw-text-gray-100';
+$card_cls = 'tw-flex tw-flex-col tw-gap-3 tw-p-4 tw-rounded-xl tw-border tw-border-gray-200 dark:tw-border-gray-800 tw-bg-white dark:tw-bg-gray-900';
+$label_cls = 'tw-flex tw-flex-col tw-gap-1 tw-text-sm tw-font-medium tw-text-gray-700 dark:tw-text-gray-300';
+$hint_cls = 'tw-text-xs tw-text-gray-500 dark:tw-text-gray-400 tw-m-0';
 
-$inputCls = 'tw-w-full tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-600 tw-bg-white dark:tw-bg-gray-700 tw-text-gray-900 dark:tw-text-white tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-600 tw-transition-colors';
-$taCls = $inputCls . ' tw-resize-y';
-$cardCls = 'tw-bg-white dark:tw-bg-gray-800 tw-rounded-lg tw-shadow tw-p-6 tw-transition-colors tw-duration-300';
-$primaryBtnCls = 'dispib tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-semibold tw-px-5 tw-py-2 tw-rounded-lg tw-transition';
-$secondaryBtnCls = 'dispib tw-bg-gray-200 dark:tw-bg-gray-700 hover:tw-bg-gray-300 dark:hover:tw-bg-gray-600 tw-text-gray-800 dark:tw-text-gray-100 tw-px-5 tw-py-2 tw-rounded-lg tw-transition';
-
-// the shared jobs tab control spans the full width, like on @/jobs
+// the shared jobs tab control, like on @/jobs
 include $ctrl::getViewDir() . '/jobs/.tabs.pinc';
-$page = $t->div()->setClass('fjd-add min-h-1 tw-bg-gray-50 dark:tw-bg-gray-900 tw-transition-colors tw-duration-300 tw-px-4 tw-py-6');
-$wrap = $page->div()->setClass('tw-max-w-5xl tw-mx-auto');
+$page = $tw($t->main(), 'tw-flex tw-flex-col tw-gap-4 tw-pb-8 tw-w-full tw-max-w-4xl tw-mx-auto tw-px-4 grow-1');
 
-$wrap->h2()->setClass('tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-white tw-mb-1')->Content = __('Add a job offer');
-$wrap->p()->setClass('tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mb-4')->Content = __('Archive an offer found online. You can complete it later from the edit page.');
+// + | header
+$tw($head = $page->div(), 'tw-flex tw-flex-row tw-items-center tw-justify-between tw-gap-3');
+$tw($head->h2(), 'tw-text-2xl tw-font-bold tw-m-0')->Content = __('Add a job offer');
+$back = $tw($head->a(), $btn);
+$back['href'] = $ctrl::uri('@/jobs');
+$back->Content = __('cancel');
+$tw($page->p(), $hint_cls . ' tw-text-sm')->Content = __('Archive an offer found online. You can complete it later from the edit page.');
 
 if ($j = $ctrl->getEnvParam('job')) {
-    $ok = $wrap->div()->setAttribute('role', 'status')->setClass('tw-flex tw-items-center tw-justify-between tw-gap-3 tw-rounded-lg tw-border tw-border-green-300 dark:tw-border-green-700 tw-bg-green-50 dark:tw-bg-green-900/30 tw-text-green-800 dark:tw-text-green-200 tw-px-4 tw-py-3 tw-mb-4');
+    $ok = $tw($page->div(), 'tw-flex tw-items-center tw-justify-between tw-gap-3 tw-p-3 tw-rounded-lg tw-border tw-border-green-400 tw-bg-green-50 dark:tw-bg-green-900 tw-text-green-900 dark:tw-text-green-100 tw-text-sm');
+    $ok['role'] = 'status';
     $ok->span()->Content = __('Job offer added.') . ' ' . $j->title;
-    $ok->a()->setAttribute('href', $ctrl::uri('@/jobs/edit/' . $j->id))->setClass('tw-font-semibold hover:tw-underline')->Content = __('edit') . ' →';
+    $e = $tw($ok->a(), 'tw-font-semibold tw-no-underline tw-text-green-900 dark:tw-text-green-100 hover:tw-underline');
+    $e['href'] = $ctrl::uri('@/jobs/edit/' . $j->id);
+    $e->Content = __('edit') . ' →';
 }
 
 $enterprises = [];
@@ -85,51 +91,81 @@ foreach (JobEnterprises::select_all([], ['Limit' => 300]) ?: [] as $e) {
 }
 sort($enterprises, SORT_NATURAL | SORT_FLAG_CASE);
 
-$frm = $wrap->form();
+$frm = $tw($page->form(), 'tw-flex tw-flex-col tw-gap-4');
 $frm['method'] = 'post';
 $frm['action'] = $ctrl::uri($fname . '/store');
-$frm->setClass('tw-grid tw-grid-cols-1 lg:tw-grid-cols-3 tw-gap-4');
 
-// main card: what the offer is
-$main = $frm->div()->setClass($cardCls . ' lg:tw-col-span-2 tw-space-y-4');
-$main->fields([
-    'title' => ['label_text' => __('title'), 'attribs' => ['class' => $inputCls, 'required' => 'required', 'autofocus' => 'autofocus', 'autocomplete' => 'off', 'maxlength' => 150]],
-    'enterprise' => ['label_text' => __('enterprise'), 'attribs' => ['class' => $inputCls, 'list' => 'fjd-enterprises', 'autocomplete' => 'off', 'maxlength' => 100]],
-    'description' => ['type' => 'textarea', 'label_text' => __('description'), 'attribs' => ['class' => $taCls . ' tw-min-h-[10rem]', 'maxlength' => 2500, 'data-fjd-count' => 2500]],
-    'summary' => ['type' => 'textarea', 'label_text' => __('summary'), 'attribs' => ['class' => $taCls . ' tw-min-h-[5rem]', 'maxlength' => 300, 'data-fjd-count' => 300]],
-]);
-$dl = $main->add('datalist');
+$ucf = function (string $s) {
+    return mb_strtoupper(mb_substr($s, 0, 1)) . mb_substr($s, 1);
+};
+// one labelled control inside a card grid
+$field = function ($parent, string $name, string $label, string $type = 'text', array $attr = [], bool $wide = false, string $value = '') use ($tw, $input, $label_cls, $ucf) {
+    $l = $tw($parent->label(), $label_cls . ($wide ? ' md:tw-col-span-2' : ''));
+    $l->span($ucf($label));
+    if ($type === 'textarea') {
+        $c = $tw($l->textarea(), $input);
+        $c['name'] = $name;
+        $c['style'] = 'resize:vertical';
+    } else {
+        $c = $tw($l->input($name, $type, $value), $input);
+    }
+    foreach ($attr as $k => $a) {
+        $c[$k] = $a;
+    }
+    return $c;
+};
+$section = function (string $label) use ($frm, $tw, $card_cls) {
+    $card = $tw($frm->div(), $card_cls);
+    $tw($card->h3(), 'tw-text-lg tw-font-semibold tw-m-0')->Content = $label;
+    return $tw($card->div(), 'tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-3');
+};
+
+// + | the offer
+$g = $section(__('Offer'));
+$field($g, 'title', __('title'), 'text', ['required' => 'required', 'autofocus' => 'autofocus', 'autocomplete' => 'off', 'maxlength' => 150], true);
+$field($g, 'enterprise', __('enterprise'), 'text', ['list' => 'fjd-enterprises', 'autocomplete' => 'off', 'maxlength' => 100], true);
+$dl = $g->add('datalist');
 $dl['id'] = 'fjd-enterprises';
 foreach ($enterprises as $name) {
     $dl->add('option')->setAttribute('value', $name);
 }
+$field($g, 'description', __('description'), 'textarea', ['rows' => 6, 'maxlength' => 2500, 'data-fjd-count' => 2500, 'style' => 'resize:vertical;height:10rem'], true);
+$field($g, 'summary', __('summary'), 'textarea', ['rows' => 3, 'maxlength' => 300, 'data-fjd-count' => 300, 'style' => 'resize:vertical;height:6rem'], true);
 
-// side card: where / when
-$side = $frm->div()->setClass('tw-space-y-4');
-$meta = $side->div()->setClass($cardCls . ' tw-space-y-4');
-$meta->fields([
-    'from' => [
-        'type' => 'select',
-        'label_text' => __('from'),
-        'selected' => JobSourceTypes::GetCache(JobSourceTypes::FD_NAME, 'WEB')->id,
-        'data' => JobSourceTypes::formSelectData(),
-        'attribs' => ['class' => $inputCls],
-    ],
-    'date' => ['type' => 'date', 'label_text' => __('date'), 'value' => date('Y-m-d'), 'attribs' => ['class' => $inputCls]],
-    'follow_at' => ['type' => 'date', 'label_text' => __('Follow-up date'), 'value' => JobUtility::DefaultFollowAt(), 'attribs' => ['class' => $inputCls]],
-]);
-$meta->p()->setClass('fjd-hint')->Content = __('Default follow-up: one week after today.');
+// + | where / when
+$g = $section(__('Source and dates'));
+$web = JobSourceTypes::GetCache(JobSourceTypes::FD_NAME, 'WEB');
+$l = $tw($g->label(), $label_cls);
+$l->span($ucf(__('from')));
+$sel = $tw($l->select(), $input);
+$sel['name'] = 'from';
+foreach (JobSourceTypes::formSelectData() as $item) {
+    $o = $sel->option();
+    $o['value'] = $item['i'];
+    if ($web && (string)$item['i'] === (string)$web->id) {
+        $o['selected'] = 'selected';
+    }
+    $o->Content = $item['t'];
+}
+$field($g, 'date', __('date'), 'date', [], false, date('Y-m-d'));
+$field($g, 'follow_at', __('Follow-up date'), 'date', [], false, JobUtility::DefaultFollowAt());
+$tw($g->p(), $hint_cls . ' md:tw-col-span-2')->Content = __('Default follow-up: one week after today.');
 
-$bar = $side->div()->setClass('tw-flex tw-gap-3');
-$bar->submit('btn.add', __('add'))->setClass($primaryBtnCls);
-$bar->a()->setAttributes(['href' => $ctrl::uri('@/jobs'), 'class' => $secondaryBtnCls])->Content = __('cancel');
+// + | actions
+$tw($bar = $frm->div(), 'tw-flex tw-gap-2');
+$b = $tw($bar->button(), $btn_main);
+$b['type'] = 'submit';
+$b->Content = __('add');
+$c = $tw($bar->a(), $btn);
+$c['href'] = $ctrl::uri('@/jobs');
+$c->Content = __('cancel');
 
 // live character counters for the limited fields
 $t->script()->Content = <<<'JS'
 (function(){
-  document.querySelectorAll('.fjd-add [data-fjd-count]').forEach(function(f){
+  document.querySelectorAll('[data-fjd-count]').forEach(function(f){
     var max = +f.getAttribute('data-fjd-count'), c = document.createElement('div');
-    c.className = 'fjd-hint tw-text-right';
+    c.className = 'tw-text-xs tw-text-gray-500 dark:tw-text-gray-400 tw-text-right';
     f.insertAdjacentElement('afterend', c);
     function u(){ c.textContent = f.value.length + ' / ' + max; }
     f.addEventListener('input', u); u();

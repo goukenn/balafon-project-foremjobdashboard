@@ -186,3 +186,6 @@ $l['calendar.month.12'] = 'December';
 $l['Open the calendar after saving'] = 'Agenda openen na het opslaan';
 $l['Appointment added.'] = 'Afspraak toegevoegd.';
 $l['View in calendar'] = 'Bekijken in agenda';
+$l['The enterprise name is required.'] = 'De naam van de onderneming is verplicht.';
+$l['Offer'] = 'Aanbieding';
+$l['Source and dates'] = 'Bron en data';

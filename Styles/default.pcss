@@ -214,3 +214,26 @@ foreach ([&$xsm_screen, &$sm_screen, &$lg_screen] as &$_scr) {
     $_scr['header .fjd-nav-auth .box'] = 'position:static; display:block; box-shadow:none; border:0; background:transparent;';
 }
 unset($_scr);
+
+// + | header, light theme (the rules above are the dark/neon design; only colours change here)
+$L = '[data-theme="light"] ';
+$def[$L.'header'] = 'background:linear-gradient(135deg, rgba(255,255,255,.94), rgba(231,239,255,.92)); border-bottom:1px solid rgba(37,99,235,.28); box-shadow:0 2px 16px rgba(37,99,235,.12), inset 0 -1px 0 rgba(255,255,255,.6); color:#1e293b;';
+$def[$L.'header:after'] = 'opacity:.7;';
+$def[$L.'header img, '.$L.'header igk-img'] = 'box-shadow:0 0 0 1px rgba(37,99,235,.4), 0 0 12px rgba(37,99,235,.25);';
+$def[$L.'header h2'] = 'background:linear-gradient(90deg, #0369a1, #6d28d9); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:none;';
+$def[$L.'header .menu li > a, '.$L.'header nav .menu li a, '.$L.'header nav.menu li > a'] = 'color:#334155;';
+$def[$L.'header .menu li > a:hover'] = 'color:#1d4ed8; background:rgba(37,99,235,.08); box-shadow:0 0 12px rgba(37,99,235,.18);';
+$def[$L.'header .menu li > a:after'] = 'background:linear-gradient(90deg,#0ea5e9,#7c3aed);';
+$def[$L.'header .fjd-lang select'] = 'background:rgba(37,99,235,.06); color:#1e293b; border:1px solid rgba(37,99,235,.35);';
+$def[$L.'header .fjd-lang select:hover, '.$L.'header .fjd-lang select:focus'] = 'box-shadow:0 0 10px rgba(37,99,235,.3);';
+$def[$L.'header .igk-winui-toggle-theme'] = 'background:rgba(37,99,235,.08); border:1px solid rgba(37,99,235,.35); color:#1e293b;';
+$def[$L.'header .igk-winui-toggle-theme:hover'] = 'box-shadow:0 0 12px rgba(37,99,235,.35);';
+$def[$L.'.fjd-burger span'] = 'background:#2563eb; box-shadow:none;';
+$def[$L.'header .fjd-nav-prefs'] = 'border-left-color:rgba(37,99,235,.22); border-right-color:rgba(37,99,235,.22);';
+$def[$L.'header .fjd-avatar-initial'] = 'background:rgba(37,99,235,.15); color:#1e3a8a;';
+foreach ([&$xsm_screen, &$sm_screen, &$lg_screen] as &$_scr) {
+    $_scr[$L.'header nav .menu-host'] = 'background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(231,239,255,.98)); border-bottom:1px solid rgba(37,99,235,.28); box-shadow:0 12px 24px rgba(15,23,42,.12);';
+    $_scr[$L.'header nav .menu-host li'] = 'border-top-color:rgba(37,99,235,.14);';
+    $_scr[$L.'header .fjd-nav-prefs'] = 'border-top-color:rgba(37,99,235,.18);';
+}
+unset($_scr);
