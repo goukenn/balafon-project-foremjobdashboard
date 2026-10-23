@@ -37,7 +37,13 @@ class DefaultAction extends ActionBase
     }
     public function index_get(Request $request)
     {
+        try{
         return $this->_payload(null);
+        }
+        catch(\Exception $ex){
+
+        }
+        return [];
     }
     protected function _payload(?string $create_at = null)
     {

@@ -5,6 +5,8 @@
 // @view: enterprise/default
 // @date: 20260314 08:11:56
 use com\igkdev\projects\ForemJobDashboard\Models\JobEnterprises;
+use com\igkdev\projects\ForemJobDashboard\Models\Jobs;
+
 use function igk_html_host as _h;
 use function igk_resources_gets as __;
 
@@ -17,7 +19,7 @@ $form = _h('form#search-form');
 $result = (function ($s)use($ctrl) {
     if ($o =  $s ? _h('p.result') : null) {
         foreach ($s as $p) {
-            $o->li()->span()->a($ctrl::uri('@/enterprise/details/'.$p->id))->content = $p->{JobEnterprises::FD_NAME};
+            $o->li()->span()->a($ctrl::uri('@/enterprise/details/'.$p->{JobEnterprises::FD_ID}))->content = $p->{JobEnterprises::FD_NAME};
         }
     }
     return $o;
@@ -30,5 +32,5 @@ _h($t, _h(
     'main',
     _h('container > row', $form),
     _h('container > row', _h('a', [$ctrl::uri('@/enterprise/add')], __('Add enterprise'))),
-    _h('container > row', $result ?: __('No result found'))
+    $result ? _h('container > row', $result ?: __('No result found')) : null
 ));

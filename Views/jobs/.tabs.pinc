@@ -35,17 +35,17 @@ foreach ($job_tabs as $job_tab_key => $job_tab) {
 }
 
 if (isset($user)) {
-    $t->script()->Content = 'var FJD_DUP_API = ' . json_encode($ctrl::uri('@/api/jobs/duplicates')) . ';';
-    $t->script()->Content = <<<'JS'
-(function(){
-    var el = document.getElementById('fjd-duplicate-count');
-    if (!el) { return; }
-    fetch(FJD_DUP_API, {credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
-        .then(function(r){ return r.json(); })
-        .then(function(data){
-            if (data && data.count) { el.textContent = '(' + data.count + ')'; }
-        })
-        .catch(function(){});
-})();
-JS;
+//     $t->script()->Content = 'var FJD_DUP_API = ' . json_encode($ctrl::uri('@/api/jobs/duplicates;count=1')) . ';';
+//     $t->script()->Content = <<<'JS'
+// (function(){
+//     var el = document.getElementById('fjd-duplicate-count');
+//     if (!el) { return; }
+//     fetch(FJD_DUP_API, {credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
+//         .then(function(r){ return r.json(); })
+//         .then(function(data){
+//             if (data && data.count) { el.textContent = '(' + data.count + ')'; }
+//         })
+//         .catch(function(){});
+// })();
+// JS;
 }

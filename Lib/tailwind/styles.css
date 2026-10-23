@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
+
+/* Jobs list: state tints. Plain class names because the framework's class setter
+   mangles "/" (opacity) and "-tw-" (negative) utilities used directly in views. */
+@layer components {
+  .job-card { @apply tw-transition hover:tw-shadow-lg; }
+  .job-card-open { @apply !tw-border-l-blue-500 tw-bg-white dark:tw-bg-gray-900; }
+  .job-card-due { @apply !tw-border-l-yellow-500 tw-bg-yellow-100 dark:tw-bg-yellow-500/20; }
+  .job-card-overdue { @apply !tw-border-l-orange-500 tw-bg-orange-100 dark:tw-bg-orange-500/20; }
+  .job-card-closed { @apply !tw-border-l-red-500 tw-bg-red-100 dark:tw-bg-red-500/15 tw-opacity-80; }
+  .job-tag { @apply tw-px-2 tw-py-0.5 tw-rounded-full tw-bg-gray-500/15; }
+  .job-tag-due { @apply tw-bg-yellow-500/15 tw-text-yellow-600 dark:tw-text-yellow-400; }
+  .job-tag-overdue { @apply tw-bg-orange-500/15 tw-text-orange-600 dark:tw-text-orange-400; }
+  .job-count { @apply tw-bg-blue-600/15 tw-text-blue-600 dark:tw-text-blue-400; }
+  .job-chip-all { @apply tw-bg-gray-500/15 tw-text-gray-700 dark:tw-text-gray-300; }
+  .job-chip-overdue { @apply tw-bg-orange-500/15 tw-text-orange-600 dark:tw-text-orange-400; }
+  .job-chip-due { @apply tw-bg-yellow-500/15 tw-text-yellow-600 dark:tw-text-yellow-400; }
+  .job-chip-closed { @apply tw-bg-red-500/15 tw-text-red-600 dark:tw-text-red-400; }
+}
+
 @tailwind utilities;

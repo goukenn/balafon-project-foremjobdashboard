@@ -7,6 +7,8 @@ module.exports = {
     './Views/**/.*.pinc',
     './Articles/**/*.phtml',
   ],
+  // job-* component classes are assembled dynamically in Views/jobs/default.phtml
+  safelist: [{ pattern: /^job-/ }],
   theme: {
     extend: {},
   },

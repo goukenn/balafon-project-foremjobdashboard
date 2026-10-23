@@ -36,6 +36,13 @@ class DefaultAction extends ActionBase
         return compact('interims', 'job_search_engines', 'stats', 'sources');
     }
     /**
+     * the language selector re-renders the landing page through an ajax POST: provide the same data
+     */
+    public function index_post()
+    {
+        return $this->index_get();
+    }
+    /**
      * offers counters of the current user, empty when not logged in
      * @return array label => count
      */

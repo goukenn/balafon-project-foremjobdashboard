@@ -70,7 +70,9 @@ $prefs = $menu->div()->setClass('fjd-nav-prefs');
 $supported = \IGK\Resources\R::GetSupportedLangs();
 $langs = $prefs->div()->setClass('fjd-lang');
 $select = $langs->select();
-$select->setAttributes(['aria-label' => __('Language')]);
+$select->setAttributes([
+    'name'=>'langsel',
+    'aria-label' => __('Language')]);
 foreach ($supported as $lg) {
     $opt = $select->option()->setAttributes(['value' => $lg]);
     $opt->Content = strtoupper($lg);
@@ -78,7 +80,11 @@ foreach ($supported as $lg) {
         $opt['selected'] = 'selected';
     }
 }
-$select['onchange'] = "javascript:(function(p){fetch('" . rtrim(igk_io_baseuri(), '/') . "/'+p.value+'/?view=1',{method:'POST',credentials:'same-origin',headers:{'X-Requested-With':'XMLHttpRequest'}});});})(this);";
+list($uri, $query) = igk_html_lang_uri();
+//$select['onchange'] = "javascript:(function(p){fetch('" . rtrim(igk_io_baseuri(), '/') . "/'+p.value+'/?view=1',{method:'POST',credentials:'same-origin',headers:{'X-Requested-With':'XMLHttpRequest'}});});})(this);";
+$select["onchange"] = "javascript: (function(p){window.igk.ajx.post('" . $uri . "/'+p.value+'" . $query . "', null);})(this);";
+       
+
 $prefs->add(themeToggleButton());
 if ($auth_node = viewAuth()) {
     $menu->div()->setClass('fjd-nav-auth')->add($auth_node);
@@ -90,7 +96,7 @@ $burger_label = _h('label.fjd-burger', _h('span'), _h('span'), _h('span'));
 $burger_label->setAttributes(['for' => 'fjd-menu-toggle', 'aria-label' => __('Menu')]);
 $nav = _h('nav.flex.flex-row.flex-alignc', $burger, $burger_label, $menu);
 $t->add(_h(
-    'header.dispflex.flex-row.flex-justify-sb',
+    'header.dispflex.flex-row.flex-justify-sb.possticky',
      _h('div.flex.flex-row.flex-alignc.gap-10px.no-shrink',
         $h,    
         _h('h2.no-wrap.no-shrink.sm-dispn.xsm-dispn', $this->getConfigs()->clTitle ?? '')
