@@ -17,6 +17,7 @@ return array_filter([
         'motivation' => '@/build/motivation',
         'cv' => '@/build/cv',
         'enterprises' => '@/enterprise',
+        'calendar' => '@/calendar',
         'print-report'=>'@/capsulate',
         'about' => '@/about' 
     ]);
