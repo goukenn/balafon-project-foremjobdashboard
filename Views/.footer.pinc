@@ -10,12 +10,14 @@ use IGK\System\Html\Dom\HtmlDocTheme;
  * footer 
  * @var mixed $t
  * @var HtmlDocTheme $def
- * @var ForemDashboadController $ctrl
+ * @var ForemJobDashboardController $ctrl
  */
 
 
 $footer = $t->footer()->container()->row();
-$footer->col()->igkcopyright();
+$c = $footer->col();
+$c->igkcopyright();
+$c->label()->content = ('v - '.$ctrl::version);
 $legal = $footer->col()->nav()->setClass('legal-links');
 $legal->a()->setAttributes(['href' => $ctrl::uri('@/terms')])->Content = __('Terms of use');
 $legal->a()->setAttributes(['href' => $ctrl::uri('@/privacy')])->Content = __('Privacy');

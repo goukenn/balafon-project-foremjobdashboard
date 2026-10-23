@@ -47,14 +47,25 @@ igk_view_handle_actions($fname, [
 ], $params);
 
 $doc->title = sprintf('Job - %s - %s', __('duplicates'), $ctrl->getAppTitle());
-$doc->setHeaderColor($bg_color);
-$doc->getbody()->setStyle('background-color: ' . $bg_color);
 $active_job_tab = 'duplicates';
 include $ctrl::getViewDir() . '/jobs/.tabs.pinc';
 
-$col = $t->section()->container()->row()->col();
-$col->h2()->Content = __('duplicates');
-$col->div()->setAttribute('id', 'fjd-duplicates-list')->Content = __('Loading...');
+// + | layout: same charter as jobs/default and enterprise pages (Tailwind cards, dark/light)
+// setClass() mangles '/' and ':' in class names, so set the attribute directly
+$tw = function ($node, string $classes) {
+    $node['class'] = $classes;
+    return $node;
+};
+$page = $tw($t->main(), 'tw-flex tw-flex-col tw-gap-4 tw-pb-8 tw-w-full tw-max-w-4xl tw-mx-auto tw-px-4 grow-1');
+$tw($head = $page->div(), 'tw-flex tw-flex-row tw-items-center tw-justify-between tw-gap-3');
+$tw($title = $head->h2(), 'tw-text-2xl tw-font-bold tw-flex tw-items-center tw-gap-3 tw-m-0');
+$title->span(__('duplicates'));
+$cnt = $tw($title->span(), 'tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded-full job-count tw-hidden');
+$cnt['id'] = 'fjd-duplicates-count';
+$tw($page->p(), 'tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-m-0')->Content = __('Offers with the same title and enterprise. Merge keeps the most recent one.');
+$list = $tw($page->div(), 'tw-flex tw-flex-col tw-gap-3');
+$list['id'] = 'fjd-duplicates-list';
+$tw($list->div(), 'tw-text-center tw-py-10 tw-opacity-70')->Content = __('Loading...');
 
 $fjd_dup_cfg = [
     'apiUrl' => $ctrl::uri('@/api/jobs/duplicates'),
@@ -64,52 +75,61 @@ $fjd_dup_cfg = [
     'noResult' => __('No result found'),
     'mergeLabel' => __('merge'),
     'deleteLabel' => __('delete all'),
+    'confirmDelete' => __('Delete every offer of this group?'),
+    'error' => __('Error'),
 ];
 $t->script()->Content = 'var FJD_DUP = ' . str_replace('</', '<\\/', json_encode($fjd_dup_cfg)) . ';';
 $t->script()->Content = <<<'JS'
 (function(){
     var cfg = FJD_DUP;
-    var listEl = document.getElementById('fjd-duplicates-list'); 
+    var listEl = document.getElementById('fjd-duplicates-list'), countEl = document.getElementById('fjd-duplicates-count');
     function esc(s){
         var d = document.createElement('div');
         d.textContent = (s == null) ? '' : String(s);
         return d.innerHTML;
     }
+    function msg(text){
+        listEl.innerHTML = '<div class="tw-text-center tw-py-10 tw-rounded-xl tw-border tw-border-dashed tw-border-gray-300 dark:tw-border-gray-700">' + esc(text) + '</div>';
+    }
+    var today = new Date().toISOString().substr(0, 10);
+    var btn = 'tw-px-3 tw-py-1.5 tw-rounded-lg tw-text-sm tw-font-medium tw-cursor-pointer tw-border';
     fetch(cfg.apiUrl, {credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
         .then(function(r){ return r.json(); })
         .then(function(data){
             var groups = (data && data.groups) || [];
-            if (!groups.length) {
-                listEl.textContent = cfg.noResult;
-                return;
-            }
+            if (!groups.length) { msg(cfg.noResult); return; }
+            countEl.textContent = groups.length;
+            countEl.classList.remove('tw-hidden');
             var html = '';
             groups.forEach(function(g){
-                html += '<div class="duplicate-group"><ul>';
+                html += '<div class="job-card job-card-open tw-flex tw-flex-col tw-gap-3 tw-p-4 tw-rounded-xl tw-border tw-border-l-4 tw-border-gray-200 dark:tw-border-gray-800 tw-text-gray-900 dark:tw-text-gray-100">'
+                    + '<ul class="tw-list-none tw-m-0 tw-p-0 tw-flex tw-flex-col tw-gap-1">';
                 (g.items || []).forEach(function(it){
-                    var cls = 'dispflex flex-row gap-4' + (it.follow_at && it.follow_at.substr(0, 10) <= new Date().toISOString().substr(0, 10) ? ' tw-text-yellow-600 dark:tw-text-yellow-400' : '');
-                    html += '<li><a class="' + cls + '" href="' + cfg.editBase + it.id + '">'
-                        + '<span>' + esc(it.create_at) + '</span>'
-                        + '<span>' + esc(it.title) + '</span>'
-                        + '<span>' + (it.enterprise ? '- [' + esc(it.enterprise) + ']' : '-') + '</span>'
+                    var due = it.follow_at && it.follow_at.substr(0, 10) <= today;
+                    html += '<li><a class="tw-flex tw-flex-row tw-flex-wrap tw-gap-x-4 tw-gap-y-0 tw-no-underline tw-text-sm hover:tw-underline '
+                        + (due ? 'tw-text-yellow-700 dark:tw-text-yellow-400' : 'tw-text-gray-900 dark:tw-text-gray-100') + '" href="' + cfg.editBase + it.id + '">'
+                        + '<span class="tw-text-gray-500 dark:tw-text-gray-400">' + esc((it.create_at || '').substr(0, 10)) + '</span>'
+                        + '<span class="tw-font-semibold">' + esc(it.title) + '</span>'
+                        + (it.enterprise ? '<span class="job-tag">' + esc(it.enterprise) + '</span>' : '')
                         + '</a></li>';
                 });
-                html += '</ul>';
-                html += '<div class="tw-flex tw-gap-2 tw-mb-6">'
+                html += '</ul>'
+                    + '<div class="tw-flex tw-gap-2">'
                     + '<form method="POST" action="' + cfg.mergeUrl + '">'
                     + '<input type="hidden" name="group" value="' + esc(g.key) + '">'
-                    + '<button type="submit" class="tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-semibold tw-px-3 tw-py-1.5 tw-rounded-lg tw-text-sm tw-transition">' + esc(cfg.mergeLabel) + '</button>'
+                    + '<button type="submit" class="' + btn + ' tw-border-0 tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white">' + esc(cfg.mergeLabel) + '</button>'
                     + '</form>'
-                    + '<form method="POST" action="' + cfg.deleteUrl + '">'
+                    + '<form method="POST" action="' + cfg.deleteUrl + '" data-confirm="1">'
                     + '<input type="hidden" name="group" value="' + esc(g.key) + '">'
-                    + '<button type="submit" class="tw-bg-red-600 hover:tw-bg-red-700 tw-text-white tw-font-semibold tw-px-3 tw-py-1.5 tw-rounded-lg tw-text-sm tw-transition">' + esc(cfg.deleteLabel) + '</button>'
+                    + '<button type="submit" class="' + btn + ' tw-border-gray-300 dark:tw-border-gray-700 tw-bg-white dark:tw-bg-gray-900 tw-text-red-600 dark:tw-text-red-400 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-800">' + esc(cfg.deleteLabel) + '</button>'
                     + '</form>'
                     + '</div></div>';
             });
             listEl.innerHTML = html;
+            listEl.querySelectorAll('form[data-confirm]').forEach(function(f){
+                f.addEventListener('submit', function(e){ if (!window.confirm(cfg.confirmDelete)) { e.preventDefault(); } });
+            });
         })
-        .catch(function(){
-            listEl.textContent = 'Error';
-        });
+        .catch(function(){ msg(cfg.error); });
 })();
 JS;
