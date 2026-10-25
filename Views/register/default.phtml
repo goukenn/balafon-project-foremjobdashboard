@@ -1,0 +1,74 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: register/default.phtml
+// @desc: registration form (email, optional login, password + confirmation); a 24h activation link is mailed
+// @view: register
+// @date: 20261025 00:00:00
+use function igk_resources_gets as __;
+
+/**
+ * @var mixed $t
+ * @var IGKHtmldoc $doc
+ * @var mixed $ctrl
+ * @var mixed $data
+ */
+
+$doc->title = __('Register');
+
+$def = $doc->getTheme();
+$def['.def-login'] = '{sys:dispflex flex-column fith}';
+$def['body, html'] = '{sys:fit}';
+$def['.main-page'] = 'flex-grow:1;';
+$t->setClass('def-login');
+$t->setStyle('display: flex{sys:dispflex}');
+
+$label = "tw-block tw-text-sm tw-font-medium tw-text-gray-700 dark:tw-text-gray-300 tw-mb-1";
+$input = "tw-w-full tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-600 tw-bg-white dark:tw-bg-gray-700 tw-text-gray-900 dark:tw-text-white tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-600";
+
+$main = $t->main()->setClass("main-page tw-bg-gray-50 dark:tw-bg-gray-900 tw-flex tw-items-center tw-justify-center tw-px-4 tw-transition-colors tw-duration-300");
+$card = $main->div()->setClass("tw-w-full tw-max-w-md tw-bg-white dark:tw-bg-gray-800 tw-rounded-lg tw-shadow tw-p-8 tw-relative tw-transition-colors tw-duration-300");
+
+$card->h1()->setClass("tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-white tw-mb-1")->Content = __('Create your account');
+
+if (!empty($data->sent)) {
+    $card->p()->setClass("tw-text-gray-600 dark:tw-text-gray-300 tw-mb-6")
+        ->Content = sprintf(__('A confirmation email was sent to %s. Open the link inside within 24 hours to activate your account.'), htmlspecialchars((string)($data->email ?? '')));
+} else {
+    $card->p()->setClass("tw-text-gray-500 dark:tw-text-gray-400 tw-mb-6")->Content = __('Register to manage your job search');
+    if (!empty($data->error)) {
+        $card->div()->setClass("tw-bg-red-50 dark:tw-bg-red-900/40 tw-border tw-border-red-200 dark:tw-border-red-800 tw-text-red-700 dark:tw-text-red-300 tw-text-sm tw-rounded-lg tw-px-4 tw-py-3 tw-mb-6")
+            ->Content = $data->error;
+    }
+    $form = $card->form();
+    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri('@/register')]);
+    $form->setClass("tw-space-y-4");
+
+    $fields = [
+        ['email', 'email', __('Email'), $data->email ?? '', 'email', true],
+        ['login', 'text', __('Login (optional, defaults to your email)'), $data->login ?? '', 'username', false],
+        ['password', 'password', __('Password'), '', 'new-password', true],
+        ['confirm', 'password', __('Confirm password'), '', 'new-password', true],
+    ];
+    foreach ($fields as [$name, $type, $text, $value, $auto, $required]) {
+        $row = $form->div();
+        $row->label()->setClass($label)->Content = $text;
+        $row->input()->setAttributes(array_filter([
+            'type' => $type,
+            'name' => $name,
+            'id' => 'register-' . $name,
+            'value' => $value,
+            'autocomplete' => $auto,
+            'required' => $required ? 'required' : null,
+            'minlength' => $type === 'password' ? '8' : null,
+        ]))->setClass($input);
+    }
+    $form->actionbar()->host(function ($a) {
+        $a->button()->setAttributes(['type' => 'submit'])
+            ->setClass("tw-w-full tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-semibold tw-py-2.5 tw-rounded-lg tw-transition")
+            ->Content = __('Register');
+    });
+}
+
+$link = "tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline";
+$p = $card->p()->setClass("tw-text-center tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mt-6");
+$p->a($ctrl::uri('@/login'))->setClass($link)->Content = __('Already have an account? Login');

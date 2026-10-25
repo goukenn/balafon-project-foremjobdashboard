@@ -309,8 +309,18 @@
 		<Column clName="token" clType="VarChar" clTypeLength="64" clNotNull="true" clIsUnique></Column>
 		<GenColumn name="updateTime"></GenColumn>
 	</DataDefinition>
+	<DataDefinition TableName="%prefix%job_registrations" Description="pending/confirmed account registrations (activation token, 24h validity)"
+		Prefix="jrg_">
+		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+		<Column clName="user_guid" clType="GUID" clLinkType="%sysprefix%users" clLinkColumn="clGuid" clNotNull="true"></Column>
+		<Column clName="email" clType="VarChar" clTypeLength="150" clNotNull="true"></Column>
+		<Column clName="token" clType="VarChar" clTypeLength="64" clNotNull="true" clIsUnique clDescription="sha256 of the token sent by mail"></Column>
+		<Column clName="expires_at" clType="DateTime" clNotNull="true"></Column>
+		<Column clName="used_at" clType="DateTime"></Column>
+		<GenColumn name="updateTime"></GenColumn>
+	</DataDefinition>
 
-	<DataDefinition TableName="%prefix%job_experiences" Description="user's experiences categories"
+	<DataDefinition TableName="%prefix%job_experiences"Description="user's experiences categories"
 		Prefix="job_exp_">
 		<Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
 		<Column clName="title" clType="varchar(110)"></Column>

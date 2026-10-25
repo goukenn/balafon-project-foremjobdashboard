@@ -2,6 +2,7 @@
     [
         ".tests",
         ".balafon",
-        "Data/store"
+        "Data/store",
+        "Data/output"
     ],
     "leavedirs":null,"cleardirs":null}

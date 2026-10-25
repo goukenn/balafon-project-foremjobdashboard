@@ -1,0 +1,58 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: register/activate.phtml
+// @desc: account activation from the mailed link (?t=<token>, valid 24h); offers a resend when it expired
+// @view: register/activate
+// @date: 20261025 00:00:00
+use com\igkdev\projects\ForemJobDashboard\Actions\RegisterAction;
+use com\igkdev\projects\ForemJobDashboard\Services\RegistrationService;
+
+use function igk_resources_gets as __;
+
+/**
+ * @var mixed $t
+ * @var IGKHtmldoc $doc
+ * @var mixed $ctrl
+ */
+
+$doc->title = __('Account activation');
+$fname = 'register/activate';
+$resent = false;
+// POST sub-action on a plain view: resend the link for a still inactive account (same answer whatever the email)
+igk_view_handle_actions($fname, [
+    'resend' => function () use ($ctrl, &$resent) {
+        RegistrationService::Resend((string)igk_getr('email'), RegisterAction::ActivationUri($ctrl));
+        $resent = true;
+    },
+], []);
+
+$status = null;
+if (!$resent) {
+    $r = RegistrationService::Activate((string)igk_getr('t'));
+    $status = $r instanceof \IGK\Models\Users ? 'ok' : $r;
+}
+
+$main = $t->main()->setClass("tw-bg-gray-50 dark:tw-bg-gray-900 tw-flex tw-items-center tw-justify-center tw-px-4 tw-min-h-screen");
+$card = $main->div()->setClass("tw-w-full tw-max-w-md tw-bg-white dark:tw-bg-gray-800 tw-rounded-lg tw-shadow tw-p-8");
+$card->h1()->setClass("tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-white tw-mb-4")->Content = __('Account activation');
+$text = "tw-text-gray-600 dark:tw-text-gray-300 tw-mb-6";
+$link = "tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline";
+
+if ($resent) {
+    $card->p()->setClass($text)->Content = __('If this account is waiting for activation, a new email was sent.');
+} elseif ($status === 'ok') {
+    $card->p()->setClass($text)->Content = __('Your account is active. You can now log in.');
+    $card->a($ctrl::uri('@/login'))->setClass($link)->Content = __('Login');
+} else {
+    $card->p()->setClass($text)->Content = $status === RegistrationService::ERR_EXPIRED
+        ? __('This activation link has expired.')
+        : __('This activation link is not valid or was already used.');
+    $form = $card->form();
+    $form->setAttributes(['method' => 'POST', 'action' => $ctrl::uri($fname . '/resend')]);
+    $form->setClass("tw-space-y-4");
+    $form->input()->setAttributes(['type' => 'email', 'name' => 'email', 'required' => 'required', 'placeholder' => __('Email')])
+        ->setClass("tw-w-full tw-rounded-lg tw-border tw-border-gray-300 dark:tw-border-gray-600 tw-bg-white dark:tw-bg-gray-700 tw-text-gray-900 dark:tw-text-white tw-px-3 tw-py-2");
+    $form->button()->setAttributes(['type' => 'submit'])
+        ->setClass("tw-w-full tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-font-semibold tw-py-2.5 tw-rounded-lg")
+        ->Content = __('Send a new link');
+}

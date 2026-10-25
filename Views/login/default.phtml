@@ -275,6 +275,11 @@ $form->balafonjs()->Content = <<<JS
 JS;
 
 $card->p()->setClass("tw-text-center tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mt-6")
+    ->a($ctrl::uri('@/register'))
+    ->setClass("tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline")
+    ->Content = __('Create an account');
+
+$card->p()->setClass("tw-text-center tw-text-sm tw-text-gray-500 dark:tw-text-gray-400 tw-mt-2")
     ->a($ctrl::uri('@/'))
     ->setClass("tw-text-blue-600 dark:tw-text-blue-400 hover:tw-underline")
     ->Content = __('Back to home');

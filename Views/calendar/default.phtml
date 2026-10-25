@@ -17,7 +17,7 @@ use function igk_resources_gets as __;
  * @var mixed $data
  */
 // mutations are POSTs handled by CalendarAction::<name>_post (save, status, snooze, delete, token)
-$this->checkUser(true);
+$this->checkUser(true, $ctrl::uri('@/login'));
 
 $doc->title = sprintf('%s - %s', __('Calendar'), $ctrl->getAppTitle());
 $tw = function ($node, string $classes) {
